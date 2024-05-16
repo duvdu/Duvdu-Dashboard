@@ -5,8 +5,17 @@ import illustrationUrl from "../../assets/images/illustration.svg";
 import { FormInput, FormCheck } from "../../base-components/Form";
 import Button from "../../base-components/Button";
 import clsx from "clsx";
+import { useAppSelector, useAppDispatch } from "../../redux/stores/hooks";
+import { selectAuthState,dataReducer } from "../../redux/stores/apiState";
+import { ActionLogin } from "../../redux/action/api/login/login";
+import { ActionSignUp } from "../../redux/action/api/login/signup";
+
 
 function Main() {
+  const AuthState = useAppSelector(selectAuthState)
+  console.log(AuthState)
+  
+  const dispatch = useAppDispatch();
   return (
     <>
       <div
@@ -88,6 +97,7 @@ function Main() {
                   <Button
                     variant="primary"
                     className="w-full px-4 py-3 align-top xl:w-32 xl:mr-3"
+                    onClick={()=>dispatch(ActionSignUp({username: 'ahmed_magdy',password:'Ahmed!123'}))}
                   >
                     Login
                   </Button>

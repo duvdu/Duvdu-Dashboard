@@ -2,8 +2,8 @@ import Chart from "../../base-components/Chart";
 import { ChartData, ChartOptions } from "chart.js/auto";
 import { getColor } from "../../utils/colors";
 import { randomNumbers } from "../../utils/helper";
-import { selectColorScheme } from "../../stores/colorSchemeSlice";
-import { useAppSelector } from "../../stores/hooks";
+import { selectColorScheme } from "../../redux/stores/colorSchemeSlice";
+import { useAppSelector } from "../../redux/stores/hooks";
 import { useMemo } from "react";
 
 interface MainProps extends React.ComponentPropsWithoutRef<"canvas"> {

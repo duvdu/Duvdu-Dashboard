@@ -1,10 +1,10 @@
 import GoogleMapLoader, { Init } from "../../base-components/GoogleMapLoader";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import { getColor } from "../../utils/colors";
-import { selectDarkMode } from "../../stores/darkModeSlice";
-import { useAppSelector } from "../../stores/hooks";
+import { selectDarkMode } from "../../redux/stores/darkModeSlice";
+import { useAppSelector } from "../../redux/stores/hooks";
 import location from "../../assets/json/location.json";
-import { selectColorScheme } from "../../stores/colorSchemeSlice";
+import { selectColorScheme } from "../../redux/stores/colorSchemeSlice";
 
 type MainProps = React.ComponentPropsWithoutRef<"div">;
 

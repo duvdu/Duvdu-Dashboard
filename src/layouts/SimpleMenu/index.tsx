@@ -1,8 +1,8 @@
 import { Transition } from "react-transition-group";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { selectSimpleMenu } from "../../stores/simpleMenuSlice";
-import { useAppSelector } from "../../stores/hooks";
+import { selectSimpleMenu } from "../../redux/stores/simpleMenuSlice";
+import { useAppSelector } from "../../redux/stores/hooks";
 import { FormattedMenu, linkTo, nestedMenu, enter, leave } from "./simple-menu";
 import Lucide from "../../base-components/Lucide";
 import Tippy from "../../base-components/Tippy";

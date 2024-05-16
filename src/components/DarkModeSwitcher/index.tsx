@@ -1,5 +1,5 @@
-import { selectDarkMode, setDarkMode } from "../../stores/darkModeSlice";
-import { useAppSelector, useAppDispatch } from "../../stores/hooks";
+import { selectDarkMode, setDarkMode } from "../../redux/stores/darkModeSlice";
+import { useAppSelector, useAppDispatch } from "../../redux/stores/hooks";
 import clsx from "clsx";
 
 function Main() {

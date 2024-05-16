@@ -1,8 +1,8 @@
 import { Transition } from "react-transition-group";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { selectSideMenu } from "../../stores/sideMenuSlice";
-import { useAppSelector } from "../../stores/hooks";
+import { selectSideMenu } from "../../redux/stores/sideMenuSlice";
+import { useAppSelector } from "../../redux/stores/hooks";
 import { FormattedMenu, linkTo, nestedMenu, enter, leave } from "./side-menu";
 import Lucide from "../../base-components/Lucide";
 import logoUrl from "../../assets/images/logo.svg";

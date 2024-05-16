@@ -1,0 +1,65 @@
+// APIS
+
+export const FETCH_DATA_REQUEST = 'FETCH_DATA_REQUEST';
+export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
+export const FETCH_DATA_FAILURE = 'FETCH_DATA_FAILURE';
+export const ENABLE_LOADING = 'ENABLE_LOADING';
+export const DISABLE_LOADING = 'DISABLE_LOADING';
+
+// PROJECT TYPES
+
+export const ADD_PROJECT = "ADD_PROJECT"
+export const DELETE_PROJECT = "DELETE_PROJECT"
+export const UPDATE_PROJECT = "UPDATE_PROJECT"
+export const FETCHED_PROJECT = "FETCHED_PROJECT"
+export const FETCHED_MORE_PROJECT = "FETCHED_MORE_PROJECT"
+export const UPDATE_PROJECT_FILTERS = "UPDATE_PROJECT_FILTERS"
+export const UPDATE_PROJECT_CATEGORY = "UPDATE_PROJECT_CATEGORY"
+export const UPDATE_RATING = "UPDATE_RATING"
+export const SET_DATA = "SET_DATA"
+
+// SETTING TYPES
+
+export const DARK = "DARK"
+export const LIGHT = "LIGHT"
+export const LANGUAGE = "LANGUAGE"
+export const NONEPOPUP = "NONEPOPUP"
+export const SHOWNOTOFICATION = "SHOWNOTOFICATION"
+export const SHOWSETTING = "SHOWSETTING"
+export const SHOWPROFILE = "SHOWPROFILE"
+
+// AUTH
+
+export const SET_USER_NAME = 'SET_USER_NAME';
+export const SET_USER = 'SET_USER';
+export const VERIFIED = 'VERIFIED';
+export const USER_NONE = 'USER_NONE';
+export const LOGIN = "LOGIN"
+export const LOGOUT = "LOGOUT"
+
+
+// ERROR handling
+
+export const SETERROR = 'SETERROR';
+
+export const ERROR_SIGNUP_VERIFY = 'SIGNUP_VERIFY';
+export const ERROR_UNKNOWN = 'UNKNOWN';
+
+// CATEGORIES
+
+export const SET_CATEGORIES = 'SET_CATEGORIES';
+
+// PROFILE
+export const SET_PROFILE_DATE = 'SET_PROFILE_DATE';
+
+// LOCAL STORAGE
+export const INCREMENT = 'INCREMENT';
+export const DECREMENT = 'DECREMENT';
+
+
+// Message
+export const SET_CHATS = 'SET_CHATS';
+export const OPEN_CHAT = 'OPEN_CHAT';
+export const CLOSE_CHAT = 'CLOSE_CHAT';
+export const RESET_CHAT = 'RESET_CHAT';
+export const SET_MESSAGES_LIST = 'SET_MESSAGES_LIST';

@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { selectTopMenu } from "../../stores/topMenuSlice";
-import { useAppSelector } from "../../stores/hooks";
+import { selectTopMenu } from "../../redux/stores/topMenuSlice";
+import { useAppSelector } from "../../redux/stores/hooks";
 import fakerData from "../../utils/faker";
 import _ from "lodash";
 import { FormattedMenu, linkTo, nestedMenu } from "./top-menu";
