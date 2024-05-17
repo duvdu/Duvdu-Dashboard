@@ -6,7 +6,7 @@ import { FormInput, FormCheck } from "../../base-components/Form";
 import Button from "../../base-components/Button";
 import clsx from "clsx";
 import { useAppSelector, useAppDispatch } from "../../redux/stores/hooks";
-import { selectAuthState, dataReducer } from "../../redux/stores/apiState";
+import { selectAuthState, dataReducer } from "../../redux/stores/api/auth/auth";
 import { useFormInputChange } from "../../redux/action/formInputChange";
 import { selectFormState, updateFormData } from "../../redux/stores/form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -16,9 +16,9 @@ import Toastify from "toastify-js";
 import Notification from "../../base-components/Notification";
 import Lucide from "../../base-components/Lucide";
 import { useEffect } from "react";
-import { ActionLogin } from "../../redux/action/api/login/login";
+import { ActionLogin } from "../../redux/action/api/auth/login/login";
 import LoadingIcon from "../../base-components/LoadingIcon";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate} from "react-router-dom";
 
 function Main() {
   
@@ -65,13 +65,13 @@ function Main() {
         position: "right",
         stopOnFocus: true,
       }).showToast();
-    } else if (authState.respond_data) {
+    } else if (authState.data) {
       // console.log("navigate")
       // navigate('/');
     }
-  }, [authState.error, authState.respond_data])
+  }, [authState.error, authState.data])
   
-  if(authState.respond_data) return <Navigate to="/"/>
+  if(authState.data) return <Navigate to="/"/>
   return (
     <>
       <div
@@ -152,22 +152,6 @@ function Main() {
                       </div>
                     )}
                   </div>
-                  <div className="flex mt-4 text-xs intro-x text-slate-600 dark:text-slate-500 sm:text-sm">
-                    <div className="flex items-center mr-auto">
-                      <FormCheck.Input
-                        id="remember-me"
-                        type="checkbox"
-                        className="mr-2 border"
-                      />
-                      <label
-                        className="cursor-pointer select-none"
-                        htmlFor="remember-me"
-                      >
-                        Remember me
-                      </label>
-                    </div>
-                    <a href="">Forgot Password?</a>
-                  </div>
                   <div className="mt-5 text-center intro-x xl:mt-8 xl:text-left">
                     <Button
                       variant="primary"
@@ -184,22 +168,6 @@ function Main() {
                           <span>Login</span>
                       }
                     </Button>
-                    <Button
-                      variant="outline-secondary"
-                      className="w-full px-4 py-3 mt-3 align-top xl:w-32 xl:mt-0"
-                    >
-                      Register
-                    </Button>
-                  </div>
-                  <div className="mt-10 text-center intro-x xl:mt-24 text-slate-600 dark:text-slate-500 xl:text-left">
-                    By signin up, you agree to our{" "}
-                    <a className="text-primary dark:text-slate-200" href="">
-                      Terms and Conditions
-                    </a>{" "}
-                    &{" "}
-                    <a className="text-primary dark:text-slate-200" href="">
-                      Privacy Policy
-                    </a>
                   </div>
                   <div className="mt-10 text-center intro-x xl:mt-24 text-slate-600 dark:text-slate-500 xl:text-left">
                   </div>

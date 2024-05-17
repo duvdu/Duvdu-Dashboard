@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import Lucide from "../../base-components/Lucide";
 import Breadcrumb from "../../base-components/Breadcrumb";
 import { FormInput } from "../../base-components/Form";
@@ -7,16 +7,47 @@ import fakerData from "../../utils/faker";
 import _ from "lodash";
 import clsx from "clsx";
 import { Transition } from "@headlessui/react";
+import { Navigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
+import { selectAuthState } from "../../redux/stores/api/auth/auth";
+import { ActionMyProfile } from "../../redux/action/api/profile/myprofile";
+import LoadingIcon from "../../base-components/LoadingIcon";
+import { ActionAllNotifications } from "../../redux/action/api/notifications/notofication";
+import { StateAllNotification } from "../../redux/stores/api/notification";
+import { StateMyProfile } from "../../redux/stores/api/profile/myprofile";
+import dayjs from "dayjs";
 
 function Main() {
   const [searchDropdown, setSearchDropdown] = useState(false);
+  const dispatch = useAppDispatch()
+  const authState = useAppSelector(StateMyProfile)
+  const notifications = useAppSelector(StateAllNotification)
+  
   const showSearchDropdown = () => {
     setSearchDropdown(true);
   };
   const hideSearchDropdown = () => {
     setSearchDropdown(false);
   };
+  
+  useEffect(() => {
+    dispatch(ActionMyProfile())
+    dispatch(ActionAllNotifications())
+  }, [dispatch])
+  
+  
+  if (authState.error) {
+    return <Navigate to={'/login'} />
+  }
+  else if (authState.loading) {
+    return <LoadingIcon icon="puff" className="w-20 h-20" />
+  }
+  if (!authState.data) return <></>
 
+  const username: string = authState?.data?.name || ""
+  const imgurl: string = authState?.data?.profileImage || ""
+  if(notifications.data) console.log(typeof notifications.data[0])
+  
   return (
     <>
       {/* BEGIN: Top Bar */}
@@ -135,33 +166,35 @@ function Main() {
           </Popover.Button>
           <Popover.Panel className="w-[280px] sm:w-[350px] p-5 mt-2">
             <div className="mb-5 font-medium">Notifications</div>
-            {_.take(fakerData, 5).map((faker, fakerKey) => (
+            {
+            notifications?.data &&
+            notifications.data.map((data : any, index : any) => (
               <div
-                key={fakerKey}
+                key={index}
                 className={clsx([
                   "cursor-pointer relative flex items-center",
-                  { "mt-5": fakerKey },
+                  { "mt-5": index },
                 ])}
               >
                 <div className="relative flex-none w-12 h-12 mr-1 image-fit">
                   <img
                     alt="Midone Tailwind HTML Admin Template"
                     className="rounded-full"
-                    src={faker.photos[0]}
+                    src={data.sourceUser.profileImage}
                   />
                   <div className="absolute bottom-0 right-0 w-3 h-3 border-2 border-white rounded-full bg-success dark:border-darkmode-600"></div>
                 </div>
-                <div className="ml-2 overflow-hidden">
-                  <div className="flex items-center">
+                <div className="ml-2 overflow-hidden w-full">
+                  <div className="flex justify-between items-center">
                     <a href="" className="mr-5 font-medium truncate">
-                      {faker.users[0].name}
+                      {data.sourceUser.name || "NONE"}
                     </a>
                     <div className="ml-auto text-xs text-slate-400 whitespace-nowrap">
-                      {faker.times[0]}
+                      {dayjs(data.createdAt).format('hh:mm A')}
                     </div>
                   </div>
                   <div className="w-full truncate text-slate-500 mt-0.5">
-                    {faker.news[0].shortContent}
+                    {data.message}
                   </div>
                 </div>
               </div>
@@ -174,12 +207,12 @@ function Main() {
           <Menu.Button className="block w-8 h-8 overflow-hidden rounded-full shadow-lg image-fit zoom-in intro-x">
             <img
               alt="Midone Tailwind HTML Admin Template"
-              src={fakerData[9].photos[0]}
+              src={imgurl}
             />
           </Menu.Button>
           <Menu.Items className="w-56 mt-px text-white bg-primary">
             <Menu.Header className="font-normal">
-              <div className="font-medium">{fakerData[0].users[0].name}</div>
+              <div className="font-medium">{username}</div>
               <div className="text-xs text-white/70 mt-0.5 dark:text-slate-500">
                 {fakerData[0].jobs[0]}
               </div>

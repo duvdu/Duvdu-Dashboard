@@ -44,7 +44,7 @@ mainApiInstance.interceptors.response.use(
       }
       else {
         try {
-          const response: AxiosResponse = await mainApiInstance.post(`/api/users/auth/refresh`);
+          const response: AxiosResponse = await mainApiInstance.post(`api/users/auth/refresh`);
           return mainApiInstance(error.config);
         } catch (refreshError) {
           return Promise.reject(refreshError);
