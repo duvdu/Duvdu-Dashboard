@@ -5,10 +5,12 @@ import sideMenuReducer from "./sideMenuSlice";
 import simpleMenuReducer from "./simpleMenuSlice";
 import topMenuReducer from "./topMenuSlice";
 import login from "./apiState";
+import form from "./form";
 
 export const store = configureStore({
   reducer: {
     darkMode: darkModeReducer,
+    form: form,
     login: login,
     colorScheme: colorSchemeReducer,
     sideMenu: sideMenuReducer,

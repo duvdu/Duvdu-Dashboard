@@ -21,6 +21,8 @@ import * as yup from "yup";
 import React from "react";
 
 function Main() {
+  const failedEl = document.querySelectorAll("#failed-notification-content")[0]
+        console.log(failedEl)
   const schema = yup
     .object({
       name: yup.string().required().min(2),
@@ -45,6 +47,7 @@ function Main() {
     mode: "onChange",
     resolver: yupResolver(schema),
   });
+  
   const onSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     const result = await trigger();

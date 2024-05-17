@@ -27,13 +27,17 @@ const dataSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(AsyncThunkRef.pending, (state) => {
             state.loading = true;
+            state.respond_data = null;
+            state.error = null;
         });
         builder.addCase(AsyncThunkRef.fulfilled, (state, action) => {
-            state.respond_data = action.payload;
             state.loading = false;
+            state.respond_data = action.payload;
+            state.error = null;
         });
         builder.addCase(AsyncThunkRef.rejected, (state, action) => {
             state.loading = false;
+            state.respond_data = null;
             state.error = action.error.message;
         });
     }
