@@ -16,40 +16,130 @@ import { ActionAllNotifications } from "../../redux/action/api/notifications/not
 import { StateAllNotification } from "../../redux/stores/api/notification";
 import { StateMyProfile } from "../../redux/stores/api/profile/myprofile";
 import dayjs from "dayjs";
+import { GetAllErrors } from "../../redux/stores/apis_errors";
+import Notification from "../../base-components/Notification";
+import Toastify from "toastify-js";
 
 function Main() {
   const [searchDropdown, setSearchDropdown] = useState(false);
-  const dispatch = useAppDispatch()
   const authState = useAppSelector(StateMyProfile)
   const notifications = useAppSelector(StateAllNotification)
+  const handleerrors = useAppSelector(GetAllErrors);
   
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    if (handleerrors && handleerrors.length > 0) {
+      const error = handleerrors[0];
+      const failedEl = document
+        .querySelector("#failed-notification-content")!
+        .cloneNode(true) as HTMLElement;
+      failedEl.classList.remove("hidden");
+      const errorSpan = failedEl.querySelector("#error")!;
+      errorSpan.textContent = error.error;
+
+      const reasonSpan = failedEl.querySelector("#reason")!;
+      reasonSpan.textContent = error.reason;
+
+      Toastify({
+        node: failedEl,
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "top",
+        position: "right",
+        stopOnFocus: true,
+      }).showToast();
+    }
+  }, [JSON.stringify(handleerrors)]);
+
+
   const showSearchDropdown = () => {
     setSearchDropdown(true);
   };
   const hideSearchDropdown = () => {
     setSearchDropdown(false);
   };
-  
+
   useEffect(() => {
     dispatch(ActionMyProfile())
     dispatch(ActionAllNotifications())
   }, [dispatch])
-  
-  
+
+
   if (authState.error) {
-    return <Navigate to={'/login'} />
+    return <>
+      <Navigate to={'/login'} />
+      <Notification
+        id="failed-notification-content"
+        className="flex hidden"
+      >
+        <Lucide icon="XCircle" className="text-danger" />
+        <div className="ml-4 mr-4">
+          <div className="font-medium">failed! in <span id="reason" >  </span></div>
+          <div className="mt-1 text-slate-500">
+            <span id="error">
+
+            </span>
+          </div>
+        </div>
+      </Notification>
+    </>
   }
   else if (authState.loading) {
-    return <LoadingIcon icon="puff" className="w-20 h-20" />
-  }
-  if (!authState.data) return <></>
+    return <>
+      <Notification
+        id="failed-notification-content"
+        className="flex hidden"
+      >
+        <Lucide icon="XCircle" className="text-danger" />
+        <div className="ml-4 mr-4">
+          <div className="font-medium">failed! in <span id="reason" >  </span></div>
+          <div className="mt-1 text-slate-500">
+            <span id="error">
 
-  const username: string = authState?.data?.name || ""
-  const imgurl: string = authState?.data?.profileImage || ""
-  if(notifications.data) console.log(typeof notifications.data[0])
-  
+            </span>
+          </div>
+        </div>
+      </Notification>
+      <LoadingIcon icon="puff" className="w-20 h-20" />
+    </>
+  }
+  if (!authState.data) return <>
+    <Notification
+      id="failed-notification-content"
+      className="flex hidden"
+    >
+      <Lucide icon="XCircle" className="text-danger" />
+      <div className="ml-4 mr-4">
+        <div className="font-medium">failed! in <span id="reason" >  </span></div>
+        <div className="mt-1 text-slate-500">
+          <span id="error">
+
+          </span>
+        </div>
+      </div>
+    </Notification></>
+
+  const username: string = authState?.data?.data?.name || ""
+  const imgurl: string = authState?.data?.data?.profileImage || ""
+
+
   return (
     <>
+      <Notification
+        id="failed-notification-content"
+        className="flex hidden"
+      >
+        <Lucide icon="XCircle" className="text-danger" />
+        <div className="ml-4 mr-4">
+          <div className="font-medium">failed! in <span id="reason" >  </span></div>
+          <div className="mt-1 text-slate-500">
+            <span id="error">
+
+            </span>
+          </div>
+        </div>
+      </Notification>
       {/* BEGIN: Top Bar */}
       <div className="h-[67px] z-[51] flex items-center relative border-b border-slate-200">
         {/* BEGIN: Breadcrumb */}
@@ -167,38 +257,38 @@ function Main() {
           <Popover.Panel className="w-[280px] sm:w-[350px] p-5 mt-2">
             <div className="mb-5 font-medium">Notifications</div>
             {
-            notifications?.data &&
-            notifications.data.map((data : any, index : any) => (
-              <div
-                key={index}
-                className={clsx([
-                  "cursor-pointer relative flex items-center",
-                  { "mt-5": index },
-                ])}
-              >
-                <div className="relative flex-none w-12 h-12 mr-1 image-fit">
-                  <img
-                    alt="Midone Tailwind HTML Admin Template"
-                    className="rounded-full"
-                    src={data.sourceUser.profileImage}
-                  />
-                  <div className="absolute bottom-0 right-0 w-3 h-3 border-2 border-white rounded-full bg-success dark:border-darkmode-600"></div>
-                </div>
-                <div className="ml-2 overflow-hidden w-full">
-                  <div className="flex justify-between items-center">
-                    <a href="" className="mr-5 font-medium truncate">
-                      {data.sourceUser.name || "NONE"}
-                    </a>
-                    <div className="ml-auto text-xs text-slate-400 whitespace-nowrap">
-                      {dayjs(data.createdAt).format('hh:mm A')}
+              notifications?.data &&
+              notifications.data.data?.map((data: any, index: any) => (
+                <div
+                  key={index}
+                  className={clsx([
+                    "cursor-pointer relative flex items-center",
+                    { "mt-5": index },
+                  ])}
+                >
+                  <div className="relative flex-none w-12 h-12 mr-1 image-fit">
+                    <img
+                      alt="Midone Tailwind HTML Admin Template"
+                      className="rounded-full"
+                      src={data.sourceUser.profileImage}
+                    />
+                    <div className="absolute bottom-0 right-0 w-3 h-3 border-2 border-white rounded-full bg-success dark:border-darkmode-600"></div>
+                  </div>
+                  <div className="ml-2 overflow-hidden w-full">
+                    <div className="flex justify-between items-center">
+                      <a href="" className="mr-5 font-medium truncate">
+                        {data.sourceUser.name || "NONE"}
+                      </a>
+                      <div className="ml-auto text-xs text-slate-400 whitespace-nowrap">
+                        {dayjs(data.createdAt).format('hh:mm A')}
+                      </div>
+                    </div>
+                    <div className="w-full truncate text-slate-500 mt-0.5">
+                      {data.message}
                     </div>
                   </div>
-                  <div className="w-full truncate text-slate-500 mt-0.5">
-                    {data.message}
-                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </Popover.Panel>
         </Popover>
         {/* END: Notifications  */}

@@ -10,18 +10,31 @@ import messages from "./api/messages";
 import notification from "./api/notification";
 import myprofile from "./api/profile/myprofile";
 
+import studios from "./api/cycles/studioBooking";
+import portfolioPost from "./api/cycles/portfolioPost";
+import producer from "./api/cycles/producer";
+import copyRights from "./api/cycles/copyRights";
+import apisErrors from "./apis_errors";
+import category from "./api/category";
+
 export const store = configureStore({
   reducer: {
     darkMode: darkModeReducer,
-    form: form,
     colorScheme: colorSchemeReducer,
     sideMenu: sideMenuReducer,
     simpleMenu: simpleMenuReducer,
     topMenu: topMenuReducer,
-    auth: auth,
-    messages: messages,
-    notification: notification,
-    myprofile: myprofile,
+    form,
+    auth,
+    apisErrors,
+    messages,
+    notification,
+    myprofile,
+    studios,
+    portfolioPost,
+    producer,
+    category,
+    copyRights
   },
 });
 

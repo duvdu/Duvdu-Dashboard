@@ -64,8 +64,15 @@ export const CLOSE_CHAT = 'CLOSE_CHAT';
 export const RESET_CHAT = 'RESET_CHAT';
 export const SET_MESSAGES_LIST = 'SET_MESSAGES_LIST';
 
-// KEYS OF APP
+////////////// KEYS OF APP ///////////////////
 export const KEY_AUTH = 'SET_CHATS';
 export const KEY_NOTIFICATION = 'OPEN_CHAT';
 export const KEY_MESSAGES = 'CLOSE_CHAT';
 export const KEY_MYPROFILE = 'RESET_CHAT';
+// CyCLES
+export const KEY_PRODUCER = 'KEY_PRODUCER';
+export const KEY_COPY_RIGHTS = 'KEY_COPY_RIGHTS';
+export const KEY_PORTFOLIO_POST = 'KEY_PORTFOLIO_POST';
+export const KEY_STUDIO_BOOKING = 'KEY_STUDIO_BOOKING';
+// CATEGORY
+export const KEY_CATEGORY = 'KEY_CATEGORY';

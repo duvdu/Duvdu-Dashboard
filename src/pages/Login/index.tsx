@@ -70,7 +70,6 @@ function Main() {
       // navigate('/');
     }
   }, [authState.error, authState.data])
-  
   if(authState.data) return <Navigate to="/"/>
   return (
     <>
@@ -88,12 +87,12 @@ function Main() {
             {/* BEGIN: Login Info */}
             <div className="flex-col hidden min-h-screen xl:flex">
               <a href="" className="flex items-center pt-5 -intro-x">
-                <img
+                {/* <img
                   alt="Midone Tailwind HTML Admin Template"
                   className="w-6"
                   src={logoUrl}
-                />
-                <span className="ml-3 text-lg text-white"> Rubick </span>
+                /> */}
+                <span className="ml-3 text-lg text-white"> DUVDU </span>
               </a>
               <div className="my-auto">
                 <img
@@ -105,9 +104,9 @@ function Main() {
                   A few more clicks to <br />
                   sign in to your account.
                 </div>
-                <div className="mt-5 text-lg text-white -intro-x text-opacity-70 dark:text-slate-400">
+                {/* <div className="mt-5 text-lg text-white -intro-x text-opacity-70 dark:text-slate-400">
                   Manage all your e-commerce accounts in one place
-                </div>
+                </div> */}
               </div>
             </div>
             {/* END: Login Info */}

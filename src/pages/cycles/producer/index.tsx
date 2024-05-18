@@ -1,27 +1,16 @@
 import _ from "lodash";
-import { useState, useRef, useEffect } from "react";
-import Button from "../../base-components/Button";
-import { Dialog, Menu } from "../../base-components/Headless";
-import Lucide from "../../base-components/Lucide";
-import Pagination from "../../base-components/Pagination";
-import { FormSelect,FormInput } from "../../base-components/Form";
-import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
-import { ActionGetCategory } from "../../redux/action/api/category/get";
-import { StateCategory } from "../../redux/stores/api/category";
-import { Link } from "react-router-dom";
-
+import { useState, useRef } from "react";
+import fakerData from "../../../utils/faker";
+import Button from "../../../base-components/Button";
+import Pagination from "../../../base-components/Pagination";
+import { FormInput, FormSelect } from "../../../base-components/Form";
+import Lucide from "../../../base-components/Lucide";
+import { Dialog, Menu } from "../../../base-components/Headless";
 
 function Main() {
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const deleteButtonRef = useRef(null);
-  const stateAllCategories = useAppSelector(StateCategory)
-  const dispatch = useAppDispatch()
 
-  console.log(stateAllCategories)
-  const data = stateAllCategories?.data?.data
-  useEffect(() => {
-    dispatch(ActionGetCategory())
-  }, [dispatch])
   return (
     <>
       <h2 className="mt-10 text-lg font-medium intro-y">Product Grid</h2>
@@ -68,11 +57,9 @@ function Main() {
           </div>
         </div>
         {/* BEGIN: Users Layout */}
-        {
-        data &&
-        data.map((item, key) => (
+        {_.take(fakerData, 12).map((faker, fakerKey) => (
           <div
-            key={item._id}
+            key={fakerKey}
             className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"
           >
             <div className="box">
@@ -81,49 +68,56 @@ function Main() {
                   <img
                     alt="Midone - HTML Admin Template"
                     className="rounded-md"
-                    src={item.image}
+                    src={faker.images[0]}
                   />
+                  {faker.trueFalse[0] && (
+                    <span className="absolute top-0 z-10 px-2 py-1 m-5 text-xs text-white rounded bg-pending/80">
+                      Featured
+                    </span>
+                  )}
                   <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
-                    <Link to="" className="block text-base font-medium">
-                      {item.studioName}
-                    </Link>
+                    <a href="" className="block text-base font-medium">
+                      {faker.products[0].name}
+                    </a>
                     <span className="mt-3 text-xs text-white/90">
-                      {/* {item.user.name} */}
+                      {faker.products[0].category}
                     </span>
                   </div>
                 </div>
                 <div className="mt-5 text-slate-600 dark:text-slate-500">
                   <div className="flex items-center">
                     <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
-                    {item.pricePerHour} / hour
+                    {faker.totals[0]}
                   </div>
                   <div className="flex items-center mt-2">
-                    <Lucide icon="Layers" className="w-4 h-4 mr-2" /> 
-                    insurance : {item.insurance}
+                    <Lucide icon="Layers" className="w-4 h-4 mr-2" /> Remaining
+                    Stock:
+                    {faker.stocks[0]}
                   </div>
                   <div className="flex items-center mt-2">
                     <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
-                    subCategory : {item.subCategory}
+                    Status:
+                    {faker.trueFalse[0] ? "Active" : "Inactive"}
                   </div>
                 </div>
               </div>
               <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400">
-                <Link className="flex items-center mr-auto text-primary" to="#">
+                <a className="flex items-center mr-auto text-primary" href="#">
                   <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
-                </Link>
-                <Link className="flex items-center mr-3" to="#">
+                </a>
+                <a className="flex items-center mr-3" href="#">
                   <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" /> Edit
-                </Link>
-                <Link
+                </a>
+                <a
                   className="flex items-center text-danger"
-                  to="#"
+                  href="#"
                   onClick={(event) => {
                     event.preventDefault();
                     setDeleteConfirmationModal(true);
                   }}
                 >
                   <Lucide icon="Trash2" className="w-4 h-4 mr-1" /> Delete
-                </Link>
+                </a>
               </div>
             </div>
           </div>

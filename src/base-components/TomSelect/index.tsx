@@ -41,15 +41,7 @@ function TomSelect(props: TomSelectProps) {
       options = {
         persist: false,
         create: true,
-        onDelete: function (values: string[]) {
-          return confirm(
-            values.length > 1
-              ? "Are you sure you want to remove these " +
-                  values.length +
-                  " items?"
-              : 'Are you sure you want to remove "' + values[0] + '"?'
-          );
-        },
+        
         ...options,
         plugins: {
           remove_button: {

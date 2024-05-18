@@ -36,7 +36,7 @@ mainApiInstance.interceptors.response.use(
     return response;
   },
   async (error: any) => {
-    console.log(error.response);
+    
     if (error.response && error.response.status === 423) {
 
       if (error.config.url == "/api/users/auth/refresh") {

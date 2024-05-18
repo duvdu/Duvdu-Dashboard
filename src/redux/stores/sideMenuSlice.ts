@@ -33,11 +33,56 @@ const initialState: SideMenuState = {
         },
         {
           icon: "Activity",
-          pathname: "/add-product",
+          pathname: "/category-form",
           title: "Add Category",
         },
       ],
     },
+    {
+      icon: "ShoppingBag",
+      title: "portfolio",
+      subMenu: [
+        {
+          icon: "Activity",
+          title: "grid",
+          pathname: "/portfolio-post",
+        },
+      ],
+    },
+    {
+      icon: "ShoppingBag",
+      title: "copy rights",
+      subMenu: [
+        {
+          icon: "Activity",
+          title: "grid",
+          pathname: "/copy-rights",
+        },
+      ],
+    },
+    {
+      icon: "ShoppingBag",
+      title: "studios",
+      subMenu: [
+        {
+          icon: "Activity",
+          title: "grid",
+          pathname: "/studio-booking",
+        },
+      ],
+    },
+    {
+      icon: "ShoppingBag",
+      title: "producer",
+      subMenu: [
+        {
+          icon: "Activity",
+          title: "grid",
+          pathname: "/producer",
+        },
+      ],
+    },
+
     // {
     //   icon: "Inbox",
     //   pathname: "/inbox",

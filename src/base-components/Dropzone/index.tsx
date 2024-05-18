@@ -1,5 +1,4 @@
 import React, { createRef, useEffect } from "react";
-import { init } from "./dropzone";
 import DropzoneJs, { DropzoneOptions } from "dropzone";
 
 export interface DropzoneElement extends HTMLDivElement {
@@ -11,6 +10,7 @@ export interface DropzoneProps
     React.ComponentPropsWithoutRef<"div"> {
   options: DropzoneOptions;
   getRef: (el: DropzoneElement) => void;
+  onFileAdded?: (file: DropzoneJs.DropzoneFile) => void; // New prop
 }
 
 function Dropzone(props: DropzoneProps) {
@@ -19,11 +19,15 @@ function Dropzone(props: DropzoneProps) {
   useEffect(() => {
     if (fileUploadRef.current) {
       props.getRef(fileUploadRef.current);
-      init(fileUploadRef.current, props);
+      const dropzoneInstance = new DropzoneJs(fileUploadRef.current, props.options);
+
+      if (props.onFileAdded) {
+        dropzoneInstance.on("addedfile", props.onFileAdded);
+      }
     }
   }, [props.options, props.children]);
 
-  const { options, getRef, ...computedProps } = props;
+  const { options, getRef, onFileAdded, ...computedProps } = props;
   return (
     <div
       {...computedProps}
@@ -38,6 +42,7 @@ function Dropzone(props: DropzoneProps) {
 Dropzone.defaultProps = {
   options: {},
   getRef: () => {},
+  onFileAdded: () => {}, // Default prop
 };
 
 export default Dropzone;

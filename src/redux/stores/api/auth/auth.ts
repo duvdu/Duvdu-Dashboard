@@ -15,7 +15,7 @@ const initialState: DataState = {
   };
   
   const dataSlice = createSlice({
-    name: 'myprofile',
+    name: 'auth',
     initialState,
     reducers: {},
     extraReducers: (builder) => {

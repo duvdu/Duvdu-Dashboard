@@ -9,7 +9,7 @@ export function pendingCase(state: DataState) {
   
   export function fulfilledCase<T>(state: DataState, action: any) {
     state.loading = false;
-    state.data = action.payload?.data;
+    state.data = action.payload;
     state.error = null;
   }
   
