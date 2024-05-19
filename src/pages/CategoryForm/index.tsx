@@ -83,9 +83,7 @@ function Main() {
     "status": true,
     "cycle": "portfolio-post"
   };
-
-
-
+console.log(formState)
 
   const dispatch = useAppDispatch()
 
@@ -171,7 +169,7 @@ function Main() {
 
   const onSubmit = () => {
     const formDate = new FormData();
-    formDate.append('cover',uploadedFile)     // mos3aad
+    formDate.append('cover',uploadedFile)
     objectToFormData(formState, formDate) 
     for (const [key, value] of formDate.entries()) {
       console.log(`${key}: ${value}`);
@@ -507,6 +505,7 @@ function Main() {
               <div className="mt-3">
                 <FormLabel htmlFor="crud-form-3">Cycle</FormLabel>
                 <FormSelect className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(c) => putInBasket('cycle', c.target.value.replace(/\s+/g, '-'))}>
+                  <option value={undefined}> Choose Type </option>
                   {["studio booking", "portfolio post", "copy rights", "producer"].map((item, index) =>
                     <option key={index}>{item}</option>
                   )}
@@ -516,7 +515,7 @@ function Main() {
               <div className="mt-3">
                 <label>Active Status</label>
                 <FormSwitch className="mt-2" >
-                  <FormSwitch.Input value={'active'} type="checkbox" onChange={(c) => putInBasket('status', !formState.status)} />
+                  <FormSwitch.Input checked type="checkbox" onChange={(c) => putInBasket('status', !formState.status)} />
                 </FormSwitch>
               </div>
 

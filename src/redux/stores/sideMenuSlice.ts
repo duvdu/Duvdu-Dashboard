@@ -82,13 +82,19 @@ const initialState: SideMenuState = {
         },
       ],
     },
-
     {
       icon: "HardDrive",
       pathname: "/terms",
       title: "terms",
     },
+    {
+      icon: "MessageSquare",
+      pathname: "/ticket",
+      title: "ticket",
+    },
+
     
+
     {
       icon: "Inbox",
       pathname: "/inbox",

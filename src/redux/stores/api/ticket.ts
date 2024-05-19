@@ -16,7 +16,7 @@ const initialState: DataState = {
   };
   
   const dataSlice = createSlice({
-    name: 'terms',
+    name: 'ticket',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
@@ -34,7 +34,7 @@ const initialState: DataState = {
   
 
 
-export const StateTerms = (state: RootState) => state.ticket;
+export const StateTicket = (state: RootState) => state.ticket;
 
 export const dataReducer = dataSlice.reducer;
 

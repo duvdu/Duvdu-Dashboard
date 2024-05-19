@@ -21,6 +21,7 @@ import Inbox from "../pages/Inbox";
 import FileManager from "../pages/FileManager";
 import PointOfSale from "../pages/PointOfSale";
 import Chat from "../pages/Chat";
+import Ticket from "../pages/Ticket";
 import Post from "../pages/Post";
 import Calendar from "../pages/Calendar";
 import CrudDataList from "../pages/CrudDataList";
@@ -110,6 +111,10 @@ function Router() {
         {
           path: "producer",
           element: <Producer />,
+        },
+        {
+          path: "ticket",
+          element: <Ticket />,
         },
 
 

@@ -17,26 +17,25 @@ data.append('subCategories[0][tags][1][en]', 'dnsand,masn');
 ( metoooooo , @A7md123 )
 
 
-- active status
-
-add category 
+active status
+add category
 ✅ remove icon
 ✅ validation require
-- cycle ( set choose type )
+cycle ( set choose type )
 
-( update , delete , get ) category  ( metoooooo , @A7md123 )
+( update , delete) category  ( metoooooo , @A7md123 )
 
 get
-  - cycle
-  - status
-  - title
+  ✅ cycle
+  ✅ status
+  ✅ title
 popup 
-  - jop titles
-  - sub category
-  - jop title 
-  - so on
+  ✅ jop titles
+  ✅ sub category
+  ✅ jop title 
+  ✅ so on
 -------------------- add category --------------------
 
-ticket ( delete , update , get)
+✅ ticket ( delete , update , get , getById)
 ✅ terms ( update , get)
 

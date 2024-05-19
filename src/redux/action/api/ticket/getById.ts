@@ -3,10 +3,10 @@ import { KEY_TICKET } from '../../../constants/actionTypes';
 import { mainApiInstance } from '../axiosInstances';
 
 
-export const ActionUpdateTicket = createAsyncThunk(
+export const ActionGetTicketById = createAsyncThunk(
     KEY_TICKET, async (params: { formdata: any; id: string }) => {
         const { formdata, id } = params;
-    const response = await mainApiInstance.put(`api/users/tickets/${id}`, formdata);
+    const response = await mainApiInstance.get(`api/users/tickets/${id}`);
     return response.data;
   }
 );
