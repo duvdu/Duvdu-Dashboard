@@ -3,8 +3,9 @@ import { KEY_CATEGORY } from '../../../constants/actionTypes';
 import { mainApiInstance } from '../axiosInstances';
 
 
-export const ActionCreateCategory = createAsyncThunk(KEY_CATEGORY,async (formData) => {
-    const response = await mainApiInstance.post('api/copyrights/crm', formData);
+export const ActionCreateCategory = createAsyncThunk(KEY_CATEGORY,async (params: { formdata: any; id: string }) => {
+  const { formdata, id } = params;
+    const response = await mainApiInstance.post('api/category', formdata);
     return response.data;
   }
 );

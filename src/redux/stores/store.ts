@@ -16,6 +16,8 @@ import producer from "./api/cycles/producer";
 import copyRights from "./api/cycles/copyRights";
 import apisErrors from "./apis_errors";
 import category from "./api/category";
+import terms from "./api/terms";
+import ticket from "./api/ticket";
 
 export const store = configureStore({
   reducer: {
@@ -34,7 +36,9 @@ export const store = configureStore({
     portfolioPost,
     producer,
     category,
-    copyRights
+    copyRights,
+    ticket,
+    terms
   },
 });
 

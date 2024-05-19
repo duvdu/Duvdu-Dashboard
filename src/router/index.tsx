@@ -1,7 +1,5 @@
 import { useRoutes } from "react-router-dom";
 import SideMenu from "../layouts/SideMenu";
-import SimpleMenu from "../layouts/SimpleMenu";
-import TopMenu from "../layouts/TopMenu";
 import DashboardOverview1 from "../pages/DashboardOverview1";
 import DashboardOverview2 from "../pages/DashboardOverview2";
 import DashboardOverview3 from "../pages/DashboardOverview3";
@@ -72,6 +70,7 @@ import Datepicker from "../pages/Datepicker";
 import TomSelect from "../pages/TomSelect";
 import FileUpload from "../pages/FileUpload";
 import WysiwygEditor from "../pages/WysiwygEditor";
+import Terms from "../pages/terms";
 import Validation from "../pages/Validation";
 import Chart from "../pages/Chart";
 import Slider from "../pages/Slider";
@@ -83,37 +82,18 @@ function Router() {
       path: "/",
       element: <SideMenu />,
       children: [
+
         {
-          path: "/",
-          element: <DashboardOverview3 />,
-        },
-        {
-          path: "dashboard-overview-2",
-          element: <DashboardOverview2 />,
-        },
-        {
-          path: "dashboard-overview-3",
-          element: <DashboardOverview1 />,
-        },
-        {
-          path: "dashboard-overview-4",
-          element: <DashboardOverview4 />,
+          path: "terms",
+          element: <Terms />,
         },
         {
           path: "categories",
           element: <Categories />,
         },
         {
-          path: "add-product",
-          element: <AddProduct />,
-        },
-        {
-          path: "product-list",
-          element: <ProductList />,
-        },
-        {
-          path: "product-grid",
-          element: <ProductGrid />,
+          path: "category-form",
+          element: <CategoryForm />,
         },
         {
           path: "portfolio-post",
@@ -131,6 +111,38 @@ function Router() {
           path: "producer",
           element: <Producer />,
         },
+
+
+        {
+          path: "/",
+          element: <DashboardOverview3 />,
+        },
+        {
+          path: "dashboard-overview-2",
+          element: <DashboardOverview2 />,
+        },
+        {
+          path: "dashboard-overview-3",
+          element: <DashboardOverview1 />,
+        },
+        {
+          path: "dashboard-overview-4",
+          element: <DashboardOverview4 />,
+        },
+
+        {
+          path: "add-product",
+          element: <AddProduct />,
+        },
+        {
+          path: "product-list",
+          element: <ProductList />,
+        },
+        {
+          path: "product-grid",
+          element: <ProductGrid />,
+        },
+
 
         {
           path: "transaction-list",
@@ -184,10 +196,7 @@ function Router() {
           path: "crud-form",
           element: <CrudForm />,
         },
-        {
-          path: "category-form",
-          element: <CategoryForm />,
-        },
+
         {
           path: "users-layout-1",
           element: <UsersLayout1 />,

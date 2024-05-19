@@ -12,7 +12,6 @@ import {
 } from "../../base-components/Form";
 import Tippy from "../../base-components/Tippy";
 import Lucide from "../../base-components/Lucide";
-import fakerData from "../../utils/faker";
 import _ from "lodash";
 import { useAppSelector, useAppDispatch } from "../../redux/stores/hooks";
 import { selectFormState, updateFormData, insertToArray, removeItemFromField, resetForm } from "../../redux/stores/form";
@@ -21,18 +20,129 @@ import { ActionCreateCategory } from "../../redux/action/api/category/create";
 
 function Main() {
   const [editorData, setEditorData] = useState("<p>Content of the editor.</p>");
-  const [uploadedFile, setUploadedFile] = useState(null);
+  const [uploadedFile,  setUploadedFile] = useState(null);
   const [previewSrc, setPreviewSrc] = useState();
   const [subCategories, setSubCategories] = useState([]);
   const [englishTag, setEnglishTag] = useState('');
   const [arabicTag, setArabicTag] = useState('');
-  const formState = useAppSelector(selectFormState);
+  // const formState = useAppSelector(selectFormState);
+  const formState = {
+    "subCategories": [
+      {
+        "title": {
+          "en": "sub 1",
+          "ar": "فئه 1"
+        },
+        "tags": [
+          {
+            "en": "tag 1",
+            "ar": "تاج 1"
+          },
+          {
+            "en": "tag 2",
+            "ar": "تاج 2"
+          },
+          {
+            "en": "tag 3",
+            "ar": "تاج 3"
+          }
+        ]
+      },
+      {
+        "title": {
+          "en": "sub 2",
+          "ar": "فئه 2"
+        },
+        "tags": [
+          {
+            "en": "tag1",
+            "ar": "تاج1"
+          },
+          {
+            "en": "tag2",
+            "ar": "تاج2"
+          }
+        ]
+      }
+    ],
+    "jobTitles": [
+      {
+        "en": "jop1",
+        "ar": "جوب 1"
+      },
+      {
+        "en": "jop2",
+        "ar": "جوب2"
+      }
+    ],
+    "cover": {},
+    "title": {
+      "ar": "صنف 1",
+      "en": "category 1"
+    },
+    "status": true,
+    "cycle": "portfolio-post"
+  };
+
+
+
+
   const dispatch = useAppDispatch()
-  console.log()
+
+  const isvalidate = () => {
+    let v = true;
+    let reason = null;
+
+    // cover check
+    v = v && uploadedFile
+
+    if (!reason && !v) reason = 'cover'
+
+    // title 
+    v = v && formState?.title?.en?.length
+    if (!reason && !v) reason = 'category name english'
+    v = v && formState?.title?.ar?.length
+    if (!reason && !v) reason = 'category name arabic'
+
+    // subCategories
+    if (formState?.subCategories) {
+      for (let i = 0; i < formState.subCategories.length; i++) {
+        const subCategory = formState.subCategories[i];
+
+        if (!(subCategory?.tags?.length > 0 && subCategory?.title?.en && subCategory?.title?.ar)) {
+          v = false;
+          break;
+        }
+      }
+    }
+    if (!reason && !v) reason = 'in sub category'
+
+    // jobTitles
+    if (formState?.jobTitles) {
+      for (let i = 0; i < formState.jobTitles.length; i++) {
+        const jobTitle = formState.jobTitles[i];
+        if (!(jobTitle?.en && jobTitle?.ar)) {
+          v = false;
+          break;
+        }
+      }
+    }
+    if (!reason && !v) reason = 'in jop title'
+
+    return {
+      isdisable: !v,
+      reson: reason
+    };
+  };
+
+
+
   useEffect(() => {
     if (Object.keys(formState).length === 0) {
-      addToBasket('subCategories', [{ title: { en: '', ar: '' }, tags: [] }])
+      addToBasket('subCategories', { title: { en: '', ar: '' }, tags: [] })
       handleAddJopDetails()
+      putInBasket('cycle', formState.cycle || 'studio-booking')
+      putInBasket('cycle', formState.status || false)
     }
   }, [Object.keys(formState).length === 0])
 
@@ -61,12 +171,12 @@ function Main() {
 
   const onSubmit = () => {
     const formDate = new FormData();
-    objectToFormData(formState, formDate)
+    formDate.append('cover',uploadedFile)     // mos3aad
+    objectToFormData(formState, formDate) 
     for (const [key, value] of formDate.entries()) {
       console.log(`${key}: ${value}`);
     }
-    console.log(formDate)
-    // dispatch(ActionCreateCategory(formState))
+    dispatch(ActionCreateCategory(formDate))
   };
 
 
@@ -119,7 +229,7 @@ function Main() {
     if (!formState?.jobTitles)
       putInBasket('jobTitles', [{ en: '', ar: '' }])
     else {
-      const jop = [...formState?.jobTitles, { en: '', ar: '', tags: [] }]
+      const jop = [...formState?.jobTitles, { en: '', ar: '' }]
       putInBasket('jobTitles', jop)
     }
   };
@@ -129,13 +239,13 @@ function Main() {
     putInBasket('jobTitles', jop)
 
   };
-  const handleRemoveJopDetails = () => {
-    // Check if there are subcategories to remove
-    if (formState?.jobTitles?.length > 0) {
-      // Create a new array without the last subcategory
-      const newJopDetails = formState?.jobTitles?.slice(0, -1);
-      // Update the state with the new array of subcategories
-      putInBasket('jobTitles', newJopDetails)
+  const handleRemoveJopDetails = (index: number) => {
+    // Check if there are job titles to remove and the index is within range
+    if (formState?.jobTitles && index >= 0 && index < formState.jobTitles.length) {
+      // Create a new array excluding the element at the specified index
+      const newJopDetails = formState.jobTitles.filter((_, i) => i !== index);
+      // Update the state with the new array of job titles
+      putInBasket('jobTitles', newJopDetails);
     }
   };
 
@@ -144,8 +254,9 @@ function Main() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setUploadedFile(file);
         setPreviewSrc(reader.result);
+        setUploadedFile(file)
+        console.log(file)
       };
       reader.readAsDataURL(file);
     }
@@ -153,7 +264,6 @@ function Main() {
 
 
   const handleRemoveImage = () => {
-    putInBasket('cover', null);
     setPreviewSrc(null);
   };
   const editorConfig = {
@@ -246,8 +356,8 @@ function Main() {
                 </FormLabel>
 
                 {formState?.subCategories?.map((subCategory, index) => (
-                  <>
-                    <div key={index} className="grid grid-cols-12 gap-2 mt-2">
+                  <div key={index} className="mb-5">
+                    <div className="grid grid-cols-12 gap-2 mt-2">
                       <InputGroup className="sm:w-full col-span-3 h-min">
                         <InputGroup.Text id={`input-group-en-${index}`}>EN</InputGroup.Text>
                         <FormInput
@@ -268,7 +378,7 @@ function Main() {
                           onChange={(e) => handleChange(e, index, 'title', 'ar')}
                         />
                       </InputGroup>
-                      <InputGroup className="sm:w-full col-span-6">
+                      <InputGroup className="sm:w-full col-span-6 mb-4">
                         <div className="text-center">
                           <Popover className="inline-block">
                             {({ close }) => (
@@ -318,27 +428,29 @@ function Main() {
                                 <div className="mr-5">
                                   AR: {tag.ar}
                                 </div>
-                                <Lucide
-                                  icon="XCircle"
-                                  className="absolute -right-2 -top-2 mx-auto mt-2 sm:mt-0 cursor-pointer w-5 m-2 text-danger"
+                                <Tippy
                                   onClick={() => handleRemoveTag(index, tagIndex)}
-                                />
+                                  content="Remove this tag"
+                                  className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
+                                >
+                                  <Lucide icon="X" className="w-4 h-4" />
+                                </Tippy>
+
                               </div>
-                            )
-                            )
+                            ))
                           }
                         </div>
                       </InputGroup>
                     </div>
                     {
                       index > 0 &&
-                      <Tippy content="Remove Last subcategory field" className="flex flex-col items-end justify-center text-danger w-full" onClick={() => removefromBasket('subCategories', formState?.subCategories?.length - 1)}>
+                      <Tippy content="Remove Last subcategory field" className="absolute right-5 flex flex-col items-end justify-center text-danger -translate-y-10" onClick={() => removefromBasket('subCategories', index)}>
                         <div className="min-w-[40px] flex justify-center">
                           <Lucide icon="XCircle" className="block mx-auto mt-2 sm:mt-0 cursor-pointer" />
                         </div>
                       </Tippy>
                     }
-                  </>
+                  </div>
                 ))}
               </div>
             </div>
@@ -355,15 +467,9 @@ function Main() {
                         <Lucide icon="PlusCircle" className="block mx-auto mt-2 sm:mt-0 cursor-pointer" />
                       </div>
                     </Tippy>
-                    {formState?.jobTitles?.length > 0 &&
-                      <Tippy content="Remove Last Jop details field" className="flex flex-col justify-center text-danger" onClick={handleRemoveJopDetails}>
-                        <div className="min-w-[40px] flex justify-center">
-                          <Lucide icon="XCircle" className="block mx-auto mt-2 sm:mt-0 cursor-pointer" />
-                        </div>
-                      </Tippy>}
                   </FormLabel>
                   {formState?.jobTitles?.map((jop, index) => (
-                    <div key={index} className="grid grid-cols-2 gap-2 ">
+                    <div key={index} className="grid grid-cols-2 gap-2 mt-3">
                       <InputGroup className="sm:w-full ">
                         <InputGroup.Text id={`input-group-en-${index}`}>EN</InputGroup.Text>
                         <FormInput
@@ -380,7 +486,16 @@ function Main() {
                           onChange={(e) => handleChangeJopDetails(index, e.target.value, 'ar')}
                         />
                       </InputGroup>
+                      {
+                        index > 0 &&
+                        <Tippy content="Remove Last subcategory field" className="absolute right-0 flex flex-col items-end justify-center text-danger" onClick={(e) => handleRemoveJopDetails(index)}>
+                          <div className="min-w-[40px] flex justify-center">
+                            <Lucide icon="XCircle" className="block mx-auto mt-2 sm:mt-0 cursor-pointer" />
+                          </div>
+                        </Tippy>
+                      }
                     </div>
+
                   ))}
                 </div>
               </div>
@@ -401,7 +516,7 @@ function Main() {
               <div className="mt-3">
                 <label>Active Status</label>
                 <FormSwitch className="mt-2" >
-                  <FormSwitch.Input type="checkbox" onChange={(c) => putInBasket('status', !formState.status)} />
+                  <FormSwitch.Input value={'active'} type="checkbox" onChange={(c) => putInBasket('status', !formState.status)} />
                 </FormSwitch>
               </div>
 
@@ -427,9 +542,14 @@ function Main() {
             >
               Cancel
             </Button>
-            <Button onClick={onSubmit} type="button" variant="primary" className="w-24">
+            <Button onClick={onSubmit} type="button" variant="primary" className="w-24" disabled={isvalidate().isdisable}  >
               Save
             </Button>
+            {isvalidate().isdisable && (
+              <div className="mt-2 text-danger">
+                {isvalidate().reson}
+              </div>
+            )}
           </div>
 
 

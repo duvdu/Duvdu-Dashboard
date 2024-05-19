@@ -9,15 +9,17 @@ import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
 import { ActionGetCategory } from "../../redux/action/api/category/get";
 import { StateCategory } from "../../redux/stores/api/category";
 import { Link } from "react-router-dom";
+import { ActionDeleteCategory } from "../../redux/action/api/category/delete";
 
 
 function Main() {
+  const [categoryIdToDelete, setcategoryIdToDelete] = useState(null);
+
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const deleteButtonRef = useRef(null);
   const stateAllCategories = useAppSelector(StateCategory)
   const dispatch = useAppDispatch()
 
-  console.log(stateAllCategories)
   const data = stateAllCategories?.data?.data
   useEffect(() => {
     dispatch(ActionGetCategory())
@@ -94,16 +96,16 @@ function Main() {
                 </div>
                 <div className="mt-5 text-slate-600 dark:text-slate-500">
                   <div className="flex items-center">
-                    <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
-                    {item.pricePerHour} / hour
+                    <Lucide icon="Link" className="w-4 h-4 mr-2" /> 
+                    title : {item.title}
                   </div>
                   <div className="flex items-center mt-2">
                     <Lucide icon="Layers" className="w-4 h-4 mr-2" /> 
-                    insurance : {item.insurance}
+                    type : {item.cycle}
                   </div>
                   <div className="flex items-center mt-2">
                     <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
-                    subCategory : {item.subCategory}
+                    status : {item.status? 'Active' : 'inactive'}
                   </div>
                 </div>
               </div>
@@ -120,6 +122,7 @@ function Main() {
                   onClick={(event) => {
                     event.preventDefault();
                     setDeleteConfirmationModal(true);
+                    setcategoryIdToDelete(item._id)
                   }}
                 >
                   <Lucide icon="Trash2" className="w-4 h-4 mr-1" /> Delete
@@ -187,7 +190,7 @@ function Main() {
                 setDeleteConfirmationModal(false);
               }}
               className="w-24 mr-1"
-            >
+              >
               Cancel
             </Button>
             <Button
@@ -195,6 +198,10 @@ function Main() {
               type="button"
               className="w-24"
               ref={deleteButtonRef}
+              onClick={() => {
+                dispatch(ActionDeleteCategory({id:categoryIdToDelete}))
+                setDeleteConfirmationModal(false);
+              }}
             >
               Delete
             </Button>

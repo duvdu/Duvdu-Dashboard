@@ -67,8 +67,7 @@ function Main() {
 
 
   if (authState.error) {
-    return <>
-      <Navigate to={'/login'} />
+    return <><Navigate to={'/login'} />
       <Notification
         id="failed-notification-content"
         className="flex hidden"
@@ -77,9 +76,7 @@ function Main() {
         <div className="ml-4 mr-4">
           <div className="font-medium">failed! in <span id="reason" >  </span></div>
           <div className="mt-1 text-slate-500">
-            <span id="error">
-
-            </span>
+            <span id="error"></span>
           </div>
         </div>
       </Notification>
