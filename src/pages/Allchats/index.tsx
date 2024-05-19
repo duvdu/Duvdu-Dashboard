@@ -27,13 +27,12 @@ function Main() {
   const { id } = useParams();
   const navigate = useNavigate();
   const getOther = (user1: any, user2: any) => {
-    console.log(user1?._id , id)
     if (user1?._id == stateMyProfile?.data?.data?._id) return user2
     else return user1
   };
 
   useEffect(() => {
-    dispatch(ActionGetChats())
+    dispatch(ActionGetChats())  
     dispatch(ActionMyProfile())
   }, [])
   useEffect(() => {

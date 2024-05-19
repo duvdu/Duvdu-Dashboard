@@ -25,64 +25,8 @@ function Main() {
   const [subCategories, setSubCategories] = useState([]);
   const [englishTag, setEnglishTag] = useState('');
   const [arabicTag, setArabicTag] = useState('');
-  // const formState = useAppSelector(selectFormState);
-  const formState = {
-    "subCategories": [
-      {
-        "title": {
-          "en": "sub 1",
-          "ar": "فئه 1"
-        },
-        "tags": [
-          {
-            "en": "tag 1",
-            "ar": "تاج 1"
-          },
-          {
-            "en": "tag 2",
-            "ar": "تاج 2"
-          },
-          {
-            "en": "tag 3",
-            "ar": "تاج 3"
-          }
-        ]
-      },
-      {
-        "title": {
-          "en": "sub 2",
-          "ar": "فئه 2"
-        },
-        "tags": [
-          {
-            "en": "tag1",
-            "ar": "تاج1"
-          },
-          {
-            "en": "tag2",
-            "ar": "تاج2"
-          }
-        ]
-      }
-    ],
-    "jobTitles": [
-      {
-        "en": "jop1",
-        "ar": "جوب 1"
-      },
-      {
-        "en": "jop2",
-        "ar": "جوب2"
-      }
-    ],
-    "cover": {},
-    "title": {
-      "ar": "صنف 1",
-      "en": "category 1"
-    },
-    "status": true,
-    "cycle": "portfolio-post"
-  };
+  const formState = useAppSelector(selectFormState);
+
 
 
   const dispatch = useAppDispatch()
