@@ -88,9 +88,14 @@ const initialState: SideMenuState = {
       title: "terms",
     },
     {
+      icon: "Users",
+      pathname: "/users",
+      title: "Users",
+    },
+    {
       icon: "MessageSquare",
-      pathname: "/ticket",
-      title: "ticket",
+      pathname: "/allchats",
+      title: "Chats",
     },
 
     

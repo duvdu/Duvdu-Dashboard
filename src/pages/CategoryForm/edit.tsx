@@ -16,7 +16,10 @@ import _ from "lodash";
 import { useAppSelector, useAppDispatch } from "../../redux/stores/hooks";
 import { selectFormState, updateFormData, insertToArray, removeItemFromField, resetForm } from "../../redux/stores/form";
 import { Popover } from "../../base-components/Headless";
-import { ActionCreateCategory } from "../../redux/action/api/category/create";
+import { ActionUpdateCategory } from "../../redux/action/api/category/update";
+import { useParams } from 'react-router-dom';
+import { ActionGetCategoryById } from "../../redux/action/api/category/getById";
+import { StateCategory } from "../../redux/stores/api/category";
 
 function Main() {
   const [editorData, setEditorData] = useState("<p>Content of the editor.</p>");
@@ -25,121 +28,72 @@ function Main() {
   const [subCategories, setSubCategories] = useState([]);
   const [englishTag, setEnglishTag] = useState('');
   const [arabicTag, setArabicTag] = useState('');
-  // const formState = useAppSelector(selectFormState);
-  const formState = {
-    "subCategories": [
-      {
-        "title": {
-          "en": "sub 1",
-          "ar": "فئه 1"
-        },
-        "tags": [
-          {
-            "en": "tag 1",
-            "ar": "تاج 1"
-          },
-          {
-            "en": "tag 2",
-            "ar": "تاج 2"
-          },
-          {
-            "en": "tag 3",
-            "ar": "تاج 3"
-          }
-        ]
-      },
-      {
-        "title": {
-          "en": "sub 2",
-          "ar": "فئه 2"
-        },
-        "tags": [
-          {
-            "en": "tag1",
-            "ar": "تاج1"
-          },
-          {
-            "en": "tag2",
-            "ar": "تاج2"
-          }
-        ]
-      }
-    ],
-    "jobTitles": [
-      {
-        "en": "jop1",
-        "ar": "جوب 1"
-      },
-      {
-        "en": "jop2",
-        "ar": "جوب2"
-      }
-    ],
-    "cover": {},
-    "title": {
-      "ar": "صنف 1",
-      "en": "category 1"
-    },
-    "status": true,
-    "cycle": "portfolio-post"
-  };
 
+  const formState = useAppSelector(StateCategory)?.data?.data || {};
+  
+  // const formState = {
+  //   "subCategories": [
+  //     {
+  //       "title": {
+  //         "en": "sub 1",
+  //         "ar": "فئه 1"
+  //       },
+  //       "tags": [
+  //         {
+  //           "en": "tag 1",
+  //           "ar": "تاج 1"
+  //         },
+  //         {
+  //           "en": "tag 2",
+  //           "ar": "تاج 2"
+  //         },
+  //         {
+  //           "en": "tag 3",
+  //           "ar": "تاج 3"
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       "title": {
+  //         "en": "sub 2",
+  //         "ar": "فئه 2"
+  //       },
+  //       "tags": [
+  //         {
+  //           "en": "tag1",
+  //           "ar": "تاج1"
+  //         },
+  //         {
+  //           "en": "tag2",
+  //           "ar": "تاج2"
+  //         }
+  //       ]
+  //     }
+  //   ],
+  //   "jobTitles": [
+  //     {
+  //       "en": "jop1",
+  //       "ar": "جوب 1"
+  //     },
+  //     {
+  //       "en": "jop2",
+  //       "ar": "جوب2"
+  //     }
+  //   ],
+  //   "cover": {},
+  //   "title": {
+  //     "ar": "صنف 1",
+  //     "en": "category 1"
+  //   },
+  //   "status": true,
+  //   "cycle": "portfolio-post"
+  // };
 
   const dispatch = useAppDispatch()
-
-  const isvalidate = () => {
-    let v = true;
-    let reason = null;
-
-    // cover check
-    v = v && uploadedFile
-
-    if (!reason && !v) reason = 'cover'
-
-    // title 
-    v = v && formState?.title?.en?.length
-    if (!reason && !v) reason = 'category name english'
-    v = v && formState?.title?.ar?.length
-    if (!reason && !v) reason = 'category name arabic'
-
-    // subCategories
-    if (formState?.subCategories) {
-      for (let i = 0; i < formState.subCategories.length; i++) {
-        const subCategory = formState.subCategories[i];
-
-        if (!(subCategory?.tags?.length > 0 && subCategory?.title?.en && subCategory?.title?.ar)) {
-          v = false;
-          break;
-        }
-      }
-    }
-    if (!reason && !v) reason = 'in sub category'
-
-    // jobTitles
-    if (formState?.jobTitles) {
-      for (let i = 0; i < formState.jobTitles.length; i++) {
-        const jobTitle = formState.jobTitles[i];
-        if (!(jobTitle?.en && jobTitle?.ar)) {
-          v = false;
-          break;
-        }
-      }
-    }
-
-    // jobTitles
-    if (formState?.cycle == "Choose-Type") {
-
-    }
-
-    if (!reason && !v) reason = 'in jop title'
-
-    return {
-      isdisable: !v,
-      reson: reason
-    };
-  };
-
-
+  const { id } = useParams();
+  useEffect(() => {
+    dispatch(ActionGetCategoryById({ id: id }))
+  }, [])
 
   useEffect(() => {
     if (Object.keys(formState).length === 0) {
@@ -179,7 +133,7 @@ function Main() {
       formDate.append('cover', uploadedFile)
     objectToFormData(formState, formDate)
 
-    dispatch(ActionCreateCategory({ formdata: formDate, }))
+    dispatch(ActionUpdateCategory({ formdata: formDate }))
   };
 
 
@@ -274,9 +228,6 @@ function Main() {
       items: ["bold", "italic", "link"],
     },
   };
-
-
-
 
   return (
     <>
@@ -583,14 +534,9 @@ function Main() {
             >
               Cancel
             </Button>
-            <Button onClick={onSubmit} type="button" variant="primary" className="w-24" disabled={isvalidate().isdisable}  >
-              Save
+            <Button onClick={onSubmit} type="button" variant="primary" className="w-24">
+              update
             </Button>
-            {isvalidate().isdisable && (
-              <div className="mt-2 text-danger">
-                {isvalidate().reson}
-              </div>
-            )}
           </div>
 
 

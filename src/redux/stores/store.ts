@@ -18,6 +18,10 @@ import apisErrors from "./apis_errors";
 import category from "./api/category";
 import terms from "./api/terms";
 import ticket from "./api/ticket";
+import users from "./api/users";
+import chat from "./api/chat/one";
+import allchat from "./api/chat/all";
+import sendmessage from "./api/chat/sendMsg";
 
 export const store = configureStore({
   reducer: {
@@ -38,6 +42,10 @@ export const store = configureStore({
     category,
     copyRights,
     ticket,
+    users,
+    chat,
+    allchat,
+    sendmessage,
     terms
   },
 });

@@ -80,3 +80,9 @@ export const KEY_CATEGORY = 'KEY_CATEGORY';
 export const KEY_TERMS = 'KEY_TERMS';
 // KEY_TERMS
 export const KEY_TICKET = 'KEY_TICKET';
+// KEY_USERS
+export const KEY_USERS = 'KEY_USERS';
+// KEY_CHAT
+export const KEY_CHAT_GETALL = 'KEY_CHAT_GETALL';
+export const KEY_CHAT = 'KEY_CHAT';
+export const KEY_CHAT_SEND = 'KEY_CHAT_SEND';

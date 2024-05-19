@@ -8,7 +8,7 @@ import { FormSelect, FormInput } from "../../base-components/Form";
 import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
 import { ActionGetCategory } from "../../redux/action/api/category/get";
 import { StateCategory } from "../../redux/stores/api/category";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { ActionDeleteCategory } from "../../redux/action/api/category/delete";
 import { formatDate } from "../../utils/helper";
 
@@ -36,6 +36,8 @@ function Main() {
   useEffect(() => {
     dispatch(ActionGetCategory())
   }, [dispatch])
+  
+  const navigate = useNavigate();
 
   return (
     <>
@@ -174,7 +176,7 @@ function Main() {
                   <div className="flex items-center mr-auto text-primary cursor-pointer" onClick={() => { filterCategory(item._id); }}>
                     <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
                   </div>
-                  <div className="flex items-center mr-3" >
+                  <div className="flex items-center mr-3 cursor-pointer" onClick={()=>{ navigate(`edit/${item._id}`) }}>
                     <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" /> Edit
                   </div>
                   <Link

@@ -5,6 +5,7 @@ import DashboardOverview2 from "../pages/DashboardOverview2";
 import DashboardOverview3 from "../pages/DashboardOverview3";
 import DashboardOverview4 from "../pages/DashboardOverview4";
 import Categories from "../pages/Categories";
+import EditCategory from "../pages/CategoryForm/edit";
 import AddProduct from "../pages/AddProduct";
 import ProductList from "../pages/ProductList";
 import ProductGrid from "../pages/ProductGrid";
@@ -21,6 +22,8 @@ import Inbox from "../pages/Inbox";
 import FileManager from "../pages/FileManager";
 import PointOfSale from "../pages/PointOfSale";
 import Chat from "../pages/Chat";
+import Users from "../pages/Users";
+import Allchats from "../pages/Allchats";
 import Ticket from "../pages/Ticket";
 import Post from "../pages/Post";
 import Calendar from "../pages/Calendar";
@@ -93,6 +96,10 @@ function Router() {
           element: <Categories />,
         },
         {
+          path: "categories/edit/:id",
+          element: <EditCategory />,
+        },
+        {
           path: "category-form",
           element: <CategoryForm />,
         },
@@ -115,6 +122,18 @@ function Router() {
         {
           path: "ticket",
           element: <Ticket />,
+        },
+        {
+          path: "users",
+          element: <Users />,
+        },
+        {
+          path: "allchats",
+          element: <Allchats />,
+        },
+        {
+          path: "allchats/:id",
+          element: <Allchats />,
         },
 
 
@@ -207,7 +226,7 @@ function Router() {
           element: <UsersLayout1 />,
         },
         {
-          path: "users-layout-2",
+          path: "users",
           element: <UsersLayout2 />,
         },
         {

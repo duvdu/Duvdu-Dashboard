@@ -13,18 +13,13 @@ data.append('subCategories[0][tags][1][ar]', 'kjadnas');
 data.append('subCategories[0][tags][1][en]', 'dnsand,masn');
 
 -------------------- add category --------------------
-
 ( metoooooo , @A7md123 )
-
-
 active status
 add category
 ✅ remove icon
 ✅ validation require
 cycle ( set choose type )
-
 ( update , delete) category  ( metoooooo , @A7md123 )
-
 get
   ✅ cycle
   ✅ status
@@ -34,8 +29,12 @@ popup
   ✅ sub category
   ✅ jop title 
   ✅ so on
--------------------- add category --------------------
-
 ✅ ticket ( delete , update , get , getById)
 ✅ terms ( update , get)
 
+-------------------- add category --------------------
+reload category after delete
+change "Product Grid" add new
+get all users 
+filter users ( search engine , hasVerificationPadge )
+chat user 
