@@ -4,9 +4,11 @@ import { mainApiInstance } from '../axiosInstances';
 
 
 export const ActionGetUsers = createAsyncThunk(
-    KEY_USERS, async (params: { search: string }) => {
-        const { search } = params;
-        const response = await mainApiInstance.get(`/api/users/auth/find?search=${search}`);
+    KEY_USERS, async (params: { search: string, limit: string, page: string }) => {
+        const { search, limit, page } = params;
+        const response = await mainApiInstance.get(`/api/users/auth/find`, {
+            params: { search, limit, page },
+          });
         return response.data;
     }
 ); 

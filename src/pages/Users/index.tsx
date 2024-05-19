@@ -14,24 +14,24 @@ import LoadingIcon from "../../base-components/LoadingIcon";
 
 function Main() {
   const [searchKey, setSearchKey] = useState('');
-const navigate = useNavigate();
-  
+  const navigate = useNavigate();
+  const limit = 10;
   const selector = useAppSelector(StateUsers);
   const state = selector?.data
+  const pagdnationState = state?.pagination
   const listusers = state?.data;
-  console.log(listusers)
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if(!selector.loading && (searchKey.length > 2 || searchKey.length == 0) )
-    dispatch(ActionGetUsers({ search: searchKey }))
+    if (!selector.loading && (searchKey.length > 2 || searchKey.length == 0))
+      dispatch(ActionGetUsers({ search: searchKey }))
   }, [searchKey])
 
   const pagdnation = (page: number) => {
-    
+    dispatch(ActionGetUsers({ search: searchKey, limit: limit, page: page }))
   };
 
-
+  console.log(state)
   return (
     <>
       <h2 className="mt-10 text-lg font-medium intro-y">Users</h2>
@@ -46,7 +46,7 @@ const navigate = useNavigate();
                 type="text"
                 className="w-56 pr-10 !box"
                 placeholder="Search..."
-                onChange={(e)=>setSearchKey(e.target.value)}
+                onChange={(e) => setSearchKey(e.target.value)}
               />
               <Lucide
                 icon="Search"
@@ -76,7 +76,7 @@ const navigate = useNavigate();
                   </div>
                 </div>
                 <div className="flex mt-4 lg:mt-0">
-                  <Button variant="primary" className="px-2 py-1 mr-2" onClick={()=>{ navigate(`/allchats/${user._id}`) }}>
+                  <Button variant="primary" className="px-2 py-1 mr-2" onClick={() => { navigate(`/allchats/${user._id}`) }}>
                     Message
                   </Button>
                   <Button variant="outline-secondary" className="px-2 py-1">
@@ -88,41 +88,42 @@ const navigate = useNavigate();
           </div>
         ))}
         {selector.loading &&
-        <LoadingIcon icon="puff" className="w-5 h-5" />
+          <LoadingIcon icon="puff" className="w-5 h-5" />
         }
         {/* BEGIN: Users Layout */}
         {/* END: Pagination */}
-        <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap">
-          <Pagination className="w-full sm:w-auto sm:mr-auto">
-            <Pagination.Link onClick={() => navigate(1)}>
-              <Lucide icon="ChevronsLeft" className="w-4 h-4" />
-            </Pagination.Link>
-            <Pagination.Link
-              onClick={() => navigate(state?.currentPage > 1 ? state?.currentPage - 1 : 1)}
-            >
-              <Lucide icon="ChevronLeft" className="w-4 h-4" />
-            </Pagination.Link>
-            {Array.from({ length: state?.totalPages }, (_, index) => (
-              <Pagination.Link
-                key={index}
-                active={state?.currentPage === index + 1}
-                onClick={() => navigate(index + 1)}
-              >
-                {index + 1}
+        {state &&
+          <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap" >
+            <Pagination className="w-full sm:w-auto sm:mr-auto">
+              <Pagination.Link>
+                <Lucide onClick={() => pagdnation(1)} icon="ChevronsLeft" className="w-4 h-4" />
               </Pagination.Link>
-            ))}
-            <Pagination.Link
-              onClick={() =>
-                navigate(state?.currentPage < state?.totalPages ? state?. currentPage + 1 : state?.totalPages)
-              }
-            >
-              <Lucide icon="ChevronRight" className="w-4 h-4" />
-            </Pagination.Link>
-            <Pagination.Link onClick={() => navigate(totalPages)}>
-              <Lucide icon="ChevronsRight" className="w-4 h-4" />
-            </Pagination.Link>
-          </Pagination>
-        </div>
+              <Pagination.Link>
+                <Lucide onClick={() => pagdnation(pagdnationState?.currentPage > 1 ? pagdnationState?.currentPage - 1 : 1)} icon="ChevronLeft" className="w-4 h-4" />
+              </Pagination.Link>
+              {Array.from({ length: pagdnationState?.totalPages }, (_, index) => (
+                <Pagination.Link
+                  key={index}
+                  active={pagdnationState?.currentPage === index + 1}
+                >
+                  <span onClick={() => pagdnation(index + 1)}>
+                    {index + 1}
+
+                  </span>
+                </Pagination.Link>
+              ))}
+              <Pagination.Link>
+                <Lucide icon="ChevronRight" className="w-4 h-4"
+                  onClick={() =>
+                    pagdnation(pagdnationState?.currentPage < pagdnationState?.totalPages ? pagdnationState?.currentPage + 1 : pagdnationState?.totalPages)
+                  }
+                />
+              </Pagination.Link>
+              <Pagination.Link>
+                <Lucide icon="ChevronsRight" className="w-4 h-4" onClick={() => pagdnation(pagdnationState?.totalPages)} />
+              </Pagination.Link>
+            </Pagination>
+          </div>}
         {/* END: Pagination */}
       </div>
     </>

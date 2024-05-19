@@ -14,22 +14,27 @@ import { StateAllChat } from "../../redux/stores/api/chat/all";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { ActionSendMessage } from "../../redux/action/api/chat/send";
+import { StateMyProfile } from "../../redux/stores/api/profile/myprofile";
+import { ActionMyProfile } from "../../redux/action/api/profile/myprofile";
 
 function Main() {
   const dispatch = useAppDispatch()
   const statechat = useAppSelector(StateChat)
   const stateAllchat = useAppSelector(StateAllChat)
+  const stateMyProfile = useAppSelector(StateMyProfile)
   const [messageField, setMessageField] = useState('');
+  
   const { id } = useParams();
   const navigate = useNavigate();
   const getOther = (user1: any, user2: any) => {
-
-    if (user1?._id == id) return user1
-    else return user2
+    console.log(user1?._id , id)
+    if (user1?._id == stateMyProfile?.data?.data?._id) return user2
+    else return user1
   };
 
   useEffect(() => {
     dispatch(ActionGetChats())
+    dispatch(ActionMyProfile())
   }, [])
   useEffect(() => {
     if (id)
@@ -62,7 +67,6 @@ function Main() {
               <div className="pt-1 pr-1 mt-4 overflow-y-auto h-[525px] scrollbar-hidden">
                 {stateAllchat?.data?.data?.map((item, key) => {
                   const other = getOther(item.newestMessage.sender, item.newestMessage.receiver);
-
                   return (
                     <div
                       key={key}
