@@ -15,7 +15,8 @@ import portfolioPost from "./api/cycles/portfolioPost";
 import producer from "./api/cycles/producer";
 import copyRights from "./api/cycles/copyRights";
 import apisErrors from "./apis_errors";
-import category from "./api/category";
+import category from "./api/category/category";
+import createcategory from "./api/category/create";
 import terms from "./api/terms";
 import ticket from "./api/ticket";
 import users from "./api/users";
@@ -40,6 +41,7 @@ export const store = configureStore({
     portfolioPost,
     producer,
     category,
+    createcategory,
     copyRights,
     ticket,
     users,

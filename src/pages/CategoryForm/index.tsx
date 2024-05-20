@@ -17,83 +17,77 @@ import { useAppSelector, useAppDispatch } from "../../redux/stores/hooks";
 import { selectFormState, updateFormData, insertToArray, removeItemFromField, resetForm } from "../../redux/stores/form";
 import { Popover } from "../../base-components/Headless";
 import { ActionCreateCategory } from "../../redux/action/api/category/create";
+import Toastify from "toastify-js";
+import Notification from "../../base-components/Notification";
+import { StateCreateCategory } from "../../redux/stores/api/category/create";
 
 function Main() {
   const [editorData, setEditorData] = useState("<p>Content of the editor.</p>");
   const [uploadedFile, setUploadedFile] = useState(null);
   const [previewSrc, setPreviewSrc] = useState();
-  const [subCategories, setSubCategories] = useState([]);
   const [englishTag, setEnglishTag] = useState('');
   const [arabicTag, setArabicTag] = useState('');
+  const [type, setType] = useState('');
   const formState = useAppSelector(selectFormState);
-
-
-
   const dispatch = useAppDispatch()
+  const stateCreateCategory = useAppSelector(StateCreateCategory);
 
-  const isvalidate = () => {
-    let v = true;
+
+  const isValidate = () => {
     let reason = null;
 
-    // cover check
-    v = v && uploadedFile
+    const checkCondition = (condition, failureReason) => {
+      if (!reason && !condition) {
+        reason = failureReason;
+      }
+      return condition;
+    };
 
-    if (!reason && !v) reason = 'cover'
+    // Validate uploaded file
+    let isValid = checkCondition(uploadedFile, 'cover');
 
-    // title 
-    v = v && formState?.title?.en?.length
-    if (!reason && !v) reason = 'category name english'
-    v = v && formState?.title?.ar?.length
-    if (!reason && !v) reason = 'category name arabic'
+    // Validate titles
+    isValid = checkCondition(formState?.title?.en?.length, 'category name english') && isValid;
+    isValid = checkCondition(formState?.title?.ar?.length, 'category name arabic') && isValid;
 
-    // subCategories
+    // Validate subCategories
     if (formState?.subCategories) {
-      for (let i = 0; i < formState.subCategories.length; i++) {
-        const subCategory = formState.subCategories[i];
-
+      for (const subCategory of formState.subCategories) {
         if (!(subCategory?.tags?.length > 0 && subCategory?.title?.en && subCategory?.title?.ar)) {
-          v = false;
+          isValid = checkCondition(false, 'in sub category');
           break;
         }
       }
     }
-    if (!reason && !v) reason = 'in sub category'
 
-    // jobTitles
+    // Validate jobTitles
     if (formState?.jobTitles) {
-      for (let i = 0; i < formState.jobTitles.length; i++) {
-        const jobTitle = formState.jobTitles[i];
+      for (const jobTitle of formState.jobTitles) {
         if (!(jobTitle?.en && jobTitle?.ar)) {
-          v = false;
+          isValid = checkCondition(false, 'in job title');
           break;
         }
       }
     }
 
-    // jobTitles
-    if (formState?.cycle == "Choose-Type") {
-
-    }
-
-    if (!reason && !v) reason = 'in jop title'
+    // Validate cycle
+    isValid = checkCondition(formState?.cycle, 'Choose Type') && isValid;
+    isValid = checkCondition(formState?.cycle != 'Choose Type', "don't use Choose Type") && isValid;
 
     return {
-      isdisable: !v,
-      reson: reason
+      isDisable: !isValid,
+      reason: reason
     };
   };
-
-
 
   useEffect(() => {
     if (Object.keys(formState).length === 0) {
       addToBasket('subCategories', { title: { en: '', ar: '' }, tags: [] })
       handleAddJopDetails()
-      putInBasket('cycle', formState.cycle || 'studio-booking')
-      putInBasket('cycle', formState.status || true)
+      putInBasket('status', formState.status || true)
+      setType('Choose Type')
     }
   }, [Object.keys(formState).length === 0])
-
 
   function objectToFormData(data: any, formData: FormData, parentKey?: string) {
     for (const key in data) {
@@ -122,12 +116,38 @@ function Main() {
     if (uploadedFile)
       formDate.append('cover', uploadedFile)
     objectToFormData(formState, formDate)
-
     dispatch(ActionCreateCategory({ formdata: formDate, }))
   };
 
+  useEffect(() => {
+    if (stateCreateCategory.data)
+      showSuccess()
+  }, [stateCreateCategory.data])
+  useEffect(() => {
+    if (Object.keys(formState).length > 0) {
+      dispatch(resetForm())
+    }
+  }, [])
 
+  const showSuccess = () => {
+    const failedEl = document
+      .querySelector("#success-notification-content")!
+      .cloneNode(true) as HTMLElement;
+    failedEl.classList.remove("hidden");
 
+    Toastify({
+      node: failedEl,
+      duration: 3000,
+      newWindow: true,
+      close: true,
+      gravity: "top",
+      position: "right",
+      stopOnFocus: true,
+    }).showToast();
+    dispatch(resetForm())
+    setPreviewSrc(null);
+    setUploadedFile(null)
+  }
   const handleEnglishChange = (event) => {
     setEnglishTag(event.target.value);
   };
@@ -138,13 +158,8 @@ function Main() {
   const putInBasket = (field: string, value: any) => dispatch(updateFormData({ field: field, value: value }))
   const addToBasket = (field: string, value: any) => dispatch(insertToArray({ field: field, value: value }))
   const removefromBasket = (field: string, index: number) => dispatch(removeItemFromField({ field: field, index: index }))
-  console.log(formState)
 
-  useEffect(() => {
-    if (Object.keys(formState).length > 0) {
-      dispatch(resetForm())
-    }
-  }, [])
+
   // const [categories, setCategories] = useState([]);
 
 
@@ -203,7 +218,6 @@ function Main() {
       reader.onloadend = () => {
         setPreviewSrc(reader.result);
         setUploadedFile(file)
-        console.log(file)
       };
       reader.readAsDataURL(file);
     }
@@ -219,11 +233,33 @@ function Main() {
     },
   };
 
+  useEffect(() => {
+    const value = {
+      "Choose Type": null,
+      "studio booking": "studio-booking",
+      "portfolio post": "portfolio-post",
+      "copy rights": "copy-rights",
+      "producer": "producer"
+    }[type];
 
+    putInBasket('cycle', value);
+  }, [type]);
 
 
   return (
     <>
+      <Notification
+        id="success-notification-content"
+        className="flex hidden"
+      >
+        <Lucide icon="CheckCircle" className="text-success" />
+        <div className="ml-4 mr-4">
+          <div className="font-medium">Addation success!</div>
+          <div className="mt-1 text-slate-500 capitalize">
+            you can check categories to ensure
+          </div>
+        </div>
+      </Notification>
       <div className="flex items-center mt-8 intro-y">
         <h2 className="mr-auto text-lg font-medium">Form Layout</h2>
       </div>
@@ -276,7 +312,7 @@ function Main() {
                       type="text"
                       placeholder="category"
                       aria-describedby="input-group-3"
-                      value={formState?.title?.ar}
+                      value={formState?.title?.en || ""}
                       onChange={(e) => putInBasket('title', { 'en': e.target.value, 'ar': formState?.title?.ar })}
                     />
                   </InputGroup>
@@ -286,7 +322,7 @@ function Main() {
                       type="text"
                       placeholder="الفئه"
                       aria-describedby="input-group-4"
-                      value={formState?.title?.en}
+                      value={formState?.title?.ar || ""}
                       onChange={(e) => putInBasket('title', { 'ar': e.target.value, 'en': formState?.title?.en })}
                     />
                   </InputGroup>
@@ -469,31 +505,15 @@ function Main() {
             <div className="p-5 border rounded-md border-slate-200/60 dark:border-darkmode-400">
               <div className="mt-3">
                 <FormLabel htmlFor="crud-form-3">Cycle</FormLabel>
-                <FormSelect className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(c) => putInBasket('cycle', c.target.value.key)}>
-
+                <FormSelect defaultValue={formState.cycle} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => setType(e.target.value)}>
                   {[
-                    {
-                      key: "studio-booking",
-                      value: "studio booking"
-                    },
-                    {
-                      key: "portfolio-post",
-                      value: "portfolio post"
-                    },
-                    {
-                      key: "portfolio post",
-                      value: "portfolio-post"
-                    },
-                    {
-                      key: "copy rights",
-                      value: "copy-rights"
-                    },
-                    {
-                      key: "producer",
-                      value: "producer"
-                    },
+                    "Choose Type",
+                    "studio booking",
+                    "portfolio post",
+                    "copy rights",
+                    "producer"
                   ].map((item, index) =>
-                    <option key={index}>{item.value}</option>
+                    <option key={index}>{item}</option>
                   )}
                 </FormSelect>
               </div>
@@ -527,17 +547,15 @@ function Main() {
             >
               Cancel
             </Button>
-            <Button onClick={onSubmit} type="button" variant="primary" className="w-24" disabled={isvalidate().isdisable}  >
+            <Button onClick={onSubmit} type="button" variant="primary" className="w-24" disabled={isValidate().isDisable}  >
               Save
             </Button>
-            {isvalidate().isdisable && (
+            {isValidate().isDisable && (
               <div className="mt-2 text-danger">
-                {isvalidate().reson}
+                {isValidate().reason}
               </div>
             )}
           </div>
-
-
           {/* END: Form Layout */}
         </div>
       </div>

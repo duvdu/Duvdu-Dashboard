@@ -1,18 +1,3 @@
-data.append('cover', binary);
-data.append('cycle', 'studio-booking');                             [ studio-booking, portfolio-post, copy-rights, producer]
-data.append('status', 'true');
-data.append('title[ar]', 'sdasaddsadasd');
-data.append('title[en]', 'dsadsad');
-data.append('jobTitles[0][ar]', 'dsad');
-data.append('jobTitles[0][en]', 'sadasd');
-data.append('subCategories[0][title][ar]', 'dsada');
-data.append('subCategories[0][title][en]', 'asdd');
-data.append('subCategories[0][tags][0][ar]', 'asdas');
-data.append('subCategories[0][tags][0][en]', 'dasd');
-data.append('subCategories[0][tags][1][ar]', 'kjadnas');
-data.append('subCategories[0][tags][1][en]', 'dnsand,masn');
-
--------------------- add category --------------------
 ( metoooooo , @A7md123 )
 active status
 add category
@@ -33,8 +18,6 @@ popup
 ✅ terms ( update , get)
 
 -------------------- add category --------------------
-reload category after delete
-change "Product Grid" add new
-get all users 
-filter users ( search engine , hasVerificationPadge )
-chat user 
+edit and add category
+add category ( defult status , select category in add )
+edit just in  english

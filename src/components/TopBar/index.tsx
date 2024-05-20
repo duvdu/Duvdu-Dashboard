@@ -84,6 +84,9 @@ function Main() {
   }
   else if (authState.loading) {
     return <>
+    <div className="flex w-full justify-center">
+        <LoadingIcon icon="puff" className="w-40 h-40"/>
+    </div>
       <Notification
         id="failed-notification-content"
         className="flex hidden"
@@ -98,7 +101,6 @@ function Main() {
           </div>
         </div>
       </Notification>
-      <LoadingIcon icon="puff" className="w-20 h-20" />
     </>
   }
   if (!authState.data) return <>

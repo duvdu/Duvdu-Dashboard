@@ -102,15 +102,14 @@ function Main() {
                 <Lucide onClick={() => pagdnation(pagdnationState?.currentPage > 1 ? pagdnationState?.currentPage - 1 : 1)} icon="ChevronLeft" className="w-4 h-4" />
               </Pagination.Link>
               {Array.from({ length: pagdnationState?.totalPages }, (_, index) => (
+                <div onClick={() => pagdnation(index + 1)}>
                 <Pagination.Link
                   key={index}
                   active={pagdnationState?.currentPage === index + 1}
-                >
-                  <span onClick={() => pagdnation(index + 1)}>
+                  >
                     {index + 1}
-
-                  </span>
                 </Pagination.Link>
+                  </div>
               ))}
               <Pagination.Link>
                 <Lucide icon="ChevronRight" className="w-4 h-4"

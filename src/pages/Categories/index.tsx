@@ -7,7 +7,7 @@ import Pagination from "../../base-components/Pagination";
 import { FormSelect, FormInput } from "../../base-components/Form";
 import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
 import { ActionGetCategory } from "../../redux/action/api/category/get";
-import { StateCategory } from "../../redux/stores/api/category";
+import { StateCategory } from "../../redux/stores/api/category/category";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { ActionDeleteCategory } from "../../redux/action/api/category/delete";
 import { formatDate } from "../../utils/helper";

@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import { KEY_CATEGORY } from "../../constants/actionTypes";
-import { fulfilledCase, pendingCase, rejectedCase } from "./commanApi";
-import DataState from "../../moduls";
+import { RootState } from "../../store";
+import { KEY_CATEGORY } from "../../../constants/actionTypes";
+import { fulfilledCase, pendingCase, rejectedCase } from "../commanApi";
+import DataState from "../../../moduls";
 
 export const AsyncThunkRef = createAsyncThunk(KEY_CATEGORY, async () => { });
 
