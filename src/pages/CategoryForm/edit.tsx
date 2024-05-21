@@ -39,7 +39,6 @@ function Main() {
   const dispatch = useAppDispatch()
   const { id } = useParams();
   // const formGet = list[0] || []
-  console.log(formState)
 
   useEffect(() => {
     const categorey = list.find(item => item._id === id);
@@ -238,10 +237,9 @@ function Main() {
               <FormInline className="flex-col items-start mt-10 xl:flex-row">
                 <div className="flex-1 w-full pt-4 mt-3 border-2 border-dashed rounded-md xl:mt-0 dark:border-darkmode-400">
                   <div className="gap-5 pl-4 pr-5">
-                    {previewSrc || formState.image && (
+                    {(previewSrc || formState.image) && (
                       <div className="relative cursor-pointer h-36 image-fit zoom-in aspect-square m-auto">
-
-                        <img className="rounded-md" alt="Uploaded" src={previewSrc || formState.image} />
+                        <img className="rounded-md" alt="Uploaded" src={previewSrc ? previewSrc : formState.image} />
                         <Tippy
                           content="Remove this image?"
                           className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
