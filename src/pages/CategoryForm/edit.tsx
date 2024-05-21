@@ -46,7 +46,7 @@ function Main() {
     if (categorey){
       dispatch(createFormData({value: categorey}))
     }
-  },[list])
+  },[list]) // @mos3ad
 
 
   const filterById = () => {
