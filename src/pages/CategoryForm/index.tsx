@@ -24,14 +24,14 @@ import { StateCreateCategory } from "../../redux/stores/api/category/create";
 function Main() {
   const [editorData, setEditorData] = useState("<p>Content of the editor.</p>");
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [previewSrc, setPreviewSrc] = useState();
+  const [previewSrc, setPreviewSrc] = useState(null);
   const [englishTag, setEnglishTag] = useState('');
   const [arabicTag, setArabicTag] = useState('');
   const [type, setType] = useState('');
   const formState = useAppSelector(selectFormState);
-  const dispatch = useAppDispatch()
   const stateCreateCategory = useAppSelector(StateCreateCategory);
-  
+  const dispatch = useAppDispatch()
+
 
   const isValidate = () => {
     let reason = null;
@@ -80,11 +80,6 @@ function Main() {
     };
   };
 
-  console.log(formState)
-  useEffect(() => {
-    dispatch(updateFormData({'value': 'categorey'}))
-  }, [])
-
   useEffect(() => {
     if (Object.keys(formState).length === 0) {
       addToBasket('subCategories', { title: { en: '', ar: '' }, tags: [] })
@@ -132,13 +127,22 @@ function Main() {
     if (Object.keys(formState).length > 0) {
       dispatch(resetForm())
     }
+
   }, [])
+  const onCancel = () => {
+    dispatch(resetForm())
+    setPreviewSrc(null);
+    setUploadedFile(null)
+  }
 
   const showSuccess = () => {
     const failedEl = document
       .querySelector("#success-notification-content")!
       .cloneNode(true) as HTMLElement;
     failedEl.classList.remove("hidden");
+    dispatch(resetForm())
+    setPreviewSrc(null);
+    setUploadedFile(null)
 
     Toastify({
       node: failedEl,
@@ -149,15 +153,12 @@ function Main() {
       position: "right",
       stopOnFocus: true,
     }).showToast();
-    dispatch(resetForm())
-    setPreviewSrc(null);
-    setUploadedFile(null)
   }
-  const handleEnglishChange = (event) => {
+  const handleEnglishChange = (event : any) => {
     setEnglishTag(event.target.value);
   };
 
-  const handleArabicChange = (event) => {
+  const handleArabicChange = (event : any) => {
     setArabicTag(event.target.value);
   };
   const putInBasket = (field: string, value: any) => dispatch(updateFormData({ field: field, value: value }))
@@ -266,7 +267,7 @@ function Main() {
         </div>
       </Notification>
       <div className="flex items-center mt-8 intro-y">
-        <h2 className="mr-auto text-lg font-medium">Form Layout</h2>
+        <h2 className="mr-auto text-lg font-medium">Add Categorey</h2>
       </div>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="col-span-12 intro-y lg:col-span-6">
@@ -549,6 +550,7 @@ function Main() {
               type="button"
               variant="outline-secondary"
               className="w-24 mr-1"
+              onClick={onCancel}
             >
               Cancel
             </Button>

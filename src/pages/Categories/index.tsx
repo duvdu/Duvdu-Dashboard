@@ -4,24 +4,32 @@ import Button from "../../base-components/Button";
 import { Dialog, Menu } from "../../base-components/Headless";
 import Lucide from "../../base-components/Lucide";
 import Pagination from "../../base-components/Pagination";
-import { FormSelect, FormInput } from "../../base-components/Form";
+import { FormSelect, FormInput, FormSwitch } from "../../base-components/Form";
 import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
 import { ActionGetCategory } from "../../redux/action/api/category/get";
 import { StateCategory } from "../../redux/stores/api/category/category";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { ActionDeleteCategory } from "../../redux/action/api/category/delete";
 import { formatDate } from "../../utils/helper";
+import { StateDeleteCategory } from "../../redux/stores/api/category/delete";
+import { selectFormState, updateFormData } from "../../redux/stores/form";
+import { ActionUpdateCategory } from "../../redux/action/api/category/update";
+import { StateCreateCategory } from "../../redux/stores/api/category/create";
+import LoadingIcon from "../../base-components/LoadingIcon";
 
 
 function Main() {
   const [categoryIdToDelete, setcategoryIdToDelete] = useState(null);
   const [category, setCategory] = useState();
   const [categories, setCategories] = useState([]);
-
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const deleteButtonRef = useRef(null);
   const stateAllCategories = useAppSelector(StateCategory)
+  const stateDeleteCategory = useAppSelector(StateDeleteCategory)
+  const createCategory = useAppSelector(StateCreateCategory)
+  const navigate = useNavigate();
   const dispatch = useAppDispatch()
+  const formState = useAppSelector(selectFormState);
 
   useEffect(() => {
     if (stateAllCategories?.data?.data?.length) {
@@ -29,15 +37,23 @@ function Main() {
     }
   }, [stateAllCategories?.data?.data?.length])
 
-  const filterCategory = (id) => {
+  const filterCategory = (id : string) => {
     setCategory(categories.find(category => category._id === id));
   }
 
   useEffect(() => {
     dispatch(ActionGetCategory())
-  }, [dispatch])
-  
-  const navigate = useNavigate();
+  }, [dispatch, stateDeleteCategory,createCategory])
+
+
+  const onChangeStutus = (newState: boolean,id) => {
+    const formDate = new FormData();
+
+    formDate.append('status', newState)
+    console.log(newState)
+    
+    dispatch(ActionUpdateCategory({ formdata: formDate, id: id }))
+  };
 
   return (
     <>
@@ -80,45 +96,30 @@ function Main() {
                 </ul>
               </div>
               <div className="box mb-4 p-4 mx-4">
-              <div className="text-sm text-gray-600">
-                <p>Created at: {formatDate(category.createdAt, 'DD/MM/YYYY')}</p>
-              </div>
+                <div className="text-sm text-gray-600">
+                  <p>Created at: {formatDate(category.createdAt, 'DD/MM/YYYY')}</p>
+                </div>
               </div>
             </div>
           </Dialog.Panel>
         }
       </Dialog >
 
-      <h2 className="mt-10 text-lg font-medium intro-y">Product Grid</h2>
+      <h2 className="mt-10 text-lg font-medium intro-y">All categories</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
-          <Button variant="primary" className="mr-2 shadow-md">
-            Add New Product
-          </Button>
+          <Link to={"/category-form"}>
+            <Button variant="primary" className="mr-2 shadow-md">
+              Add New Product
+            </Button>
+          </Link>
           <Menu>
-            <Menu.Button as={Button} className="px-2 !box">
-              <span className="flex items-center justify-center w-5 h-5">
-                <Lucide icon="Plus" className="w-4 h-4" />
-              </span>
-            </Menu.Button>
-            <Menu.Items className="w-40">
-              <Menu.Item>
-                <Lucide icon="Printer" className="w-4 h-4 mr-2" /> Print
-              </Menu.Item>
-              <Menu.Item>
-                <Lucide icon="FileText" className="w-4 h-4 mr-2" /> Export to
-                Excel
-              </Menu.Item>
-              <Menu.Item>
-                <Lucide icon="FileText" className="w-4 h-4 mr-2" /> Export to
-                PDF
-              </Menu.Item>
-            </Menu.Items>
+
           </Menu>
-          <div className="hidden mx-auto md:block text-slate-500">
+          <div className="hidden mx-auto md:block text-slate-500 md:hidden">
             Showing 1 to 10 of 150 entries
           </div>
-          <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-auto md:ml-0">
+          <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-auto md:ml-0 hidden">
             <div className="relative w-56 text-slate-500">
               <FormInput
                 type="text"
@@ -169,6 +170,13 @@ function Main() {
                     <div className="flex items-center mt-2">
                       <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
                       status : {item.status ? 'Active' : 'inactive'}
+
+                      {
+                        !createCategory.loading ?
+                        <FormSwitch className="mt-2 ml-auto" >
+                        <FormSwitch.Input checked={item.status} type="checkbox" onChange={(c) => onChangeStutus(!item.status , item._id)} />
+                      </FormSwitch> : <LoadingIcon icon="puff" className="w-10 h-10 ml-auto"/>
+                      }
                     </div>
                   </div>
                 </div>
@@ -176,7 +184,7 @@ function Main() {
                   <div className="flex items-center mr-auto text-primary cursor-pointer" onClick={() => { filterCategory(item._id); }}>
                     <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
                   </div>
-                  <div className="flex items-center mr-3 cursor-pointer" onClick={()=>{ navigate(`edit/${item._id}`) }}>
+                  <div className="flex items-center mr-3 cursor-pointer" onClick={() => { navigate(`edit/${item._id}`) }}>
                     <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" /> Edit
                   </div>
                   <Link

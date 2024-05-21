@@ -40,21 +40,21 @@ function Main() {
   const dispatch = useAppDispatch()
   const { id } = useParams();
   // const formGet = list[0] || []
-  
-  useEffect(() => {
-     setCategorey(list.find(item => item._id === id));
-},[list]) // @mos3ad
 
   useEffect(() => {
-    if (categorey){
-      dispatch(createFormData({value: categorey}))
+    setCategorey(list.find(item => item._id === id));
+  }, [list]) // @mos3ad
+
+  useEffect(() => {
+    if (categorey) {
+      dispatch(createFormData({ value: categorey }))
     }
-  },[categorey]) // @mos3ad
+  }, [categorey]) 
 
 
   useEffect(() => {
     if ((list?.length || 0) == 0)
-        dispatch(ActionGetCategory())
+      dispatch(ActionGetCategory())
   }, [dispatch])
 
 
