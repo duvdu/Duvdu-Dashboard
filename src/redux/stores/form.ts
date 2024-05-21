@@ -21,6 +21,9 @@ const formSlice = createSlice({
     name: 'form',
     initialState,
     reducers: {
+        createFormData: (state, action: PayloadAction<{ value: any }>) => {
+            state.formData = action.payload.value;
+        },
         updateFormData: (state, action: PayloadAction<{ field: string; value: any }>) => {
             const { field, value } = action.payload;
             state.formData[field] = value;
@@ -53,6 +56,7 @@ const formSlice = createSlice({
 });
 
 export const {
+    createFormData,
     updateFormData,
     insertToArray,
     removeItemFromField,

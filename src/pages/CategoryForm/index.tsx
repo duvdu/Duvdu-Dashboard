@@ -14,7 +14,7 @@ import Tippy from "../../base-components/Tippy";
 import Lucide from "../../base-components/Lucide";
 import _ from "lodash";
 import { useAppSelector, useAppDispatch } from "../../redux/stores/hooks";
-import { selectFormState, updateFormData, insertToArray, removeItemFromField, resetForm } from "../../redux/stores/form";
+import { selectFormState, updateFormData, insertToArray, removeItemFromField, resetForm, createFormData } from "../../redux/stores/form";
 import { Popover } from "../../base-components/Headless";
 import { ActionCreateCategory } from "../../redux/action/api/category/create";
 import Toastify from "toastify-js";
@@ -31,7 +31,7 @@ function Main() {
   const formState = useAppSelector(selectFormState);
   const dispatch = useAppDispatch()
   const stateCreateCategory = useAppSelector(StateCreateCategory);
-
+  
 
   const isValidate = () => {
     let reason = null;
@@ -79,6 +79,11 @@ function Main() {
       reason: reason
     };
   };
+
+  console.log(formState)
+  useEffect(() => {
+    dispatch(updateFormData({'value': 'categorey'}))
+  }, [])
 
   useEffect(() => {
     if (Object.keys(formState).length === 0) {

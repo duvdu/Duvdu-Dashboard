@@ -14,7 +14,7 @@ import Tippy from "../../base-components/Tippy";
 import Lucide from "../../base-components/Lucide";
 import _ from "lodash";
 import { useAppSelector, useAppDispatch } from "../../redux/stores/hooks";
-import { selectFormState, updateFormData, insertToArray, removeItemFromField, resetForm } from "../../redux/stores/form";
+import { selectFormState, updateFormData, insertToArray, removeItemFromField, resetForm, createFormData } from "../../redux/stores/form";
 import { Popover } from "../../base-components/Headless";
 import { ActionCreateCategory } from "../../redux/action/api/category/create";
 import Toastify from "toastify-js";
@@ -24,6 +24,7 @@ import { ActionUpdateCategory } from "../../redux/action/api/category/update";
 import { useParams } from "react-router-dom";
 import { ActionGetCategoryById } from "../../redux/action/api/category/getById";
 import { StateCategory } from "../../redux/stores/api/category/category";
+import { ActionGetCategory } from "../../redux/action/api/category/get";
 
 function Main() {
   const [editorData, setEditorData] = useState("<p>Content of the editor.</p>");
@@ -32,21 +33,36 @@ function Main() {
   const [englishTag, setEnglishTag] = useState('');
   const [arabicTag, setArabicTag] = useState('');
   const [type, setType] = useState('');
+  const formState = useAppSelector(selectFormState);
   const stateCreateCategory = useAppSelector(StateCreateCategory);
-  const formGet = useAppSelector(StateCategory)?.data?.data || {};
-
+  const list = useAppSelector(StateCategory)?.data?.data || [];
   const dispatch = useAppDispatch()
   const { id } = useParams();
+  // const formGet = list[0] || []
+  console.log(formState)
+
   useEffect(() => {
-    dispatch(ActionGetCategoryById({ id: id }))
+    const categorey = list.find(item => item._id === id);
+    if (categorey){
+      dispatch(createFormData({value: categorey}))
+    }
+  },[list])
+
+
+  const filterById = () => {
+    if ((list?.length || 0) == 0)
+      dispatch(ActionGetCategory())
+  }
+  useEffect(() => {
+    filterById()
   }, [])
+
 
   function objectToFormData(data: any, formData: FormData, parentKey?: string) {
     for (const key in data) {
       if (Object.prototype.hasOwnProperty.call(data, key)) {
         const value = data[key];
         const prefixedKey = parentKey ? `${parentKey}[${key}]` : key;
-
         if (typeof value === 'object' && value !== null) {
           if (Array.isArray(value)) {
             value.forEach((element, index) => {
@@ -67,8 +83,7 @@ function Main() {
     const formDate = new FormData();
     if (uploadedFile)
       formDate.append('cover', uploadedFile)
-    objectToFormData(formGet, formDate)
-    console.log(form)
+    objectToFormData(formState, formDate)
     dispatch(ActionUpdateCategory({ formdata: formDate, id: id }))
   };
 
@@ -77,7 +92,7 @@ function Main() {
       showSuccess()
   }, [stateCreateCategory.data])
   useEffect(() => {
-    if (Object.keys(formGet).length > 0) {
+    if (Object.keys(formState).length > 0) {
       dispatch(resetForm())
     }
   }, [])
@@ -117,7 +132,7 @@ function Main() {
 
 
   const handleSubCategoryChange = (index: number, field: 'title' | 'tags', lang: 'ar' | 'en', value: string, tagIndex?: number) => {
-    let updatedSubCategories = JSON.parse(JSON.stringify(formGet.subCategories))
+    let updatedSubCategories = JSON.parse(JSON.stringify(formState.subCategories))
     if (field === 'title') {
       updatedSubCategories[index].title[lang] = value;
     } else if (field === 'tags' && tagIndex !== undefined) {
@@ -127,7 +142,7 @@ function Main() {
   };
 
   const handleRemoveTag = (subCategoriesIndex: number, tagIndex: number) => {
-    let updatedSubCategories = JSON.parse(JSON.stringify(formGet.subCategories));
+    let updatedSubCategories = JSON.parse(JSON.stringify(formState.subCategories));
     if (updatedSubCategories[subCategoriesIndex].tags) {
       updatedSubCategories[subCategoriesIndex].tags.splice(tagIndex, 1);
       putInBasket('subCategories', updatedSubCategories);
@@ -141,24 +156,24 @@ function Main() {
 
 
   const handleAddJopDetails = () => {
-    if (!formGet?.jobTitles)
+    if (!formState?.jobTitles)
       putInBasket('jobTitles', [{ en: '', ar: '' }])
     else {
-      const jop = [...formGet?.jobTitles, { en: '', ar: '' }]
+      const jop = [...formState?.jobTitles, { en: '', ar: '' }]
       putInBasket('jobTitles', jop)
     }
   };
   const handleChangeJopDetails = (index: number, value: string, lang: 'en' | 'ar') => {
-    let jop = JSON.parse(JSON.stringify(formGet?.jobTitles));
+    let jop = JSON.parse(JSON.stringify(formState?.jobTitles));
     jop[index][lang] = value;
     putInBasket('jobTitles', jop)
 
   };
   const handleRemoveJopDetails = (index: number) => {
     // Check if there are job titles to remove and the index is within range
-    if (formGet?.jobTitles && index >= 0 && index < formGet.jobTitles.length) {
+    if (formState?.jobTitles && index >= 0 && index < formState.jobTitles.length) {
       // Create a new array excluding the element at the specified index
-      const newJopDetails = formGet.jobTitles.filter((_, i) => i !== index);
+      const newJopDetails = formState.jobTitles.filter((_, i) => i !== index);
       // Update the state with the new array of job titles
       putInBasket('jobTitles', newJopDetails);
     }
@@ -223,10 +238,10 @@ function Main() {
               <FormInline className="flex-col items-start mt-10 xl:flex-row">
                 <div className="flex-1 w-full pt-4 mt-3 border-2 border-dashed rounded-md xl:mt-0 dark:border-darkmode-400">
                   <div className="gap-5 pl-4 pr-5">
-                    {previewSrc || formGet.image && (
+                    {previewSrc || formState.image && (
                       <div className="relative cursor-pointer h-36 image-fit zoom-in aspect-square m-auto">
 
-                        <img className="rounded-md" alt="Uploaded" src={previewSrc || formGet.image} />
+                        <img className="rounded-md" alt="Uploaded" src={previewSrc || formState.image} />
                         <Tippy
                           content="Remove this image?"
                           className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
@@ -265,8 +280,8 @@ function Main() {
                       type="text"
                       placeholder="category"
                       aria-describedby="input-group-3"
-                      value={formGet?.title?.en || formGet?.title}
-                      onChange={(e) => putInBasket('title', { 'en': e.target.value, 'ar': formGet?.title?.ar })}
+                      value={formState?.title?.en}
+                      onChange={(e) => putInBasket('title', { 'en': e.target.value, 'ar': formState?.title?.ar })}
                     />
                   </InputGroup>
                   <InputGroup className="mt-2 sm:mt-0 sm:w-full">
@@ -275,8 +290,8 @@ function Main() {
                       type="text"
                       placeholder="الفئه"
                       aria-describedby="input-group-4"
-                      value={formGet?.title?.ar || ""}
-                      onChange={(e) => putInBasket('title', { 'ar': e.target.value, 'en': formGet?.title?.en || formGet?.title })}
+                      value={formState?.title?.ar}
+                      onChange={(e) => putInBasket('title', { 'ar': e.target.value, 'en': formState?.title?.en })}
                     />
                   </InputGroup>
 
@@ -293,7 +308,7 @@ function Main() {
                   </Tippy>
                 </FormLabel>
 
-                {formGet?.subCategories?.map((subCategory, index) => (
+                {formState?.subCategories?.map((subCategory, index) => (
                   <div key={index} className="mb-5">
                     <div className="grid grid-cols-12 gap-2 mt-2">
                       <InputGroup className="sm:w-full col-span-3 h-min">
@@ -303,7 +318,7 @@ function Main() {
                           placeholder="subcategory"
                           aria-describedby={`input-group-en-${index}`}
                           // value={formState?.subCategory[index]?.en}
-                          value={formGet.subCategories[index].title.en || formGet.subCategories[index].title}
+                          value={formState.subCategories[index].title.en}
                           onChange={(e) => handleChange(e, index, 'title', 'en')}
                         />
                       </InputGroup>
@@ -314,7 +329,7 @@ function Main() {
                           placeholder="الفئه"
                           aria-describedby={`input-group-ar-${index}`}
                           // value={formState?.subCategory[index]?.ar}
-                          value={formGet.subCategories[index].title.ar}
+                          value={formState.subCategories[index].title.ar}
                           onChange={(e) => handleChange(e, index, 'title', 'ar')}
                         />
                       </InputGroup>
@@ -356,7 +371,7 @@ function Main() {
                                       <Button variant="primary" className="w-32 ml-2"
                                         onClick={() => {
                                           if (englishTag.length > 0 && arabicTag.length > 0)
-                                            handleChange(JSON.stringify({ en: englishTag, ar: arabicTag }), index, 'tags', 'en', formGet?.subCategories[index].tags?.length || 0)
+                                            handleChange(JSON.stringify({ en: englishTag, ar: arabicTag }), index, 'tags', 'en', formState?.subCategories[index].tags?.length || 0)
                                         }}
                                       >
                                         Add
@@ -370,10 +385,10 @@ function Main() {
                         </div>
                         <div className="flex flex-wrap gap-2 px-3">
                           {
-                            formGet?.subCategories[index].tags?.map((tag, tagIndex) => (
+                            formState?.subCategories[index].tags?.map((tag, tagIndex) => (
                               <div key={tagIndex} className="flex flex-col relative px-2 py-0.5 bg-slate-200 text-slate-600 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md">
                                 <div className="mr-5">
-                                  EN: {tag.en || tag}
+                                  EN: {tag.en}
                                 </div>
                                 <div className="mr-5">
                                   AR: {tag.ar}
@@ -418,14 +433,14 @@ function Main() {
                       </div>
                     </Tippy>
                   </FormLabel>
-                  {formGet?.jobTitles?.map((jop, index) => (
+                  {formState?.jobTitles?.map((jop, index) => (
                     <div key={index} className="grid grid-cols-2 gap-2 mt-3">
                       <InputGroup className="sm:w-full ">
                         <InputGroup.Text id={`input-group-en-${index}`}>EN</InputGroup.Text>
                         <FormInput
                           type="text"
                           aria-describedby={`input-group-en-${index}`}
-                          value={formGet.jobTitles[index].en || formGet.jobTitles[index]}
+                          value={formState.jobTitles[index].en}
                           onChange={(e) => handleChangeJopDetails(index, e.target.value, 'en')}
                         />
                       </InputGroup>
@@ -434,7 +449,7 @@ function Main() {
                         <FormInput
                           type="text"
                           aria-describedby={`input-group-ar-${index}`}
-                          value={formGet.jobTitles[index].ar}
+                          value={formState.jobTitles[index].ar}
                           onChange={(e) => handleChangeJopDetails(index, e.target.value, 'ar')}
                         />
                       </InputGroup>
@@ -458,7 +473,7 @@ function Main() {
             <div className="p-5 border rounded-md border-slate-200/60 dark:border-darkmode-400">
               <div className="mt-3">
                 <FormLabel htmlFor="crud-form-3">Cycle</FormLabel>
-                <FormSelect defaultValue={formGet.cycle?.replace('-',' ')} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => setType(e.target.value)}>
+                <FormSelect defaultValue={formState.cycle?.replace('-', ' ')} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => setType(e.target.value)}>
                   {[
                     "Choose Type",
                     "studio booking",
@@ -474,7 +489,7 @@ function Main() {
               <div className="mt-3">
                 <label>Active Status</label>
                 <FormSwitch className="mt-2" >
-                  <FormSwitch.Input checked={formGet.status} type="checkbox" onChange={(c) => putInBasket('status', !formGet.status)} />
+                  <FormSwitch.Input checked={formState.status} type="checkbox" onChange={(c) => putInBasket('status', !formState.status)} />
                 </FormSwitch>
               </div>
 

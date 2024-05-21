@@ -50,10 +50,10 @@ function Main() {
           <Dialog.Panel className="py-10 text-center bg-slate-500">
             <div className="px-2 rounded-md">
               <div className="box mb-4 mx-4">
-                <h2 className="category-title text-2xl font-bold mb-4">{category.title}</h2>
+                <h2 className="category-title text-2xl font-bold mb-4">{category.title.en}</h2>
                 <div className="h-40 overflow-y-hidden">
 
-                  <img src={category.image} alt={category.title} className="category-image mb-4 max-w-full w-full" />
+                  <img src={category.image} alt={category.title.en} className="category-image mb-4 max-w-full w-full" />
                 </div>
               </div>
               <div className="category-subcategories box mb-4 p-4 mx-4">
@@ -61,10 +61,10 @@ function Main() {
                 <div className="flex flex-wrap w-full gap-3">
                   {category?.subCategories.map(subCategory => (
                     <div key={subCategory._id} className="subcategory-item p-2 text-start w-full">
-                      <h4 className="text-lg font-medium">{subCategory.title}</h4>
+                      <h4 className="text-lg font-medium">{subCategory.title.en}</h4>
                       <ul className="flex flex-wrap gap-2 py-2">
                         {subCategory?.tags?.map((tag, index) => (
-                          <li key={index} className="border rounded-3xl px-2">{tag}</li>
+                          <li key={index} className="border rounded-3xl px-2">{tag.en}</li>
                         ))}
                       </ul>
                     </div>
@@ -75,7 +75,7 @@ function Main() {
                 <h3 className="text-xl font-semibold">Job Titles:</h3>
                 <ul className="job-titles-list">
                   {category?.jobTitles.map((jobTitle, index) => (
-                    <li key={index} className="job-title-item">{jobTitle}</li>
+                    <li key={index} className="job-title-item">{jobTitle.en}</li>
                   ))}
                 </ul>
               </div>
@@ -160,7 +160,7 @@ function Main() {
                   <div className="mt-5 text-slate-600 dark:text-slate-500">
                     <div className="flex items-center">
                       <Lucide icon="Link" className="w-4 h-4 mr-2" />
-                      title : {item.title}
+                      title : {item.title.en}
                     </div>
                     <div className="flex items-center mt-2">
                       <Lucide icon="Layers" className="w-4 h-4 mr-2" />
