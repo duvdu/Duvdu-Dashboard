@@ -33,28 +33,29 @@ function Main() {
   const [englishTag, setEnglishTag] = useState('');
   const [arabicTag, setArabicTag] = useState('');
   const [type, setType] = useState('');
+  const [categorey, setCategorey] = useState({});
   const formState = useAppSelector(selectFormState);
   const stateCreateCategory = useAppSelector(StateCreateCategory);
   const list = useAppSelector(StateCategory)?.data?.data || [];
   const dispatch = useAppDispatch()
   const { id } = useParams();
   // const formGet = list[0] || []
+  
+  useEffect(() => {
+     setCategorey(list.find(item => item._id === id));
+},[list]) // @mos3ad
 
   useEffect(() => {
-    const categorey = list.find(item => item._id === id);
     if (categorey){
       dispatch(createFormData({value: categorey}))
     }
-  },[list]) // @mos3ad
+  },[categorey]) // @mos3ad
 
 
-  const filterById = () => {
-    if ((list?.length || 0) == 0)
-      dispatch(ActionGetCategory())
-  }
   useEffect(() => {
-    filterById()
-  }, [])
+    if ((list?.length || 0) == 0)
+        dispatch(ActionGetCategory())
+  }, [dispatch])
 
 
   function objectToFormData(data: any, formData: FormData, parentKey?: string) {
