@@ -31,7 +31,6 @@ function Main() {
     dispatch(ActionGetUsers({ search: searchKey, limit: limit, page: page }))
   };
 
-  console.log(state)
   return (
     <>
       <h2 className="mt-10 text-lg font-medium intro-y">Users</h2>

@@ -10,44 +10,34 @@ import { Dialog, Menu } from "../../../base-components/Headless";
 function Main() {
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const deleteButtonRef = useRef(null);
-
+  // const PaginationInfo = ({ pagination }) => {
+    // if(!pagination) return <></>
+    //   const { currentPage, resultCount, totalPages } = pagination;
+  
+  //   // Calculate the start and end entry numbers
+  //   const entriesPerPage = Math.ceil(resultCount / totalPages);
+  //   const startEntry = (currentPage - 1) * entriesPerPage + 1;
+  //   const endEntry = Math.min(currentPage * entriesPerPage, resultCount);
+  
+  //   return (
+  //     <div className="hidden mx-auto md:block text-slate-500">
+  //       Showing {startEntry} to {endEntry} of {resultCount} entries
+  //     </div>
+  //   );
+  // };
   return (
     <>
-      <h2 className="mt-10 text-lg font-medium intro-y">Product Grid</h2>
+      <h2 className="mt-10 text-lg font-medium intro-y">Producers</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
-          <Button variant="primary" className="mr-2 shadow-md">
-            Add New Product
-          </Button>
-          <Menu>
-            <Menu.Button as={Button} className="px-2 !box">
-              <span className="flex items-center justify-center w-5 h-5">
-                <Lucide icon="Plus" className="w-4 h-4" />
-              </span>
-            </Menu.Button>
-            <Menu.Items className="w-40">
-              <Menu.Item>
-                <Lucide icon="Printer" className="w-4 h-4 mr-2" /> Print
-              </Menu.Item>
-              <Menu.Item>
-                <Lucide icon="FileText" className="w-4 h-4 mr-2" /> Export to
-                Excel
-              </Menu.Item>
-              <Menu.Item>
-                <Lucide icon="FileText" className="w-4 h-4 mr-2" /> Export to
-                PDF
-              </Menu.Item>
-            </Menu.Items>
-          </Menu>
-          <div className="hidden mx-auto md:block text-slate-500">
-            Showing 1 to 10 of 150 entries
-          </div>
+        {/* <PaginationInfo pagination={pagdnationState} /> */}
           <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-auto md:ml-0">
             <div className="relative w-56 text-slate-500">
-              <FormInput
+            <FormInput
                 type="text"
                 className="w-56 pr-10 !box"
                 placeholder="Search..."
+                // onChange={(e) => setSearch(e.target.value)}
               />
               <Lucide
                 icon="Search"
@@ -105,19 +95,6 @@ function Main() {
                 <a className="flex items-center mr-auto text-primary" href="#">
                   <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
                 </a>
-                <a className="flex items-center mr-3" href="#">
-                  <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" /> Edit
-                </a>
-                <a
-                  className="flex items-center text-danger"
-                  href="#"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    setDeleteConfirmationModal(true);
-                  }}
-                >
-                  <Lucide icon="Trash2" className="w-4 h-4 mr-1" /> Delete
-                </a>
               </div>
             </div>
           </div>
@@ -144,7 +121,7 @@ function Main() {
               <Lucide icon="ChevronsRight" className="w-4 h-4" />
             </Pagination.Link>
           </Pagination>
-          <FormSelect className="w-20 mt-3 !box sm:mt-0">
+          <FormSelect className="w-20 mt-3 !box sm:mt-0" onChange={(e) => setLimit(e.target.value)} >
             <option>10</option>
             <option>25</option>
             <option>35</option>

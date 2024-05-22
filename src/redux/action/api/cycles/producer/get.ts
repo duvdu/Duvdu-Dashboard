@@ -3,8 +3,15 @@ import { mainApiInstance } from '../../axiosInstances';
 import { KEY_PORTFOLIO_POST } from '../../../../constants/actionTypes';
 
 export const ActionGetPortfolio = createAsyncThunk(
-  KEY_PORTFOLIO_POST, async () => {
-    const response = await mainApiInstance.get('api/portfolio-post/crm');
+  KEY_PORTFOLIO_POST, async (params: { search: string, limit: string, page: string }) => {
+    const { search, limit, page } = params;
+    const queryParams = { limit, page };
+    if (search) {
+      queryParams.search = search;
+    }
+    const response = await mainApiInstance.get('api/portfolio-post/crm', {
+      params: queryParams,
+    });
     return response.data;
   }
 ); 

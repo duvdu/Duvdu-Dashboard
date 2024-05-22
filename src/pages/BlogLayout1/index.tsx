@@ -207,7 +207,7 @@ function Main() {
               <Lucide icon="ChevronsRight" className="w-4 h-4" />
             </Pagination.Link>
           </Pagination>
-          <FormSelect className="w-20 mt-3 !box sm:mt-0">
+          <FormSelect className="w-20 mt-3 !box sm:mt-0" >
             <option>10</option>
             <option>25</option>
             <option>35</option>

@@ -22,11 +22,21 @@ function Main() {
   const [categoryIdToDelete, setcategoryIdToDelete] = useState(null);
   const [category, setCategory] = useState();
   const [categories, setCategories] = useState([]);
+
+  const [limit, setLimit] = useState("10");
+  const [page, setPage] = useState("1");
+  const [search, setSearch] = useState("");
+
+  const [idToEdit, setidEdit] = useState("");
+
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const deleteButtonRef = useRef(null);
   const stateAllCategories = useAppSelector(StateCategory)
+  const state = stateAllCategories?.data
+  const pagdnationState = state?.pagination
   const stateDeleteCategory = useAppSelector(StateDeleteCategory)
   const createCategory = useAppSelector(StateCreateCategory)
+  
   const navigate = useNavigate();
   const dispatch = useAppDispatch()
   const formState = useAppSelector(selectFormState);
@@ -37,21 +47,22 @@ function Main() {
     }
   }, [stateAllCategories?.data?.data?.length])
 
-  const filterCategory = (id : string) => {
+  const filterCategory = (id: string) => {
     setCategory(categories.find(category => category._id === id));
   }
-
+console.log(limit)
   useEffect(() => {
-    dispatch(ActionGetCategory())
-  }, [dispatch, stateDeleteCategory,createCategory])
+    dispatch(ActionGetCategory({ limit, page, search }))
+  }, [dispatch, stateDeleteCategory, createCategory, limit, page, search])
 
+  const pagdnation = (page: number) => {
+    dispatch(ActionGetCategory({ limit, page, search }))
+  };
 
-  const onChangeStutus = (newState: boolean,id) => {
+  const onChangeStutus = (newState: boolean, id) => {
+    setidEdit(id)
     const formDate = new FormData();
-
     formDate.append('status', newState)
-    console.log(newState)
-    
     dispatch(ActionUpdateCategory({ formdata: formDate, id: id }))
   };
 
@@ -68,7 +79,6 @@ function Main() {
               <div className="box mb-4 mx-4">
                 <h2 className="category-title text-2xl font-bold mb-4">{category.title.en}</h2>
                 <div className="h-40 overflow-y-hidden">
-
                   <img src={category.image} alt={category.title.en} className="category-image mb-4 max-w-full w-full" />
                 </div>
               </div>
@@ -80,7 +90,7 @@ function Main() {
                       <h4 className="text-lg font-medium">{subCategory.title.en}</h4>
                       <ul className="flex flex-wrap gap-2 py-2">
                         {subCategory?.tags?.map((tag, index) => (
-                          <li key={index} className="border rounded-3xl px-2">{tag.en}</li>
+                          <li key={index} className="py-1 px-2 border border-[#00000080] dark:border-[#FFFFFF4D] rounded-full">{tag.en}</li>
                         ))}
                       </ul>
                     </div>
@@ -110,21 +120,20 @@ function Main() {
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
           <Link to={"/category-form"}>
             <Button variant="primary" className="mr-2 shadow-md">
-              Add New Product
+              Add New Category
             </Button>
           </Link>
-          <Menu>
 
-          </Menu>
-          <div className="hidden mx-auto md:block text-slate-500 md:hidden">
+          <div className="hidden mx-auto md:block text-slate-500">
             Showing 1 to 10 of 150 entries
           </div>
-          <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-auto md:ml-0 hidden">
+          <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-auto md:ml-0">
             <div className="relative w-56 text-slate-500">
               <FormInput
                 type="text"
                 className="w-56 pr-10 !box"
                 placeholder="Search..."
+                onChange={(e) => setSearch(e.target.value)}
               />
               <Lucide
                 icon="Search"
@@ -172,10 +181,11 @@ function Main() {
                       status : {item.status ? 'Active' : 'inactive'}
 
                       {
-                        !createCategory.loading ?
-                        <FormSwitch className="mt-2 ml-auto" >
-                        <FormSwitch.Input checked={item.status} type="checkbox" onChange={(c) => onChangeStutus(!item.status , item._id)} />
-                      </FormSwitch> : <LoadingIcon icon="puff" className="w-10 h-10 ml-auto"/>
+                        createCategory.loading && idToEdit == item._id ?
+                          <LoadingIcon icon="puff" className="w-10 h-10 ml-auto" />:
+                          <FormSwitch className="mt-2 ml-auto" >
+                            <FormSwitch.Input checked={item.status} type="checkbox" onChange={(c) => onChangeStutus(!item.status, item._id)} />
+                          </FormSwitch>
                       }
                     </div>
                   </div>
@@ -205,26 +215,38 @@ function Main() {
         {/* END: Users Layout */}
         {/* BEGIN: Pagination */}
         <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap">
-          <Pagination className="w-full sm:w-auto sm:mr-auto">
-            <Pagination.Link>
-              <Lucide icon="ChevronsLeft" className="w-4 h-4" />
-            </Pagination.Link>
-            <Pagination.Link>
-              <Lucide icon="ChevronLeft" className="w-4 h-4" />
-            </Pagination.Link>
-            <Pagination.Link>...</Pagination.Link>
-            <Pagination.Link>1</Pagination.Link>
-            <Pagination.Link active>2</Pagination.Link>
-            <Pagination.Link>3</Pagination.Link>
-            <Pagination.Link>...</Pagination.Link>
-            <Pagination.Link>
-              <Lucide icon="ChevronRight" className="w-4 h-4" />
-            </Pagination.Link>
-            <Pagination.Link>
-              <Lucide icon="ChevronsRight" className="w-4 h-4" />
-            </Pagination.Link>
-          </Pagination>
-          <FormSelect className="w-20 mt-3 !box sm:mt-0">
+          {state &&
+            <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap" >
+              <Pagination className="w-full sm:w-auto sm:mr-auto">
+                <Pagination.Link>
+                  <Lucide onClick={() => pagdnation(1)} icon="ChevronsLeft" className="w-4 h-4" />
+                </Pagination.Link>
+                <Pagination.Link>
+                  <Lucide onClick={() => pagdnation(pagdnationState?.currentPage > 1 ? pagdnationState?.currentPage - 1 : 1)} icon="ChevronLeft" className="w-4 h-4" />
+                </Pagination.Link>
+                {Array.from({ length: pagdnationState?.totalPages }, (_, index) => (
+                  <div onClick={() => pagdnation(index + 1)}>
+                    <Pagination.Link
+                      key={index}
+                      active={pagdnationState?.currentPage === index + 1}
+                    >
+                      {index + 1}
+                    </Pagination.Link>
+                  </div>
+                ))}
+                <Pagination.Link>
+                  <Lucide icon="ChevronRight" className="w-4 h-4"
+                    onClick={() =>
+                      pagdnation(pagdnationState?.currentPage < pagdnationState?.totalPages ? pagdnationState?.currentPage + 1 : pagdnationState?.totalPages)
+                    }
+                  />
+                </Pagination.Link>
+                <Pagination.Link>
+                  <Lucide icon="ChevronsRight" className="w-4 h-4" onClick={() => pagdnation(pagdnationState?.totalPages)} />
+                </Pagination.Link>
+              </Pagination>
+            </div>}
+          <FormSelect className="w-20 mt-3 !box sm:mt-0" onChange={(e) => setLimit(e.target.value)} >
             <option>10</option>
             <option>25</option>
             <option>35</option>

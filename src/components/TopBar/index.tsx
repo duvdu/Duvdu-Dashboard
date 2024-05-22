@@ -19,17 +19,23 @@ import dayjs from "dayjs";
 import { GetAllErrors } from "../../redux/stores/apis_errors";
 import Notification from "../../base-components/Notification";
 import Toastify from "toastify-js";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Main() {
   const [searchDropdown, setSearchDropdown] = useState(false);
   const authState = useAppSelector(StateMyProfile)
   const notifications = useAppSelector(StateAllNotification)
-  const handleerrors = useAppSelector(GetAllErrors);
+  const handlerrors = useAppSelector(GetAllErrors);
+  const navigate = useNavigate();
   
   const dispatch = useAppDispatch()
   useEffect(() => {
-    if (handleerrors && handleerrors.length > 0) {
-      const error = handleerrors[0];
+    
+    const errorAuth = handlerrors.some(item => item.error === "Request failed with status code 401");
+    // const errorAuth = handlerrors.some(item => item.error === "Request failed with status code 403");
+    
+    if (handlerrors && handlerrors.length > 0 && !errorAuth) {
+      const error = handlerrors[0];
       const failedEl = document
         .querySelector("#failed-notification-content")!
         .cloneNode(true) as HTMLElement;
@@ -50,7 +56,7 @@ function Main() {
         stopOnFocus: true,
       }).showToast();
     }
-  }, [JSON.stringify(handleerrors)]);
+  }, [JSON.stringify(handlerrors)]);
 
 
   const showSearchDropdown = () => {
