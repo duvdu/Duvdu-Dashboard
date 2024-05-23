@@ -124,7 +124,6 @@ function Main() {
         {/* BEGIN: Pagination */}
         <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap">
         {state &&
-            <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap" >
               <Pagination className="w-full sm:w-auto sm:mr-auto">
                 <Pagination.Link>
                   <Lucide onClick={() => pagdnation(1)} icon="ChevronsLeft" className="w-4 h-4" />
@@ -153,7 +152,7 @@ function Main() {
                   <Lucide icon="ChevronsRight" className="w-4 h-4" onClick={() => pagdnation(pagdnationState?.totalPages)} />
                 </Pagination.Link>
               </Pagination>
-            </div>}
+            }
             <FormSelect className="w-20 mt-3 !box sm:mt-0"  onChange={(e) => setLimit(e.target.value)} >
             <option>10</option>
             <option>25</option>

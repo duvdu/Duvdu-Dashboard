@@ -36,7 +36,7 @@ function Main() {
   const pagdnationState = state?.pagination
   const stateDeleteCategory = useAppSelector(StateDeleteCategory)
   const createCategory = useAppSelector(StateCreateCategory)
-  
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch()
   const formState = useAppSelector(selectFormState);
@@ -50,7 +50,7 @@ function Main() {
   const filterCategory = (id: string) => {
     setCategory(categories.find(category => category._id === id));
   }
-console.log(limit)
+  console.log(limit)
   useEffect(() => {
     dispatch(ActionGetCategory({ limit, page, search }))
   }, [dispatch, stateDeleteCategory, createCategory, limit, page, search])
@@ -66,6 +66,22 @@ console.log(limit)
     dispatch(ActionUpdateCategory({ formdata: formDate, id: id }))
   };
 
+  const PaginationInfo = ({ pagination }) => {
+    if(!pagination) return <></>
+
+    const { currentPage, resultCount, totalPages } = pagination;
+
+    // Calculate the start and end entry numbers
+    const entriesPerPage = Math.ceil(resultCount / totalPages);
+    const startEntry = (currentPage - 1) * entriesPerPage + 1;
+    const endEntry = Math.min(currentPage * entriesPerPage, resultCount);
+
+    return (
+      <div className="hidden mx-auto md:block text-slate-500">
+        Showing {startEntry} to {endEntry} of {resultCount} entries
+      </div>
+    );
+  };
   return (
     <>
       <Dialog open={category == null ? false : true} onClose={() => {
@@ -125,7 +141,7 @@ console.log(limit)
           </Link>
 
           <div className="hidden mx-auto md:block text-slate-500">
-            Showing 1 to 10 of 150 entries
+            <PaginationInfo pagination={pagdnationState} />
           </div>
           <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-auto md:ml-0">
             <div className="relative w-56 text-slate-500">
@@ -182,7 +198,7 @@ console.log(limit)
 
                       {
                         createCategory.loading && idToEdit == item._id ?
-                          <LoadingIcon icon="puff" className="w-10 h-10 ml-auto" />:
+                          <LoadingIcon icon="puff" className="w-10 h-10 ml-auto" /> :
                           <FormSwitch className="mt-2 ml-auto" >
                             <FormSwitch.Input checked={item.status} type="checkbox" onChange={(c) => onChangeStutus(!item.status, item._id)} />
                           </FormSwitch>
@@ -215,42 +231,41 @@ console.log(limit)
         {/* END: Users Layout */}
         {/* BEGIN: Pagination */}
         <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap">
-          {state &&
-            <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap" >
-              <Pagination className="w-full sm:w-auto sm:mr-auto">
-                <Pagination.Link>
-                  <Lucide onClick={() => pagdnation(1)} icon="ChevronsLeft" className="w-4 h-4" />
-                </Pagination.Link>
-                <Pagination.Link>
-                  <Lucide onClick={() => pagdnation(pagdnationState?.currentPage > 1 ? pagdnationState?.currentPage - 1 : 1)} icon="ChevronLeft" className="w-4 h-4" />
-                </Pagination.Link>
-                {Array.from({ length: pagdnationState?.totalPages }, (_, index) => (
-                  <div onClick={() => pagdnation(index + 1)}>
-                    <Pagination.Link
-                      key={index}
-                      active={pagdnationState?.currentPage === index + 1}
-                    >
-                      {index + 1}
-                    </Pagination.Link>
-                  </div>
-                ))}
-                <Pagination.Link>
-                  <Lucide icon="ChevronRight" className="w-4 h-4"
-                    onClick={() =>
-                      pagdnation(pagdnationState?.currentPage < pagdnationState?.totalPages ? pagdnationState?.currentPage + 1 : pagdnationState?.totalPages)
-                    }
-                  />
-                </Pagination.Link>
-                <Pagination.Link>
-                  <Lucide icon="ChevronsRight" className="w-4 h-4" onClick={() => pagdnation(pagdnationState?.totalPages)} />
-                </Pagination.Link>
-              </Pagination>
-            </div>}
+          {state ?
+            <Pagination className="w-full sm:w-auto sm:mr-auto">
+              <Pagination.Link>
+                <Lucide onClick={() => pagdnation(1)} icon="ChevronsLeft" className="w-4 h-4" />
+              </Pagination.Link>
+              <Pagination.Link>
+                <Lucide onClick={() => pagdnation(pagdnationState?.currentPage > 1 ? pagdnationState?.currentPage - 1 : 1)} icon="ChevronLeft" className="w-4 h-4" />
+              </Pagination.Link>
+              {Array.from({ length: pagdnationState?.totalPages }, (_, index) => (
+                <div onClick={() => pagdnation(index + 1)}>
+                  <Pagination.Link
+                    key={index}
+                    active={pagdnationState?.currentPage === index + 1}
+                  >
+                    {index + 1}
+                  </Pagination.Link>
+                </div>
+              ))}
+              <Pagination.Link>
+                <Lucide icon="ChevronRight" className="w-4 h-4"
+                  onClick={() =>
+                    pagdnation(pagdnationState?.currentPage < pagdnationState?.totalPages ? pagdnationState?.currentPage + 1 : pagdnationState?.totalPages)
+                  }
+                />
+              </Pagination.Link>
+              <Pagination.Link>
+                <Lucide icon="ChevronsRight" className="w-4 h-4" onClick={() => pagdnation(pagdnationState?.totalPages)} />
+              </Pagination.Link>
+            </Pagination> : <div className="w-full sm:w-auto sm:mr-auto"/>
+          }
           <FormSelect className="w-20 mt-3 !box sm:mt-0" onChange={(e) => setLimit(e.target.value)} >
-            <option>10</option>
-            <option>25</option>
-            <option>35</option>
-            <option>50</option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>5</option>
           </FormSelect>
         </div>
         {/* END: Pagination */}

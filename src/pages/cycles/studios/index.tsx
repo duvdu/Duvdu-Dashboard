@@ -36,14 +36,14 @@ function Main() {
     dispatch(ActionGetStudio({ limit, page, search }))
   };
   const PaginationInfo = ({ pagination }) => {
-    if(!pagination) return <></>
+    if (!pagination) return <></>
     const { currentPage, resultCount, totalPages } = pagination;
-  
+
     // Calculate the start and end entry numbers
     const entriesPerPage = Math.ceil(resultCount / totalPages);
     const startEntry = (currentPage - 1) * entriesPerPage + 1;
     const endEntry = Math.min(currentPage * entriesPerPage, resultCount);
-  
+
     return (
       <div className="hidden mx-auto md:block text-slate-500">
         Showing {startEntry} to {endEntry} of {resultCount} entries
@@ -130,38 +130,37 @@ function Main() {
         {/* END: Users Layout */}
         {/* BEGIN: Pagination */}
         <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap">
-          {state &&
-            <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap" >
-              <Pagination className="w-full sm:w-auto sm:mr-auto">
-                <Pagination.Link>
-                  <Lucide onClick={() => pagdnation(1)} icon="ChevronsLeft" className="w-4 h-4" />
-                </Pagination.Link>
-                <Pagination.Link>
-                  <Lucide onClick={() => pagdnation(pagdnationState?.currentPage > 1 ? pagdnationState?.currentPage - 1 : 1)} icon="ChevronLeft" className="w-4 h-4" />
-                </Pagination.Link>
-                {Array.from({ length: pagdnationState?.totalPages }, (_, index) => (
-                  <div onClick={() => pagdnation(index + 1)}>
-                    <Pagination.Link
-                      key={index}
-                      active={pagdnationState?.currentPage === index + 1}
-                    >
-                      {index + 1}
-                    </Pagination.Link>
-                  </div>
-                ))}
-                <Pagination.Link>
-                  <Lucide icon="ChevronRight" className="w-4 h-4"
-                    onClick={() =>
-                      pagdnation(pagdnationState?.currentPage < pagdnationState?.totalPages ? pagdnationState?.currentPage + 1 : pagdnationState?.totalPages)
-                    }
-                  />
-                </Pagination.Link>
-                <Pagination.Link>
-                  <Lucide icon="ChevronsRight" className="w-4 h-4" onClick={() => pagdnation(pagdnationState?.totalPages)} />
-                </Pagination.Link>
-              </Pagination>
-            </div>}
-            <FormSelect className="w-20 mt-3 !box sm:mt-0" onChange={(e) => setLimit(e.target.value)} >
+          {state ?
+            <Pagination className="w-full sm:w-auto sm:mr-auto">
+              <Pagination.Link>
+                <Lucide onClick={() => pagdnation(1)} icon="ChevronsLeft" className="w-4 h-4" />
+              </Pagination.Link>
+              <Pagination.Link>
+                <Lucide onClick={() => pagdnation(pagdnationState?.currentPage > 1 ? pagdnationState?.currentPage - 1 : 1)} icon="ChevronLeft" className="w-4 h-4" />
+              </Pagination.Link>
+              {Array.from({ length: pagdnationState?.totalPages }, (_, index) => (
+                <div onClick={() => pagdnation(index + 1)}>
+                  <Pagination.Link
+                    key={index}
+                    active={pagdnationState?.currentPage === index + 1}
+                  >
+                    {index + 1}
+                  </Pagination.Link>
+                </div>
+              ))}
+              <Pagination.Link>
+                <Lucide icon="ChevronRight" className="w-4 h-4"
+                  onClick={() =>
+                    pagdnation(pagdnationState?.currentPage < pagdnationState?.totalPages ? pagdnationState?.currentPage + 1 : pagdnationState?.totalPages)
+                  }
+                />
+              </Pagination.Link>
+              <Pagination.Link>
+                <Lucide icon="ChevronsRight" className="w-4 h-4" onClick={() => pagdnation(pagdnationState?.totalPages)} />
+              </Pagination.Link>
+            </Pagination> : <div className="w-full sm:w-auto sm:mr-auto" />
+          }
+          <FormSelect className="w-20 mt-3 !box sm:mt-0" onChange={(e) => setLimit(e.target.value)} >
             <option>10</option>
             <option>25</option>
             <option>35</option>
