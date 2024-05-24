@@ -20,8 +20,11 @@ import { GetAllErrors } from "../../redux/stores/apis_errors";
 import Notification from "../../base-components/Notification";
 import Toastify from "toastify-js";
 import { useNavigate, useParams } from "react-router-dom";
+import { toRGB } from "../../utils/helper";
 
 function Main() {
+  
+
   const [searchDropdown, setSearchDropdown] = useState(false);
   const authState = useAppSelector(StateMyProfile)
   const notifications = useAppSelector(StateAllNotification)
@@ -216,7 +219,7 @@ function Main() {
                     >
                       <div className="w-8 h-8 image-fit">
                         <img
-                          alt="Midone Tailwind HTML Admin Template"
+                          alt="DuvDu Admin DashBoard"
                           className="rounded-full"
                           src={faker.photos[0]}
                         />
@@ -233,7 +236,7 @@ function Main() {
                   <a key={fakerKey} href="" className="flex items-center mt-2">
                     <div className="w-8 h-8 image-fit">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="DuvDu Admin DashBoard"
                         className="rounded-full"
                         src={faker.images[0]}
                       />
@@ -273,7 +276,7 @@ function Main() {
                 >
                   <div className="relative flex-none w-12 h-12 mr-1 image-fit">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="DuvDu Admin DashBoard"
                       className="rounded-full"
                       src={data.sourceUser.profileImage}
                     />
@@ -301,7 +304,7 @@ function Main() {
         <Menu>
           <Menu.Button className="block w-8 h-8 overflow-hidden rounded-full shadow-lg image-fit zoom-in intro-x">
             <img
-              alt="Midone Tailwind HTML Admin Template"
+              alt="DuvDu Admin DashBoard"
               src={imgurl}
             />
           </Menu.Button>

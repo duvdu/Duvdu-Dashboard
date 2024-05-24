@@ -95,19 +95,19 @@ module.exports = {
       addBase({
         // Default colors
         ":root": {
-          "--color-primary": toRGB(colors.emerald["900"]),
-          "--color-secondary": toRGB(colors.slate["200"]),
-          "--color-success": toRGB(colors.emerald["600"]),
-          "--color-info": toRGB(colors.cyan["500"]),
-          "--color-warning": toRGB(colors.yellow["400"]),
-          "--color-pending": toRGB(colors.amber["500"]),
-          "--color-danger": toRGB(colors.rose["600"]),
-          "--color-light": toRGB(colors.slate["100"]),
-          "--color-dark": toRGB(colors.slate["800"]),
+          "--color-primary": "26 115 235",  // 064e3b
+          "--color-secondary": toRGB(colors.slate["200"]),  
+          "--color-success": toRGB(colors.emerald["600"]),  // 059669
+          "--color-info": toRGB(colors.cyan["500"]),        // 06b6d4
+          "--color-warning": toRGB(colors.yellow["400"]),   // facc15
+          "--color-pending": toRGB(colors.amber["500"]),    
+          "--color-danger": toRGB(colors.rose["600"]),      
+          "--color-light": toRGB(colors.slate["100"]),      // f1f5f9
+          "--color-dark": toRGB(colors.slate["800"]),       // 1e293b
         },
         // Default dark-mode colors
         ".dark": {
-          "--color-primary": toRGB(colors.emerald["800"]),
+          "--color-primary": "26 115 235",
           "--color-darkmode-50": "87 103 132",
           "--color-darkmode-100": "74 90 121",
           "--color-darkmode-200": "65 81 114",

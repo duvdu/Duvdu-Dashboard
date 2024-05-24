@@ -156,7 +156,7 @@ function Main() {
                 <div className="relative flex items-center p-5 mt-5 cursor-pointer box">
                   <div className="flex-none w-12 h-12 mr-1 image-fit">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="DuvDu Admin DashBoard"
                       className="rounded-full"
                       src={fakerData[0].photos[0]}
                     />
@@ -194,7 +194,7 @@ function Main() {
                 <div className="relative flex items-center p-5 mt-5 cursor-pointer box">
                   <div className="flex-none w-12 h-12 mr-1 image-fit">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="DuvDu Admin DashBoard"
                       className="rounded-full"
                       src={fakerData[1].photos[0]}
                     />
@@ -233,7 +233,7 @@ function Main() {
                 <div className="relative flex items-center p-5 mt-5 cursor-pointer box">
                   <div className="flex-none w-12 h-12 mr-1 image-fit">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="DuvDu Admin DashBoard"
                       className="rounded-full"
                       src={fakerData[2].photos[0]}
                     />
@@ -271,7 +271,7 @@ function Main() {
                 <div className="relative flex items-center p-5 mt-5 cursor-pointer box">
                   <div className="flex-none w-12 h-12 mr-1 image-fit">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="DuvDu Admin DashBoard"
                       className="rounded-full"
                       src={fakerData[3].photos[0]}
                     />
@@ -309,7 +309,7 @@ function Main() {
                 <div className="relative flex items-center p-5 mt-5 cursor-pointer box">
                   <div className="flex-none w-12 h-12 mr-1 image-fit">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="DuvDu Admin DashBoard"
                       className="rounded-full"
                       src={fakerData[4].photos[0]}
                     />
@@ -351,7 +351,7 @@ function Main() {
                 <div className="px-5 py-10 mt-5 box">
                   <div className="flex-none w-20 h-20 mx-auto overflow-hidden rounded-full image-fit">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="DuvDu Admin DashBoard"
                       src={fakerData[0].photos[0]}
                     />
                   </div>
@@ -423,7 +423,7 @@ function Main() {
                   <div className="flex items-center">
                     <div className="relative flex-none w-10 h-10 sm:w-12 sm:h-12 image-fit">
                       {/* <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="DuvDu Admin DashBoard"
                         className="rounded-full"
                         src={fakerData[0].photos[0]}
                       /> */}
@@ -444,7 +444,7 @@ function Main() {
                     <div className="flex items-end float-left mb-4 max-w-[90%] sm:max-w-[49%]">
                       <div className="relative flex-none hidden w-10 h-10 mr-5 sm:block image-fit">
                         {/* <img
-                          alt="Midone Tailwind HTML Admin Template"
+                          alt="DuvDu Admin DashBoard"
                           className="rounded-full"
                           src={fakerData[0].photos[0]}
                         /> */}
@@ -502,7 +502,7 @@ function Main() {
                     </div>
                     <div className="relative flex-none hidden w-10 h-10 ml-5 sm:block image-fit">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="DuvDu Admin DashBoard"
                         className="rounded-full"
                         src={fakerData[1].photos[0]}
                       />
@@ -512,7 +512,7 @@ function Main() {
                   <div className="flex items-end float-left mb-4 max-w-[90%] sm:max-w-[49%]">
                     <div className="relative flex-none hidden w-10 h-10 mr-5 sm:block image-fit">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="DuvDu Admin DashBoard"
                         className="rounded-full"
                         src={fakerData[0].photos[0]}
                       />
@@ -552,7 +552,7 @@ function Main() {
                 <div className="mx-auto text-center">
                   <div className="flex-none w-16 h-16 mx-auto overflow-hidden rounded-full image-fit">
                     {/* <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="DuvDu Admin DashBoard"
                       src={fakerData[0].photos[0]}
                     /> */}
                   </div>

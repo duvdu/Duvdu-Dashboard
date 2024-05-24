@@ -24,7 +24,7 @@ function Main() {
             <div className="flex-col hidden min-h-screen xl:flex">
               <a href="" className="flex items-center pt-5 -intro-x">
                 <img
-                  alt="Midone Tailwind HTML Admin Template"
+                  alt="DuvDu Admin DashBoard"
                   className="w-6"
                   src={logoUrl}
                 />
@@ -32,7 +32,7 @@ function Main() {
               </a>
               <div className="my-auto">
                 <img
-                  alt="Midone Tailwind HTML Admin Template"
+                  alt="DuvDu Admin DashBoard"
                   className="w-1/2 -mt-16 -intro-x"
                   src={illustrationUrl}
                 />

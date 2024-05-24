@@ -227,7 +227,7 @@ function Main() {
                         <div className="relative flex items-center py-1">
                           <div className="w-12 h-12 image-fit">
                             <img
-                              alt="Midone Tailwind HTML Admin Template"
+                              alt="DuvDu Admin DashBoard"
                               className="rounded-full"
                               src={fakerData[0].photos[0]}
                             />
@@ -266,7 +266,7 @@ function Main() {
                   >
                     <div className="w-12 h-12 image-fit">
                       <img
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="DuvDu Admin DashBoard"
                         className="rounded-full"
                         src={fakerData[0].photos[0]}
                       />

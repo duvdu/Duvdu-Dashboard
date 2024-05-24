@@ -324,7 +324,7 @@ function Main() {
                         </a>
                         <div className="relative flex-none w-6 h-6 ml-5 image-fit">
                           <img
-                            alt="Midone Tailwind HTML Admin Template"
+                            alt="DuvDu Admin DashBoard"
                             className="rounded-full"
                             src={faker.photos[0]}
                           />

@@ -70,7 +70,7 @@ function Main() {
                       </p>
                       <div className="w-full h-64 my-5 image-fit">
                         <ImageZoom
-                          alt="Midone Tailwind HTML Admin Template"
+                          alt="DuvDu Admin DashBoard"
                           src={fakerData[0].images[0]}
                           className="w-full rounded-md"
                         />
@@ -119,7 +119,7 @@ function Main() {
                       </p>
                       <div className="float-left w-3/5 h-64 mr-6 image-fit">
                         <ImageZoom
-                          alt="Midone Tailwind HTML Admin Template"
+                          alt="DuvDu Admin DashBoard"
                           src={fakerData[0].images[1]}
                           className="w-full rounded-md"
                         />
@@ -201,7 +201,7 @@ function Main() {
                 </p>
                 <div className="w-full h-64 my-5 image-fit">
                   <img
-                    alt="Midone Tailwind HTML Admin Template"
+                    alt="DuvDu Admin DashBoard"
                     src={fakerData[0].images[0]}
                     className="w-full rounded-md"
                   />
@@ -247,7 +247,7 @@ function Main() {
                 </p>
                 <div className="float-left w-3/5 h-64 mr-6 image-fit">
                   <img
-                    alt="Midone Tailwind HTML Admin Template"
+                    alt="DuvDu Admin DashBoard"
                     src={fakerData[0].images[1]}
                     className="w-full rounded-md"
                   />

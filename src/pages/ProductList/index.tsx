@@ -92,7 +92,7 @@ function Main() {
                       <div className="w-10 h-10 image-fit zoom-in">
                         <Tippy
                           as="img"
-                          alt="Midone Tailwind HTML Admin Template"
+                          alt="DuvDu Admin DashBoard"
                           className="rounded-full shadow-[0px_0px_0px_2px_#fff,_1px_1px_5px_rgba(0,0,0,0.32)] dark:shadow-[0px_0px_0px_2px_#3f4865,_1px_1px_5px_rgba(0,0,0,0.32)]"
                           src={faker.images[0]}
                           content={`Uploaded at ${faker.dates[0]}`}
@@ -101,7 +101,7 @@ function Main() {
                       <div className="w-10 h-10 -ml-5 image-fit zoom-in">
                         <Tippy
                           as="img"
-                          alt="Midone Tailwind HTML Admin Template"
+                          alt="DuvDu Admin DashBoard"
                           className="rounded-full shadow-[0px_0px_0px_2px_#fff,_1px_1px_5px_rgba(0,0,0,0.32)] dark:shadow-[0px_0px_0px_2px_#3f4865,_1px_1px_5px_rgba(0,0,0,0.32)]"
                           src={faker.images[1]}
                           content={`Uploaded at ${faker.dates[1]}`}
@@ -110,7 +110,7 @@ function Main() {
                       <div className="w-10 h-10 -ml-5 image-fit zoom-in">
                         <Tippy
                           as="img"
-                          alt="Midone Tailwind HTML Admin Template"
+                          alt="DuvDu Admin DashBoard"
                           className="rounded-full shadow-[0px_0px_0px_2px_#fff,_1px_1px_5px_rgba(0,0,0,0.32)] dark:shadow-[0px_0px_0px_2px_#3f4865,_1px_1px_5px_rgba(0,0,0,0.32)]"
                           src={faker.images[2]}
                           content={`Uploaded at ${faker.dates[2]}`}

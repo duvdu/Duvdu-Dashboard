@@ -489,7 +489,7 @@ function Main() {
                       >
                         <div className="flex-none w-10 h-10 overflow-hidden rounded-full image-fit">
                           <img
-                            alt="Midone Tailwind HTML Admin Template"
+                            alt="DuvDu Admin DashBoard"
                             src={fakerData[0].photos[0]}
                           />
                         </div>
@@ -536,7 +536,7 @@ function Main() {
                 >
                   <div className="flex-none w-10 h-10 overflow-hidden rounded-full image-fit">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="DuvDu Admin DashBoard"
                       src={fakerData[0].photos[0]}
                     />
                   </div>

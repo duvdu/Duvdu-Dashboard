@@ -28,7 +28,7 @@ function Main() {
             <div className="relative flex items-center p-5">
               <div className="w-12 h-12 image-fit">
                 <img
-                  alt="Midone Tailwind HTML Admin Template"
+                  alt="DuvDu Admin DashBoard"
                   className="rounded-full"
                   src={fakerData[0].photos[0]}
                 />
@@ -245,7 +245,7 @@ function Main() {
                     <div className="relative h-40 mx-auto cursor-pointer image-fit zoom-in">
                       <img
                         className="rounded-md"
-                        alt="Midone Tailwind HTML Admin Template"
+                        alt="DuvDu Admin DashBoard"
                         src={fakerData[0].photos[0]}
                       />
                       <Tippy

@@ -50,7 +50,6 @@ function Main() {
   const filterCategory = (id: string) => {
     setCategory(categories.find(category => category._id === id));
   }
-  console.log(limit)
   useEffect(() => {
     dispatch(ActionGetCategory({ limit, page, search }))
   }, [dispatch, stateDeleteCategory, createCategory, limit, page, search])

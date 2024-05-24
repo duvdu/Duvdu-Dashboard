@@ -16,15 +16,14 @@ import _ from "lodash";
 import { useAppSelector, useAppDispatch } from "../../redux/stores/hooks";
 import { selectFormState, updateFormData, insertToArray, removeItemFromField, resetForm, createFormData } from "../../redux/stores/form";
 import { Popover } from "../../base-components/Headless";
-import { ActionCreateCategory } from "../../redux/action/api/category/create";
 import Toastify from "toastify-js";
 import Notification from "../../base-components/Notification";
 import { StateCreateCategory } from "../../redux/stores/api/category/create";
 import { ActionUpdateCategory } from "../../redux/action/api/category/update";
-import { useParams } from "react-router-dom";
-import { ActionGetCategoryById } from "../../redux/action/api/category/getById";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { StateCategory } from "../../redux/stores/api/category/category";
 import { ActionGetCategory } from "../../redux/action/api/category/get";
+import LoadingIcon from "../../base-components/LoadingIcon";
 
 function Main() {
   const [editorData, setEditorData] = useState("<p>Content of the editor.</p>");
@@ -39,6 +38,7 @@ function Main() {
   const list = useAppSelector(StateCategory)?.data?.data || [];
   const dispatch = useAppDispatch()
   const { id } = useParams();
+  const navigate = useNavigate();
   // const formGet = list[0] || []
 
   useEffect(() => {
@@ -49,12 +49,12 @@ function Main() {
     if (categorey) {
       dispatch(createFormData({ value: categorey }))
     }
-  }, [categorey]) 
+  }, [categorey])
 
 
   useEffect(() => {
     if ((list?.length || 0) == 0)
-      dispatch(ActionGetCategory())
+      dispatch(ActionGetCategory({ page: 1, limit: 1000 }))
   }, [dispatch])
 
 
@@ -102,6 +102,7 @@ function Main() {
       .querySelector("#success-notification-content")!
       .cloneNode(true) as HTMLElement;
     failedEl.classList.remove("hidden");
+    navigate(`/categories`)
 
     Toastify({
       node: failedEl,
@@ -213,7 +214,7 @@ function Main() {
     putInBasket('cycle', value);
   }, [type]);
 
-
+  
   return (
     <>
       <Notification
@@ -472,6 +473,7 @@ function Main() {
             <div className="p-5 border rounded-md border-slate-200/60 dark:border-darkmode-400">
               <div className="mt-3">
                 <FormLabel htmlFor="crud-form-3">Cycle</FormLabel>
+                {formState.cycle &&
                 <FormSelect defaultValue={formState.cycle?.replace('-', ' ')} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => setType(e.target.value)}>
                   {[
                     "Choose Type",
@@ -482,7 +484,7 @@ function Main() {
                   ].map((item, index) =>
                     <option key={index}>{item}</option>
                   )}
-                </FormSelect>
+                </FormSelect>}
               </div>
 
               <div className="mt-3">

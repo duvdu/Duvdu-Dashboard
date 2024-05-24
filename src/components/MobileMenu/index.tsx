@@ -49,7 +49,7 @@ function Main() {
         <div className="h-[70px] px-3 sm:px-8 flex items-center">
           <a href="" className="flex mr-auto">
             <img
-              alt="Midone Tailwind HTML Admin Template"
+              alt="DuvDu Admin DashBoard"
               className="w-6"
               src={logoUrl}
             />

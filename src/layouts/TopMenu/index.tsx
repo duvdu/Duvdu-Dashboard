@@ -47,7 +47,7 @@ function Main() {
             className="hidden -intro-x md:flex"
           >
             <img
-              alt="Midone Tailwind HTML Admin Template"
+              alt="DuvDu Admin DashBoard"
               className="w-6"
               src={logoUrl}
             />
@@ -126,7 +126,7 @@ function Main() {
                       >
                         <div className="w-8 h-8 image-fit">
                           <img
-                            alt="Midone Tailwind HTML Admin Template"
+                            alt="DuvDu Admin DashBoard"
                             className="rounded-full"
                             src={faker.photos[0]}
                           />
@@ -147,7 +147,7 @@ function Main() {
                     >
                       <div className="w-8 h-8 image-fit">
                         <img
-                          alt="Midone Tailwind HTML Admin Template"
+                          alt="DuvDu Admin DashBoard"
                           className="rounded-full"
                           src={faker.images[0]}
                         />
@@ -185,7 +185,7 @@ function Main() {
                 >
                   <div className="relative flex-none w-12 h-12 mr-1 image-fit">
                     <img
-                      alt="Midone Tailwind HTML Admin Template"
+                      alt="DuvDu Admin DashBoard"
                       className="rounded-full"
                       src={faker.photos[0]}
                     />
@@ -213,7 +213,7 @@ function Main() {
           <Menu>
             <Menu.Button className="block w-8 h-8 overflow-hidden scale-110 rounded-full shadow-lg image-fit zoom-in intro-x">
               <img
-                alt="Midone Tailwind HTML Admin Template"
+                alt="DuvDu Admin DashBoard"
                 src={fakerData[9].photos[0]}
               />
             </Menu.Button>

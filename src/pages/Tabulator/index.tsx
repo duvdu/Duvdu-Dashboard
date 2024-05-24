@@ -84,21 +84,21 @@ function Main() {
               return response.images
                 ? `<div class="flex lg:justify-center">
                     <div class="intro-x w-10 h-10 image-fit">
-                      <img alt="Midone Tailwind HTML Admin Template" class="rounded-full shadow-[0px_0px_0px_2px_#fff,_1px_1px_5px_rgba(0,0,0,0.32)] dark:shadow-[0px_0px_0px_2px_#3f4865,_1px_1px_5px_rgba(0,0,0,0.32)]" src="${
+                      <img alt="DuvDu Admin DashBoard" class="rounded-full shadow-[0px_0px_0px_2px_#fff,_1px_1px_5px_rgba(0,0,0,0.32)] dark:shadow-[0px_0px_0px_2px_#3f4865,_1px_1px_5px_rgba(0,0,0,0.32)]" src="${
                         imageAssets[
                           "/src/assets/images/fakers/" + response.images[0]
                         ].default
                       }">
                     </div>
                     <div class="intro-x w-10 h-10 image-fit -ml-5">
-                      <img alt="Midone Tailwind HTML Admin Template" class="rounded-full shadow-[0px_0px_0px_2px_#fff,_1px_1px_5px_rgba(0,0,0,0.32)] dark:shadow-[0px_0px_0px_2px_#3f4865,_1px_1px_5px_rgba(0,0,0,0.32)]" src="${
+                      <img alt="DuvDu Admin DashBoard" class="rounded-full shadow-[0px_0px_0px_2px_#fff,_1px_1px_5px_rgba(0,0,0,0.32)] dark:shadow-[0px_0px_0px_2px_#3f4865,_1px_1px_5px_rgba(0,0,0,0.32)]" src="${
                         imageAssets[
                           "/src/assets/images/fakers/" + response.images[1]
                         ].default
                       }">
                     </div>
                     <div class="intro-x w-10 h-10 image-fit -ml-5">
-                      <img alt="Midone Tailwind HTML Admin Template" class="rounded-full shadow-[0px_0px_0px_2px_#fff,_1px_1px_5px_rgba(0,0,0,0.32)] dark:shadow-[0px_0px_0px_2px_#3f4865,_1px_1px_5px_rgba(0,0,0,0.32)]" src="${
+                      <img alt="DuvDu Admin DashBoard" class="rounded-full shadow-[0px_0px_0px_2px_#fff,_1px_1px_5px_rgba(0,0,0,0.32)] dark:shadow-[0px_0px_0px_2px_#3f4865,_1px_1px_5px_rgba(0,0,0,0.32)]" src="${
                         imageAssets[
                           "/src/assets/images/fakers/" + response.images[2]
                         ].default

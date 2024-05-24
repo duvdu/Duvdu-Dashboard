@@ -199,6 +199,55 @@ const slideDown = (
   }, duration);
 };
 
+// Function to format file size
+function formatFileSize(bytes: number): string {
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  let i = 0;
+  while (bytes > 1024 && i < units.length - 1) {
+    bytes /= 1024;
+    i++;
+  }
+  return `${bytes.toFixed(2)}${units[i]}`;
+}
+
+// Function to go back to the previous page
+export const Goback = (): void => {
+  window.history.back();
+};
+
+// Define a type for the file information
+export interface FileInfo {
+  fileName: string;
+  fileType: string;
+  formattedFileSize: string;
+  file: File;
+}
+
+// Function to handle multiple file uploads
+function handleMultipleFileUpload(event: React.ChangeEvent<HTMLInputElement>): FileInfo[] {
+  const files = event.target.files; // Get all selected files
+  if (!files || files.length === 0) {
+    return []; // No files selected, return empty array
+  }
+
+  // Convert FileList to an array and map over it to gather file info
+  return Array.from(files).map((file: File) => {
+    const fileName = file.name;
+    const fileType = file.type;
+    const fileSize = file.size;
+
+    // Optional: Format the file size for human readability
+    const formattedFileSize = formatFileSize(fileSize);
+
+    return {
+      fileName: fileName,
+      fileType: fileType,
+      formattedFileSize: formattedFileSize,
+      file: file
+    };
+  });
+}
+
 export {
   cutText,
   formatDate,
@@ -214,4 +263,5 @@ export {
   stringToHTML,
   slideUp,
   slideDown,
+  handleMultipleFileUpload
 };

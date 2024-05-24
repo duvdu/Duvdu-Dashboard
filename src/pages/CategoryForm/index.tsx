@@ -20,6 +20,7 @@ import { ActionCreateCategory } from "../../redux/action/api/category/create";
 import Toastify from "toastify-js";
 import Notification from "../../base-components/Notification";
 import { StateCreateCategory } from "../../redux/stores/api/category/create";
+import LoadingIcon from "../../base-components/LoadingIcon";
 
 function Main() {
   const [editorData, setEditorData] = useState("<p>Content of the editor.</p>");
@@ -154,11 +155,11 @@ function Main() {
       stopOnFocus: true,
     }).showToast();
   }
-  const handleEnglishChange = (event : any) => {
+  const handleEnglishChange = (event: any) => {
     setEnglishTag(event.target.value);
   };
 
-  const handleArabicChange = (event : any) => {
+  const handleArabicChange = (event: any) => {
     setArabicTag(event.target.value);
   };
   const putInBasket = (field: string, value: any) => dispatch(updateFormData({ field: field, value: value }))
@@ -267,8 +268,11 @@ function Main() {
         </div>
       </Notification>
       <div className="flex items-center mt-8 intro-y">
-        <h2 className="mr-auto text-lg font-medium">Add Categorey</h2>
+        <div>
+          <h2 className="mr-auto text-lg font-medium">Add Categorey</h2>
+        </div>
       </div>
+
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="col-span-12 intro-y lg:col-span-6">
           <div className="p-5 intro-y box mt-4">
@@ -299,6 +303,9 @@ function Main() {
                       type="file"
                       className="absolute top-0 left-0 w-full h-full opacity-0"
                       onChange={handleFileChange}
+                      onClick={(event) => {
+                        event.target.value = null;
+                      }}
                     />
                   </div>
                 </div>
@@ -556,7 +563,13 @@ function Main() {
             </Button>
             <Button onClick={onSubmit} type="button" variant="primary" className="w-24" disabled={isValidate().isDisable}  >
               Save
+              {
+                stateCreateCategory.loading &&
+                <LoadingIcon icon="puff" className="ml-3" />
+              }
             </Button>
+            
+            
             {isValidate().isDisable && (
               <div className="mt-2 text-danger">
                 {isValidate().reason}

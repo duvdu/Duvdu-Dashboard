@@ -57,7 +57,7 @@ function Main() {
               <div className="flex flex-col items-center p-5 border-b lg:flex-row border-slate-200/60 dark:border-darkmode-400">
                 <div className="w-24 h-24 lg:w-12 lg:h-12 image-fit lg:mr-1">
                   <img
-                    alt="Midone Tailwind HTML Admin Template"
+                    alt="DuvDu Admin DashBoard"
                     className="rounded-full"
                     src={faker.photos[0]}
                   />
