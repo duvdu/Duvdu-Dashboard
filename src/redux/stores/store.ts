@@ -25,6 +25,12 @@ import chat from "./api/chat/one";
 import allchat from "./api/chat/all";
 import sendmessage from "./api/chat/sendMsg";
 
+import updateRole from "./api/roles/update";
+import getRoleById from "./api/roles/getById";
+import getAllRole from "./api/roles/getAll";
+import deleteRole from "./api/roles/delete";
+import createRole from "./api/roles/create";
+
 export const store = configureStore({
   reducer: {
     darkMode: darkModeReducer,
@@ -50,7 +56,12 @@ export const store = configureStore({
     chat,
     allchat,
     sendmessage,
-    terms
+    terms,
+    updateRole,
+    getRoleById,
+    getAllRole,
+    deleteRole,
+    createRole
   },
 });
 

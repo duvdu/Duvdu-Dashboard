@@ -19,30 +19,42 @@ function Main() {
   const pagdnationState = state?.pagination
 
   const [limit, setLimit] = useState("10");
-  const [page, setPage] = useState("1");
+  const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
-  
+
   const dispatch = useAppDispatch()
 
   const data = stateGetPortfolio?.data?.data
-  
-  useEffect(() => {
-    dispatch(ActionGetPortfolio({ limit, page, search }))
-  }, [dispatch,  limit, page, search])
 
-  const pagdnation = (page: number) => {
+  useEffect(() => {
+    if(search.length == 0)
+      action()
+  }, [dispatch, search.length == 0])
+
+  useEffect(() => {
+    action()
+  }, [dispatch, limit, page])
+
+  const handleSearch = () => action();
+
+  const action = ()=>{
     dispatch(ActionGetPortfolio({ limit, page, search }))
-  };
-  
+}
+const handleKeyDown = (e) => {
+  if (e.key === 'Enter' && search.length > 0) {
+    handleSearch();
+  }
+};
   const PaginationInfo = ({ pagination }) => {
-    if(!pagination) return <></>
+    if (!pagination) return <div className="hidden mx-auto md:block text-slate-500"/>
+
     const { currentPage, resultCount, totalPages } = pagination;
-  
+
     // Calculate the start and end entry numbers
     const entriesPerPage = Math.ceil(resultCount / totalPages);
     const startEntry = (currentPage - 1) * entriesPerPage + 1;
     const endEntry = Math.min(currentPage * entriesPerPage, resultCount);
-  
+
     return (
       <div className="hidden mx-auto md:block text-slate-500">
         Showing {startEntry} to {endEntry} of {resultCount} entries
@@ -55,14 +67,15 @@ function Main() {
       <h2 className="mt-10 text-lg font-medium intro-y">Portfolios</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
-        <PaginationInfo pagination={pagdnationState} />
           <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-auto md:ml-0">
             <div className="relative w-56 text-slate-500">
-            <FormInput
+              <FormInput
                 type="text"
                 className="w-56 pr-10 !box"
                 placeholder="Search..."
+                value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
               <Lucide
                 icon="Search"
@@ -70,90 +83,98 @@ function Main() {
               />
             </div>
           </div>
+          <Menu>
+            <Menu.Button as={Button} className="px-2 !box mx-2" onClick={handleSearch}>
+              <span className="flex items-center justify-center w-5 h-5">
+                <Lucide icon="Search" className="w-4 h-4" />
+              </span>
+            </Menu.Button>
+          </Menu>
+          <PaginationInfo pagination={pagdnationState} />
         </div>
         {/* BEGIN: Users Layout */}
         {
-        data &&
-        data.map((item, key) => (
-          <div
-            key={item._id}
-            className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"
-          >
-            <div className="box">
-              <div className="p-5">
-                <div className="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
-                  <img
-                    alt="Midone - HTML Admin Template"
-                    className="rounded-md"
-                    src={item.cover}
-                  />
-                  <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
-                    <a href="" className="block text-base font-medium">
-                      {item.title}
-                    </a>
-                    <span className="mt-3 text-xs text-white/90">
+          data &&
+          data.map((item, key) => (
+            <div
+              key={item._id}
+              className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"
+            >
+              <div className="box">
+                <div className="p-5">
+                  <div className="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
+                    <img
+                      alt="Midone - HTML Admin Template"
+                      className="rounded-md"
+                      src={item.cover}
+                    />
+                    <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
+                      <a href="" className="block text-base font-medium">
+                        {item.title}
+                      </a>
+                      <span className="mt-3 text-xs text-white/90">
+                        {item.user.name}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-5 text-slate-600 dark:text-slate-500">
+                    <div className="flex items-center">
+                      <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
+                      {item.projectBudget}
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <Lucide icon="Layers" className="w-4 h-4 mr-2" />
                       {item.user.name}
-                    </span>
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
+                      {item.projectScale.scale + " "}
+                      {item.projectScale.time}
+                    </div>
                   </div>
                 </div>
-                <div className="mt-5 text-slate-600 dark:text-slate-500">
-                  <div className="flex items-center">
-                    <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
-                    {item.projectBudget}
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <Lucide icon="Layers" className="w-4 h-4 mr-2" /> 
-                    {item.user.name}
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
-                    {item.projectScale.scale+" "}
-                    {item.projectScale.time}
-                  </div>
+                <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400 hidden">
+                  <a className="flex items-center mr-auto text-primary" href="#">
+                    <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
+                  </a>
                 </div>
-              </div>
-              <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400">
-                <a className="flex items-center mr-auto text-primary" href="#">
-                  <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
-                </a>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
         {/* END: Users Layout */}
         {/* BEGIN: Pagination */}
         <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap">
-        {state &&
-              <Pagination className="w-full sm:w-auto sm:mr-auto">
-                <Pagination.Link>
-                  <Lucide onClick={() => pagdnation(1)} icon="ChevronsLeft" className="w-4 h-4" />
-                </Pagination.Link>
-                <Pagination.Link>
-                  <Lucide onClick={() => pagdnation(pagdnationState?.currentPage > 1 ? pagdnationState?.currentPage - 1 : 1)} icon="ChevronLeft" className="w-4 h-4" />
-                </Pagination.Link>
-                {Array.from({ length: pagdnationState?.totalPages }, (_, index) => (
-                  <div onClick={() => pagdnation(index + 1)}>
-                    <Pagination.Link
-                      key={index}
-                      active={pagdnationState?.currentPage === index + 1}
-                    >
-                      {index + 1}
-                    </Pagination.Link>
-                  </div>
-                ))}
-                <Pagination.Link>
-                  <Lucide icon="ChevronRight" className="w-4 h-4"
-                    onClick={() =>
-                      pagdnation(pagdnationState?.currentPage < pagdnationState?.totalPages ? pagdnationState?.currentPage + 1 : pagdnationState?.totalPages)
-                    }
-                  />
-                </Pagination.Link>
-                <Pagination.Link>
-                  <Lucide icon="ChevronsRight" className="w-4 h-4" onClick={() => pagdnation(pagdnationState?.totalPages)} />
-                </Pagination.Link>
-              </Pagination>
-            }
-            <FormSelect className="w-20 mt-3 !box sm:mt-0"  onChange={(e) => setLimit(e.target.value)} >
+          {state &&
+            <Pagination className="w-full sm:w-auto sm:mr-auto">
+              <Pagination.Link>
+                <Lucide onClick={() => setPage(1)} icon="ChevronsLeft" className="w-4 h-4" />
+              </Pagination.Link>
+              <Pagination.Link>
+                <Lucide onClick={() => setPage(pagdnationState?.currentPage > 1 ? pagdnationState?.currentPage - 1 : 1)} icon="ChevronLeft" className="w-4 h-4" />
+              </Pagination.Link>
+              {Array.from({ length: pagdnationState?.totalPages }, (_, index) => (
+                <div onClick={() => setPage(index + 1)}>
+                  <Pagination.Link
+                    key={index}
+                    active={pagdnationState?.currentPage === index + 1}
+                  >
+                    {index + 1}
+                  </Pagination.Link>
+                </div>
+              ))}
+              <Pagination.Link>
+                <Lucide icon="ChevronRight" className="w-4 h-4"
+                  onClick={() =>
+                    setPage(pagdnationState?.currentPage < pagdnationState?.totalPages ? pagdnationState?.currentPage + 1 : pagdnationState?.totalPages)
+                  }
+                />
+              </Pagination.Link>
+              <Pagination.Link>
+                <Lucide icon="ChevronsRight" className="w-4 h-4" onClick={() => setPage(pagdnationState?.totalPages)} />
+              </Pagination.Link>
+            </Pagination>
+          }
+          <FormSelect className="w-20 mt-3 !box sm:mt-0" onChange={(e) => setLimit(e.target.value)} >
             <option>10</option>
             <option>25</option>
             <option>35</option>

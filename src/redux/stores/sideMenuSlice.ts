@@ -21,7 +21,6 @@ const initialState: SideMenuState = {
       title: "Dashboard",
       pathname: "/",
     },
-
     {
       icon: "ShoppingBag",
       title: "categories",
@@ -44,7 +43,7 @@ const initialState: SideMenuState = {
       subMenu: [
         {
           icon: "Activity",
-          title: "grid",
+          title: "all portfolio posts",
           pathname: "/portfolio-post",
         },
       ],
@@ -55,7 +54,7 @@ const initialState: SideMenuState = {
       subMenu: [
         {
           icon: "Activity",
-          title: "grid",
+          title: "all copy rights",
           pathname: "/copy-rights",
         },
       ],
@@ -66,7 +65,7 @@ const initialState: SideMenuState = {
       subMenu: [
         {
           icon: "Activity",
-          title: "grid",
+          title: "all studio booking",
           pathname: "/studio-booking",
         },
       ],
@@ -77,7 +76,7 @@ const initialState: SideMenuState = {
       subMenu: [
         {
           icon: "Activity",
-          title: "grid",
+          title: "all producer",
           pathname: "/producer",
         },
       ],
@@ -97,43 +96,16 @@ const initialState: SideMenuState = {
       pathname: "/allchats",
       title: "Chats",
     },
-
-    
-
-    {
-      icon: "Inbox",
-      pathname: "/inbox",
-      title: "Inbox",
-    },
     {
       icon: "HardDrive",
-      pathname: "/file-manager",
-      title: "File Manager",
+      pathname: "/roles",
+      title: "roles",
     },
-    {
-      icon: "CreditCard",
-      pathname: "/point-of-sale",
-      title: "Point of Sale",
-    },
-    {
-      icon: "MessageSquare",
-      pathname: "/chat",
-      title: "Chat",
-    },
-    {
-      icon: "FileText",
-      pathname: "/post",
-      title: "Post",
-    },
-    {
-      icon: "Calendar",
-      pathname: "/calendar",
-      title: "Calendar",
-    },
+
     "divider",
     {
       icon: "Edit",
-      title: "Crud",
+      title: "app tabs",
       subMenu: [
         {
           icon: "Activity",
@@ -145,17 +117,41 @@ const initialState: SideMenuState = {
           pathname: "/crud-form",
           title: "Form",
         },
-      ],
-    },
-    {
-      icon: "Users",
-      title: "Users",
-      pathname: "/users-layout-2",
-    },
-    {
-      icon: "Trello",
-      title: "Profile",
-      subMenu: [
+        {
+          icon: "Inbox",
+          pathname: "/inbox",
+          title: "Inbox",
+        },
+        {
+          icon: "HardDrive",
+          pathname: "/file-manager",
+          title: "File Manager",
+        },
+        {
+          icon: "CreditCard",
+          pathname: "/point-of-sale",
+          title: "Point of Sale",
+        },
+        {
+          icon: "MessageSquare",
+          pathname: "/chat",
+          title: "Chat",
+        },
+        {
+          icon: "FileText",
+          pathname: "/post",
+          title: "Post",
+        },
+        {
+          icon: "Calendar",
+          pathname: "/calendar",
+          title: "Calendar",
+        },
+        {
+          icon: "Users",
+          title: "Users",
+          pathname: "/users-layout-2",
+        },
         {
           icon: "Activity",
           pathname: "/profile-overview-1",
@@ -171,106 +167,70 @@ const initialState: SideMenuState = {
           pathname: "/profile-overview-3",
           title: "Overview 3",
         },
-      ],
-    },
-    {
-      icon: "Layout",
-      title: "Pages",
-      subMenu: [
         {
-          icon: "Activity",
-          title: "Wizards",
-          subMenu: [
-            {
-              icon: "Zap",
-              pathname: "/wizard-layout-1",
-              title: "Layout 1",
-            },
-            {
-              icon: "Zap",
-              pathname: "/wizard-layout-2",
-              title: "Layout 2",
-            },
-            {
-              icon: "Zap",
-              pathname: "/wizard-layout-3",
-              title: "Layout 3",
-            },
-          ],
+          icon: "Zap",
+          pathname: "/wizard-layout-1",
+          title: "Layout 1",
         },
         {
-          icon: "Activity",
-          title: "Blog",
-          subMenu: [
-            {
-              icon: "Zap",
-              pathname: "/blog-layout-1",
-              title: "Layout 1",
-            },
-            {
-              icon: "Zap",
-              pathname: "/blog-layout-2",
-              title: "Layout 2",
-            },
-            {
-              icon: "Zap",
-              pathname: "/blog-layout-3",
-              title: "Layout 3",
-            },
-          ],
+          icon: "Zap",
+          pathname: "/wizard-layout-2",
+          title: "Layout 2",
         },
         {
-          icon: "Activity",
-          title: "Pricing",
-          subMenu: [
-            {
-              icon: "Zap",
-              pathname: "/pricing-layout-1",
-              title: "Layout 1",
-            },
-            {
-              icon: "Zap",
-              pathname: "/pricing-layout-2",
-              title: "Layout 2",
-            },
-          ],
+          icon: "Zap",
+          pathname: "/wizard-layout-3",
+          title: "Layout 3",
         },
         {
-          icon: "Activity",
-          title: "Invoice",
-          subMenu: [
-            {
-              icon: "Zap",
-              pathname: "/invoice-layout-1",
-              title: "Layout 1",
-            },
-            {
-              icon: "Zap",
-              pathname: "/invoice-layout-2",
-              title: "Layout 2",
-            },
-          ],
+          icon: "Zap",
+          pathname: "/blog-layout-1",
+          title: "Layout 1",
         },
         {
-          icon: "Activity",
-          title: "FAQ",
-          subMenu: [
-            {
-              icon: "Zap",
-              pathname: "/faq-layout-1",
-              title: "Layout 1",
-            },
-            {
-              icon: "Zap",
-              pathname: "/faq-layout-2",
-              title: "Layout 2",
-            },
-            {
-              icon: "Zap",
-              pathname: "/faq-layout-3",
-              title: "Layout 3",
-            },
-          ],
+          icon: "Zap",
+          pathname: "/blog-layout-2",
+          title: "Layout 2",
+        },
+        {
+          icon: "Zap",
+          pathname: "/blog-layout-3",
+          title: "Layout 3",
+        },
+        {
+          icon: "Zap",
+          pathname: "/pricing-layout-1",
+          title: "Layout 1",
+        },
+        {
+          icon: "Zap",
+          pathname: "/pricing-layout-2",
+          title: "Layout 2",
+        },
+        {
+          icon: "Zap",
+          pathname: "/invoice-layout-1",
+          title: "Layout 1",
+        },
+        {
+          icon: "Zap",
+          pathname: "/invoice-layout-2",
+          title: "Layout 2",
+        },
+        {
+          icon: "Zap",
+          pathname: "/faq-layout-1",
+          title: "Layout 1",
+        },
+        {
+          icon: "Zap",
+          pathname: "/faq-layout-2",
+          title: "Layout 2",
+        },
+        {
+          icon: "Zap",
+          pathname: "/faq-layout-3",
+          title: "Layout 3",
         },
         {
           icon: "Activity",
@@ -297,159 +257,129 @@ const initialState: SideMenuState = {
           pathname: "/change-password",
           title: "Change Password",
         },
-      ],
+        {
+          icon: "Zap",
+          pathname: "/regular-table",
+          title: "Regular Table",
+        },
+        {
+          icon: "Zap",
+          pathname: "/tabulator",
+          title: "Tabulator",
+        },
+        {
+          icon: "Zap",
+          pathname: "/modal",
+          title: "Modal",
+        },
+        {
+          icon: "Zap",
+          pathname: "/slideover",
+          title: "Slide Over",
+        },
+        {
+          icon: "Zap",
+          pathname: "/notification",
+          title: "Notification",
+        },
+        {
+           icon: "Activity",
+           pathname: "/tab",
+           title: "Tab",
+         },
+         {
+           icon: "Activity",
+           pathname: "/accordion",
+           title: "Accordion",
+         },
+         {
+           icon: "Activity",
+           pathname: "/button",
+           title: "Button",
+         },
+         {
+           icon: "Activity",
+           pathname: "/alert",
+           title: "Alert",
+         },
+         {
+           icon: "Activity",
+           pathname: "/progress-bar",
+           title: "Progress Bar",
+         },
+         {
+           icon: "Activity",
+           pathname: "/tooltip",
+           title: "Tooltip",
+         },
+         {
+           icon: "Activity",
+           pathname: "/dropdown",
+           title: "Dropdown",
+         },
+         {
+           icon: "Activity",
+           pathname: "/typography",
+           title: "Typography",
+         },
+         {
+           icon: "Activity",
+           pathname: "/icon",
+           title: "Icon",
+         },
+         {
+           icon: "Activity",
+           pathname: "/loading-icon",
+           title: "Loading Icon",
+         },
+         {
+           icon: "Activity",
+           pathname: "/regular-form",
+           title: "Regular Form",
+         },
+         {
+           icon: "Activity",
+           pathname: "/datepicker",
+           title: "Datepicker",
+         },
+         {
+           icon: "Activity",
+           pathname: "/tom-select",
+           title: "Tom Select",
+         },
+         {
+           icon: "Activity",
+           pathname: "/file-upload",
+           title: "File Upload",
+         },
+         {
+           icon: "Activity",
+           pathname: "/wysiwyg-editor",
+           title: "Wysiwyg Editor",
+         },
+         {
+           icon: "Activity",
+           pathname: "/validation",
+           title: "Validation",
+         },
+         {
+           icon: "Activity",
+           pathname: "/chart",
+           title: "Chart",
+         },
+         {
+           icon: "Activity",
+           pathname: "/slider",
+           title: "Slider",
+         },
+         {
+           icon: "Activity",
+           pathname: "/image-zoom",
+           title: "Image Zoom",
+         },
+      ]
     },
-    "divider",
-    {
-      icon: "Inbox",
-      title: "Components",
-      subMenu: [
-        {
-          icon: "Activity",
-          title: "Table",
-          subMenu: [
-            {
-              icon: "Zap",
-              pathname: "/regular-table",
-              title: "Regular Table",
-            },
-            {
-              icon: "Zap",
-              pathname: "/tabulator",
-              title: "Tabulator",
-            },
-          ],
-        },
-        {
-          icon: "Activity",
-          title: "Overlay",
-          subMenu: [
-            {
-              icon: "Zap",
-              pathname: "/modal",
-              title: "Modal",
-            },
-            {
-              icon: "Zap",
-              pathname: "/slideover",
-              title: "Slide Over",
-            },
-            {
-              icon: "Zap",
-              pathname: "/notification",
-              title: "Notification",
-            },
-          ],
-        },
-        {
-          icon: "Activity",
-          pathname: "/tab",
-          title: "Tab",
-        },
-        {
-          icon: "Activity",
-          pathname: "/accordion",
-          title: "Accordion",
-        },
-        {
-          icon: "Activity",
-          pathname: "/button",
-          title: "Button",
-        },
-        {
-          icon: "Activity",
-          pathname: "/alert",
-          title: "Alert",
-        },
-        {
-          icon: "Activity",
-          pathname: "/progress-bar",
-          title: "Progress Bar",
-        },
-        {
-          icon: "Activity",
-          pathname: "/tooltip",
-          title: "Tooltip",
-        },
-        {
-          icon: "Activity",
-          pathname: "/dropdown",
-          title: "Dropdown",
-        },
-        {
-          icon: "Activity",
-          pathname: "/typography",
-          title: "Typography",
-        },
-        {
-          icon: "Activity",
-          pathname: "/icon",
-          title: "Icon",
-        },
-        {
-          icon: "Activity",
-          pathname: "/loading-icon",
-          title: "Loading Icon",
-        },
-      ],
-    },
-    {
-      icon: "Sidebar",
-      title: "Forms",
-      subMenu: [
-        {
-          icon: "Activity",
-          pathname: "/regular-form",
-          title: "Regular Form",
-        },
-        {
-          icon: "Activity",
-          pathname: "/datepicker",
-          title: "Datepicker",
-        },
-        {
-          icon: "Activity",
-          pathname: "/tom-select",
-          title: "Tom Select",
-        },
-        {
-          icon: "Activity",
-          pathname: "/file-upload",
-          title: "File Upload",
-        },
-        {
-          icon: "Activity",
-          pathname: "/wysiwyg-editor",
-          title: "Wysiwyg Editor",
-        },
-        {
-          icon: "Activity",
-          pathname: "/validation",
-          title: "Validation",
-        },
-      ],
-    },
-    {
-      icon: "HardDrive",
-      title: "Widgets",
-      subMenu: [
-        {
-          icon: "Activity",
-          pathname: "/chart",
-          title: "Chart",
-        },
-        {
-          icon: "Activity",
-          pathname: "/slider",
-          title: "Slider",
-        },
-        {
-          icon: "Activity",
-          pathname: "/image-zoom",
-          title: "Image Zoom",
-        },
-      ],
-    },
+
   ],
 };
 

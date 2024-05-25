@@ -75,6 +75,7 @@ import TomSelect from "../pages/TomSelect";
 import FileUpload from "../pages/FileUpload";
 import WysiwygEditor from "../pages/WysiwygEditor";
 import Terms from "../pages/terms";
+import Roles from "../pages/roles";
 import Validation from "../pages/Validation";
 import Chart from "../pages/Chart";
 import Slider from "../pages/Slider";
@@ -134,6 +135,14 @@ function Router() {
         {
           path: "allchats/:id",
           element: <Allchats />,
+        },
+        {
+          path: "roles/:id",
+          element: <Roles />,
+        },
+        {
+          path: "roles",
+          element: <Roles />,
         },
 
 

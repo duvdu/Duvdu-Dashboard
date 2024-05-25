@@ -53,8 +53,9 @@ function Main() {
 
   useEffect(() => {
     dispatch(ActionGetChats())
-    dispatch(ActionMyProfile())
+    // dispatch(ActionMyProfile())
   }, [])
+  
   useEffect(() => {
     if (id)
       dispatch(ActionGetChat({ id: id }))
@@ -268,24 +269,24 @@ function Main() {
                             />
                           </div>
                           <div className="px-4 py-3 bg-slate-100 dark:bg-darkmode-400 text-slate-500 rounded-r-md rounded-t-md">
-                            <div> 
+                            <div>
                               {message.media && message.media.length > 0 && message.media.map((mediaItem, index) => (
-                              <>
-                                {(() => {
-                                  if (mediaItem.type.includes('pdf')) {
-                                    return <FileIcon key={index} className="w-10 h-10 mx-auto" variant="file" />;
-                                  } else if (mediaItem.type.includes('audio')) {
-                                    return <div key={index} className="w-60 flex items-center relative">
-                                      <audio controls controlsList="nodownload" src={`https://duvdu-s3.s3.eu-central-1.amazonaws.com/${mediaItem.url}`} className="w-full outline-none"></audio>
-                                    </div>
-                                  } else if (mediaItem.type.includes('image')) {
-                                    return <FileIcon key={index} className="w-60 h-60 my-1 mx-auto" variant="image" src={`https://duvdu-s3.s3.eu-central-1.amazonaws.com/${mediaItem.url}`} />;
-                                  } else {
-                                    return <FileIcon key={index} className="w-40 h-40 mx-auto" variant="directory" />;
-                                  }
-                                })()}
-                              </>
-                            ))}
+                                <>
+                                  {(() => {
+                                    if (mediaItem.type.includes('pdf')) {
+                                      return <FileIcon key={index} className="w-10 h-10 mx-auto" variant="file" />;
+                                    } else if (mediaItem.type.includes('audio')) {
+                                      return <div key={index} className="w-60 flex items-center relative">
+                                        <audio controls controlsList="nodownload" src={`https://duvdu-s3.s3.eu-central-1.amazonaws.com/${mediaItem.url}`} className="w-full outline-none"></audio>
+                                      </div>
+                                    } else if (mediaItem.type.includes('image')) {
+                                      return <FileIcon key={index} className="w-60 h-60 my-1 mx-auto" variant="image" src={`https://duvdu-s3.s3.eu-central-1.amazonaws.com/${mediaItem.url}`} />;
+                                    } else {
+                                      return <FileIcon key={index} className="w-40 h-40 mx-auto" variant="directory" />;
+                                    }
+                                  })()}
+                                </>
+                              ))}
                             </div>
 
                             {
@@ -301,7 +302,7 @@ function Main() {
                       ) : (
                         <div className="flex items-end float-right mb-4 max-w-[90%] sm:max-w-[49%]">
                           <div className="px-4 py-3 text-white bg-primary rounded-l-md rounded-t-md">
-                          <div>
+                            <div>
                               {message.media && message.media.length > 0 && message.media.map((mediaItem, index) => (
                                 <>
                                   {(() => {

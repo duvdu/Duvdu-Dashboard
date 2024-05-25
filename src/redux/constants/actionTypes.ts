@@ -88,3 +88,9 @@ export const KEY_USERS = 'KEY_USERS';
 export const KEY_CHAT_GETALL = 'KEY_CHAT_GETALL';
 export const KEY_CHAT = 'KEY_CHAT';
 export const KEY_CHAT_SEND = 'KEY_CHAT_SEND';
+// KEY_ROLE
+export const KEY_CREATE_ROLE = 'KEY_CREATE_ROLE';
+export const KEY_DELETE_ROLE = 'KEY_DELETE_ROLE';
+export const KEY_GET_ROLES = 'KEY_GET_ROLES';
+export const KEY_GET_ROLE_BY_ID = 'KEY_GET_ROLE_BY_ID';
+export const KEY_UPDATE_ROLE = 'KEY_UPDATE_ROLE';

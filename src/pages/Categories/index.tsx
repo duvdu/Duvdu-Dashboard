@@ -24,7 +24,7 @@ function Main() {
   const [categories, setCategories] = useState([]);
 
   const [limit, setLimit] = useState("10");
-  const [page, setPage] = useState("1");
+  const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
   const [idToEdit, setidEdit] = useState("");
@@ -42,6 +42,26 @@ function Main() {
   const formState = useAppSelector(selectFormState);
 
   useEffect(() => {
+    if (search.length == 0)
+      action()
+  }, [dispatch, stateDeleteCategory, createCategory, search.length == 0])
+
+  useEffect(() => {
+    action()
+  }, [dispatch, limit, page])
+
+  const handleSearch = () => action();
+
+  const action = () => {
+    dispatch(ActionGetCategory({ limit, page, search }))
+  }
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && search.length > 0) {
+      handleSearch();
+    }
+  };
+
+  useEffect(() => {
     if (stateAllCategories?.data?.data?.length) {
       setCategories(stateAllCategories.data.data)
     }
@@ -50,13 +70,7 @@ function Main() {
   const filterCategory = (id: string) => {
     setCategory(categories.find(category => category._id === id));
   }
-  useEffect(() => {
-    dispatch(ActionGetCategory({ limit, page, search }))
-  }, [dispatch, stateDeleteCategory, createCategory, limit, page, search])
 
-  const pagdnation = (page: number) => {
-    dispatch(ActionGetCategory({ limit, page, search }))
-  };
 
   const onChangeStutus = (newState: boolean, id) => {
     setidEdit(id)
@@ -66,7 +80,7 @@ function Main() {
   };
 
   const PaginationInfo = ({ pagination }) => {
-    if(!pagination) return <></>
+    if (!pagination) return <></>
 
     const { currentPage, resultCount, totalPages } = pagination;
 
@@ -133,22 +147,15 @@ function Main() {
       <h2 className="mt-10 text-lg font-medium intro-y">All categories</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
-          <Link to={"/category-form"}>
-            <Button variant="primary" className="mr-2 shadow-md">
-              Add New Category
-            </Button>
-          </Link>
-
-          <div className="hidden mx-auto md:block text-slate-500">
-            <PaginationInfo pagination={pagdnationState} />
-          </div>
           <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-auto md:ml-0">
             <div className="relative w-56 text-slate-500">
               <FormInput
                 type="text"
                 className="w-56 pr-10 !box"
                 placeholder="Search..."
+                value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
               <Lucide
                 icon="Search"
@@ -156,6 +163,14 @@ function Main() {
               />
             </div>
           </div>
+          <Menu>
+            <Menu.Button as={Button} className="px-2 !box mx-2" onClick={handleSearch}>
+              <span className="flex items-center justify-center w-5 h-5">
+                <Lucide icon="Search" className="w-4 h-4" />
+              </span>
+            </Menu.Button>
+          </Menu>
+          <PaginationInfo pagination={pagdnationState} />
         </div>
         {/* BEGIN: Users Layout */}
         {
@@ -233,13 +248,13 @@ function Main() {
           {state ?
             <Pagination className="w-full sm:w-auto sm:mr-auto">
               <Pagination.Link>
-                <Lucide onClick={() => pagdnation(1)} icon="ChevronsLeft" className="w-4 h-4" />
+                <Lucide onClick={() => setPage(1)} icon="ChevronsLeft" className="w-4 h-4" />
               </Pagination.Link>
               <Pagination.Link>
-                <Lucide onClick={() => pagdnation(pagdnationState?.currentPage > 1 ? pagdnationState?.currentPage - 1 : 1)} icon="ChevronLeft" className="w-4 h-4" />
+                <Lucide onClick={() => setPage(pagdnationState?.currentPage > 1 ? pagdnationState?.currentPage - 1 : 1)} icon="ChevronLeft" className="w-4 h-4" />
               </Pagination.Link>
               {Array.from({ length: pagdnationState?.totalPages }, (_, index) => (
-                <div onClick={() => pagdnation(index + 1)}>
+                <div onClick={() => setPage(index + 1)}>
                   <Pagination.Link
                     key={index}
                     active={pagdnationState?.currentPage === index + 1}
@@ -251,14 +266,14 @@ function Main() {
               <Pagination.Link>
                 <Lucide icon="ChevronRight" className="w-4 h-4"
                   onClick={() =>
-                    pagdnation(pagdnationState?.currentPage < pagdnationState?.totalPages ? pagdnationState?.currentPage + 1 : pagdnationState?.totalPages)
+                    setPage(pagdnationState?.currentPage < pagdnationState?.totalPages ? pagdnationState?.currentPage + 1 : pagdnationState?.totalPages)
                   }
                 />
               </Pagination.Link>
               <Pagination.Link>
-                <Lucide icon="ChevronsRight" className="w-4 h-4" onClick={() => pagdnation(pagdnationState?.totalPages)} />
+                <Lucide icon="ChevronsRight" className="w-4 h-4" onClick={() => setPage(pagdnationState?.totalPages)} />
               </Pagination.Link>
-            </Pagination> : <div className="w-full sm:w-auto sm:mr-auto"/>
+            </Pagination> : <div className="w-full sm:w-auto sm:mr-auto" />
           }
           <FormSelect className="w-20 mt-3 !box sm:mt-0" onChange={(e) => setLimit(e.target.value)} >
             <option>1</option>
