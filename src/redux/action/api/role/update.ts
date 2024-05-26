@@ -8,7 +8,7 @@ export const ActionUpdateRole = createAsyncThunk(
         const { roleId, key, features } = params;
         const response = await mainApiInstance.put(`api/users/roles/${roleId}`, {
             key,
-            features,
+            permissions:features,
         });
         return response.data;
     }
