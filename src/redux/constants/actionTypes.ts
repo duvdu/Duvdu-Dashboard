@@ -94,3 +94,9 @@ export const KEY_DELETE_ROLE = 'KEY_DELETE_ROLE';
 export const KEY_GET_ROLES = 'KEY_GET_ROLES';
 export const KEY_GET_ROLE_BY_ID = 'KEY_GET_ROLE_BY_ID';
 export const KEY_UPDATE_ROLE = 'KEY_UPDATE_ROLE';
+// KEY_PLAN
+export const KEY_CREATE_PLAN = 'KEY_CREATE_PLAN';
+export const KEY_DELETE_PLAN = 'KEY_DELETE_PLAN';
+export const KEY_GET_PLANS = 'KEY_GET_PLANS';
+export const KEY_GET_PLAN_BY_ID = 'KEY_GET_PLAN_BY_ID';
+export const KEY_UPDATE_PLAN = 'KEY_UPDATE_PLAN';

@@ -14,7 +14,7 @@ import Tippy from "../../base-components/Tippy";
 import Lucide from "../../base-components/Lucide";
 import _ from "lodash";
 import { useAppSelector, useAppDispatch } from "../../redux/stores/hooks";
-import { selectFormState, updateFormData, insertToArray, removeItemFromField, resetForm, createFormData } from "../../redux/stores/form";
+import { selectFormState, updateFormData, insertToArray, removeItemFromField, resetForm } from "../../redux/stores/form";
 import { Popover } from "../../base-components/Headless";
 import { ActionCreateCategory } from "../../redux/action/api/category/create";
 import Toastify from "toastify-js";
@@ -90,6 +90,12 @@ function Main() {
     }
   }, [Object.keys(formState).length === 0])
 
+  useEffect(() => {
+    if (Object.keys(formState).length > 0) {
+      dispatch(resetForm())
+    }
+  }, [])
+
   function objectToFormData(data: any, formData: FormData, parentKey?: string) {
     for (const key in data) {
       if (Object.prototype.hasOwnProperty.call(data, key)) {
@@ -124,12 +130,6 @@ function Main() {
     if (stateCreateCategory.data)
       showSuccess()
   }, [stateCreateCategory.data])
-  useEffect(() => {
-    if (Object.keys(formState).length > 0) {
-      dispatch(resetForm())
-    }
-
-  }, [])
   const onCancel = () => {
     dispatch(resetForm())
     setPreviewSrc(null);
@@ -239,18 +239,6 @@ function Main() {
       items: ["bold", "italic", "link"],
     },
   };
-
-  useEffect(() => {
-    const value = {
-      "Choose Type": null,
-      "studio booking": "studio-booking",
-      "portfolio post": "portfolio-post",
-      "copy rights": "copy-rights",
-      "producer": "producer"
-    }[type];
-
-    putInBasket('cycle', value);
-  }, [type]);
 
 
   return (
@@ -417,6 +405,7 @@ function Main() {
                                         onClick={() => {
                                           if (englishTag.length > 0 && arabicTag.length > 0)
                                             handleChange(JSON.stringify({ en: englishTag, ar: arabicTag }), index, 'tags', 'en', formState?.subCategories[index].tags?.length || 0)
+                                          close();
                                         }}
                                       >
                                         Add
@@ -519,8 +508,8 @@ function Main() {
               <div className="mt-3">
                 <FormLabel htmlFor="crud-form-3">Cycle</FormLabel>
                 <FormSelect defaultValue={formState.cycle} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => setType(e.target.value)}>
+                  <option value="" disabled>(Choose Type)</option>
                   {[
-                    "Choose Type",
                     "studio booking",
                     "portfolio post",
                     "copy rights",
@@ -568,8 +557,8 @@ function Main() {
                 <LoadingIcon icon="puff" className="ml-3" />
               }
             </Button>
-            
-            
+
+
             {isValidate().isDisable && (
               <div className="mt-2 text-danger">
                 {isValidate().reason}

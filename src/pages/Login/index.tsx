@@ -156,7 +156,6 @@ function Main() {
                       variant="primary"
                       type="submit"
                       className="w-full px-4 py-3 align-top xl:w-32 xl:mr-3"
-                    // onClick={() => dispatch(Action({ username: 'ahmed_magdy', password: 'Ahmed!123' }))}
                     >
                       {
                         authState.loading ?

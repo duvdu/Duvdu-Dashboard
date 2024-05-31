@@ -18,7 +18,7 @@ import { selectFormState, updateFormData, insertToArray, removeItemFromField, re
 import { Popover } from "../../base-components/Headless";
 import Toastify from "toastify-js";
 import Notification from "../../base-components/Notification";
-import { StateCreateCategory } from "../../redux/stores/api/category/create";
+import { StateCreateCategory, resetDataState } from "../../redux/stores/api/category/create";
 import { ActionUpdateCategory } from "../../redux/action/api/category/update";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { StateCategory } from "../../redux/stores/api/category/category";
@@ -88,8 +88,9 @@ function Main() {
   };
 
   useEffect(() => {
-    if (stateCreateCategory.data)
+    if (stateCreateCategory.data)     // MAGDY BUG
       showSuccess()
+      dispatch(resetDataState());
   }, [stateCreateCategory.data])
   useEffect(() => {
     if (Object.keys(formState).length > 0) {
@@ -371,7 +372,10 @@ function Main() {
                                       <Button variant="primary" className="w-32 ml-2"
                                         onClick={() => {
                                           if (englishTag.length > 0 && arabicTag.length > 0)
+                                            {
                                             handleChange(JSON.stringify({ en: englishTag, ar: arabicTag }), index, 'tags', 'en', formState?.subCategories[index].tags?.length || 0)
+                                            close();
+                                          }
                                         }}
                                       >
                                         Add
@@ -475,8 +479,8 @@ function Main() {
                 <FormLabel htmlFor="crud-form-3">Cycle</FormLabel>
                 {formState.cycle &&
                 <FormSelect defaultValue={formState.cycle?.replace('-', ' ')} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => setType(e.target.value)}>
+                  <option value="" disabled>(Choose Type)</option>
                   {[
-                    "Choose Type",
                     "studio booking",
                     "portfolio post",
                     "copy rights",

@@ -1,12 +1,10 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
-import { KEY_CATEGORY_CREATE } from "../../../constants/actionTypes";
+import { KEY_GET_PLAN_BY_ID } from "../../../constants/actionTypes";
 import { fulfilledCase, pendingCase, rejectedCase } from "../commanApi";
 import DataState from "../../../moduls";
 
-export const AsyncThunkRef = createAsyncThunk(KEY_CATEGORY_CREATE, async () => {
-  // Your async logic here
-});
+export const AsyncThunkRef = createAsyncThunk(KEY_GET_PLAN_BY_ID, async () => { });
 
 const initialState: DataState = {
   loading: false,
@@ -17,32 +15,23 @@ const initialState: DataState = {
 };
 
 const dataSlice = createSlice({
-  name: 'category',
+  name: 'plan',
   initialState,
-  reducers: {
-    resetDataState: (state) => {
-      // Resetting state to initialState
-      return initialState;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(AsyncThunkRef.pending, (state) => {
       pendingCase(state);
     });
     builder.addCase(AsyncThunkRef.fulfilled, (state, action) => {
       fulfilledCase(state, action);
-      // Optionally, reset state here as well if required
     });
     builder.addCase(AsyncThunkRef.rejected, (state, action) => {
       rejectedCase(state, action);
-      // Optionally, reset state here as well if required
     });
   },
 });
 
-export const { resetDataState } = dataSlice.actions;
-
-export const StateCreateCategory = (state: RootState) => state.createcategory;
+export const StateGetPlanById = (state: RootState) => state.getPlanById;
 
 export const dataReducer = dataSlice.reducer;
 
