@@ -49,13 +49,14 @@ const Main: React.FC = () => {
   // Load plans and plan details
 
   useEffect(() => {
+    if(stateDeletePlan.data|| stateCreatePlan.data|| stateUpdatePlan.data)
     dispatch(ActionGetPlans())
       .then(response => {
         if (response.payload) {
           setPlans(response.payload.data);
         }
       });
-  }, [stateDeletePlan, stateCreatePlan, stateUpdatePlan]);
+  }, [stateDeletePlan.data, stateCreatePlan.data, stateUpdatePlan.data]);
 
   useEffect(() => {
     dispatch(ActionGetRoles());
@@ -69,10 +70,11 @@ const Main: React.FC = () => {
     }
   }, [headerFooterModalPreview]);
 
-  useEffect(() => {
-    dispatch(ActionGetPlans());
-    setHeaderFooterModalPreview(false)
-  }, [stateDeletePlan, stateCreatePlan, stateUpdatePlan]);
+  // useEffect(() => {
+  //   if(stateDeletePlan|| stateCreatePlan|| stateUpdatePlan){
+  //   dispatch(ActionGetPlans());
+  //   setHeaderFooterModalPreview(false)}
+  // }, [stateDeletePlan, stateCreatePlan, stateUpdatePlan]);
 
   // useEffect(() => {
   //   if (id) {
