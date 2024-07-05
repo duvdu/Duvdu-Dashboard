@@ -7,7 +7,6 @@ import { FormInput, FormSelect } from "../../../base-components/Form";
 import Lucide from "../../../base-components/Lucide";
 import { Dialog, Menu } from "../../../base-components/Headless";
 import { useAppDispatch, useAppSelector } from "../../../redux/stores/hooks";
-import { ActionGetStudio } from "../../../redux/action/api/cycles/studio/get";
 import { StateAllProducers } from "../../../redux/stores/api/cycles/producer";
 import { ActionGetProducer } from "../../../redux/action/api/cycles/producer/get";
 

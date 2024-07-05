@@ -11,7 +11,7 @@ export const ActionGetPortfolio = createAsyncThunk(
     if (search) {
       queryParams.search = search;
     }
-    const response = await mainApiInstance.get('api/portfolio-post/crm', {
+    const response = await mainApiInstance.get('api/projects/crm', {
       params: queryParams,
     });
     return response.data;

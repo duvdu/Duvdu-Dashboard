@@ -5,7 +5,7 @@ import { KEY_PORTFOLIO_POST, KEY_STUDIO_BOOKING } from '../../../../constants/ac
 export const ActionGetStudio = createAsyncThunk(
   KEY_STUDIO_BOOKING, async (params: { search: string, limit: string, page: number }) => {
     const { search, limit, page } = params;
-    const response = await mainApiInstance.get('api/studio-booking/crm', {
+    const response = await mainApiInstance.get('api/rentals/rental', {
       params: { search, limit, page },
     });
     return response.data;

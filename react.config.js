@@ -1,5 +1,5 @@
 module.exports = {
     env: {
-      VITE_URL: "https://www.duvdu.com",
+      VITE_URL: "https://api.duvdu.com",
     },
   }

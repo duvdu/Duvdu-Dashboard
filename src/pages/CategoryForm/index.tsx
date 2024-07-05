@@ -75,6 +75,11 @@ function Main() {
     isValid = checkCondition(formState?.cycle, 'Choose Type') && isValid;
     isValid = checkCondition(formState?.cycle != 'Choose Type', "don't use Choose Type") && isValid;
 
+    if (formState.cycle == "project") {
+      isValid = checkCondition(formState?.media, 'Choose media') && isValid;
+      isValid = checkCondition(formState?.media != 'Choose media', "don't use Choose media") && isValid;
+    }
+
     return {
       isDisable: !isValid,
       reason: reason
@@ -86,6 +91,8 @@ function Main() {
       addToBasket('subCategories', { title: { en: '', ar: '' }, tags: [] })
       handleAddJopDetails()
       putInBasket('status', formState.status || true)
+      putInBasket('cycle', "")
+      putInBasket('media', "")
       setType('Choose Type')
     }
   }, [Object.keys(formState).length === 0])
@@ -507,11 +514,11 @@ function Main() {
             <div className="p-5 border rounded-md border-slate-200/60 dark:border-darkmode-400">
               <div className="mt-3">
                 <FormLabel htmlFor="crud-form-3">Cycle</FormLabel>
-                <FormSelect defaultValue={formState.cycle} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => setType(e.target.value)}>
+                <FormSelect defaultValue={formState.cycle} value={formState.cycle} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => putInBasket('cycle', e.target.value)}>
                   <option value="" disabled>(Choose Type)</option>
                   {[
                     "studio booking",
-                    "portfolio post",
+                    "project",
                     "copy rights",
                     "producer"
                   ].map((item, index) =>
@@ -519,6 +526,20 @@ function Main() {
                   )}
                 </FormSelect>
               </div>
+              {formState.cycle == "project" &&
+                <div className="mt-7">
+                  <FormLabel htmlFor="crud-form-3">Media Type</FormLabel>
+                  <FormSelect value={formState.media} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => putInBasket('media', e.target.value)}>
+                    <option value="" disabled>(Choose Media)</option>
+                    {[
+                      "video",
+                      "image",
+                      "audio",
+                    ].map((item, index) =>
+                      <option key={index}>{item}</option>
+                    )}
+                  </FormSelect>
+                </div>}
 
               <div className="mt-3">
                 <label>Active Status</label>
