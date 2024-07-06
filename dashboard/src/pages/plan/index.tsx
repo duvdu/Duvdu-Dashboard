@@ -38,7 +38,7 @@ const Main: React.FC = () => {
   const details = stateGetPlanById?.data?.data || [];
 
   const [formValues, setFormValues] = useState({ key: '', title: '', role: '' });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState(null);
   const [actionPlanId, setActionPlanId] = useState<string | null>(null);
   const [status, setStatus] = useState(false);
   const [plans, setPlans] = useState([]);
@@ -89,7 +89,7 @@ const Main: React.FC = () => {
   };
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors = null;
 
     if (!formValues.key) newErrors.key = 'Key is required';
     if (!formValues.title) newErrors.title = 'Title is required';
@@ -150,12 +150,12 @@ const Main: React.FC = () => {
             <div className="col-span-12 sm:col-span-6">
               <FormLabel htmlFor="modal-form-1">Title</FormLabel>
               <FormInput id="modal-form-1" type="text" name="key" value={formValues.key} onChange={handleInputChange} />
-              {errors.key && <p className="text-danger">{errors.key}</p>}
+              {errors?.key && <p className="text-danger">{errors.key}</p>}
             </div>
             <div className="col-span-12 sm:col-span-6">
               <FormLabel htmlFor="modal-form-2">Description</FormLabel>
               <FormInput id="modal-form-2" type="text" name="title" value={formValues.title} onChange={handleInputChange} />
-              {errors.title && <p className="text-danger">{errors.title}</p>}
+              {errors?.title && <p className="text-danger">{errors.title}</p>}
             </div>
             <div className="col-span-12 sm:col-span-6">
               <FormLabel htmlFor="modal-form-6">Roles</FormLabel>
@@ -165,7 +165,7 @@ const Main: React.FC = () => {
                   <option key={role._id} value={role._id}>{role.key}</option>
                 ))}
               </FormSelect>
-              {errors.role && <p className="text-danger">{errors.role}</p>}
+              {errors?.role && <p className="text-danger">{errors.role}</p>}
             </div>
           </Dialog.Description>
           <Dialog.Footer>

@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
-import { KEY_GET_PLANS } from "../../../constants/actionTypes";
+import { KEY_GET_PLAN_BY_ID } from "../../../constants/actionTypes";
 import { fulfilledCase, pendingCase, rejectedCase } from "../commanApi";
 import DataState from "../../../moduls";
 
-export const AsyncThunkRef = createAsyncThunk(KEY_GET_PLANS, async () => { });
+export const AsyncThunkRef = createAsyncThunk(KEY_GET_PLAN_BY_ID, async () => { });
 
 const initialState: DataState = {
   loading: false,
@@ -31,7 +31,7 @@ const dataSlice = createSlice({
   },
 });
 
-export const StateGetAllPlan = (state: RootState) => state.getAllPlan;
+export const StateGetPlanById = (state) => state.getPlanById;
 
 export const dataReducer = dataSlice.reducer;
 

@@ -31,7 +31,7 @@ const dataSlice = createSlice({
   },
 });
 
-export const StateDeletePlan = (state: RootState) => state.deletePlan;
+export const StateDeletePlan = (state) => state.deletePlan;
 
 export const dataReducer = dataSlice.reducer;
 
