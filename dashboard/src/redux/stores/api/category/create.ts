@@ -20,13 +20,13 @@ const dataSlice = createSlice({
   name: 'category',
   initialState,
   reducers: {
-    resetDataState: (state) => {
+    resetDataState: (state:any) => {
       // Resetting state to initialState
       return initialState;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(AsyncThunkRef.pending, (state) => {
+    builder.addCase(AsyncThunkRef.pending, (state:any) => {
       pendingCase(state);
     });
     builder.addCase(AsyncThunkRef.fulfilled, (state, action) => {

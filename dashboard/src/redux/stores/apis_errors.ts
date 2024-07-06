@@ -18,7 +18,7 @@ interface ErrorState {
   
     for (const key in state) {
       if (state.hasOwnProperty(key)) {
-        const subState = state[key] as ErrorState;
+        const subState = state[key as keyof RootState] as ErrorState; // Type assertion here
         if (subState.error) {
           errors.push({ error: subState.error, reason: key });
         }

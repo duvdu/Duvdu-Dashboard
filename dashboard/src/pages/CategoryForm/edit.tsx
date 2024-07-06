@@ -26,13 +26,13 @@ import { ActionGetCategory } from "../../redux/action/api/category/get";
 import LoadingIcon from "../../base-components/LoadingIcon";
 
 function Main() {
-  const [editorData, setEditorData] = useState("<p>Content of the editor.</p>");
-  const [uploadedFile, setUploadedFile] = useState(null);
-  const [previewSrc, setPreviewSrc] = useState(null);
-  const [englishTag, setEnglishTag] = useState('');
-  const [arabicTag, setArabicTag] = useState('');
-  const [type, setType] = useState('');
-  const [categorey, setCategorey] = useState({});
+  const [editorData, setEditorData] = useState<any>("<p>Content of the editor.</p>");
+  const [uploadedFile, setUploadedFile] = useState<any>(null);
+  const [previewSrc, setPreviewSrc] = useState<any>(null);
+  const [englishTag, setEnglishTag] = useState<any>('');
+  const [arabicTag, setArabicTag] = useState<any>('');
+  const [type, setType] = useState<any>('');
+  const [categorey, setCategorey] = useState<any>({});
   const formState = useAppSelector(selectFormState);
   const stateCreateCategory = useAppSelector(StateCreateCategory);
   const list = useAppSelector(StateCategory)?.data?.data || [];
@@ -42,7 +42,7 @@ function Main() {
   // const formGet = list[0] || []
 
   useEffect(() => {
-    setCategorey(list.find(item => item._id === id));
+    setCategorey(list.find((item:any) => item._id === id));
   }, [list]) // @mos3ad
 
   useEffect(() => {
@@ -118,11 +118,11 @@ function Main() {
     setPreviewSrc(null);
     setUploadedFile(null)
   }
-  const handleEnglishChange = (event) => {
+  const handleEnglishChange = (event:any) => {
     setEnglishTag(event.target.value);
   };
 
-  const handleArabicChange = (event) => {
+  const handleArabicChange = (event:any) => {
     setArabicTag(event.target.value);
   };
   const putInBasket = (field: string, value: any) => dispatch(updateFormData({ field: field, value: value }))
@@ -175,7 +175,7 @@ function Main() {
     // Check if there are job titles to remove and the index is within range
     if (formState?.jobTitles && index >= 0 && index < formState.jobTitles.length) {
       // Create a new array excluding the element at the specified index
-      const newJopDetails = formState.jobTitles.filter((_, i) => i !== index);
+      const newJopDetails = formState.jobTitles.filter((_:any, i:number) => i !== index);
       // Update the state with the new array of job titles
       putInBasket('jobTitles', newJopDetails);
     }
@@ -203,18 +203,20 @@ function Main() {
     },
   };
 
-  useEffect(() => {
-    const value = {
-      "Choose Type": null,
-      "studio booking": "studio-booking",
-      "portfolio post": "portfolio-post",
-      "copy rights": "copy-rights",
-      "producer": "producer"
-    }[type];
 
+  useEffect(() => {
+    const typeOptions: Record<string, string | null> = {
+      "Choose Type": null,
+      "studio booking": 'studio-booking',
+      "portfolio post": 'portfolio-post',
+      "copy rights": 'copy-rights',
+      "producer": 'producer'
+    };
+  
+    const value = typeOptions[type];
     putInBasket('cycle', value);
   }, [type]);
-
+  
   return (
     <>
       <Notification
@@ -308,7 +310,7 @@ function Main() {
                   </Tippy>
                 </FormLabel>
 
-                {formState?.subCategories?.map((subCategory, index) => (
+                {formState?.subCategories?.map((subCategory:any, index:number) => (
                   <div key={index} className="mb-5">
                     <div className="grid grid-cols-12 gap-2 mt-2">
                       <InputGroup className="sm:w-full col-span-3 h-min">
@@ -387,7 +389,7 @@ function Main() {
                         </div>
                         <div className="flex flex-wrap gap-2 px-3">
                           {
-                            formState?.subCategories[index].tags?.map((tag, tagIndex) => (
+                            formState?.subCategories[index].tags?.map((tag:any, tagIndex:number) => (
                               <div key={tagIndex} className="flex flex-col relative px-2 py-0.5 bg-slate-200 text-slate-600 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md">
                                 <div className="mr-5">
                                   EN: {tag.en}
@@ -435,7 +437,7 @@ function Main() {
                       </div>
                     </Tippy>
                   </FormLabel>
-                  {formState?.jobTitles?.map((jop, index) => (
+                  {formState?.jobTitles?.map((jop:any, index:any) => (
                     <div key={index} className="grid grid-cols-2 gap-2 mt-3">
                       <InputGroup className="sm:w-full ">
                         <InputGroup.Text id={`input-group-en-${index}`}>EN</InputGroup.Text>
@@ -457,7 +459,7 @@ function Main() {
                       </InputGroup>
                       {
                         index > 0 &&
-                        <Tippy content="Remove Last subcategory field" className="absolute right-0 flex flex-col items-end justify-center text-danger" onClick={(e) => handleRemoveJopDetails(index)}>
+                        <Tippy content="Remove Last subcategory field" className="absolute right-0 flex flex-col items-end justify-center text-danger" onClick={(e:any) => handleRemoveJopDetails(index)}>
                           <div className="min-w-[40px] flex justify-center">
                             <Lucide icon="XCircle" className="block mx-auto mt-2 sm:mt-0 cursor-pointer" />
                           </div>

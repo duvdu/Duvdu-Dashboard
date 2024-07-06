@@ -55,7 +55,7 @@ function Main() {
           </div>
         </div>
         {/* BEGIN: Users Layout */}
-        {listusers?.map((user, key) => (
+        {listusers?.map((user:any, key:number) => (
           <div key={key} className="col-span-12 intro-y md:col-span-6">
             <div className="box">
               <div className="flex flex-col items-center p-5 lg:flex-row">

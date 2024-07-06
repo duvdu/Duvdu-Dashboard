@@ -3,7 +3,7 @@ import { mainApiInstance } from '../../axiosInstances';
 import { KEY_COPY_RIGHTS } from '../../../../constants/actionTypes';
 
 export const ActionGetCopyRight = createAsyncThunk(
-  KEY_COPY_RIGHTS, async (params: { search: string, limit: string, page: number }) => {
+  KEY_COPY_RIGHTS, async (params: { search?: any, limit: string, page: number }) => {
     
     const { search, limit, page } = params;
     

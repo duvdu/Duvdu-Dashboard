@@ -76,14 +76,14 @@ function Main() {
     setRecordobject(undefined);
   }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e:any) => {
     setMessageField(e.target.value);
   };
   const showChatBox = (id: string) => {
     navigate(`/allchats/${id}`)
   }
   const other = getOther(statechat?.data?.data[0]?.sender, statechat?.data?.data[0]?.receiver)
-  const getLastMessageId = (statechat) => {
+  const getLastMessageId = (statechat:any) => {
     const messages = statechat?.data?.data;
     if (messages && messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
@@ -159,7 +159,7 @@ function Main() {
           <Tab.Panels>
             <Tab.Panel>
               <div className="pt-1 pr-1 mt-4 overflow-y-auto h-[525px] scrollbar-hidden">
-                {stateAllchat?.data?.data?.map((item, key) => {
+                {stateAllchat?.data?.data?.map((item:any, key:number) => {
                   const other = getOther(item.newestMessage.sender, item.newestMessage.receiver);
                   return (
                     <div
@@ -256,7 +256,7 @@ function Main() {
                   </div>
                 </div>
                 <div className="p-4 h-full overflow-y-scroll scrollbar-hidden" ref={chatref}>
-                  {statechat?.data?.data?.map((message, index) => (
+                  {statechat?.data?.data?.map((message:any, index:number) => (
                     <div id={message._id} key={index}>
                       {message.sender._id === getOther(message.sender, message.receiver)._id ? (
                         <div className="flex items-end float-left mb-4 max-w-[90%] sm:max-w-[49%]">
@@ -269,7 +269,7 @@ function Main() {
                           </div>
                           <div className="px-4 py-3 bg-slate-100 dark:bg-darkmode-400 text-slate-500 rounded-r-md rounded-t-md">
                             <div>
-                              {message.media && message.media.length > 0 && message.media.map((mediaItem, index) => (
+                              {message.media && message.media.length > 0 && message.media.map((mediaItem:any, index:number) => (
                                 <>
                                   {(() => {
                                     if (mediaItem.type.includes('pdf')) {
@@ -302,7 +302,7 @@ function Main() {
                         <div className="flex items-end float-right mb-4 max-w-[90%] sm:max-w-[49%]">
                           <div className="px-4 py-3 text-white bg-primary rounded-l-md rounded-t-md">
                             <div>
-                              {message.media && message.media.length > 0 && message.media.map((mediaItem, index) => (
+                              {message.media && message.media.length > 0 && message.media.map((mediaItem:any, index:number) => (
                                 <>
                                   {(() => {
                                     if (mediaItem.type.includes('pdf')) {

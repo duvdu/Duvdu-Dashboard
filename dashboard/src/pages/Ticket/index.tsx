@@ -16,10 +16,10 @@ import { ActionDeleteTicket } from "../../redux/action/api/ticket/delete";
 import { ActionUpdateTicket } from "../../redux/action/api/ticket/update";
 
 function Main() {
-  const [chatBox, setChatBox] = useState(false);
-  const [feedback, setfeedback] = useState('');
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState(null);
+  const [chatBox, setChatBox] = useState<any>(false);
+  const [feedback, setfeedback] = useState<any>('');
+  const [messages, setMessages] = useState<any>([]);
+  const [message, setMessage] = useState<any>(null);
   const dispatch = useAppDispatch()
   const state = useAppSelector(StateTicket)
   
@@ -52,10 +52,10 @@ function Main() {
     }
   }, [message])
 
-  const getTicket = (id) => {
+  const getTicket = (id:any) => {
     dispatch(ActionGetTicketById({ id: id }))
   };
-  const deleteTicket = (id) => {
+  const deleteTicket = (id:any) => {
     dispatch(ActionDeleteTicket({ id: id }))
   };
   const sendMessage = () => {
@@ -102,7 +102,7 @@ function Main() {
           <Tab.Panels>
             <Tab.Panel>
               <div className="pt-1 pr-1 overflow-y-auto h-[525px] scrollbar-hidden">
-                {messages.map((item, fakerKey) => (
+                {messages.map((item:any, fakerKey:any) => (
                   <div
                     key={fakerKey}
                     className={clsx({

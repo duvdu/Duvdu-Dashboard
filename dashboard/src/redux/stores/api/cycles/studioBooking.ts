@@ -19,7 +19,7 @@ const dataSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(AsyncThunkRef.pending, (state) => {
+    builder.addCase(AsyncThunkRef.pending, (state:any) => {
       pendingCase(state);
     });
     builder.addCase(AsyncThunkRef.fulfilled, (state, action) => {

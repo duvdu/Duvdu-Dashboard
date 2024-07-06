@@ -20,8 +20,8 @@ import LoadingIcon from "../../base-components/LoadingIcon";
 
 function Main() {
   const [categoryIdToDelete, setcategoryIdToDelete] = useState(null);
-  const [category, setCategory] = useState(null);
-  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState<any>(null);
+  const [categories, setCategories] = useState<any>([]);
 
   const [limit, setLimit] = useState("10");
   const [page, setPage] = useState(1);
@@ -42,9 +42,9 @@ function Main() {
   const formState = useAppSelector(selectFormState);
 
   useEffect(() => {
-    if (search?.length == 0)
+    if (search)
       action()
-  }, [dispatch, stateDeleteCategory, createCategory, search?.length == 0])
+  }, [dispatch, stateDeleteCategory, createCategory, search])
 
   useEffect(() => {
     action()
@@ -55,8 +55,8 @@ function Main() {
   const action = () => {
     dispatch(ActionGetCategory({ limit, page, search }))
   }
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && search?.length > 0) {
+  const handleKeyDown = (e:any) => {
+    if (e.key === 'Enter' && search) {
       handleSearch();
     }
   };
@@ -68,18 +68,18 @@ function Main() {
   }, [stateAllCategories?.data?.data?.length])
 
   const filterCategory = (id: string) => {
-    setCategory(categories.find(category => category._id === id));
+    setCategory(categories.find((category:any) => category?._id === id)??[]);
   }
 
 
-  const onChangeStutus = (newState, id) => {
+  const onChangeStutus = (newState:any, id:any) => {
     setidEdit(id)
     const formDate = new FormData();
     formDate.append('status', newState)
     dispatch(ActionUpdateCategory({ formdata: formDate, id: id }))
   };
 
-  const PaginationInfo = ({ pagination }) => {
+  const PaginationInfo = ({ pagination }:{pagination:any}) => {
     if (!pagination) return <></>
 
     const { currentPage, resultCount, totalPages } = pagination;
@@ -114,11 +114,11 @@ function Main() {
               <div className="category-subcategories box mb-4 p-4 mx-4">
                 <h3 className="text-xl font-semibold">Subcategories:</h3>
                 <div className="flex flex-wrap w-full gap-3">
-                  {category?.subCategories.map(subCategory => (
+                  {category?.subCategories.map((subCategory:any) => (
                     <div key={subCategory._id} className="subcategory-item p-2 text-start w-full">
                       <h4 className="text-lg font-medium">{subCategory.title.en}</h4>
                       <ul className="flex flex-wrap gap-2 py-2">
-                        {subCategory?.tags?.map((tag, index) => (
+                        {subCategory?.tags?.map((tag:any) => (
                           <li key={tag._id} className="py-1 px-2 border border-[#00000080] dark:border-[#FFFFFF4D] rounded-full">{tag.en}</li>
                         ))}
                       </ul>
@@ -129,7 +129,7 @@ function Main() {
               <div className="category-job-titles text-start box mb-4 p-4 mx-4">
                 <h3 className="text-xl font-semibold">Job Titles:</h3>
                 <ul className="job-titles-list">
-                  {category?.jobTitles.map((jobTitle, index) => (
+                  {category?.jobTitles?.map((jobTitle:any, index:number) => (
                     <li key={index} className="job-title-item">{jobTitle.en}</li>
                   ))}
                 </ul>
@@ -153,8 +153,8 @@ function Main() {
                 type="text"
                 className="w-56 pr-10 !box"
                 placeholder="Search..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={search??''}
+                onChange={(e:any) => setSearch(e.target.value)}
                 onKeyDown={handleKeyDown}
               />
               <Lucide
@@ -175,7 +175,7 @@ function Main() {
         {/* BEGIN: Users Layout */}
         {
           categories &&
-          categories.map((item) => (
+          categories.map((item:any) => (
             <div
               key={item._id}
               className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"

@@ -38,7 +38,7 @@ const Main: React.FC = () => {
   const details = stateGetPlanById?.data?.data || [];
 
   const [formValues, setFormValues] = useState({ key: '', title: '', role: '' });
-  const [errors, setErrors] = useState(null);
+  const [errors, setErrors] = useState<string|null>(null);
   const [actionPlanId, setActionPlanId] = useState<string | null>(null);
   const [status, setStatus] = useState(false);
   const [plans, setPlans] = useState([]);
@@ -83,7 +83,7 @@ const Main: React.FC = () => {
   // }, [id]);
 
   // Form handlers
-  const handleInputChange = (e) => {
+  const handleInputChange = (e:any) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
@@ -156,7 +156,7 @@ const Main: React.FC = () => {
               <FormLabel htmlFor="modal-form-6">Roles</FormLabel>
               <FormSelect id="modal-form-6" name="role" value={formValues.role} onChange={handleInputChange}>
                 <option value="" disabled>(select role)</option>
-                {roles.map(role => (
+                {roles.map((role:any) => (
                   <option key={role._id} value={role._id}>{role.key}</option>
                 ))}
               </FormSelect>
@@ -217,7 +217,7 @@ const Main: React.FC = () => {
         </div>
       </div>
       <div className="grid grid-cols-3">
-        {plans.map((plan, index) => (
+        {plans.map((plan:any, index:number) => (
           <div key={index} className="flex flex-col m-1 intro-y box lg:flex-row">
             <div className="flex-1 px-5 py-16 intro-y">
               <Lucide icon="CreditCard" className="block w-12 h-12 mx-auto text-primary" />

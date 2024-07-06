@@ -29,9 +29,9 @@ function Main() {
   const data = stateAllStudios?.data?.data
 
   useEffect(() => {
-    if (search?.length == 0)
+    if (search)
       action()
-  }, [dispatch, search?.length == 0])
+  }, [dispatch, search])
 
   useEffect(() => {
     action()
@@ -42,13 +42,13 @@ function Main() {
   const action = () => {
     dispatch(ActionGetStudio({ limit, page, search }))
   }
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && search?.length > 0) {
+  const handleKeyDown = (e:any) => {
+    if (e.key === 'Enter' && search) {
       handleSearch();
     }
   };
   
-  const PaginationInfo = ({ pagination }) => {
+  const PaginationInfo = ({ pagination }:{pagination:any}) => {
     if (!pagination) return <div className="hidden mx-auto md:block text-slate-500" />
 
     const { currentPage, resultCount, totalPages } = pagination;
@@ -75,8 +75,8 @@ function Main() {
                 type="text"
                 className="w-56 pr-10 !box"
                 placeholder="search?..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={search??''}
+                onChange={(e:any) => setSearch(e.target.value)}
                 onKeyDown={handleKeyDown}
               />
               <Lucide
@@ -97,7 +97,7 @@ function Main() {
         {/* BEGIN: Users Layout */}
         {
           data &&
-          data.map((item, key) => (
+          data.map((item:any) => (
             <div
               key={item._id}
               className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"

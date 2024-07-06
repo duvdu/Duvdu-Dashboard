@@ -4,7 +4,7 @@ import { mainApiInstance } from '../axiosInstances';
 
 
 export const ActionGetCategoryById = createAsyncThunk(
-    KEY_CATEGORY, async (params: { formdata: any; id: string }) => {
+    KEY_CATEGORY, async (params: { formdata: any; id: any }) => {
       const { formdata, id } = params;
     const response = await mainApiInstance.get(`api/category/${id}`);
     return response.data;

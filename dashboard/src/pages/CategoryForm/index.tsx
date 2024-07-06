@@ -35,9 +35,9 @@ function Main() {
 
 
   const isValidate = () => {
-    let reason = null;
+    let reason:any = null;
 
-    const checkCondition = (condition, failureReason) => {
+    const checkCondition = (condition:any, failureReason:any) => {
       if (!reason && !condition) {
         reason = failureReason;
       }
@@ -218,7 +218,7 @@ function Main() {
     // Check if there are job titles to remove and the index is within range
     if (formState?.jobTitles && index >= 0 && index < formState.jobTitles.length) {
       // Create a new array excluding the element at the specified index
-      const newJopDetails = formState.jobTitles.filter((_, i) => i !== index);
+      const newJopDetails = formState.jobTitles.filter((_:any, i:any) => i !== index);
       // Update the state with the new array of job titles
       putInBasket('jobTitles', newJopDetails);
     }
@@ -227,7 +227,7 @@ function Main() {
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
+      const reader:any = new FileReader();
       reader.onloadend = () => {
         setPreviewSrc(reader.result);
         setUploadedFile(file)
@@ -347,7 +347,7 @@ function Main() {
                   </Tippy>
                 </FormLabel>
 
-                {formState?.subCategories?.map((subCategory, index) => (
+                {formState?.subCategories?.map((subCategory:any, index:any) => (
                   <div key={index} className="mb-5">
                     <div className="grid grid-cols-12 gap-2 mt-2">
                       <InputGroup className="sm:w-full col-span-3 h-min">
@@ -425,7 +425,7 @@ function Main() {
                         </div>
                         <div className="flex flex-wrap gap-2 px-3">
                           {
-                            formState?.subCategories[index].tags?.map((tag, tagIndex) => (
+                            formState?.subCategories[index].tags?.map((tag:any, tagIndex:number) => (
                               <div key={tagIndex} className="flex flex-col relative px-2 py-0.5 bg-slate-200 text-slate-600 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md">
                                 <div className="mr-5">
                                   EN: {tag.en}
@@ -473,7 +473,7 @@ function Main() {
                       </div>
                     </Tippy>
                   </FormLabel>
-                  {formState?.jobTitles?.map((jop, index) => (
+                  {formState?.jobTitles?.map((jop:any, index:any) => (
                     <div key={index} className="grid grid-cols-2 gap-2 mt-3">
                       <InputGroup className="sm:w-full ">
                         <InputGroup.Text id={`input-group-en-${index}`}>EN</InputGroup.Text>
@@ -495,7 +495,7 @@ function Main() {
                       </InputGroup>
                       {
                         index > 0 &&
-                        <Tippy content="Remove Last subcategory field" className="absolute right-0 flex flex-col items-end justify-center text-danger" onClick={(e) => handleRemoveJopDetails(index)}>
+                        <Tippy content="Remove Last subcategory field" className="absolute right-0 flex flex-col items-end justify-center text-danger" onClick={(e:any) => handleRemoveJopDetails(index)}>
                           <div className="min-w-[40px] flex justify-center">
                             <Lucide icon="XCircle" className="block mx-auto mt-2 sm:mt-0 cursor-pointer" />
                           </div>

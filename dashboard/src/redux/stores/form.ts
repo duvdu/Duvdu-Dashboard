@@ -43,7 +43,7 @@ const formSlice = createSlice({
         setErrors: (state, action: PayloadAction<{ [key: string]: string }>) => {
             state.errors = action.payload;
         },
-        resetForm: (state) => {
+        resetForm: (state:any) => {
             state.formData = {};
             state.errors = {};
             state.postSuccess = false;
