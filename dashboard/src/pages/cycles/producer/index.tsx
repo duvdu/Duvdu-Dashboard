@@ -1,43 +1,82 @@
 import _ from "lodash";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import fakerData from "../../../utils/faker";
 import Button from "../../../base-components/Button";
 import Pagination from "../../../base-components/Pagination";
 import { FormInput, FormSelect } from "../../../base-components/Form";
 import Lucide from "../../../base-components/Lucide";
 import { Dialog, Menu } from "../../../base-components/Headless";
+import { useAppDispatch, useAppSelector } from "../../../redux/stores/hooks";
+import { StateAllProducers } from "../../../redux/stores/api/cycles/producer";
+import { ActionGetProducer } from "../../../redux/action/api/cycles/producer/get";
 
 function Main() {
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const deleteButtonRef = useRef(null);
-  // const PaginationInfo = ({ pagination }) => {
-    // if(!pagination) return <></>
-    //   const { currentPage, resultCount, totalPages } = pagination;
-  
-  //   // Calculate the start and end entry numbers
-  //   const entriesPerPage = Math.ceil(resultCount / totalPages);
-  //   const startEntry = (currentPage - 1) * entriesPerPage + 1;
-  //   const endEntry = Math.min(currentPage * entriesPerPage, resultCount);
-  
-  //   return (
-  //     <div className="hidden mx-auto md:block text-slate-500">
-  //       Showing {startEntry} to {endEntry} of {resultCount} entries
-  //     </div>
-  //   );
-  // };
+
+
+  const stateAllProducer = useAppSelector(StateAllProducers)
+  const state = stateAllProducer?.data
+  const pagdnationState = state?.pagination
+
+  const [limit, setLimit] = useState("10");
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+
+
+  const dispatch = useAppDispatch()
+
+  const data = stateAllProducer?.data?.data
+console.log(data)
+  useEffect(() => {
+    if (search.length == 0)
+      action()
+  }, [dispatch, search.length == 0])
+
+  useEffect(() => {
+    action()
+  }, [dispatch, limit, page])
+
+  const handleSearch = () => action();
+
+  const action = () => {
+    dispatch(ActionGetProducer({ limit, page, search }))
+  }
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && search.length > 0) {
+      handleSearch();
+    }
+  };
+
+  const PaginationInfo = ({ pagination }) => {
+    if (!pagination) return <div className="hidden mx-auto md:block text-slate-500" />
+
+    const { currentPage, resultCount, totalPages } = pagination;
+
+    // Calculate the start and end entry numbers
+    const entriesPerPage = Math.ceil(resultCount / totalPages);
+    const startEntry = (currentPage - 1) * entriesPerPage + 1;
+    const endEntry = Math.min(currentPage * entriesPerPage, resultCount);
+
+    return (
+      <div className="hidden mx-auto md:block text-slate-500">
+        Showing {startEntry} to {endEntry} of {resultCount} entries
+      </div>
+    );
+  };
   return (
     <>
       <h2 className="mt-10 text-lg font-medium intro-y">Producers</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
-        {/* <PaginationInfo pagination={pagdnationState} /> */}
+          {/* <PaginationInfo pagination={pagdnationState} /> */}
           <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-auto md:ml-0">
             <div className="relative w-56 text-slate-500">
-            <FormInput
+              <FormInput
                 type="text"
                 className="w-56 pr-10 !box"
                 placeholder="Search..."
-                // onChange={(e) => setSearch(e.target.value)}
+              // onChange={(e) => setSearch(e.target.value)}
               />
               <Lucide
                 icon="Search"
@@ -47,83 +86,95 @@ function Main() {
           </div>
         </div>
         {/* BEGIN: Users Layout */}
-        {_.take(fakerData, 12).map((faker, fakerKey) => (
-          <div
-            key={fakerKey}
-            className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"
-          >
-            <div className="box">
-              <div className="p-5">
-                <div className="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
-                  <img
-                    alt="Midone - HTML Admin Template"
-                    className="rounded-md"
-                    src={faker.images[0]}
-                  />
-                  {faker.trueFalse[0] && (
-                    <span className="absolute top-0 z-10 px-2 py-1 m-5 text-xs text-white rounded bg-pending/80">
-                      Featured
-                    </span>
-                  )}
-                  <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
-                    <a href="" className="block text-base font-medium">
-                      {faker.products[0].name}
-                    </a>
-                    <span className="mt-3 text-xs text-white/90">
-                      {faker.products[0].category}
-                    </span>
+        {
+          data &&
+          data.map((item, key) => (
+            <div
+              key={item._id}
+              className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"
+            >
+              <div className="box">
+                <div className="p-5">
+                  <div className="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
+                    <img
+                      alt="Midone - HTML Admin Template"
+                      className="rounded-md"
+                      src={item.user.profileImage}
+                    />
+                    <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
+                      <a href="" className="block text-base font-medium">
+                        {item.user.username}
+                      </a>
+                      <span className="mt-3 text-xs text-white/90">
+                        
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-5 text-slate-600 dark:text-slate-500 hidden">
+                    <div className="flex items-center">
+                      <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
+                      {item.pricePerHour} / hour
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <Lucide icon="Layers" className="w-4 h-4 mr-2" />
+                      insurance : {item.insurance}
+                    </div>
+                    <div className="flex items-center mt-2">
+                      <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
+                      subCategory : {item.subCategory}
+                    </div>
                   </div>
                 </div>
-                <div className="mt-5 text-slate-600 dark:text-slate-500">
-                  <div className="flex items-center">
-                    <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
-                    {faker.totals[0]}
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <Lucide icon="Layers" className="w-4 h-4 mr-2" /> Remaining
-                    Stock:
-                    {faker.stocks[0]}
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
-                    Status:
-                    {faker.trueFalse[0] ? "Active" : "Inactive"}
-                  </div>
+                <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400">
+
+                  <a
+                    className="flex items-center text-danger"
+                    href="#"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      setDeleteConfirmationModal(true);
+                    }}
+                  >
+
+                  </a>
                 </div>
-              </div>
-              <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400">
-                <a className="flex items-center mr-auto text-primary" >
-                  <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
-                </a>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
         {/* END: Users Layout */}
         {/* BEGIN: Pagination */}
         <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap">
-          <Pagination className="w-full sm:w-auto sm:mr-auto">
-            <Pagination.Link>
-              <Lucide icon="ChevronsLeft" className="w-4 h-4" />
-            </Pagination.Link>
-            <Pagination.Link>
-              <Lucide icon="ChevronLeft" className="w-4 h-4" />
-            </Pagination.Link>
-            <Pagination.Link>...</Pagination.Link>
-            <Pagination.Link>1</Pagination.Link>
-            <Pagination.Link active>2</Pagination.Link>
-            <Pagination.Link>3</Pagination.Link>
-            <Pagination.Link>...</Pagination.Link>
-            <Pagination.Link>
-              <Lucide icon="ChevronRight" className="w-4 h-4" />
-            </Pagination.Link>
-            <Pagination.Link>
-              <Lucide icon="ChevronsRight" className="w-4 h-4" />
-            </Pagination.Link>
-          </Pagination>
-          <FormSelect className="w-20 mt-3 !box sm:mt-0" 
-          // onChange={(e) => setLimit(e.target.value)}
-           >
+          {state ?
+            <Pagination className="w-full sm:w-auto sm:mr-auto">
+              <Pagination.Link>
+                <Lucide onClick={() => setPage(1)} icon="ChevronsLeft" className="w-4 h-4" />
+              </Pagination.Link>
+              <Pagination.Link>
+                <Lucide onClick={() => setPage(pagdnationState?.currentPage > 1 ? pagdnationState?.currentPage - 1 : 1)} icon="ChevronLeft" className="w-4 h-4" />
+              </Pagination.Link>
+              {Array.from({ length: pagdnationState?.totalPages }, (_, index) => (
+                <div onClick={() => setPage(index + 1)}>
+                  <Pagination.Link
+                    key={index}
+                    active={pagdnationState?.currentPage === index + 1}
+                  >
+                    {index + 1}
+                  </Pagination.Link>
+                </div>
+              ))}
+              <Pagination.Link>
+                <Lucide icon="ChevronRight" className="w-4 h-4"
+                  onClick={() =>
+                    setPage(pagdnationState?.currentPage < pagdnationState?.totalPages ? pagdnationState?.currentPage + 1 : pagdnationState?.totalPages)
+                  }
+                />
+              </Pagination.Link>
+              <Pagination.Link>
+                <Lucide icon="ChevronsRight" className="w-4 h-4" onClick={() => setPage(pagdnationState?.totalPages)} />
+              </Pagination.Link>
+            </Pagination> : <div className="w-full sm:w-auto sm:mr-auto" />
+          }
+          <FormSelect className="w-20 mt-3 !box sm:mt-0" onChange={(e) => setLimit(e.target.value)} >
             <option>10</option>
             <option>25</option>
             <option>35</option>

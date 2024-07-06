@@ -21,22 +21,23 @@ import Notification from "../../base-components/Notification";
 import Toastify from "toastify-js";
 import { useNavigate, useParams } from "react-router-dom";
 import { toRGB } from "../../utils/helper";
+import DarkModeSwitcher from "../../components/DarkModeSwitcher";
 
 function Main() {
-  
+
 
   const [searchDropdown, setSearchDropdown] = useState(false);
   const authState = useAppSelector(StateMyProfile)
   const notifications = useAppSelector(StateAllNotification)
   const handlerrors = useAppSelector(GetAllErrors);
   const navigate = useNavigate();
-  
+
   const dispatch = useAppDispatch()
   useEffect(() => {
-    
+
     const errorAuth = handlerrors.some(item => item.error === "Request failed with status code 401");
     // const errorAuth = handlerrors.some(item => item.error === "Request failed with status code 403");
-    
+
     if (handlerrors && handlerrors.length > 0 && !errorAuth) {
       const error = handlerrors[0];
       const failedEl = document
@@ -93,9 +94,9 @@ function Main() {
   }
   else if (authState.loading) {
     return <>
-    <div className="flex w-full justify-center">
-        <LoadingIcon icon="puff" className="w-40 h-40"/>
-    </div>
+      <div className="flex w-full justify-center">
+        <LoadingIcon icon="puff" className="w-40 h-40" />
+      </div>
       <Notification
         id="failed-notification-content"
         className="flex hidden"
@@ -157,6 +158,10 @@ function Main() {
             Dashboard
           </Breadcrumb.Link>
         </Breadcrumb>
+        <div className="w-full flex justify-center items-center">
+        <DarkModeSwitcher />
+        </div>
+
         {/* END: Breadcrumb */}
         {/* BEGIN: Search */}
         <div className="relative mr-3 intro-x sm:mr-6">
@@ -252,6 +257,7 @@ function Main() {
           </Transition>
         </div>
         {/* END: Search  */}
+
         {/* BEGIN: Notifications */}
         <Popover className="mr-auto intro-x sm:mr-6">
           <Popover.Button
@@ -301,6 +307,7 @@ function Main() {
         </Popover>
         {/* END: Notifications  */}
         {/* BEGIN: Account Menu */}
+
         <Menu>
           <Menu.Button className="block w-8 h-8 overflow-hidden rounded-full shadow-lg image-fit zoom-in intro-x">
             <img

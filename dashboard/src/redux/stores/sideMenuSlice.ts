@@ -101,6 +101,11 @@ const initialState: SideMenuState = {
       pathname: "/roles",
       title: "roles",
     },
+    {
+      icon: "HardDrive",
+      pathname: "/plan",
+      title: "plan",
+    },
 
     "divider",
     {

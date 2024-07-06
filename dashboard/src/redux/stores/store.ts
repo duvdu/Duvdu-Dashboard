@@ -24,12 +24,18 @@ import users from "./api/users";
 import chat from "./api/chat/one";
 import allchat from "./api/chat/all";
 import sendmessage from "./api/chat/sendMsg";
-
+//////////////// roles
 import updateRole from "./api/roles/update";
 import getRoleById from "./api/roles/getById";
 import getAllRole from "./api/roles/getAll";
 import deleteRole from "./api/roles/delete";
 import createRole from "./api/roles/create";
+//////////////// roles
+import updatePlan from "./api/plan/update";
+import getPlanById from "./api/plan/getById";
+import getAllPlan from "./api/plan/getAll";
+import deletePlan from "./api/plan/delete";
+import createPlan from "./api/plan/create";
 
 export const store = configureStore({
   reducer: {
@@ -57,11 +63,18 @@ export const store = configureStore({
     allchat,
     sendmessage,
     terms,
+    //////////////// roles
     updateRole,
     getRoleById,
     getAllRole,
     deleteRole,
-    createRole
+    createRole,
+    //////////////// plans
+    updatePlan,
+    getPlanById,
+    getAllPlan,
+    deletePlan,
+    createPlan
   },
 });
 

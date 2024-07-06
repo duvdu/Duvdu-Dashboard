@@ -27,7 +27,6 @@ function Main() {
 
   return (
     <div className="py-5 md:py-0 -mx-3 px-3 sm:-mx-8 sm:px-8 bg-black/[0.15] dark:bg-transparent">
-      <DarkModeSwitcher />
       <MainColorSwitcher />
       <MobileMenu />
       <div className="flex mt-[4.7rem] md:mt-0 overflow-hidden">

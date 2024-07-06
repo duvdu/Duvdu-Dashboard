@@ -64,6 +64,7 @@ function Main() {
       </div>
     );
   };
+  console.log(data)
   return (
     <>
       <h2 className="mt-10 text-lg font-medium intro-y">Studios</h2>

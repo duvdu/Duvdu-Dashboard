@@ -18,7 +18,7 @@ import { selectFormState, updateFormData, insertToArray, removeItemFromField, re
 import { Popover } from "../../base-components/Headless";
 import Toastify from "toastify-js";
 import Notification from "../../base-components/Notification";
-import { StateCreateCategory } from "../../redux/stores/api/category/create";
+import { StateCreateCategory, resetDataState } from "../../redux/stores/api/category/create";
 import { ActionUpdateCategory } from "../../redux/action/api/category/update";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { StateCategory } from "../../redux/stores/api/category/category";
@@ -88,8 +88,9 @@ function Main() {
   };
 
   useEffect(() => {
-    if (stateCreateCategory.data)
+    if (stateCreateCategory.data)     // MAGDY BUG
       showSuccess()
+    dispatch(resetDataState());
   }, [stateCreateCategory.data])
   useEffect(() => {
     if (Object.keys(formState).length > 0) {
@@ -214,7 +215,7 @@ function Main() {
     putInBasket('cycle', value);
   }, [type]);
 
-  
+console.log(formState)
   return (
     <>
       <Notification
@@ -370,8 +371,10 @@ function Main() {
                                       </Button>
                                       <Button  className="w-32 ml-2"
                                         onClick={() => {
-                                          if (englishTag.length > 0 && arabicTag.length > 0)
+                                          if (englishTag.length > 0 && arabicTag.length > 0) {
                                             handleChange(JSON.stringify({ en: englishTag, ar: arabicTag }), index, 'tags', 'en', formState?.subCategories[index].tags?.length || 0)
+                                            close();
+                                          }
                                         }}
                                       >
                                         Add
@@ -474,19 +477,33 @@ function Main() {
               <div className="mt-3">
                 <FormLabel htmlFor="crud-form-3">Cycle</FormLabel>
                 {formState.cycle &&
-                <FormSelect defaultValue={formState.cycle?.replace('-', ' ')} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => setType(e.target.value)}>
-                  {[
-                    "Choose Type",
-                    "studio booking",
-                    "portfolio post",
-                    "copy rights",
-                    "producer"
-                  ].map((item, index) =>
-                    <option key={index}>{item}</option>
-                  )}
-                </FormSelect>}
+                  <FormSelect defaultValue={formState.cycle?.replace('-', ' ')} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => putInBasket('cycle', e.target.value)}>
+                    <option value="" disabled>(Choose Type)</option>
+                    {[
+                      "studio booking",
+                      "project",
+                      "copy rights",
+                      "producer"
+                    ].map((item, index) =>
+                      <option key={index}>{item}</option>
+                    )}
+                  </FormSelect>}
               </div>
-
+              {/* {type == "project" && */}
+              {formState.cycle == "project" &&
+                <div className="mt-7">
+                  <FormLabel htmlFor="crud-form-3">Media Type</FormLabel>
+                  <FormSelect value={formState.media} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => putInBasket('media',e.target.value)}> 
+                    <option value="" disabled>(Choose Type)</option>
+                    {[
+                      "video",
+                      "image",
+                      "audio",
+                    ].map((item, index) =>
+                      <option key={index}>{item}</option>
+                    )}
+                  </FormSelect>
+                </div>}
               <div className="mt-3">
                 <label>Active Status</label>
                 <FormSwitch className="mt-2" >
