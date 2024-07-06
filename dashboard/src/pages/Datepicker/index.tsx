@@ -258,8 +258,8 @@ function Main() {
                     <div className="text-center">
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setDatepickerModalPreview(true);
@@ -284,7 +284,7 @@ function Main() {
                             Filter by Date
                           </h2>
                           <Button
-                            variant="outline-secondary"
+                            
                             className="hidden sm:flex"
                           >
                             <Lucide icon="File" className="w-4 h-4 mr-2" />{" "}
@@ -294,7 +294,7 @@ function Main() {
                             <Menu.Button
                               as="a"
                               className="block w-5 h-5"
-                              href="#"
+                              
                             >
                               <Lucide
                                 icon="MoreHorizontal"
@@ -357,7 +357,7 @@ function Main() {
                         {/* BEGIN: Modal Footer */}
                         <Dialog.Footer className="text-right">
                           <Button
-                            variant="outline-secondary"
+                            
                             type="button"
                             onClick={() => {
                               setDatepickerModalPreview(false);
@@ -367,7 +367,7 @@ function Main() {
                             Cancel
                           </Button>
                           <Button
-                            variant="primary"
+                            
                             type="button"
                             className="w-20"
                             ref={cancelButtonRef}
@@ -387,8 +387,8 @@ function Main() {
               <div className="text-center">
                 <Button
                   as="a"
-                  href="#"
-                  variant="primary"
+                  
+                  
                   onClick={(event: React.MouseEvent) => {
                     event.preventDefault();
                     setDatepickerModalPreview(true);
@@ -413,7 +413,7 @@ function Main() {
                       Filter by Date
                     </h2>
                     <Button
-                      variant="outline-secondary"
+                      
                       className="hidden sm:flex"
                     >
                       <Lucide icon="File" className="w-4 h-4 mr-2" />{" "}
@@ -423,7 +423,7 @@ function Main() {
                       <Menu.Button
                         as="a"
                         className="block w-5 h-5"
-                        href="#"
+                        
                       >
                         <Lucide
                           icon="MoreHorizontal"
@@ -490,7 +490,7 @@ function Main() {
                   {/* BEGIN: Modal Footer */}
                   <Dialog.Footer className="text-right">
                     <Button
-                      variant="outline-secondary"
+                      
                       type="button"
                       onClick={() => {
                         setDatepickerModalPreview(false);
@@ -500,7 +500,7 @@ function Main() {
                       Cancel
                     </Button>
                     <Button
-                      variant="primary"
+                      
                       type="button"
                       className="w-20"
                       ref={cancelButtonRef}

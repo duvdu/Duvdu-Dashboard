@@ -34,7 +34,7 @@ function Tab({
             fullWidth && "flex-1",
             list.variant == "tabs" && "-mb-px",
           ])}
-          {...props}
+          // {...props}
         >
           <tabContext.Provider
             value={{
@@ -43,8 +43,9 @@ function Tab({
           >
             {typeof children === "function"
               ? children({
-                  selected: selected,
-                })
+                selected: selected,
+                disabled: false
+              })
               : children}
           </tabContext.Provider>
         </li>

@@ -4,7 +4,7 @@ import { mainApiInstance } from '../axiosInstances';
 
 
 export const ActionUpdateTicket = createAsyncThunk(
-    KEY_TICKET, async (params: { formdata: any; id: string }) => {
+    KEY_TICKET, async (params: { formdata?: any; id?: string }) => {
         const { formdata, id } = params;
     const response = await mainApiInstance.put(`api/users/tickets/${id}`, formdata);
     return response.data;

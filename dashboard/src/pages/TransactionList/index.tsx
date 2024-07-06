@@ -43,11 +43,11 @@ function Main() {
             Showing 1 to 10 of 150 entries
           </div>
           <div className="flex items-center w-full mt-3 xl:w-auto xl:mt-0">
-            <Button variant="primary" className="mr-2 shadow-md">
+            <Button  className="mr-2 shadow-md">
               <Lucide icon="FileText" className="w-4 h-4 mr-2" /> Export to
               Excel
             </Button>
-            <Button variant="primary" className="mr-2 shadow-md">
+            <Button  className="mr-2 shadow-md">
               <Lucide icon="FileText" className="w-4 h-4 mr-2" /> Export to PDF
             </Button>
             <Menu>
@@ -172,14 +172,14 @@ function Main() {
                     <div className="flex items-center justify-center">
                       <a
                         className="flex items-center mr-5 text-primary whitespace-nowrap"
-                        href="#"
+                        
                       >
                         <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" />{" "}
                         View Details
                       </a>
                       <a
                         className="flex items-center text-primary whitespace-nowrap"
-                        href="#"
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setDeleteConfirmationModal(true);
@@ -251,7 +251,7 @@ function Main() {
           </div>
           <div className="px-5 pb-8 text-center">
             <Button
-              variant="outline-secondary"
+              
               type="button"
               onClick={() => {
                 setDeleteConfirmationModal(false);

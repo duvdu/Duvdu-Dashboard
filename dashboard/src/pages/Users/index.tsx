@@ -75,10 +75,10 @@ function Main() {
                   </div>
                 </div>
                 <div className="flex mt-4 lg:mt-0">
-                  <Button variant="primary" className="px-2 py-1 mr-2" onClick={() => { navigate(`/allchats/${user._id}`) }}>
+                  <Button  className="px-2 py-1 mr-2" onClick={() => { navigate(`/allchats/${user._id}`) }}>
                     Message
                   </Button>
-                  <Button variant="outline-secondary" className="px-2 py-1">
+                  <Button  className="px-2 py-1">
                     Profile
                   </Button>
                 </div>

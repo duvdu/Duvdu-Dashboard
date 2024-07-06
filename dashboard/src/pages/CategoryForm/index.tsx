@@ -117,7 +117,7 @@ function Main() {
     if (uploadedFile)
       formDate.append('cover', uploadedFile)
     objectToFormData(formState, formDate)
-    dispatch(ActionCreateCategory({ formdata: formDate, }))
+    dispatch(ActionCreateCategory({ formdata: formDate }))
   };
 
   useEffect(() => {
@@ -187,11 +187,10 @@ function Main() {
       putInBasket('subCategories', updatedSubCategories);
     }
   };
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | String, index: number, field: 'title' | 'tags', lang: 'ar' | 'en', tagIndex?: number) => {
-    const value = typeof e === 'string' ? e : e.target.value;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | string, index: number, field: 'title' | 'tags', lang: 'ar' | 'en', tagIndex?: number) => {
+    const value = typeof e === 'string' ? e : (e.target as HTMLInputElement).value;
     handleSubCategoryChange(index, field, lang, value, tagIndex);
   };
-
 
 
   const handleAddJopDetails = () => {
@@ -303,9 +302,9 @@ function Main() {
                       type="file"
                       className="absolute top-0 left-0 w-full h-full opacity-0"
                       onChange={handleFileChange}
-                      onClick={(event) => {
-                        event.target.value = null;
-                      }}
+                      // onClick={(e) => {
+                      //   e.target.value = '';
+                      // }}
                     />
                   </div>
                 </div>
@@ -383,7 +382,7 @@ function Main() {
                           <Popover className="inline-block">
                             {({ close }) => (
                               <>
-                                <Popover.Button as={Button} variant="primary" className={"whitespace-nowrap"}>
+                                <Popover.Button as={Button}  className={"whitespace-nowrap"}>
                                   Add Tag
                                   <Lucide icon="ChevronDown" className="w-4 h-4 ml-2" />
                                 </Popover.Button>
@@ -413,7 +412,7 @@ function Main() {
                                       >
                                         Close
                                       </Button>
-                                      <Button variant="primary" className="w-32 ml-2"
+                                      <Button  className="w-32 ml-2"
                                         onClick={() => {
                                           if (englishTag.length > 0 && arabicTag.length > 0)
                                             handleChange(JSON.stringify({ en: englishTag, ar: arabicTag }), index, 'tags', 'en', formState?.subCategories[index].tags?.length || 0)
@@ -555,13 +554,13 @@ function Main() {
           <div className="mt-5 text-right">
             <Button
               type="button"
-              variant="outline-secondary"
+              
               className="w-24 mr-1"
               onClick={onCancel}
             >
               Cancel
             </Button>
-            <Button onClick={onSubmit} type="button" variant="primary" className="w-24" disabled={isValidate().isDisable}  >
+            <Button onClick={onSubmit} type="button"  className="w-24" disabled={isValidate().isDisable}  >
               Save
               {
                 stateCreateCategory.loading &&

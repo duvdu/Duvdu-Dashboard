@@ -12,7 +12,7 @@ function Main() {
       <h2 className="mt-10 text-lg font-medium intro-y">Users Layout</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
-          <Button variant="primary" className="mr-2 shadow-md">
+          <Button  className="mr-2 shadow-md">
             Add New User
           </Button>
           <Menu>
@@ -74,7 +74,7 @@ function Main() {
                   </div>
                 </div>
                 <Menu className="absolute top-0 right-0 mt-3 mr-5">
-                  <Menu.Button tag="a" className="block w-5 h-5" href="#">
+                  <Menu.Button className="block w-5 h-5">
                     <Lucide
                       icon="MoreHorizontal"
                       className="w-5 h-5 text-slate-500"
@@ -102,10 +102,10 @@ function Main() {
                 </div>
               </div>
               <div className="p-5 text-center border-t lg:text-right border-slate-200/60 dark:border-darkmode-400">
-                <Button variant="primary" className="px-2 py-1 mr-2">
+                <Button  className="px-2 py-1 mr-2">
                   Message
                 </Button>
-                <Button variant="outline-secondary" className="px-2 py-1">
+                <Button  className="px-2 py-1">
                   Profile
                 </Button>
               </div>

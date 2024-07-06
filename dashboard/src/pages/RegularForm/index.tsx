@@ -57,8 +57,7 @@ function Main() {
                       <FormInput
                         id="regular-form-2"
                         type="text"
-                        rounded
-                        placeholder="Rounded"
+                            placeholder="Rounded"
                       />
                     </div>
                     <div className="mt-3">
@@ -107,7 +106,6 @@ function Main() {
                   <FormInput
                     id="regular-form-2"
                     type="text"
-                    rounded
                     placeholder="Rounded"
                   />
                 </div>
@@ -576,7 +574,7 @@ function Main() {
                         Remember me
                       </FormCheck.Label>
                     </FormCheck>
-                    <Button variant="primary" className="mt-5">
+                    <Button  className="mt-5">
                       Login
                     </Button>
                   </Preview>
@@ -609,7 +607,7 @@ function Main() {
                     Remember me
                   </FormCheck.Label>
                 </FormCheck>
-                <Button variant="primary" className="mt-5">
+                <Button  className="mt-5">
                   Login
                 </Button>
                 `}
@@ -679,7 +677,7 @@ function Main() {
                       </FormCheck.Label>
                     </FormCheck>
                     <div className="mt-5 sm:ml-20 sm:pl-5">
-                      <Button variant="primary">Login</Button>
+                      <Button >Login</Button>
                     </div>
                   </Preview>
                   <Source>
@@ -722,7 +720,7 @@ function Main() {
                   </FormCheck.Label>
                 </FormCheck>
                 <div className="mt-5 sm:ml-20 sm:pl-5">
-                  <Button variant="primary">Login</Button>
+                  <Button >Login</Button>
                 </div>
                 `}
                     </Highlight>

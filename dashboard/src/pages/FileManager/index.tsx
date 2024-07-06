@@ -115,7 +115,7 @@ function Main() {
                   as="a"
                   role="button"
                   className="block w-4 h-4"
-                  href="#"
+                  
                 >
                   <Lucide
                     icon="ChevronDown"
@@ -175,7 +175,7 @@ function Main() {
                       <Button variant="secondary" className="w-32 ml-auto">
                         Create Filter
                       </Button>
-                      <Button variant="primary" className="w-32 ml-2">
+                      <Button  className="w-32 ml-2">
                         Search
                       </Button>
                     </div>
@@ -184,7 +184,7 @@ function Main() {
               </Menu>
             </div>
             <div className="flex w-full sm:w-auto">
-              <Button variant="primary" className="mr-2 shadow-md">
+              <Button  className="mr-2 shadow-md">
                 Upload New Files
               </Button>
               <Menu>
@@ -267,7 +267,7 @@ function Main() {
                     {faker.files[0].size}
                   </div>
                   <Menu className="absolute top-0 right-0 mt-3 ml-auto mr-2">
-                    <Menu.Button as="a" className="block w-5 h-5" href="#">
+                    <Menu.Button as="a" className="block w-5 h-5" >
                       <Lucide
                         icon="MoreVertical"
                         className="w-5 h-5 text-slate-500"

@@ -138,7 +138,7 @@ function Main() {
 
                   <a
                     className="flex items-center text-danger"
-                    href="#"
+                    
                     onClick={(event) => {
                       event.preventDefault();
                       setDeleteConfirmationModal(true);
@@ -214,7 +214,7 @@ function Main() {
           </div>
           <div className="px-5 pb-8 text-center">
             <Button
-              variant="outline-secondary"
+              
               type="button"
               onClick={() => {
                 setDeleteConfirmationModal(false);

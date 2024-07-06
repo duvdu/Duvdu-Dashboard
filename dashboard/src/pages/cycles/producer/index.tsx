@@ -92,7 +92,7 @@ function Main() {
                 </div>
               </div>
               <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400">
-                <a className="flex items-center mr-auto text-primary" href="#">
+                <a className="flex items-center mr-auto text-primary" >
                   <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
                 </a>
               </div>
@@ -121,7 +121,9 @@ function Main() {
               <Lucide icon="ChevronsRight" className="w-4 h-4" />
             </Pagination.Link>
           </Pagination>
-          <FormSelect className="w-20 mt-3 !box sm:mt-0" onChange={(e) => setLimit(e.target.value)} >
+          <FormSelect className="w-20 mt-3 !box sm:mt-0" 
+          // onChange={(e) => setLimit(e.target.value)}
+           >
             <option>10</option>
             <option>25</option>
             <option>35</option>
@@ -152,7 +154,7 @@ function Main() {
           </div>
           <div className="px-5 pb-8 text-center">
             <Button
-              variant="outline-secondary"
+              
               type="button"
               onClick={() => {
                 setDeleteConfirmationModal(false);

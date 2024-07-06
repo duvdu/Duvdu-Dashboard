@@ -16,7 +16,7 @@ function Main() {
       <h2 className="mt-10 text-lg font-medium intro-y">Product Grid</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
-          <Button variant="primary" className="mr-2 shadow-md">
+          <Button  className="mr-2 shadow-md">
             Add New Product
           </Button>
           <Menu>
@@ -102,15 +102,15 @@ function Main() {
                 </div>
               </div>
               <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400">
-                <a className="flex items-center mr-auto text-primary" href="#">
+                <a className="flex items-center mr-auto text-primary" >
                   <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
                 </a>
-                <a className="flex items-center mr-3" href="#">
+                <a className="flex items-center mr-3" >
                   <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" /> Edit
                 </a>
                 <a
                   className="flex items-center text-danger"
-                  href="#"
+                  
                   onClick={(event) => {
                     event.preventDefault();
                     setDeleteConfirmationModal(true);
@@ -175,7 +175,7 @@ function Main() {
           </div>
           <div className="px-5 pb-8 text-center">
             <Button
-              variant="outline-secondary"
+              
               type="button"
               onClick={() => {
                 setDeleteConfirmationModal(false);

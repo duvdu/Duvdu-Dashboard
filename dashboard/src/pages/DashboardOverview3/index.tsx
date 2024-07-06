@@ -23,7 +23,7 @@ function Main() {
           <div className="z-20 col-span-12 xl:col-span-9 2xl:col-span-9">
             <div className="mt-6 -mb-6 intro-y">
               <Alert
-                variant="primary"
+                
                 dismissible
                 className="flex items-center mb-6 box dark:border-darkmode-600"
               >
@@ -56,7 +56,7 @@ function Main() {
             <div className="grid grid-cols-12 mb-3 mt-14 sm:gap-10 intro-y">
               <div className="relative col-span-12 py-6 text-center sm:col-span-6 md:col-span-4 sm:pl-5 md:pl-0 lg:pl-5 sm:text-left">
                 <Menu className="absolute pt-0.5 2xl:pt-0 mt-5 2xl:mt-6 top-0 right-0">
-                  <Menu.Button as="a" className="block" href="#">
+                  <Menu.Button as="a" className="block" >
                     <Lucide
                       icon="MoreVertical"
                       className="w-5 h-5 text-slate-500"
@@ -127,8 +127,7 @@ function Main() {
                 <Menu className="mt-14 2xl:mt-24 w-44 2xl:w-52">
                   <Menu.Button
                     as={Button}
-                    variant="primary"
-                    rounded
+                    
                     className="relative justify-start w-full px-4"
                   >
                     Download Reports
@@ -444,7 +443,7 @@ function Main() {
                         </div>
                       </div>
                       <Button
-                        variant="outline-secondary"
+                        
                         className="relative justify-start col-span-12 mb-2 border-dashed border-slate-300 dark:border-darkmode-300"
                       >
                         <span className="mr-5 truncate">

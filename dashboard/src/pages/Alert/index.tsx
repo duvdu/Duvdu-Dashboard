@@ -38,7 +38,7 @@ function Main() {
                 </div>
                 <div className="p-5">
                   <Preview>
-                    <Alert variant="primary" className="mb-2">
+                    <Alert  className="mb-2">
                       Awesome simple alert
                     </Alert>
                     <Alert variant="secondary" className="mb-2">
@@ -63,7 +63,7 @@ function Main() {
                   <Source>
                     <Highlight>
                       {`
-                <Alert variant="primary" className="mb-2">
+                <Alert  className="mb-2">
                   Awesome simple alert
                 </Alert>
                 <Alert variant="secondary" className="mb-2">
@@ -112,7 +112,7 @@ function Main() {
                 </div>
                 <div className="p-5">
                   <Preview>
-                    <Alert variant="primary" className="flex items-center mb-2">
+                    <Alert  className="flex items-center mb-2">
                       <Lucide icon="AlertCircle" className="w-6 h-6 mr-2" />{" "}
                       Awesome alert with icon
                     </Alert>
@@ -147,7 +147,7 @@ function Main() {
                   <Source>
                     <Highlight>
                       {`
-                <Alert variant="primary" className="flex items-center mb-2">
+                <Alert  className="flex items-center mb-2">
                   <Lucide icon="AlertCircle" className="w-6 h-6 mr-2" />{" "}
                   Awesome alert with icon
                 </Alert>
@@ -208,7 +208,7 @@ function Main() {
                 </div>
                 <div className="p-5">
                   <Preview>
-                    <Alert variant="primary" className="mb-2">
+                    <Alert  className="mb-2">
                       <div className="flex items-center">
                         <div className="text-lg font-medium">
                           Awesome alert with additional info
@@ -317,7 +317,7 @@ function Main() {
                   <Source>
                     <Highlight>
                       {`
-                <Alert variant="primary" className="mb-2">
+                <Alert  className="mb-2">
                   <div className="flex items-center">
                     <div className="text-lg font-medium">
                       Awesome alert with additional info
@@ -454,7 +454,7 @@ function Main() {
                 </div>
                 <div className="p-5">
                   <Preview>
-                    <Alert variant="primary" className="flex items-center mb-2">
+                    <Alert  className="flex items-center mb-2">
                       {({ dismiss }) => (
                         <>
                           <Lucide icon="AlertCircle" className="w-6 h-6 mr-2" />{" "}
@@ -588,7 +588,7 @@ function Main() {
                   <Source>
                     <Highlight>
                       {`
-                <Alert variant="primary" className="flex items-center mb-2">
+                <Alert  className="flex items-center mb-2">
                   {({ dismiss }) => (
                     <>
                       <Lucide icon="AlertCircle" className="w-6 h-6 mr-2" />{" "}
@@ -768,7 +768,7 @@ function Main() {
                       )}
                     </Alert>
                     <Alert
-                      variant="outline-secondary"
+                      
                       className="flex items-center mb-2"
                     >
                       {({ dismiss }) => (
@@ -917,7 +917,7 @@ function Main() {
                   )}
                 </Alert>
                 <Alert
-                  variant="outline-secondary"
+                  
                   className="flex items-center mb-2"
                 >
                   {({ dismiss }) => (

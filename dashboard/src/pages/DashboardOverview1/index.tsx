@@ -235,7 +235,7 @@ function Main() {
                 <Menu className="mt-5 md:ml-auto md:mt-0">
                   <Menu.Button
                     as={Button}
-                    variant="outline-secondary"
+                    
                     className="font-normal"
                   >
                     Filter by Category
@@ -864,7 +864,7 @@ function Main() {
                           View Notes
                         </Button>
                         <Button
-                          variant="outline-secondary"
+                          
                           type="button"
                           className="px-2 py-1 ml-auto"
                         >
@@ -891,7 +891,7 @@ function Main() {
                           View Notes
                         </Button>
                         <Button
-                          variant="outline-secondary"
+                          
                           type="button"
                           className="px-2 py-1 ml-auto"
                         >
@@ -918,7 +918,7 @@ function Main() {
                           View Notes
                         </Button>
                         <Button
-                          variant="outline-secondary"
+                          
                           type="button"
                           className="px-2 py-1 ml-auto"
                         >

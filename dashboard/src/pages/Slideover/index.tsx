@@ -68,8 +68,8 @@ function Main() {
                     <div className="text-center">
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setBasicSlideoverPreview(true);
@@ -107,8 +107,8 @@ function Main() {
                 <div className="text-center">
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setBasicSlideoverPreview(true);
@@ -172,8 +172,8 @@ function Main() {
                       {/* BEGIN: Small Slide Over Toggle */}
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setSmallSlideoverSizePreview(true);
@@ -186,8 +186,8 @@ function Main() {
                       {/* BEGIN: Medium Slide Over Toggle */}
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setMediumSlideoverSizePreview(true);
@@ -200,8 +200,8 @@ function Main() {
                       {/* BEGIN: Large Slide Over Toggle */}
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setLargeSlideoverSizePreview(true);
@@ -214,8 +214,8 @@ function Main() {
                       {/* BEGIN: Super Large Slide Over Toggle */}
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setSuperlargeSlideoverSizePreview(true);
@@ -313,8 +313,8 @@ function Main() {
                   {/* BEGIN: Small Slide Over Toggle */}
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setSmallSlideoverSizePreview(true);
@@ -327,8 +327,8 @@ function Main() {
                   {/* BEGIN: Medium Slide Over Toggle */}
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setMediumSlideoverSizePreview(true);
@@ -341,8 +341,8 @@ function Main() {
                   {/* BEGIN: Large Slide Over Toggle */}
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setLargeSlideoverSizePreview(true);
@@ -355,8 +355,8 @@ function Main() {
                   {/* BEGIN: Super Large Slide Over Toggle */}
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setSuperlargeSlideoverSizePreview(true);
@@ -480,8 +480,8 @@ function Main() {
                     <div className="text-center">
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setButtonSlideoverPreview(true);
@@ -493,7 +493,7 @@ function Main() {
                     {/* END: Modal Toggle */}
                     {/* BEGIN: Modal Content */}
                     <Slideover
-                      backdrop="static"
+                      
                       open={buttonSlideoverPreview}
                       onClose={() => {
                         setButtonSlideoverPreview(false);
@@ -506,7 +506,7 @@ function Main() {
                             setButtonSlideoverPreview(false);
                           }}
                           className="absolute top-0 left-0 right-auto mt-4 -ml-12"
-                          href="#"
+                          
                         >
                           <Lucide icon="X" className="w-8 h-8 text-slate-400" />
                         </a>
@@ -529,8 +529,8 @@ function Main() {
                 <div className="text-center">
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setButtonSlideoverPreview(true);
@@ -542,7 +542,7 @@ function Main() {
                 {/* END: Modal Toggle */}
                 {/* BEGIN: Modal Content */}
                 <Slideover
-                  backdrop="static"
+                  
                   open={buttonSlideoverPreview}
                   onClose={() => {
                     setButtonSlideoverPreview(false);
@@ -555,7 +555,7 @@ function Main() {
                         setButtonSlideoverPreview(false);
                       }}
                       className="absolute top-0 left-0 right-auto mt-4 -ml-12"
-                      href="#"
+                      
                     >
                       <Lucide icon="X" className="w-8 h-8 text-slate-400" />
                     </a>
@@ -606,8 +606,8 @@ function Main() {
                     <div className="text-center">
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setOverlappingSlideoverPreview(true);
@@ -639,8 +639,8 @@ function Main() {
                             {/* BEGIN: Overlapping Slide Over Toggle */}
                             <Button
                               as="a"
-                              href="#"
-                              variant="primary"
+                              
+                              
                               onClick={(event: React.MouseEvent) => {
                                 event.preventDefault();
                                 setNextOverlappingSlideoverPreview(true);
@@ -682,8 +682,8 @@ function Main() {
                 <div className="text-center">
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setOverlappingSlideoverPreview(true);
@@ -715,8 +715,8 @@ function Main() {
                         {/* BEGIN: Overlapping Slide Over Toggle */}
                         <Button
                           as="a"
-                          href="#"
-                          variant="primary"
+                          
+                          
                           onClick={(event: React.MouseEvent) => {
                             event.preventDefault();
                             setNextOverlappingSlideoverPreview(true);
@@ -784,8 +784,8 @@ function Main() {
                     <div className="text-center">
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setHeaderFooterSlideoverPreview(true);
@@ -797,7 +797,7 @@ function Main() {
                     {/* END: Slide Over Toggle */}
                     {/* BEGIN: Slide Over Content */}
                     <Slideover
-                      backdrop="static"
+                      
                       open={headerFooterSlideoverPreview}
                       onClose={() => {
                         setHeaderFooterSlideoverPreview(false);
@@ -811,7 +811,7 @@ function Main() {
                             setHeaderFooterSlideoverPreview(false);
                           }}
                           className="absolute top-0 left-0 right-auto mt-4 -ml-12"
-                          href="#"
+                          
                         >
                           <Lucide icon="X" className="w-8 h-8 text-slate-400" />
                         </a>
@@ -820,7 +820,7 @@ function Main() {
                             Broadcast Message
                           </h2>
                           <Button
-                            variant="outline-secondary"
+                            
                             className="hidden sm:flex"
                           >
                             <Lucide icon="File" className="w-4 h-4 mr-2" />{" "}
@@ -830,7 +830,7 @@ function Main() {
                             <Menu.Button
                               as="a"
                               className="block w-5 h-5"
-                              href="#"
+                              
                             >
                               <Lucide
                                 icon="MoreHorizontal"
@@ -908,7 +908,7 @@ function Main() {
                         {/* BEGIN: Slide Over Footer */}
                         <Slideover.Footer>
                           <Button
-                            variant="outline-secondary"
+                            
                             type="button"
                             onClick={() => {
                               setHeaderFooterSlideoverPreview(false);
@@ -918,7 +918,7 @@ function Main() {
                             Cancel
                           </Button>
                           <Button
-                            variant="primary"
+                            
                             type="button"
                             className="w-20"
                           >
@@ -937,8 +937,8 @@ function Main() {
                 <div className="text-center">
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setHeaderFooterSlideoverPreview(true);
@@ -950,7 +950,7 @@ function Main() {
                 {/* END: Slide Over Toggle */}
                 {/* BEGIN: Slide Over Content */}
                 <Slideover
-                  backdrop="static"
+                  
                   open={headerFooterSlideoverPreview}
                   onClose={() => {
                     setHeaderFooterSlideoverPreview(false);
@@ -964,7 +964,7 @@ function Main() {
                         setHeaderFooterSlideoverPreview(false);
                       }}
                       className="absolute top-0 left-0 right-auto mt-4 -ml-12"
-                      href="#"
+                      
                     >
                       <Lucide icon="X" className="w-8 h-8 text-slate-400" />
                     </a>
@@ -973,7 +973,7 @@ function Main() {
                         Broadcast Message
                       </h2>
                       <Button
-                        variant="outline-secondary"
+                        
                         className="hidden sm:flex"
                       >
                         <Lucide icon="File" className="w-4 h-4 mr-2" />{" "}
@@ -983,7 +983,7 @@ function Main() {
                         <Menu.Button
                           as="a"
                           className="block w-5 h-5"
-                          href="#"
+                          
                         >
                           <Lucide
                             icon="MoreHorizontal"
@@ -1081,7 +1081,7 @@ function Main() {
                     {/* BEGIN: Slide Over Footer */}
                     <Slideover.Footer>
                       <Button
-                        variant="outline-secondary"
+                        
                         type="button"
                         onClick={() => {
                           setHeaderFooterSlideoverPreview(false);
@@ -1091,7 +1091,7 @@ function Main() {
                         Cancel
                       </Button>
                       <Button
-                        variant="primary"
+                        
                         type="button"
                         className="w-20"
                       >
@@ -1137,8 +1137,8 @@ function Main() {
                       <Button
                         as="a"
                         id="programmatically-show-slideover"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         className="mb-2 mr-1"
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
@@ -1167,8 +1167,8 @@ function Main() {
                           <Button
                             as="a"
                             id="programmatically-hide-slideover"
-                            href="#"
-                            variant="primary"
+                            
+                            
                             className="mr-1"
                             onClick={(event: React.MouseEvent) => {
                               event.preventDefault();
@@ -1182,8 +1182,8 @@ function Main() {
                           <Button
                             as="a"
                             id="programmatically-toggle-slideover"
-                            href="#"
-                            variant="primary"
+                            
+                            
                             className="mt-2 mr-1 sm:mt-0"
                             onClick={(event: React.MouseEvent) => {
                               event.preventDefault();
@@ -1208,8 +1208,8 @@ function Main() {
                   <Button
                     as="a"
                     id="programmatically-show-slideover"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     className="mb-2 mr-1"
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
@@ -1238,8 +1238,8 @@ function Main() {
                       <Button
                         as="a"
                         id="programmatically-hide-slideover"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         className="mr-1"
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
@@ -1253,8 +1253,8 @@ function Main() {
                       <Button
                         as="a"
                         id="programmatically-toggle-slideover"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         className="mt-2 mr-1 sm:mt-0"
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();

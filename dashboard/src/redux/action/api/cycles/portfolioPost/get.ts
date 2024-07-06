@@ -7,7 +7,7 @@ export const ActionGetPortfolio = createAsyncThunk(
     const { search, limit, page } = params;
     
     // Dynamically create params object
-    const queryParams = { limit, page };
+    const queryParams = { limit, page , search };
     if (search) {
       queryParams.search = search;
     }

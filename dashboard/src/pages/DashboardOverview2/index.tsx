@@ -36,7 +36,7 @@ function Main() {
             {/* BEGIN: Notification */}
             <div className="col-span-12 mt-6 -mb-6 intro-y">
               <Alert
-                variant="primary"
+                
                 dismissible
                 className="flex items-center mb-6 box dark:border-darkmode-600"
               >
@@ -103,7 +103,7 @@ function Main() {
                       before taxes.
                     </div>
                     <Button
-                      variant="outline-secondary"
+                      
                       className="relative justify-start mt-12 rounded-full"
                     >
                       Download Reports
@@ -202,7 +202,7 @@ function Main() {
                       <Menu.Button
                         as="a"
                         className="block w-5 h-5 -mr-2"
-                        href="#"
+                        
                       >
                         <Lucide
                           icon="MoreVertical"
@@ -260,7 +260,7 @@ function Main() {
                     <div className="ml-auto">21</div>
                   </div>
                   <Button
-                    variant="outline-secondary"
+                    
                     className="w-full px-2 py-1 mt-4 border-dashed"
                   >
                     Real-Time Report
@@ -659,7 +659,7 @@ function Main() {
                             View Notes
                           </Button>
                           <Button
-                            variant="outline-secondary"
+                            
                             type="button"
                             className="px-2 py-1 ml-auto"
                           >
@@ -686,7 +686,7 @@ function Main() {
                             View Notes
                           </Button>
                           <Button
-                            variant="outline-secondary"
+                            
                             type="button"
                             className="px-2 py-1 ml-auto"
                           >
@@ -713,7 +713,7 @@ function Main() {
                             View Notes
                           </Button>
                           <Button
-                            variant="outline-secondary"
+                            
                             type="button"
                             className="px-2 py-1 ml-auto"
                           >

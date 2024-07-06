@@ -24,8 +24,8 @@ function Main() {
         <div className="flex w-full mt-4 sm:w-auto sm:mt-0">
           <Button
             as="a"
-            href="#"
-            variant="primary"
+            
+            
             onClick={(event: React.MouseEvent) => {
               event.preventDefault();
               setNewOrderModal(true);
@@ -124,7 +124,7 @@ function Main() {
             {_.take(fakerData, 8).map((faker, fakerKey) => (
               <a
                 key={fakerKey}
-                href="#"
+                
                 onClick={(event) => {
                   event.preventDefault();
                   setAddItemModal(true);
@@ -173,7 +173,7 @@ function Main() {
               <div className="p-2 mt-5 box">
                 {_.take(fakerData, 5).map((faker, fakerKey) => (
                   <a
-                    href="#"
+                    
                     key={fakerKey}
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
@@ -201,7 +201,7 @@ function Main() {
                   className="w-full px-4 py-3 pr-10 bg-slate-100 border-slate-200/60"
                   placeholder="Use coupon code..."
                 />
-                <Button variant="primary" className="ml-2">
+                <Button  className="ml-2">
                   Apply
                 </Button>
               </div>
@@ -229,7 +229,7 @@ function Main() {
                 <Button className="w-32 border-slate-300 dark:border-darkmode-400 text-slate-500">
                   Clear Items
                 </Button>
-                <Button variant="primary" className="w-32 ml-auto shadow-md">
+                <Button  className="w-32 ml-auto shadow-md">
                   Charge
                 </Button>
               </div>
@@ -325,7 +325,7 @@ function Main() {
           </Dialog.Description>
           <Dialog.Footer className="text-right">
             <Button
-              variant="outline-secondary"
+              
               type="button"
               onClick={() => {
                 setNewOrderModal(false);
@@ -335,7 +335,7 @@ function Main() {
               Cancel
             </Button>
             <Button
-              variant="primary"
+              
               type="button"
               className="w-32"
               ref={createTicketRef}
@@ -398,7 +398,7 @@ function Main() {
           </Dialog.Description>
           <Dialog.Footer className="text-right">
             <Button
-              variant="outline-secondary"
+              
               type="button"
               onClick={() => {
                 setAddItemModal(false);
@@ -408,7 +408,7 @@ function Main() {
               Cancel
             </Button>
             <Button
-              variant="primary"
+              
               type="button"
               className="w-24"
               ref={addItemRef}

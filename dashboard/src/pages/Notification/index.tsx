@@ -133,14 +133,14 @@ function Main() {
                       {/* END: Basic Sticky Notification Content */}
                       {/* BEGIN: Notification Toggle */}
                       <Button
-                        variant="primary"
+                        
                         className="mr-1"
                         onClick={basicNonStickyNotificationToggle}
                       >
                         Show Non Sticky Notification
                       </Button>
                       <Button
-                        variant="primary"
+                        
                         className="mt-2 sm:mt-0"
                         onClick={basicStickyNotificationToggle}
                       >
@@ -194,14 +194,14 @@ function Main() {
                 {/* END: Basic Sticky Notification Content */}
                 {/* BEGIN: Notification Toggle */}
                 <Button
-                  variant="primary"
+                  
                   className="mr-1"
                   onClick={basicNonStickyNotificationToggle}
                 >
                   Show Non Sticky Notification
                 </Button>
                 <Button
-                  variant="primary"
+                  
                   className="mt-2 sm:mt-0"
                   onClick={basicStickyNotificationToggle}
                 >
@@ -275,7 +275,7 @@ function Main() {
                       {/* END: Notification Content */}
                       {/* BEGIN: Notification Toggle */}
                       <Button
-                        variant="primary"
+                        
                         onClick={successNotificationToggle}
                       >
                         Show Notification
@@ -305,7 +305,7 @@ function Main() {
                 {/* END: Notification Content */}
                 {/* BEGIN: Notification Toggle */}
                 <Button
-                  variant="primary"
+                  
                   onClick={successNotificationToggle}
                 >
                   Show Notification
@@ -384,7 +384,7 @@ function Main() {
                       {/* END: Notification Content */}
                       {/* BEGIN: Notification Toggle */}
                       <Button
-                        variant="primary"
+                        
                         onClick={notificationWithActionsToggle}
                       >
                         Show Notification
@@ -427,7 +427,7 @@ function Main() {
                 {/* END: Notification Content */}
                 {/* BEGIN: Notification Toggle */}
                 <Button
-                  variant="primary"
+                  
                   onClick={notificationWithActionsToggle}
                 >
                   Show Notification
@@ -504,7 +504,7 @@ function Main() {
                         <a
                           data-dismiss="notification"
                           className="absolute top-0 bottom-0 right-0 flex items-center px-6 font-medium border-l border-slate-200/60 dark:border-darkmode-400 text-primary dark:text-slate-400"
-                          href="#"
+                          
                         >
                           Reply
                         </a>
@@ -512,7 +512,7 @@ function Main() {
                       {/* END: Notification Content */}
                       {/* BEGIN: Notification Toggle */}
                       <Button
-                        variant="primary"
+                        
                         onClick={notificationWithAvatarToggle}
                       >
                         Show Notification
@@ -551,7 +551,7 @@ function Main() {
                   <a
                     data-dismiss="notification"
                     className="absolute top-0 bottom-0 right-0 flex items-center px-6 font-medium border-l border-slate-200/60 dark:border-darkmode-400 text-primary dark:text-slate-400"
-                    href="#"
+                    
                   >
                     Reply
                   </a>
@@ -559,7 +559,7 @@ function Main() {
                 {/* END: Notification Content */}
                 {/* BEGIN: Notification Toggle */}
                 <Button
-                  variant="primary"
+                  
                   onClick={notificationWithAvatarToggle}
                 >
                   Show Notification
@@ -628,14 +628,14 @@ function Main() {
                         <div className="absolute top-0 bottom-0 right-0 flex flex-col border-l border-slate-200/60 dark:border-darkmode-400">
                           <a
                             className="flex items-center justify-center flex-1 px-6 font-medium border-b text-primary dark:text-slate-400 border-slate-200/60 dark:border-darkmode-400"
-                            href="#"
+                            
                           >
                             View Details
                           </a>
                           <a
                             data-dismiss="notification"
                             className="flex items-center justify-center flex-1 px-6 font-medium text-slate-500"
-                            href="#"
+                            
                           >
                             Dismiss
                           </a>
@@ -644,7 +644,7 @@ function Main() {
                       {/* END: Notification Content */}
                       {/* BEGIN: Notification Toggle */}
                       <Button
-                        variant="primary"
+                        
                         onClick={notificationWithSplitButtonsToggle}
                       >
                         Show Notification
@@ -677,14 +677,14 @@ function Main() {
                   <div className="absolute top-0 bottom-0 right-0 flex flex-col border-l border-slate-200/60 dark:border-darkmode-400">
                     <a
                       className="flex items-center justify-center flex-1 px-6 font-medium border-b text-primary dark:text-slate-400 border-slate-200/60 dark:border-darkmode-400"
-                      href="#"
+                      
                     >
                       View Details
                     </a>
                     <a
                       data-dismiss="notification"
                       className="flex items-center justify-center flex-1 px-6 font-medium text-slate-500"
-                      href="#"
+                      
                     >
                       Dismiss
                     </a>
@@ -693,7 +693,7 @@ function Main() {
                 {/* END: Notification Content */}
                 {/* BEGIN: Notification Toggle */}
                 <Button
-                  variant="primary"
+                  
                   onClick={notificationWithSplitButtonsToggle}
                 >
                   Show Notification
@@ -761,7 +761,7 @@ function Main() {
                           </div>
                           <div className="mt-2.5">
                             <Button
-                              variant="primary"
+                              
                               as="a"
                               className="px-2 py-1 mr-2"
                               href=""
@@ -769,7 +769,7 @@ function Main() {
                               Preview
                             </Button>
                             <Button
-                              variant="outline-secondary"
+                              
                               as="a"
                               className="px-2 py-1"
                               href=""
@@ -782,7 +782,7 @@ function Main() {
                       {/* END: Notification Content */}
                       {/* BEGIN: Notification Toggle */}
                       <Button
-                        variant="primary"
+                        
                         onClick={notificationWithButtonsBelowToggle}
                       >
                         Show Notification
@@ -814,7 +814,7 @@ function Main() {
                     </div>
                     <div className="mt-2.5">
                       <Button
-                        variant="primary"
+                        
                         as="a"
                         className="px-2 py-1 mr-2"
                         href=""
@@ -822,7 +822,7 @@ function Main() {
                         Preview
                       </Button>
                       <Button
-                        variant="outline-secondary"
+                        
                         as="a"
                         className="px-2 py-1"
                         href=""
@@ -835,7 +835,7 @@ function Main() {
                 {/* END: Notification Content */}
                 {/* BEGIN: Notification Toggle */}
                 <Button
-                  variant="primary"
+                  
                   onClick={notificationWithButtonsBelowToggle}
                 >
                   Show Notification

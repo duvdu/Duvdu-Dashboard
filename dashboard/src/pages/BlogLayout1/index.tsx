@@ -13,7 +13,7 @@ function Main() {
       <div className="flex flex-col items-center mt-8 intro-y sm:flex-row">
         <h2 className="mr-auto text-lg font-medium">Blog Layout</h2>
         <div className="flex w-full mt-4 sm:w-auto sm:mt-0">
-          <Button variant="primary" className="mr-2 shadow-md">
+          <Button  className="mr-2 shadow-md">
             Add New Post
           </Button>
           <Menu className="ml-auto sm:ml-0">
@@ -62,8 +62,7 @@ function Main() {
               </div>
               <Menu className="ml-3">
                 <Menu.Button
-                  tag="a"
-                  href="#"
+                  
                   className="w-5 h-5 text-slate-500"
                 >
                   <Lucide icon="MoreVertical" className="w-5 h-5" />
@@ -171,7 +170,6 @@ function Main() {
                 </div>
                 <div className="relative flex-1 text-slate-600">
                   <FormInput
-                    rounded
                     type="text"
                     className="pr-10 border-transparent bg-slate-100"
                     placeholder="Post a comment..."

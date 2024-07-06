@@ -82,7 +82,7 @@ function Main() {
                   </div>
                 </div>
                 <Button
-                  variant="primary"
+                  
                   rounded
                   type="button"
                   className="block px-4 py-3 mx-auto mt-8"
@@ -115,7 +115,7 @@ function Main() {
                   </div>
                 </div>
                 <Button
-                  variant="primary"
+                  
                   rounded
                   type="button"
                   className="block px-4 py-3 mx-auto mt-8"
@@ -168,7 +168,7 @@ function Main() {
                   </div>
                 </div>
                 <Button
-                  variant="primary"
+                  
                   rounded
                   type="button"
                   className="block px-4 py-3 mx-auto mt-8"
@@ -201,7 +201,7 @@ function Main() {
                   </div>
                 </div>
                 <Button
-                  variant="primary"
+                  
                   rounded
                   type="button"
                   className="block px-4 py-3 mx-auto mt-8"
@@ -291,8 +291,7 @@ function Main() {
                     </div>
                   </div>
                   <Button
-                    variant="primary"
-                    rounded
+                    
                     type="button"
                     className="block px-4 py-3 mx-auto mt-8"
                   >
@@ -324,8 +323,7 @@ function Main() {
                     </div>
                   </div>
                   <Button
-                    variant="primary"
-                    rounded
+                    
                     type="button"
                     className="block px-4 py-3 mx-auto mt-8"
                   >
@@ -377,8 +375,7 @@ function Main() {
                     </div>
                   </div>
                   <Button
-                    variant="primary"
-                    rounded
+                    
                     type="button"
                     className="block px-4 py-3 mx-auto mt-8"
                   >
@@ -410,8 +407,7 @@ function Main() {
                     </div>
                   </div>
                   <Button
-                    variant="primary"
-                    rounded
+                    
                     type="button"
                     className="block px-4 py-3 mx-auto mt-8"
                   >

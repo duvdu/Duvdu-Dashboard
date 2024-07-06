@@ -41,11 +41,11 @@ function Main() {
             Showing 1 to 10 of 150 entries
           </div>
           <div className="flex flex-wrap items-center w-full mt-3 xl:w-auto xl:flex-nowrap gap-y-3 xl:mt-0">
-            <Button variant="primary" className="mr-2 shadow-md">
+            <Button  className="mr-2 shadow-md">
               <Lucide icon="FileText" className="w-4 h-4 mr-2" /> Export to
               Excel
             </Button>
-            <Button variant="primary" className="mr-2 shadow-md">
+            <Button  className="mr-2 shadow-md">
               <Lucide icon="FileText" className="w-4 h-4 mr-2" /> Export to PDF
             </Button>
             <Menu>
@@ -123,7 +123,7 @@ function Main() {
                   <Table.Td className="first:rounded-l-md last:rounded-r-md whitespace-nowrap bg-white border-b-0 dark:bg-darkmode-600 shadow-[20px_3px_20px_#0000000b]">
                     <a
                       className="flex items-center underline decoration-dotted"
-                      href="#"
+                      
                     >
                       {faker.users[0].name}
                     </a>
@@ -174,7 +174,7 @@ function Main() {
                     <div className="flex items-center justify-center">
                       <a
                         className="flex items-center text-primary whitespace-nowrap"
-                        href="#"
+                        
                       >
                         <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" />{" "}
                         View Details
@@ -239,7 +239,7 @@ function Main() {
           </div>
           <div className="px-5 pb-8 text-center">
             <Button
-              variant="outline-secondary"
+              
               type="button"
               onClick={() => {
                 setDeleteConfirmationModal(false);

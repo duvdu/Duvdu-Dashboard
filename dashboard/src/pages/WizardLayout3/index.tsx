@@ -11,7 +11,7 @@ function Main() {
       <div className="py-10 mt-5 intro-y box sm:py-20">
         <div className="relative before:hidden before:lg:block before:absolute before:w-[69%] before:h-[3px] before:top-0 before:bottom-0 before:mt-4 before:bg-slate-100 before:dark:bg-darkmode-400 flex flex-col lg:flex-row justify-center px-5 sm:px-20">
           <div className="z-10 flex items-center flex-1 intro-x lg:text-center lg:block">
-            <Button variant="primary" className="w-10 h-10 rounded-full">
+            <Button  className="w-10 h-10 rounded-full">
               1
             </Button>
             <div className="ml-3 text-base font-medium lg:w-32 lg:mt-3 lg:mx-auto">
@@ -107,7 +107,7 @@ function Main() {
               <Button variant="secondary" className="w-24">
                 Previous
               </Button>
-              <Button variant="primary" className="w-24 ml-2">
+              <Button  className="w-24 ml-2">
                 Next
               </Button>
             </div>

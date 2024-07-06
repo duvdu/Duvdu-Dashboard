@@ -31,7 +31,7 @@ function Main() {
       <div className="grid grid-cols-11 pb-20 mt-5 gap-x-6">
         {/* BEGIN: Notification */}
         <Alert
-          variant="primary"
+          
           dismissible
           className="col-span-11 mb-6 intro-y box dark:border-darkmode-600"
         >
@@ -344,7 +344,7 @@ function Main() {
                     </div>
                   </FormLabel>
                   <div className="flex-1 w-full mt-3 xl:mt-0">
-                    <Button variant="outline-secondary" className="w-40">
+                    <Button  className="w-40">
                       <Lucide icon="Plus" className="w-4 h-4 mr-2" /> Add Video
                       URL
                     </Button>
@@ -375,7 +375,7 @@ function Main() {
                     </div>
                   </FormLabel>
                   <div className="flex-1 w-full mt-3 xl:mt-0 xl:text-right">
-                    <Button variant="primary" className="w-44">
+                    <Button  className="w-44">
                       <Lucide icon="Plus" className="w-4 h-4 mr-2" /> Add
                       Variant
                     </Button>
@@ -579,7 +579,7 @@ function Main() {
                 </FormInline>
                 <div className="pt-2 mt-2 xl:ml-64 xl:pl-10 first:mt-0 first:pt-0">
                   <Button
-                    variant="outline-secondary"
+                    
                     className="w-full py-3 border-dashed"
                   >
                     <Lucide icon="Plus" className="w-4 h-4 mr-2" /> Add New
@@ -614,7 +614,7 @@ function Main() {
                         className="mt-2 sm:mt-0"
                         placeholder="Variant Code"
                       />
-                      <Button variant="primary" className="mt-2 sm:mt-0">
+                      <Button  className="mt-2 sm:mt-0">
                         Apply To All
                       </Button>
                     </div>
@@ -1405,7 +1405,7 @@ function Main() {
               Save & Add New Product
             </Button>
             <Button
-              variant="primary"
+              
               type="button"
               className="w-full py-3 md:w-52"
             >

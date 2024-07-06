@@ -97,7 +97,7 @@ function Highlight(props: HighlightProps) {
     <div>
       {props.copyButton && (
         <Button
-          variant="outline-secondary"
+          
           className={clsx(["py-1 px-2", props.className])}
           onClick={() => {
             setCopyText("Copied!");

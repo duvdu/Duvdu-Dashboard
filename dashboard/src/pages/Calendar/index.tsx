@@ -29,7 +29,7 @@ function Main() {
       <div className="flex flex-col items-center mt-8 intro-y sm:flex-row">
         <h2 className="mr-auto text-lg font-medium">Calendar</h2>
         <div className="flex w-full mt-4 sm:w-auto sm:mt-0">
-          <Button variant="primary" className="mr-2 shadow-md">
+          <Button  className="mr-2 shadow-md">
             Print Schedule
           </Button>
           <Menu className="ml-auto sm:ml-0">
@@ -53,7 +53,7 @@ function Main() {
         {/* BEGIN: Calendar Side Menu */}
         <div className="col-span-12 xl:col-span-4 2xl:col-span-3">
           <div className="p-5 box intro-y">
-            <Button variant="primary" type="button" className="w-full mt-2">
+            <Button  type="button" className="w-full mt-2">
               <Lucide icon="Edit3" className="w-4 h-4 mr-2" /> Add New Schedule
             </Button>
             <FullCalendarDraggable

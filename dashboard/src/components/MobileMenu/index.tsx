@@ -54,7 +54,7 @@ function Main() {
               src={logoUrl}
             />
           </a>
-          <a href="#" onClick={(e) => e.preventDefault()}>
+          <a  onClick={(e) => e.preventDefault()}>
             <Lucide
               icon="BarChart2"
               className="w-8 h-8 text-white transform -rotate-90"
@@ -73,7 +73,7 @@ function Main() {
           ])}
         >
           <a
-            href="#"
+            
             onClick={(e) => e.preventDefault()}
             className={clsx([
               "fixed top-0 right-0 mt-4 mr-4 transition-opacity duration-200 ease-in-out",
@@ -106,8 +106,6 @@ function Main() {
                   {menu.subMenu && (
                     <Transition
                       in={menu.activeDropdown}
-                      onEnter={enter}
-                      onExit={leave}
                       timeout={300}
                     >
                       <ul
@@ -135,8 +133,6 @@ function Main() {
                             {subMenu.subMenu && (
                               <Transition
                                 in={subMenu.activeDropdown}
-                                onEnter={enter}
-                                onExit={leave}
                                 timeout={300}
                               >
                                 <ul

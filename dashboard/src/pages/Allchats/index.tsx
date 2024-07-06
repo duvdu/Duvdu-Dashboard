@@ -31,7 +31,7 @@ function Main() {
   ///////////// audio //////////////
   const [isRecording, setisRecord] = useState(false)
   ///////////// audio //////////////
-  const [audioSrc, setaudioSrc] = useState<String>()
+  const [audioSrc, setaudioSrc] = useState<string>('')
   const [recordobject, setRecordobject] = useState<Blob | undefined>()
 
   const chatref = useRef(null)
@@ -147,7 +147,7 @@ function Main() {
     setRecordobject(audioBlob)
   };
 
-  const isRecord = () => audioSrc && audioSrc.length > 0
+  const isRecord = () => audioSrc && audioSrc?.length > 0
   console.log(statechat?.data?.data)
   return (
     <>
@@ -182,7 +182,7 @@ function Main() {
                       </div>
                       <div className="ml-2 overflow-hidden">
                         <div className="flex items-center">
-                          <a href="#" className="font-medium">
+                          <a  className="font-medium">
                             {other.name}
                           </a>
                           <div className="ml-auto text-xs text-slate-400">
@@ -229,16 +229,16 @@ function Main() {
                     </div>
                   </div>
                   <div className="flex items-center px-5 pt-3 mt-5 -mx-5 border-t sm:ml-auto sm:mt-0 sm:border-0 border-slate-200/60 sm:pt-0 sm:mx-0 sm:px-0">
-                    <a href="#" className="w-5 h-5 text-slate-500">
+                    <a  className="w-5 h-5 text-slate-500">
                       <Lucide icon="Search" className="w-5 h-5" />
                     </a>
-                    <a href="#" className="w-5 h-5 ml-5 text-slate-500">
+                    <a  className="w-5 h-5 ml-5 text-slate-500">
                       <Lucide icon="UserPlus" className="w-5 h-5" />
                     </a>
                     <Menu className="ml-auto sm:ml-3">
                       <Menu.Button
                         as="a"
-                        href="#"
+                        
                         className="w-5 h-5 text-slate-500"
                       >
                         <Lucide icon="MoreVertical" className="w-5 h-5" />
@@ -349,7 +349,7 @@ function Main() {
                       content="Remove all files"
                       className="absolute top-3 right-3 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
                     >
-                      <div onClick={handleRemoveImage}>
+                      <div onClick={()=> handleRemoveImage}>
                         <Lucide icon="X" className="w-4 h-4" />
                       </div>
                     </Tippy>
@@ -373,12 +373,12 @@ function Main() {
                             }
                           })()}
                           {/* Render the file name */}
-                          <a href="#" className="block mt-2 font-medium text-center truncate w-48">{file.fileName}</a>
+                          <a  className="block mt-2 font-medium text-center truncate w-48">{file.fileName}</a>
                           {/* Render the file size */}
                           <div className="text-slate-500 text-xs text-center mt-0.5 ">{file.formattedFileSize}</div>
                           {/* Render the file menu */}
                           <Menu className="absolute top-0 right-0 mt-3 ml-auto mr-2 hidden">
-                            <Menu.Button as="a" className="block w-5 h-5" href="#">
+                            <Menu.Button as="a" className="block w-5 h-5" >
                               <Lucide icon="MoreVertical" className="w-5 h-5 text-slate-500" />
                             </Menu.Button>
                             <Menu.Items className="w-40">

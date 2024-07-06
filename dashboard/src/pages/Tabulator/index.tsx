@@ -323,7 +323,7 @@ function Main() {
       <div className="flex flex-col items-center mt-8 intro-y sm:flex-row">
         <h2 className="mr-auto text-lg font-medium">Tabulator</h2>
         <div className="flex w-full mt-4 sm:w-auto sm:mt-0">
-          <Button variant="primary" className="mr-2 shadow-md">
+          <Button  className="mr-2 shadow-md">
             Add New Product
           </Button>
           <Menu className="ml-auto sm:ml-0">
@@ -419,7 +419,7 @@ function Main() {
             <div className="mt-2 xl:mt-0">
               <Button
                 id="tabulator-html-filter-go"
-                variant="primary"
+                
                 type="button"
                 className="w-full sm:w-16"
                 onClick={onFilter}
@@ -440,7 +440,7 @@ function Main() {
           <div className="flex mt-5 sm:mt-0">
             <Button
               id="tabulator-print"
-              variant="outline-secondary"
+              
               className="w-1/2 mr-2 sm:w-auto"
               onClick={onPrint}
             >
@@ -449,7 +449,7 @@ function Main() {
             <Menu className="w-1/2 sm:w-auto">
               <Menu.Button
                 as={Button}
-                variant="outline-secondary"
+                
                 className="w-full sm:w-auto"
               >
                 <Lucide icon="FileText" className="w-4 h-4 mr-2" /> Export

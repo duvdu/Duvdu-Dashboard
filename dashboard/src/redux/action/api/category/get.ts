@@ -4,11 +4,11 @@ import { mainApiInstance } from '../axiosInstances';
 
 
 export const ActionGetCategory = createAsyncThunk(
-  KEY_CATEGORY, async (params: { search: string, limit: string, page: string }) => {
+  KEY_CATEGORY, async (params: { search?: string, limit?: string|number, page?: string|number }) => {
     const { search, limit, page } = params;
     
     // Dynamically create params object
-    const queryParams = { limit, page };
+    const queryParams = { limit, page, search };
     if (search) {
       queryParams.search = search;
     }

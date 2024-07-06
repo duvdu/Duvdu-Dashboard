@@ -40,7 +40,7 @@ function Main() {
                 <div className="text-slate-500">{fakerData[0].jobs[0]}</div>
               </div>
               <Menu>
-                <Menu.Button tag="a" className="block w-5 h-5" href="#">
+                <Menu.Button  className="block w-5 h-5" >
                   <Lucide
                     icon="MoreHorizontal"
                     className="w-5 h-5 text-slate-500"
@@ -71,7 +71,7 @@ function Main() {
                   <Menu.Divider />
                   <Menu.Footer>
                     <Button
-                      variant="primary"
+                      
                       type="button"
                       className="px-2 py-1"
                     >
@@ -122,11 +122,11 @@ function Main() {
               </a>
             </div>
             <div className="flex p-5 border-t border-slate-200/60 dark:border-darkmode-400">
-              <Button variant="primary" type="button" className="px-2 py-1">
+              <Button  type="button" className="px-2 py-1">
                 New Group
               </Button>
               <Button
-                variant="outline-secondary"
+                
                 type="button"
                 className="px-2 py-1 ml-auto"
               >
@@ -236,7 +236,7 @@ function Main() {
                       </div>
                     </div>
                   </div>
-                  <Button variant="primary" type="button" className="w-20 mt-3">
+                  <Button  type="button" className="w-20 mt-3">
                     Save
                   </Button>
                 </div>
@@ -258,7 +258,7 @@ function Main() {
                     </div>
                     <div className="relative mx-auto mt-5 cursor-pointer">
                       <Button
-                        variant="primary"
+                        
                         type="button"
                         className="w-full"
                       >
@@ -385,7 +385,7 @@ function Main() {
               </div>
               <div className="flex justify-end mt-4">
                 <Button
-                  variant="primary"
+                  
                   type="button"
                   className="w-20 mr-auto"
                 >

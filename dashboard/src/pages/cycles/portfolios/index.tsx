@@ -134,7 +134,7 @@ const handleKeyDown = (e) => {
                   </div>
                 </div>
                 <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400 hidden">
-                  <a className="flex items-center mr-auto text-primary" href="#">
+                  <a className="flex items-center mr-auto text-primary" >
                     <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
                   </a>
                 </div>
@@ -205,7 +205,7 @@ const handleKeyDown = (e) => {
           </div>
           <div className="px-5 pb-8 text-center">
             <Button
-              variant="outline-secondary"
+              
               type="button"
               onClick={() => {
                 setDeleteConfirmationModal(false);

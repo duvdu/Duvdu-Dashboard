@@ -267,7 +267,7 @@ const Main: React.FC = () => {
             </div>
           </div>
           <div className="px-5 pb-8 text-center">
-            <Button type="button" variant="outline-secondary" onClick={() => {
+            <Button type="button"  onClick={() => {
               setDeleteModalPreview(false);
             }}
               className="w-24 mr-1"
@@ -298,14 +298,14 @@ const Main: React.FC = () => {
             </div>
           </Dialog.Description>
           <Dialog.Footer>
-            <Button type="button" variant="outline-secondary" onClick={() => {
+            <Button type="button"  onClick={() => {
               setHeaderFooterModalPreview(false);
             }}
               className="w-20 mr-1"
             >
               Cancel
             </Button>
-            <Button variant="primary" type="button" className="w-20" ref={sendButtonRef} onClick={onAdd}>
+            <Button  type="button" className="w-20" ref={sendButtonRef} onClick={onAdd}>
               Add
             </Button>
           </Dialog.Footer>
@@ -321,7 +321,7 @@ const Main: React.FC = () => {
 
           {
             id &&
-            <Button variant="primary" className="mr-2 shadow-md" onClick={goToMainRole}>
+            <Button  className="mr-2 shadow-md" onClick={goToMainRole}>
               Add New Role
             </Button>
           }
@@ -342,7 +342,7 @@ const Main: React.FC = () => {
                     </div>
                     <div className="ml-2 overflow-hidden">
                       <div className="flex items-center">
-                        <a href="#" className="font-medium">
+                        <a  className="font-medium">
                           {item.key}
                           <Tippy
                             onClick={() => {
@@ -410,7 +410,7 @@ const Main: React.FC = () => {
           {
             (id && changed()) &&
             <div className='w-full flex justify-end'>
-              <Button onClick={onSubmit} type="button" variant="primary" className="w-24 mt-2" >
+              <Button onClick={onSubmit} type="button"  className="w-24 mt-2" >
                 Save Changes
                 {
                   stateCreateRole.loading || stateUpdateeRole.loading &&
@@ -423,7 +423,7 @@ const Main: React.FC = () => {
             (!id) &&
             <div className='w-full flex justify-end'>
               <Button disabled={newfeatures.length == 0}
-                type="button" variant="primary" className="w-24 mt-2 whitespace-nowrap"
+                type="button"  className="w-24 mt-2 whitespace-nowrap"
                 onClick={() => {
                   setHeaderFooterModalPreview(true);
                 }}

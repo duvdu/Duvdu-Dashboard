@@ -19,7 +19,7 @@ function Main() {
       <h2 className="mt-10 text-lg font-medium intro-y">Product List</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
-          <Button variant="primary" className="mr-2 shadow-md">
+          <Button  className="mr-2 shadow-md">
             Add New Product
           </Button>
           <Menu>
@@ -146,13 +146,13 @@ function Main() {
                   </Table.Td>
                   <Table.Td className="first:rounded-l-md last:rounded-r-md w-56 bg-white border-b-0 dark:bg-darkmode-600 shadow-[20px_3px_20px_#0000000b] py-0 relative before:block before:w-px before:h-8 before:bg-slate-200 before:absolute before:left-0 before:inset-y-0 before:my-auto before:dark:bg-darkmode-400">
                     <div className="flex items-center justify-center">
-                      <a className="flex items-center mr-3" href="#">
+                      <a className="flex items-center mr-3" >
                         <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" />{" "}
                         Edit
                       </a>
                       <a
                         className="flex items-center text-danger"
-                        href="#"
+                        
                         onClick={(event) => {
                           event.preventDefault();
                           setDeleteConfirmationModal(true);
@@ -220,7 +220,7 @@ function Main() {
           </div>
           <div className="px-5 pb-8 text-center">
             <Button
-              variant="outline-secondary"
+              
               type="button"
               onClick={() => {
                 setDeleteConfirmationModal(false);

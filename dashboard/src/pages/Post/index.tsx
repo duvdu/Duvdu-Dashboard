@@ -46,7 +46,6 @@ function Main() {
           <Menu>
             <Menu.Button
               as={Button}
-              variant="primary"
               className="flex items-center shadow-md"
             >
               Save <Lucide icon="ChevronDown" className="w-4 h-4 ml-2" />
@@ -230,7 +229,6 @@ function Main() {
               <Menu className="[&>div:nth-child(2)]:w-full">
                 <Menu.Button
                   as={Button}
-                  variant="outline-secondary"
                   className="flex items-center justify-start w-full dark:bg-darkmode-800 dark:border-darkmode-800"
                   role="button"
                 >

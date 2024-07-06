@@ -80,8 +80,6 @@ function Main() {
                   {menu.subMenu && (
                     <Transition
                       in={menu.activeDropdown}
-                      onEnter={enter}
-                      onExit={leave}
                       timeout={300}
                     >
                       <ul
@@ -112,8 +110,6 @@ function Main() {
                             {subMenu.subMenu && (
                               <Transition
                                 in={subMenu.activeDropdown}
-                                onEnter={enter}
-                                onExit={leave}
                                 timeout={300}
                               >
                                 <ul

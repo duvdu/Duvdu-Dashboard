@@ -39,7 +39,7 @@ function Main() {
                 </div>
                 <div className="p-5">
                   <Preview>
-                    <Button variant="primary" className="w-24 mb-2 mr-1">
+                    <Button  className="w-24 mb-2 mr-1">
                       Primary
                     </Button>
                     <Button variant="secondary" className="w-24 mb-2 mr-1">
@@ -64,7 +64,7 @@ function Main() {
                   <Source>
                     <Highlight>
                       {`
-                <Button variant="primary" className="w-24 mb-2 mr-1">
+                <Button  className="w-24 mb-2 mr-1">
                   Primary
                 </Button>
                 <Button variant="secondary" className="w-24 mb-2 mr-1">
@@ -117,17 +117,17 @@ function Main() {
                   <Preview>
                     <div>
                       <Button
-                        variant="primary"
+                        
                         size="sm"
                         className="w-24 mb-2 mr-1"
                       >
                         Small
                       </Button>
-                      <Button variant="primary" className="w-24 mb-2 mr-1">
+                      <Button  className="w-24 mb-2 mr-1">
                         Medium
                       </Button>
                       <Button
-                        variant="primary"
+                        
                         size="lg"
                         className="w-24 mb-2 mr-1"
                       >
@@ -159,17 +159,17 @@ function Main() {
                       {`
                 <div>
                   <Button
-                    variant="primary"
+                    
                     size="sm"
                     className="w-24 mb-2 mr-1"
                   >
                     Small
                   </Button>
-                  <Button variant="primary" className="w-24 mb-2 mr-1">
+                  <Button  className="w-24 mb-2 mr-1">
                     Medium
                   </Button>
                   <Button
-                    variant="primary"
+                    
                     size="lg"
                     className="w-24 mb-2 mr-1"
                   >
@@ -227,7 +227,7 @@ function Main() {
                   <Preview>
                     <Button
                       as="a"
-                      variant="primary"
+                      
                       href=""
                       className="inline-block w-24 mb-2 mr-1"
                     >
@@ -287,7 +287,7 @@ function Main() {
                       {`
                 <Button
                   as="a"
-                  variant="primary"
+                  
                   href=""
                   className="inline-block w-24 mb-2 mr-1"
                 >
@@ -373,7 +373,7 @@ function Main() {
                   <Preview>
                     <div>
                       <Button
-                        variant="primary"
+                        
                         elevated
                         className="w-24 mb-2 mr-1"
                       >
@@ -424,58 +424,51 @@ function Main() {
                     </div>
                     <div className="mt-5">
                       <Button
-                        variant="primary"
+                        
                         elevated
-                        rounded
-                        className="w-24 mb-2 mr-1"
+                            className="w-24 mb-2 mr-1"
                       >
                         Primary
                       </Button>
                       <Button
                         variant="secondary"
                         elevated
-                        rounded
-                        className="w-24 mb-2 mr-1"
+                            className="w-24 mb-2 mr-1"
                       >
                         Secondary
                       </Button>
                       <Button
                         variant="success"
                         elevated
-                        rounded
-                        className="w-24 mb-2 mr-1"
+                            className="w-24 mb-2 mr-1"
                       >
                         Success
                       </Button>
                       <Button
                         variant="warning"
                         elevated
-                        rounded
-                        className="w-24 mb-2 mr-1"
+                            className="w-24 mb-2 mr-1"
                       >
                         Warning
                       </Button>
                       <Button
                         variant="pending"
                         elevated
-                        rounded
-                        className="w-24 mb-2 mr-1"
+                            className="w-24 mb-2 mr-1"
                       >
                         Pending
                       </Button>
                       <Button
                         variant="danger"
                         elevated
-                        rounded
-                        className="w-24 mb-2 mr-1"
+                            className="w-24 mb-2 mr-1"
                       >
                         Danger
                       </Button>
                       <Button
                         variant="dark"
                         elevated
-                        rounded
-                        className="w-24 mb-2 mr-1"
+                            className="w-24 mb-2 mr-1"
                       >
                         Dark
                       </Button>
@@ -486,7 +479,7 @@ function Main() {
                       {`
                 <div>
                   <Button
-                    variant="primary"
+                    
                     elevated
                     className="w-24 mb-2 mr-1"
                   >
@@ -537,9 +530,8 @@ function Main() {
                 </div>
                 <div className="mt-5">
                   <Button
-                    variant="primary"
+                    
                     elevated
-                    rounded
                     className="w-24 mb-2 mr-1"
                   >
                     Primary
@@ -547,7 +539,6 @@ function Main() {
                   <Button
                     variant="secondary"
                     elevated
-                    rounded
                     className="w-24 mb-2 mr-1"
                   >
                     Secondary
@@ -555,7 +546,6 @@ function Main() {
                   <Button
                     variant="success"
                     elevated
-                    rounded
                     className="w-24 mb-2 mr-1"
                   >
                     Success
@@ -563,7 +553,6 @@ function Main() {
                   <Button
                     variant="warning"
                     elevated
-                    rounded
                     className="w-24 mb-2 mr-1"
                   >
                     Warning
@@ -571,7 +560,6 @@ function Main() {
                   <Button
                     variant="pending"
                     elevated
-                    rounded
                     className="w-24 mb-2 mr-1"
                   >
                     Pending
@@ -579,7 +567,6 @@ function Main() {
                   <Button
                     variant="danger"
                     elevated
-                    rounded
                     className="w-24 mb-2 mr-1"
                   >
                     Danger
@@ -587,7 +574,6 @@ function Main() {
                   <Button
                     variant="dark"
                     elevated
-                    rounded
                     className="w-24 mb-2 mr-1"
                   >
                     Dark
@@ -705,7 +691,7 @@ function Main() {
                       Primary
                     </Button>
                     <Button
-                      variant="outline-secondary"
+                      
                       className="inline-block w-24 mb-2 mr-1"
                     >
                       Secondary
@@ -751,7 +737,7 @@ function Main() {
                   Primary
                 </Button>
                 <Button
-                  variant="outline-secondary"
+                  
                   className="inline-block w-24 mb-2 mr-1"
                 >
                   Secondary
@@ -816,7 +802,7 @@ function Main() {
                 </div>
                 <div className="p-5">
                   <Preview>
-                    <Button variant="primary" className="mb-2 mr-1">
+                    <Button  className="mb-2 mr-1">
                       Saving
                       <LoadingIcon
                         icon="oval"
@@ -852,7 +838,7 @@ function Main() {
                   <Source>
                     <Highlight>
                       {`
-                <Button variant="primary" className="mb-2 mr-1">
+                <Button  className="mb-2 mr-1">
                   Saving
                   <LoadingIcon
                     icon="oval"
@@ -915,37 +901,32 @@ function Main() {
                 <div className="p-5">
                   <Preview>
                     <Button
-                      variant="primary"
-                      rounded
-                      className="w-24 mb-2 mr-1"
+                      
+                        className="w-24 mb-2 mr-1"
                     >
                       Primary
                     </Button>
                     <Button
                       variant="secondary"
-                      rounded
-                      className="w-24 mb-2 mr-1"
+                        className="w-24 mb-2 mr-1"
                     >
                       Secondary
                     </Button>
                     <Button
                       variant="success"
-                      rounded
-                      className="w-24 mb-2 mr-1"
+                        className="w-24 mb-2 mr-1"
                     >
                       Success
                     </Button>
                     <Button
                       variant="warning"
-                      rounded
-                      className="w-24 mb-2 mr-1"
+                        className="w-24 mb-2 mr-1"
                     >
                       Warning
                     </Button>
                     <Button
                       variant="pending"
-                      rounded
-                      className="w-24 mb-2 mr-1"
+                        className="w-24 mb-2 mr-1"
                     >
                       Pending
                     </Button>
@@ -960,7 +941,7 @@ function Main() {
                     <Highlight>
                       {`
                 <Button
-                  variant="primary"
+                  
                   rounded
                   className="w-24 mb-2 mr-1"
                 >
@@ -1032,50 +1013,43 @@ function Main() {
                   <Preview>
                     <Button
                       variant="soft-primary"
-                      rounded
-                      className="w-24 mb-2 mr-1"
+                        className="w-24 mb-2 mr-1"
                     >
                       Primary
                     </Button>
                     <Button
                       variant="soft-secondary"
-                      rounded
-                      className="w-24 mb-2 mr-1"
+                        className="w-24 mb-2 mr-1"
                     >
                       Secondary
                     </Button>
                     <Button
                       variant="soft-success"
-                      rounded
-                      className="w-24 mb-2 mr-1"
+                        className="w-24 mb-2 mr-1"
                     >
                       Success
                     </Button>
                     <Button
                       variant="soft-warning"
-                      rounded
-                      className="w-24 mb-2 mr-1"
+                        className="w-24 mb-2 mr-1"
                     >
                       Warning
                     </Button>
                     <Button
                       variant="soft-pending"
-                      rounded
-                      className="w-24 mb-2 mr-1"
+                        className="w-24 mb-2 mr-1"
                     >
                       Pending
                     </Button>
                     <Button
                       variant="soft-danger"
-                      rounded
-                      className="w-24 mb-2 mr-1"
+                        className="w-24 mb-2 mr-1"
                     >
                       Danger
                     </Button>
                     <Button
                       variant="soft-dark"
-                      rounded
-                      className="w-24 mb-2 mr-1"
+                        className="w-24 mb-2 mr-1"
                     >
                       Dark
                     </Button>
@@ -1163,7 +1137,7 @@ function Main() {
                 <div className="p-5">
                   <Preview>
                     <div className="flex flex-wrap">
-                      <Button variant="primary" className="w-32 mb-2 mr-2">
+                      <Button  className="w-32 mb-2 mr-2">
                         <Lucide icon="Activity" className="w-4 h-4 mr-2" />{" "}
                         Activity
                       </Button>
@@ -1194,7 +1168,7 @@ function Main() {
                     <Highlight>
                       {`
                 <div className="flex flex-wrap">
-                  <Button variant="primary" className="w-32 mb-2 mr-2">
+                  <Button  className="w-32 mb-2 mr-2">
                     <Lucide icon="Activity" className="w-4 h-4 mr-2" />{" "}
                     Activity
                   </Button>
@@ -1250,7 +1224,7 @@ function Main() {
                 </div>
                 <div className="p-5">
                   <Preview>
-                    <Button variant="primary" className="mb-2 mr-1">
+                    <Button  className="mb-2 mr-1">
                       <Lucide icon="Activity" className="w-5 h-5" />
                     </Button>
                     <Button variant="secondary" className="mb-2 mr-1">
@@ -1275,7 +1249,7 @@ function Main() {
                   <Source>
                     <Highlight>
                       {`
-                <Button variant="primary" className="mb-2 mr-1">
+                <Button  className="mb-2 mr-1">
                   <Lucide icon="Activity" className="w-5 h-5" />
                 </Button>
                 <Button variant="secondary" className="mb-2 mr-1">

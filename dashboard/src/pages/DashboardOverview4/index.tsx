@@ -67,7 +67,7 @@ function Main() {
                       Last updated 1 hour ago
                     </div>
                     <Button
-                      variant="outline-secondary"
+                      
                       className="relative justify-start mt-12 rounded-full"
                     >
                       Download Reports
@@ -81,7 +81,6 @@ function Main() {
                       <Tab.List
                         variant="pills"
                         className="p-1 mx-auto mb-8 border border-dashed rounded-md w-60 border-slate-300 dark:border-darkmode-300"
-                        role="tablist"
                       >
                         <Tab>
                           <Tab.Button
@@ -375,7 +374,7 @@ function Main() {
                   <div className="ml-auto">1.5M</div>
                 </div>
                 <Button
-                  variant="outline-secondary"
+                  
                   className="relative justify-start w-full mb-2 border-dashed border-slate-300 dark:border-darkmode-300"
                 >
                   <span className="mr-5 truncate">View Full Report</span>
@@ -430,7 +429,7 @@ function Main() {
                   <div className="ml-auto">21</div>
                 </div>
                 <Button
-                  variant="outline-secondary"
+                  
                   className="relative justify-start w-full mb-2 border-dashed border-slate-300 dark:border-darkmode-300"
                 >
                   <span className="mr-5 truncate">View Full Report</span>
@@ -485,7 +484,7 @@ function Main() {
                   <div className="ml-auto">42</div>
                 </div>
                 <Button
-                  variant="outline-secondary"
+                  
                   className="relative justify-start w-full mb-2 border-dashed border-slate-300 dark:border-darkmode-300"
                 >
                   <span className="mr-5 truncate">View Full Report</span>
@@ -706,7 +705,7 @@ function Main() {
                             View Notes
                           </Button>
                           <Button
-                            variant="outline-secondary"
+                            
                             type="button"
                             className="px-2 py-1 ml-auto"
                           >
@@ -733,7 +732,7 @@ function Main() {
                             View Notes
                           </Button>
                           <Button
-                            variant="outline-secondary"
+                            
                             type="button"
                             className="px-2 py-1 ml-auto"
                           >
@@ -760,7 +759,7 @@ function Main() {
                             View Notes
                           </Button>
                           <Button
-                            variant="outline-secondary"
+                            
                             type="button"
                             className="px-2 py-1 ml-auto"
                           >

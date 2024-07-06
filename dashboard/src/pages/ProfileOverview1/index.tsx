@@ -114,7 +114,7 @@ function Main() {
                     Top Categories
                   </h2>
                   <Menu className="ml-auto">
-                    <Menu.Button tag="a" className="block w-5 h-5" href="#">
+                    <Menu.Button  className="block w-5 h-5" >
                       <Lucide
                         icon="MoreHorizontal"
                         className="w-5 h-5 text-slate-500"
@@ -206,7 +206,7 @@ function Main() {
                     Work In Progress
                   </h2>
                   <Menu className="ml-auto sm:hidden">
-                    <Menu.Button tag="a" className="block w-5 h-5" href="#">
+                    <Menu.Button  className="block w-5 h-5" >
                       <Lucide
                         icon="MoreHorizontal"
                         className="w-5 h-5 text-slate-500"
@@ -303,7 +303,7 @@ function Main() {
                 <div className="flex items-center px-5 py-5 border-b sm:py-3 border-slate-200/60 dark:border-darkmode-400">
                   <h2 className="mr-auto text-base font-medium">Daily Sales</h2>
                   <Menu className="ml-auto sm:hidden">
-                    <Menu.Button tag="a" className="block w-5 h-5" href="#">
+                    <Menu.Button  className="block w-5 h-5" >
                       <Lucide
                         icon="MoreHorizontal"
                         className="w-5 h-5 text-slate-500"
@@ -317,7 +317,7 @@ function Main() {
                     </Menu.Items>
                   </Menu>
                   <Button
-                    variant="outline-secondary"
+                    
                     className="hidden sm:flex"
                   >
                     <Lucide icon="File" className="w-4 h-4 mr-2" /> Download
@@ -395,7 +395,7 @@ function Main() {
                     Latest Tasks
                   </h2>
                   <Menu className="ml-auto sm:hidden">
-                    <Menu.Button tag="a" className="block w-5 h-5" href="#">
+                    <Menu.Button  className="block w-5 h-5" >
                       <Lucide
                         icon="MoreHorizontal"
                         className="w-5 h-5 text-slate-500"
@@ -474,7 +474,7 @@ function Main() {
                     General Statistics
                   </h2>
                   <Menu className="ml-auto sm:hidden">
-                    <Menu.Button className="block w-5 h-5" href="#">
+                    <Menu.Button className="block w-5 h-5" >
                       <Lucide
                         icon="MoreHorizontal"
                         className="w-5 h-5 text-slate-500"
@@ -488,7 +488,7 @@ function Main() {
                     </Menu.Items>
                   </Menu>
                   <Button
-                    variant="outline-secondary"
+                    
                     className="hidden sm:flex"
                   >
                     <Lucide icon="File" className="w-4 h-4 mr-2" /> Download XML

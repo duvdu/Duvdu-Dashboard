@@ -19,17 +19,17 @@ function Main() {
   const [chatBox, setChatBox] = useState(false);
   const [feedback, setfeedback] = useState('');
   const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState(null);
   const dispatch = useAppDispatch()
   const state = useAppSelector(StateTicket)
   
   useEffect(() => {
     if (state?.data?.message == "success" && !state?.data?.data)
-      dispatch(ActionGetTicket())
+      dispatch(ActionGetTicket({}))
   }, [state?.data?.message == "success"])
 
   useEffect(() => {
-    dispatch(ActionGetTicket())
+    dispatch(ActionGetTicket({}))
   }, [])
 
   useEffect(() => {
@@ -60,7 +60,7 @@ function Main() {
   };
   const sendMessage = () => {
     dispatch(ActionUpdateTicket({
-      id: message.id,
+      id: message?.id ?? '',
       formdata: {
         "state": {
           "feedback": feedback
@@ -115,7 +115,7 @@ function Main() {
 
                     <div className="ml-2 overflow-hidden">
                       <div className="flex items-center">
-                        <a href="#" className="font-medium">
+                        <a  className="font-medium">
                           {item.name}
                         </a>
                         {/* <div className="ml-auto text-xs text-slate-400">
@@ -134,7 +134,7 @@ function Main() {
                     <Menu className="hidden my-auto ml-auto sm:block">
                       <Menu.Button
                         as="a"
-                        href="#"
+                        
                         className="w-4 h-4 text-slate-500"
                       >
                         <Lucide icon="MoreVertical" className="w-4 h-4" />
@@ -173,7 +173,7 @@ function Main() {
                     </div>
                   </div>
                   <Menu className="ml-auto">
-                    <Menu.Button as="a" className="block w-5 h-5" href="#">
+                    <Menu.Button as="a" className="block w-5 h-5" >
                       <Lucide
                         icon="MoreHorizontal"
                         className="w-5 h-5 text-slate-500"
@@ -211,7 +211,7 @@ function Main() {
                     </div>
                   </div>
                   <Menu className="ml-auto">
-                    <Menu.Button as="a" className="block w-5 h-5" href="#">
+                    <Menu.Button as="a" className="block w-5 h-5" >
                       <Lucide
                         icon="MoreHorizontal"
                         className="w-5 h-5 text-slate-500"
@@ -250,7 +250,7 @@ function Main() {
                     </div>
                   </div>
                   <Menu className="ml-auto">
-                    <Menu.Button as="a" className="block w-5 h-5" href="#">
+                    <Menu.Button as="a" className="block w-5 h-5" >
                       <Lucide
                         icon="MoreHorizontal"
                         className="w-5 h-5 text-slate-500"
@@ -288,7 +288,7 @@ function Main() {
                     </div>
                   </div>
                   <Menu className="ml-auto">
-                    <Menu.Button as="a" className="block w-5 h-5" href="#">
+                    <Menu.Button as="a" className="block w-5 h-5" >
                       <Lucide
                         icon="MoreHorizontal"
                         className="w-5 h-5 text-slate-500"
@@ -326,7 +326,7 @@ function Main() {
                     </div>
                   </div>
                   <Menu className="ml-auto">
-                    <Menu.Button as="a" className="block w-5 h-5" href="#">
+                    <Menu.Button as="a" className="block w-5 h-5" >
                       <Lucide
                         icon="MoreHorizontal"
                         className="w-5 h-5 text-slate-500"
@@ -450,19 +450,19 @@ function Main() {
                         /> */}
                       </div>
                       <div className="px-4 py-3 bg-slate-100 dark:bg-darkmode-400 text-slate-500 rounded-r-md rounded-t-md">
-                        {message.message}
+                        {message?.message}
                         <div className="mt-1 text-xs text-slate-500">
-                          {formatDistanceToNow(message.createdAt, { addSuffix: true })}
+                          {formatDistanceToNow(message?.createdAt, { addSuffix: true })}
                         </div>
                       </div>
                     </div>
                   }
                   <div className="clear-both"></div>
                   {
-                    message.state.feedback &&
+                    message?.state?.feedback &&
                     <div className="flex items-end float-right mb-4 max-w-[90%] sm:max-w-[49%]">
                     <div className="px-4 py-3 text-white bg-primary rounded-l-md rounded-t-md">
-                      {message.state.feedback}
+                      {message?.state?.feedback}
                     </div>
                   </div>
                   }
@@ -475,7 +475,7 @@ function Main() {
                     <Menu className="hidden my-auto mr-3 sm:block">
                       <Menu.Button
                         as="a"
-                        href="#"
+                        
                         className="w-4 h-4 text-slate-500"
                       >
                         <Lucide icon="MoreVertical" className="w-4 h-4" />
@@ -537,7 +537,7 @@ function Main() {
                     value={feedback}
                   ></FormTextarea>
                   <a
-                    href="#"
+                    
                     className="flex items-center justify-center flex-none w-8 h-8 mr-5 text-white rounded-full sm:w-10 sm:h-10 bg-primary"
                   >
                     <Lucide icon="Send" className="w-4 h-4" onClick={sendMessage} />

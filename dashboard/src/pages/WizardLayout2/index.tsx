@@ -11,7 +11,7 @@ function Main() {
       <div className="py-10 mt-5 intro-y box sm:py-20">
         <div className="px-5 sm:px-20">
           <div className="flex items-center intro-x">
-            <Button variant="primary" className="w-10 h-10 rounded-full">
+            <Button  className="w-10 h-10 rounded-full">
               1
             </Button>
             <div className="ml-3 text-base font-medium">Create New Account</div>
@@ -105,7 +105,7 @@ function Main() {
               <Button variant="secondary" className="w-24">
                 Previous
               </Button>
-              <Button variant="primary" className="w-24 ml-2">
+              <Button  className="w-24 ml-2">
                 Next
               </Button>
             </div>

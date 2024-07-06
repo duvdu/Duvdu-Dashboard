@@ -24,7 +24,10 @@ function Main() {
   useEffect(() => {
     setFormattedMenu(simpleMenu());
   }, [simpleMenuStore, location.pathname]);
-
+  const enter = (node: HTMLElement) => {
+    // Apply animation or other effects when entering
+  };
+  
   return (
     <div className="py-5 md:py-0 -mx-3 px-3 sm:-mx-8 sm:px-8 bg-black/[0.15] dark:bg-transparent">
       <DarkModeSwitcher />
@@ -77,8 +80,6 @@ function Main() {
                   {menu.subMenu && (
                     <Transition
                       in={menu.activeDropdown}
-                      onEnter={enter}
-                      onExit={leave}
                       timeout={300}
                     >
                       <ul
@@ -109,8 +110,6 @@ function Main() {
                             {subMenu.subMenu && (
                               <Transition
                                 in={subMenu.activeDropdown}
-                                onEnter={enter}
-                                onExit={leave}
                                 timeout={300}
                               >
                                 <ul

@@ -153,7 +153,7 @@ function Main() {
                   </div>
                   <div className="mt-5 text-center intro-x xl:mt-8 xl:text-left">
                     <Button
-                      variant="primary"
+                      
                       type="submit"
                       className="w-full px-4 py-3 align-top xl:w-32 xl:mr-3"
                     // onClick={() => dispatch(Action({ username: 'ahmed_magdy', password: 'Ahmed!123' }))}

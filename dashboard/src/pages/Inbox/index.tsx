@@ -118,7 +118,7 @@ function Main() {
                   as="a"
                   role="button"
                   className="block w-4 h-4"
-                  href="#"
+                  
                 >
                   <Lucide
                     icon="ChevronDown"
@@ -200,7 +200,7 @@ function Main() {
                       <Button variant="secondary" className="w-32 ml-auto">
                         Create Filter
                       </Button>
-                      <Button variant="primary" className="w-32 ml-2">
+                      <Button  className="w-32 ml-2">
                         Search
                       </Button>
                     </div>
@@ -209,7 +209,7 @@ function Main() {
               </Menu>
             </div>
             <div className="flex w-full sm:w-auto">
-              <Button variant="primary" className="mr-2 shadow-md">
+              <Button  className="mr-2 shadow-md">
                 Start a Video Call
               </Button>
               <Menu>
@@ -239,7 +239,7 @@ function Main() {
                   type="checkbox"
                 />
                 <Menu className="ml-1">
-                  <Menu.Button className="block w-5 h-5" href="#">
+                  <Menu.Button className="block w-5 h-5" >
                     <Lucide icon="ChevronDown" className="w-5 h-5" />
                   </Menu.Button>
                   <Menu.Items
@@ -255,13 +255,13 @@ function Main() {
                   </Menu.Items>
                 </Menu>
                 <a
-                  href="#"
+                  
                   className="flex items-center justify-center w-5 h-5 ml-5"
                 >
                   <Lucide icon="RefreshCw" className="w-4 h-4" />
                 </a>
                 <a
-                  href="#"
+                  
                   className="flex items-center justify-center w-5 h-5 ml-5"
                 >
                   <Lucide icon="MoreHorizontal" className="w-4 h-4" />
@@ -270,19 +270,19 @@ function Main() {
               <div className="flex items-center sm:ml-auto">
                 <div className="">1 - 50 of 5,238</div>
                 <a
-                  href="#"
+                  
                   className="flex items-center justify-center w-5 h-5 ml-5"
                 >
                   <Lucide icon="ChevronLeft" className="w-4 h-4" />
                 </a>
                 <a
-                  href="#"
+                  
                   className="flex items-center justify-center w-5 h-5 ml-5"
                 >
                   <Lucide icon="ChevronRight" className="w-4 h-4" />
                 </a>
                 <a
-                  href="#"
+                  
                   className="flex items-center justify-center w-5 h-5 ml-5"
                 >
                   <Lucide icon="Settings" className="w-4 h-4" />
@@ -311,13 +311,13 @@ function Main() {
                           onChange={() => {}}
                         />
                         <a
-                          href="#"
+                          
                           className="flex items-center justify-center flex-none w-5 h-5 ml-4 text-slate-400"
                         >
                           <Lucide icon="Star" className="w-4 h-4" />
                         </a>
                         <a
-                          href="#"
+                          
                           className="flex items-center justify-center flex-none w-5 h-5 ml-2 text-slate-400"
                         >
                           <Lucide icon="Bookmark" className="w-4 h-4" />

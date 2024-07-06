@@ -20,7 +20,7 @@ import LoadingIcon from "../../base-components/LoadingIcon";
 
 function Main() {
   const [categoryIdToDelete, setcategoryIdToDelete] = useState(null);
-  const [category, setCategory] = useState();
+  const [category, setCategory] = useState(null);
   const [categories, setCategories] = useState([]);
 
   const [limit, setLimit] = useState("10");
@@ -72,7 +72,7 @@ function Main() {
   }
 
 
-  const onChangeStutus = (newState: boolean, id) => {
+  const onChangeStutus = (newState, id) => {
     setidEdit(id)
     const formDate = new FormData();
     formDate.append('status', newState)
@@ -136,7 +136,7 @@ function Main() {
               </div>
               <div className="box mb-4 p-4 mx-4">
                 <div className="text-sm text-gray-600">
-                  <p>Created at: {formatDate(category.createdAt, 'DD/MM/YYYY')}</p>
+                  <p>Created at: {formatDate(category?.createdAt, 'DD/MM/YYYY')}</p>
                 </div>
               </div>
             </div>
@@ -306,7 +306,7 @@ function Main() {
           </div>
           <div className="px-5 pb-8 text-center">
             <Button
-              variant="outline-secondary"
+              
               type="button"
               onClick={() => {
                 setDeleteConfirmationModal(false);

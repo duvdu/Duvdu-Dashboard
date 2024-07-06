@@ -61,7 +61,7 @@ function Main() {
                 <div className="text-slate-500">{fakerData[0].jobs[0]}</div>
               </div>
               <Menu>
-                <Menu.Button tag="a" className="block w-5 h-5" href="#">
+                <Menu.Button  className="block w-5 h-5" >
                   <Lucide
                     icon="MoreHorizontal"
                     className="w-5 h-5 text-slate-500"
@@ -92,7 +92,7 @@ function Main() {
                   <Menu.Divider />
                   <Menu.Footer>
                     <Button
-                      variant="primary"
+                      
                       type="button"
                       className="px-2 py-1"
                     >
@@ -143,11 +143,11 @@ function Main() {
               </a>
             </div>
             <div className="flex p-5 border-t border-slate-200/60 dark:border-darkmode-400">
-              <Button variant="primary" type="button" className="px-2 py-1">
+              <Button  type="button" className="px-2 py-1">
                 New Group
               </Button>
               <Button
-                variant="outline-secondary"
+                
                 type="button"
                 className="px-2 py-1 ml-auto"
               >
@@ -191,7 +191,7 @@ function Main() {
               <div className="flex items-center px-5 py-5 border-b sm:py-3 border-slate-200/60 dark:border-darkmode-400">
                 <h2 className="mr-auto text-base font-medium">Daily Sales</h2>
                 <Menu className="ml-auto sm:hidden">
-                  <Menu.Button tag="a" className="block w-5 h-5" href="#">
+                  <Menu.Button  className="block w-5 h-5" >
                     <Lucide
                       icon="MoreHorizontal"
                       className="w-5 h-5 text-slate-500"
@@ -204,7 +204,7 @@ function Main() {
                     </Menu.Item>
                   </Menu.Items>
                 </Menu>
-                <Button variant="outline-secondary" className="hidden sm:flex">
+                <Button  className="hidden sm:flex">
                   <Lucide icon="File" className="w-4 h-4 mr-2" /> Download Excel
                 </Button>
               </div>
@@ -277,14 +277,14 @@ function Main() {
               <div className="flex items-center px-5 py-3 border-b border-slate-200/60 dark:border-darkmode-400">
                 <h2 className="mr-auto text-base font-medium">Announcement</h2>
                 <Button
-                  variant="outline-secondary"
+                  
                   className="px-2 mr-2"
                   onClick={prevAnnouncement}
                 >
                   <Lucide icon="ChevronLeft" className="w-4 h-4" />
                 </Button>
                 <Button
-                  variant="outline-secondary"
+                  
                   className="px-2"
                   onClick={nextAnnouncement}
                 >
@@ -313,7 +313,7 @@ function Main() {
                     <div className="px-3 py-2 font-medium rounded text-primary bg-primary/10 dark:bg-darkmode-400 dark:text-slate-300">
                       02 June 2021
                     </div>
-                    <Button variant="outline-secondary" className="ml-auto">
+                    <Button  className="ml-auto">
                       View Details
                     </Button>
                   </div>
@@ -334,7 +334,7 @@ function Main() {
                     <div className="px-3 py-2 font-medium rounded text-primary bg-primary/10 dark:bg-darkmode-400 dark:text-slate-300">
                       02 June 2021
                     </div>
-                    <Button variant="outline-secondary" className="ml-auto">
+                    <Button  className="ml-auto">
                       View Details
                     </Button>
                   </div>
@@ -368,14 +368,14 @@ function Main() {
               <div className="flex items-center px-5 py-3 border-b border-slate-200/60 dark:border-darkmode-400">
                 <h2 className="mr-auto text-base font-medium">Projects</h2>
                 <Button
-                  variant="outline-secondary"
+                  
                   className="px-2 mr-2"
                   onClick={prevNewProjects}
                 >
                   <Lucide icon="ChevronLeft" className="w-4 h-4" />
                 </Button>
                 <Button
-                  variant="outline-secondary"
+                  
                   className="px-2"
                   onClick={nextNewProjects}
                 >
@@ -473,14 +473,14 @@ function Main() {
                   Today Schedules
                 </h2>
                 <Button
-                  variant="outline-secondary"
+                  
                   className="px-2 mr-2"
                   onClick={prevTodaySchedules}
                 >
                   <Lucide icon="ChevronLeft" className="w-4 h-4" />
                 </Button>
                 <Button
-                  variant="outline-secondary"
+                  
                   className="px-2"
                   onClick={nextTodaySchedules}
                 >
@@ -576,7 +576,7 @@ function Main() {
               <div className="flex items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
                 <h2 className="mr-auto text-base font-medium">Top Products</h2>
                 <Menu className="ml-auto">
-                  <Menu.Button tag="a" className="block w-5 h-5" href="#">
+                  <Menu.Button  className="block w-5 h-5" >
                     <Lucide
                       icon="MoreHorizontal"
                       className="w-5 h-5 text-slate-500"
@@ -707,7 +707,7 @@ function Main() {
                   Work In Progress
                 </h2>
                 <Menu className="ml-auto sm:hidden">
-                  <Menu.Button tag="a" className="block w-5 h-5" href="#">
+                  <Menu.Button  className="block w-5 h-5" >
                     <Lucide
                       icon="MoreHorizontal"
                       className="w-5 h-5 text-slate-500"
@@ -817,7 +817,7 @@ function Main() {
               <div className="flex items-center px-5 py-5 border-b sm:py-0 border-slate-200/60 dark:border-darkmode-400">
                 <h2 className="mr-auto text-base font-medium">Latest Tasks</h2>
                 <Menu className="ml-auto sm:hidden">
-                  <Menu.Button tag="a" className="block w-5 h-5" href="#">
+                  <Menu.Button  className="block w-5 h-5" >
                     <Lucide
                       icon="MoreHorizontal"
                       className="w-5 h-5 text-slate-500"
@@ -917,9 +917,9 @@ function Main() {
                 </h2>
                 <Menu className="ml-auto">
                   <Menu.Button
-                    tag="a"
+                    
                     className="block w-5 h-5 sm:hidden"
-                    href="#"
+                    
                   >
                     <Lucide
                       icon="MoreHorizontal"
@@ -928,7 +928,7 @@ function Main() {
                   </Menu.Button>
                   <Menu.Button
                     as={Button}
-                    variant="outline-secondary"
+                    
                     className="hidden font-normal sm:flex"
                   >
                     Export{" "}
@@ -971,7 +971,7 @@ function Main() {
                   <Menu className="mt-3 mr-auto sm:mt-0 sm:mr-0">
                     <Menu.Button
                       as={Button}
-                      variant="outline-secondary"
+                      
                       className="font-normal"
                     >
                       Filter by Month

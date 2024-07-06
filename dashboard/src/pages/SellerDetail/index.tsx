@@ -16,7 +16,7 @@ function Main() {
       <div className="flex flex-col items-center mt-8 intro-y sm:flex-row">
         <h2 className="mr-auto text-lg font-medium">Seller Details</h2>
         <div className="flex w-full mt-4 sm:w-auto sm:mt-0">
-          <Button variant="primary" className="mr-2 shadow-md">
+          <Button  className="mr-2 shadow-md">
             Print
           </Button>
           <Menu className="ml-auto sm:ml-0">
@@ -73,7 +73,7 @@ function Main() {
             </div>
             <div className="flex items-center pt-5 mt-5 font-medium border-t border-slate-200/60 dark:border-darkmode-400">
               <Button
-                variant="outline-secondary"
+                
                 type="button"
                 className="w-full px-2 py-1"
               >
@@ -127,7 +127,7 @@ function Main() {
             </div>
             <div className="flex items-center pt-5 mt-5 font-medium border-t border-slate-200/60 dark:border-darkmode-400">
               <Button
-                variant="outline-secondary"
+                
                 type="button"
                 className="w-full px-2 py-1"
               >
@@ -238,17 +238,17 @@ function Main() {
                   <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400">
                     <a
                       className="flex items-center mr-auto text-primary"
-                      href="#"
+                      
                     >
                       <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
                     </a>
-                    <a className="flex items-center mr-3" href="#">
+                    <a className="flex items-center mr-3" >
                       <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" />{" "}
                       Edit
                     </a>
                     <a
                       className="flex items-center text-danger"
-                      href="#"
+                      
                       onClick={() => {
                         setDeleteConfirmationModal(true);
                       }}
@@ -315,7 +315,7 @@ function Main() {
           </div>
           <div className="px-5 pb-8 text-center">
             <Button
-              variant="outline-secondary"
+              
               type="button"
               onClick={() => {
                 setDeleteConfirmationModal(false);

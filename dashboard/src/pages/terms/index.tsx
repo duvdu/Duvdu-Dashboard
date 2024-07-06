@@ -54,7 +54,7 @@ return (
               </Highlight>
             </Source>
             <Button 
-            variant="primary" 
+             
             className="w-24 my-2 mr-1" 
             disabled={!editorData.length} 
             onClick={()=>dispatch(ActionUpdateTerms({ formdata: {desc:editorData}, id: id }))}

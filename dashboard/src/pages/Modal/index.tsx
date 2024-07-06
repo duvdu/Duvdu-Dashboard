@@ -71,7 +71,7 @@ function Main() {
                     <div className="text-center">
                       <Button
                         as="a"
-                        variant="primary"
+                        
                         onClick={() => {
                           setBasicModalPreview(true);
                         }}
@@ -100,7 +100,7 @@ function Main() {
                 <div className="text-center">
                   <Button
                     as="a"
-                    variant="primary"
+                    
                     onClick={() => {
                       setBasicModalPreview(true);
                     }}
@@ -153,8 +153,8 @@ function Main() {
                       {/* BEGIN: Small Modal Toggle */}
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setSmallModalSizePreview(true);
@@ -167,8 +167,8 @@ function Main() {
                       {/* BEGIN: Medium Modal Toggle */}
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setMediumModalSizePreview(true);
@@ -181,8 +181,8 @@ function Main() {
                       {/* BEGIN: Large Modal Toggle */}
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setLargeModalSizePreview(true);
@@ -195,8 +195,8 @@ function Main() {
                       {/* BEGIN: Super Large Modal Toggle */}
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setSuperlargeModalSizePreview(true);
@@ -266,8 +266,8 @@ function Main() {
                 {/* BEGIN: Small Modal Toggle */}
                 <Button
                   as="a"
-                  href="#"
-                  variant="primary"
+                  
+                  
                   onClick={(event: React.MouseEvent) => {
                     event.preventDefault();
                     setSmallModalSizePreview(true);
@@ -280,8 +280,8 @@ function Main() {
                 {/* BEGIN: Medium Modal Toggle */}
                 <Button
                   as="a"
-                  href="#"
-                  variant="primary"
+                  
+                  
                   onClick={(event: React.MouseEvent) => {
                     event.preventDefault();
                     setMediumModalSizePreview(true);
@@ -294,8 +294,8 @@ function Main() {
                 {/* BEGIN: Large Modal Toggle */}
                 <Button
                   as="a"
-                  href="#"
-                  variant="primary"
+                  
+                  
                   onClick={(event: React.MouseEvent) => {
                     event.preventDefault();
                     setLargeModalSizePreview(true);
@@ -308,8 +308,8 @@ function Main() {
                 {/* BEGIN: Super Large Modal Toggle */}
                 <Button
                   as="a"
-                  href="#"
-                  variant="primary"
+                  
+                  
                   onClick={(event: React.MouseEvent) => {
                     event.preventDefault();
                     setSuperlargeModalSizePreview(true);
@@ -405,8 +405,8 @@ function Main() {
                     <div className="text-center">
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setWarningModalPreview(true);
@@ -437,7 +437,7 @@ function Main() {
                         <div className="px-5 pb-8 text-center">
                           <Button
                             type="button"
-                            variant="primary"
+                            
                             onClick={() => {
                               setWarningModalPreview(false);
                             }}
@@ -462,8 +462,8 @@ function Main() {
                 <div className="text-center">
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setWarningModalPreview(true);
@@ -494,7 +494,7 @@ function Main() {
                     <div className="px-5 pb-8 text-center">
                       <Button
                         type="button"
-                        variant="primary"
+                        
                         onClick={() => {
                           setWarningModalPreview(false);
                         }}
@@ -545,8 +545,8 @@ function Main() {
                     <div className="text-center">
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setButtonModalPreview(true);
@@ -570,7 +570,7 @@ function Main() {
                             setButtonModalPreview(false);
                           }}
                           className="absolute top-0 right-0 mt-3 mr-3"
-                          href="#"
+                          
                         >
                           <Lucide icon="X" className="w-8 h-8 text-slate-400" />
                         </a>
@@ -587,7 +587,7 @@ function Main() {
                         <div className="px-5 pb-8 text-center">
                           <Button
                             type="button"
-                            variant="primary"
+                            
                             onClick={() => {
                               setButtonModalPreview(false);
                             }}
@@ -607,8 +607,8 @@ function Main() {
                 <div className="text-center">
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setButtonModalPreview(true);
@@ -632,7 +632,7 @@ function Main() {
                         setButtonModalPreview(false);
                       }}
                       className="absolute top-0 right-0 mt-3 mr-3"
-                      href="#"
+                      
                     >
                       <Lucide icon="X" className="w-8 h-8 text-slate-400" />
                     </a>
@@ -649,7 +649,7 @@ function Main() {
                     <div className="px-5 pb-8 text-center">
                       <Button
                         type="button"
-                        variant="primary"
+                        
                         onClick={() => {
                           setButtonModalPreview(false);
                         }}
@@ -694,7 +694,7 @@ function Main() {
                     {/* BEGIN: Modal Toggle */}
                     <div className="text-center">
                       <Button
-                        variant="primary"
+                        
                         onClick={() => {
                           setStaticBackdropModalPreview(true);
                         }}
@@ -719,7 +719,7 @@ function Main() {
                           </div>
                           <Button
                             type="button"
-                            variant="primary"
+                            
                             onClick={() => {
                               setStaticBackdropModalPreview(false);
                             }}
@@ -738,7 +738,7 @@ function Main() {
                 {/* BEGIN: Modal Toggle */}
                 <div className="text-center">
                   <Button
-                    variant="primary"
+                    
                     onClick={() => {
                       setStaticBackdropModalPreview(true);
                     }}
@@ -763,7 +763,7 @@ function Main() {
                       </div>
                       <Button
                         type="button"
-                        variant="primary"
+                        
                         onClick={() => {
                           setStaticBackdropModalPreview(false);
                         }}
@@ -809,8 +809,8 @@ function Main() {
                     <div className="text-center">
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setOverlappingModalPreview(true);
@@ -835,8 +835,8 @@ function Main() {
                           {/* BEGIN: Overlapping Modal Toggle */}
                           <Button
                             as="a"
-                            href="#"
-                            variant="primary"
+                            
+                            
                             onClick={(event: React.MouseEvent) => {
                               event.preventDefault();
                               setNextOverlappingModalPreview(true);
@@ -869,8 +869,8 @@ function Main() {
                 <div className="text-center">
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setOverlappingModalPreview(true);
@@ -895,8 +895,8 @@ function Main() {
                       {/* BEGIN: Overlapping Modal Toggle */}
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setNextOverlappingModalPreview(true);
@@ -957,8 +957,8 @@ function Main() {
                     <div className="text-center">
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setHeaderFooterModalPreview(true);
@@ -982,14 +982,14 @@ function Main() {
                             Broadcast Message
                           </h2>
                           <Button
-                            variant="outline-secondary"
+                            
                             className="hidden sm:flex"
                           >
                             <Lucide icon="File" className="w-4 h-4 mr-2" />{" "}
                             Download Docs
                           </Button>
                           <Menu className="sm:hidden">
-                            <Menu.Button className="block w-5 h-5" href="#">
+                            <Menu.Button className="block w-5 h-5" >
                               <Lucide
                                 icon="MoreHorizontal"
                                 className="w-5 h-5 text-slate-500"
@@ -1063,7 +1063,7 @@ function Main() {
                         <Dialog.Footer>
                           <Button
                             type="button"
-                            variant="outline-secondary"
+                            
                             onClick={() => {
                               setHeaderFooterModalPreview(false);
                             }}
@@ -1072,7 +1072,7 @@ function Main() {
                             Cancel
                           </Button>
                           <Button
-                            variant="primary"
+                            
                             type="button"
                             className="w-20"
                             ref={sendButtonRef}
@@ -1091,8 +1091,8 @@ function Main() {
                 <div className="text-center">
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setHeaderFooterModalPreview(true);
@@ -1116,14 +1116,14 @@ function Main() {
                         Broadcast Message
                       </h2>
                       <Button
-                        variant="outline-secondary"
+                        
                         className="hidden sm:flex"
                       >
                         <Lucide icon="File" className="w-4 h-4 mr-2" />{" "}
                         Download Docs
                       </Button>
                       <Menu className="sm:hidden">
-                        <Menu.Button className="block w-5 h-5" href="#">
+                        <Menu.Button className="block w-5 h-5" >
                           <Lucide
                             icon="MoreHorizontal"
                             className="w-5 h-5 text-slate-500"
@@ -1217,7 +1217,7 @@ function Main() {
                     <Dialog.Footer>
                       <Button
                         type="button"
-                        variant="outline-secondary"
+                        
                         onClick={() => {
                           setHeaderFooterModalPreview(false);
                         }}
@@ -1226,7 +1226,7 @@ function Main() {
                         Cancel
                       </Button>
                       <Button
-                        variant="primary"
+                        
                         type="button"
                         className="w-20"
                         ref={sendButtonRef}
@@ -1271,8 +1271,8 @@ function Main() {
                     <div className="text-center">
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setDeleteModalPreview(true);
@@ -1305,7 +1305,7 @@ function Main() {
                         <div className="px-5 pb-8 text-center">
                           <Button
                             type="button"
-                            variant="outline-secondary"
+                            
                             onClick={() => {
                               setDeleteModalPreview(false);
                             }}
@@ -1333,8 +1333,8 @@ function Main() {
                 <div className="text-center">
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setDeleteModalPreview(true);
@@ -1367,7 +1367,7 @@ function Main() {
                     <div className="px-5 pb-8 text-center">
                       <Button
                         type="button"
-                        variant="outline-secondary"
+                        
                         onClick={() => {
                           setDeleteModalPreview(false);
                         }}
@@ -1421,8 +1421,8 @@ function Main() {
                     <div className="text-center">
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setSuccessModalPreview(true);
@@ -1453,7 +1453,7 @@ function Main() {
                         <div className="px-5 pb-8 text-center">
                           <Button
                             type="button"
-                            variant="primary"
+                            
                             onClick={() => {
                               setSuccessModalPreview(false);
                             }}
@@ -1473,8 +1473,8 @@ function Main() {
                 <div className="text-center">
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setSuccessModalPreview(true);
@@ -1505,7 +1505,7 @@ function Main() {
                     <div className="px-5 pb-8 text-center">
                       <Button
                         type="button"
-                        variant="primary"
+                        
                         onClick={() => {
                           setSuccessModalPreview(false);
                         }}
@@ -1551,8 +1551,8 @@ function Main() {
                     <div className="text-center">
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
                           setTinySliderModalPreview(true);
@@ -1632,8 +1632,8 @@ function Main() {
                 <div className="text-center">
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
                       setTinySliderModalPreview(true);
@@ -1739,8 +1739,8 @@ function Main() {
                     <div className="text-center">
                       <Button
                         as="a"
-                        href="#"
-                        variant="primary"
+                        
+                        
                         className="mb-2 mr-1"
                         onClick={(event: React.MouseEvent) => {
                           event.preventDefault();
@@ -1762,8 +1762,8 @@ function Main() {
                         {/* BEGIN: Hide Modal Toggle */}
                         <Button
                           as="a"
-                          href="#"
-                          variant="primary"
+                          
+                          
                           className="mr-1"
                           onClick={(event: React.MouseEvent) => {
                             event.preventDefault();
@@ -1776,8 +1776,8 @@ function Main() {
                         {/* BEGIN: Toggle Modal Toggle */}
                         <Button
                           as="a"
-                          href="#"
-                          variant="primary"
+                          
+                          
                           className="mr-1"
                           onClick={(event: React.MouseEvent) => {
                             event.preventDefault();
@@ -1798,8 +1798,8 @@ function Main() {
                 <div className="text-center">
                   <Button
                     as="a"
-                    href="#"
-                    variant="primary"
+                    
+                    
                     className="mb-2 mr-1"
                     onClick={(event: React.MouseEvent) => {
                       event.preventDefault();
@@ -1821,8 +1821,8 @@ function Main() {
                     {/* BEGIN: Hide Modal Toggle */}
                     <Button
                       as="a"
-                      href="#"
-                      variant="primary"
+                      
+                      
                       className="mr-1"
                       onClick={(event: React.MouseEvent) => {
                         event.preventDefault();
@@ -1835,8 +1835,8 @@ function Main() {
                     {/* BEGIN: Toggle Modal Toggle */}
                     <Button
                       as="a"
-                      href="#"
-                      variant="primary"
+                      
+                      
                       className="mr-1"
                       onClick={(event: React.MouseEvent) => {
                         event.preventDefault();

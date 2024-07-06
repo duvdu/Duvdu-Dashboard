@@ -125,12 +125,12 @@ function Main() {
             <div className="mt-5 text-right">
               <Button
                 type="button"
-                variant="outline-secondary"
+                
                 className="w-24 mr-1"
               >
                 Cancel
               </Button>
-              <Button type="button" variant="primary" className="w-24">
+              <Button type="button"  className="w-24">
                 Save
               </Button>
             </div>
