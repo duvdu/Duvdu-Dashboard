@@ -8,7 +8,7 @@ import Lucide from "../../../base-components/Lucide";
 import { Dialog, Menu } from "../../../base-components/Headless";
 import { useAppDispatch, useAppSelector } from "../../../redux/stores/hooks";
 import { StateAllProducers } from "../../../redux/stores/api/cycles/producer";
-import { ActionGetProducer } from "../../../redux/action/api/cycles/producer/get";
+// import { ActionGetProducer } from "../../../redux/action/api/cycles/producer/get";
 
 function Main() {
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
@@ -21,17 +21,16 @@ function Main() {
 
   const [limit, setLimit] = useState("10");
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(null);
 
 
   const dispatch = useAppDispatch()
 
   const data = stateAllProducer?.data?.data
-console.log(data)
   useEffect(() => {
-    if (search.length == 0)
+    if (search?.length == 0)
       action()
-  }, [dispatch, search.length == 0])
+  }, [dispatch, search?.length == 0])
 
   useEffect(() => {
     action()
@@ -40,10 +39,10 @@ console.log(data)
   const handleSearch = () => action();
 
   const action = () => {
-    dispatch(ActionGetProducer({ limit, page, search }))
+    // dispatch(ActionGetProducer({ limit, page, search }))
   }
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && search.length > 0) {
+    if (e.key === 'Enter' && search?.length > 0) {
       handleSearch();
     }
   };
@@ -75,7 +74,7 @@ console.log(data)
               <FormInput
                 type="text"
                 className="w-56 pr-10 !box"
-                placeholder="Search..."
+                placeholder="search?..."
               // onChange={(e) => setSearch(e.target.value)}
               />
               <Lucide

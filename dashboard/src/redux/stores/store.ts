@@ -31,11 +31,11 @@ import getAllRole from "./api/roles/getAll";
 import deleteRole from "./api/roles/delete";
 import createRole from "./api/roles/create";
 //////////////// roles
-import updatePlan from "./api/plan/update";
-import getPlanById from "./api/plan/getById";
-import getAllPlan from "./api/plan/getAll";
-import deletePlan from "./api/plan/delete";
-import createPlan from "./api/plan/create";
+// import updatePlan from "./api/plan/update";
+// import getPlanById from "./api/plan/getById";
+// import getAllPlan from "./api/plan/getAll";
+// import deletePlan from "./api/plan/delete";
+// import createPlan from "./api/plan/create";
 
 export const store = configureStore({
   reducer: {
@@ -70,11 +70,11 @@ export const store = configureStore({
     deleteRole,
     createRole,
     //////////////// plans
-    updatePlan,
-    getPlanById,
-    getAllPlan,
-    deletePlan,
-    createPlan
+    // updatePlan,
+    // getPlanById,
+    // getAllPlan,
+    // deletePlan,
+    // createPlan
   },
 });
 

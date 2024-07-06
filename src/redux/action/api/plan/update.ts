@@ -6,7 +6,6 @@ export const ActionUpdatePlan = createAsyncThunk(
     KEY_UPDATE_PLAN,
     async (params: { title: string; status: boolean; roleId: string }) => {
         const { roleId, title, status } = params;
-        console.log('action >>>')
         const response = await mainApiInstance.patch(`api/users/plans/${roleId}`, {
             title,
             status,

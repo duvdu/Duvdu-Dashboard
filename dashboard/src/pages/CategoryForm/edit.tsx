@@ -215,7 +215,6 @@ function Main() {
     putInBasket('cycle', value);
   }, [type]);
 
-console.log(formState)
   return (
     <>
       <Notification

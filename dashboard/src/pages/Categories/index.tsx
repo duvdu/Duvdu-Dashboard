@@ -25,7 +25,7 @@ function Main() {
 
   const [limit, setLimit] = useState("10");
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(null);
 
   const [idToEdit, setidEdit] = useState("");
 
@@ -42,9 +42,9 @@ function Main() {
   const formState = useAppSelector(selectFormState);
 
   useEffect(() => {
-    if (search.length == 0)
+    if (search?.length == 0)
       action()
-  }, [dispatch, stateDeleteCategory, createCategory, search.length == 0])
+  }, [dispatch, stateDeleteCategory, createCategory, search?.length == 0])
 
   useEffect(() => {
     action()
@@ -56,7 +56,7 @@ function Main() {
     dispatch(ActionGetCategory({ limit, page, search }))
   }
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && search.length > 0) {
+    if (e.key === 'Enter' && search?.length > 0) {
       handleSearch();
     }
   };
@@ -119,7 +119,7 @@ function Main() {
                       <h4 className="text-lg font-medium">{subCategory.title.en}</h4>
                       <ul className="flex flex-wrap gap-2 py-2">
                         {subCategory?.tags?.map((tag, index) => (
-                          <li key={index} className="py-1 px-2 border border-[#00000080] dark:border-[#FFFFFF4D] rounded-full">{tag.en}</li>
+                          <li key={tag._id} className="py-1 px-2 border border-[#00000080] dark:border-[#FFFFFF4D] rounded-full">{tag.en}</li>
                         ))}
                       </ul>
                     </div>
@@ -175,7 +175,7 @@ function Main() {
         {/* BEGIN: Users Layout */}
         {
           categories &&
-          categories.map((item, key) => (
+          categories.map((item) => (
             <div
               key={item._id}
               className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"

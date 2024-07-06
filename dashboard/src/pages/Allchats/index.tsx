@@ -148,7 +148,6 @@ function Main() {
   };
 
   const isRecord = () => audioSrc && audioSrc?.length > 0
-  console.log(statechat?.data?.data)
   return (
     <>
       <div className="flex flex-col items-center mt-8 intro-y sm:flex-row">

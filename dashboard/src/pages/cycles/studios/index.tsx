@@ -21,7 +21,7 @@ function Main() {
 
   const [limit, setLimit] = useState("10");
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(null);
 
 
   const dispatch = useAppDispatch()
@@ -29,9 +29,9 @@ function Main() {
   const data = stateAllStudios?.data?.data
 
   useEffect(() => {
-    if (search.length == 0)
+    if (search?.length == 0)
       action()
-  }, [dispatch, search.length == 0])
+  }, [dispatch, search?.length == 0])
 
   useEffect(() => {
     action()
@@ -43,7 +43,7 @@ function Main() {
     dispatch(ActionGetStudio({ limit, page, search }))
   }
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && search.length > 0) {
+    if (e.key === 'Enter' && search?.length > 0) {
       handleSearch();
     }
   };
@@ -64,7 +64,6 @@ function Main() {
       </div>
     );
   };
-  console.log(data)
   return (
     <>
       <h2 className="mt-10 text-lg font-medium intro-y">Studios</h2>
@@ -75,7 +74,7 @@ function Main() {
               <FormInput
                 type="text"
                 className="w-56 pr-10 !box"
-                placeholder="Search..."
+                placeholder="search?..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={handleKeyDown}

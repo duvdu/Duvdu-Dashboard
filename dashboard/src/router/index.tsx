@@ -76,7 +76,7 @@ import FileUpload from "../pages/FileUpload";
 import WysiwygEditor from "../pages/WysiwygEditor";
 import Terms from "../pages/terms";
 import Roles from "../pages/roles";
-import Plan from "../pages/plan";
+// import Plan from "../pages/plan";
 import Validation from "../pages/Validation";
 import Chart from "../pages/Chart";
 import Slider from "../pages/Slider";
@@ -145,14 +145,14 @@ function Router() {
           path: "roles",
           element: <Roles />,
         },
-        {
-          path: "plan",
-          element: <Plan />,
-        },
-        {
-          path: "plan",
-          element: <Plan />,
-        },
+        // {
+        //   path: "plan",
+        //   element: <Plan />,
+        // },
+        // {
+        //   path: "plan",
+        //   element: <Plan />,
+        // },
 
 
         {

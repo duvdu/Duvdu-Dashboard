@@ -31,7 +31,6 @@ function Main() {
   const notifications = useAppSelector(StateAllNotification)
   const handlerrors = useAppSelector(GetAllErrors);
   const navigate = useNavigate();
-
   const dispatch = useAppDispatch()
   useEffect(() => {
 
@@ -131,7 +130,6 @@ function Main() {
 
   const username: string = authState?.data?.data?.name || ""
   const imgurl: string = authState?.data?.data?.profileImage || ""
-
 
   return (
     <>
@@ -284,14 +282,14 @@ function Main() {
                     <img
                       alt="DuvDu Admin DashBoard"
                       className="rounded-full"
-                      src={data.sourceUser.profileImage}
+                      src={data.targetUser.profileImage}
                     />
                     <div className="absolute bottom-0 right-0 w-3 h-3 border-2 border-white rounded-full bg-success dark:border-darkmode-600"></div>
                   </div>
                   <div className="ml-2 overflow-hidden w-full">
                     <div className="flex justify-between items-center">
                       <a href="" className="mr-5 font-medium truncate">
-                        {data.sourceUser.name || "NONE"}
+                        {data.targetUser.name || "NONE"}
                       </a>
                       <div className="ml-auto text-xs text-slate-400 whitespace-nowrap">
                         {dayjs(data.createdAt).format('hh:mm A')}

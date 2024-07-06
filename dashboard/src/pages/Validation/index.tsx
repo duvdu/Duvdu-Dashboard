@@ -22,7 +22,6 @@ import React from "react";
 
 function Main() {
   const failedEl = document.querySelectorAll("#failed-notification-content")[0]
-        console.log(failedEl)
   const schema = yup
     .object({
       name: yup.string().required().min(2),
