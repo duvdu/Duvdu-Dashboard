@@ -49,14 +49,14 @@ const Main: React.FC = () => {
   // Load plans and plan details
 
   useEffect(() => {
-    if(stateDeletePlan.data|| stateCreatePlan.data|| stateUpdatePlan.data)
+    if(stateDeletePlan?.data|| stateCreatePlan?.data|| stateUpdatePlan?.data)
     dispatch(ActionGetPlans())
       .then(response => {
         if (response.payload) {
           setPlans(response.payload.data);
         }
       });
-  }, [stateDeletePlan.data, stateCreatePlan.data, stateUpdatePlan.data]);
+  }, [stateDeletePlan?.data, stateCreatePlan?.data, stateUpdatePlan?.data]);
 
   useEffect(() => {
     dispatch(ActionGetRoles());
@@ -66,7 +66,7 @@ const Main: React.FC = () => {
   useEffect(() => {
     if(headerFooterModalPreview == false){
       setFormValues({ key: '', title: '', role: '' });
-      setErrors({});
+      // setErrors({});
     }
   }, [headerFooterModalPreview]);
 
@@ -89,20 +89,17 @@ const Main: React.FC = () => {
   };
 
   const validateForm = () => {
-    const newErrors = null;
+    console.log(formValues)
+    let newErrors = null;
+    if (!formValues.role) setErrors('Role is required');
+    if (!formValues.key) setErrors('Description is required');
+    if (!formValues.title) setErrors('Title is required');
 
-    if (!formValues.key) newErrors.key = 'Key is required';
-    if (!formValues.title) newErrors.title = 'Title is required';
-    if (!formValues.role) newErrors.role = 'Role is required';
-
-    setErrors(newErrors);
-
-    // If there are no errors, return true
-    return Object.keys(newErrors).length === 0;
+    return newErrors === null;
   };
 
   const createPlan = () => {
-    if (validateForm()) {
+    if (validateForm()) {      
       dispatch(ActionCreatePlan(formValues));
     }
   };
@@ -150,12 +147,10 @@ const Main: React.FC = () => {
             <div className="col-span-12 sm:col-span-6">
               <FormLabel htmlFor="modal-form-1">Title</FormLabel>
               <FormInput id="modal-form-1" type="text" name="key" value={formValues.key} onChange={handleInputChange} />
-              {errors?.key && <p className="text-danger">{errors.key}</p>}
             </div>
             <div className="col-span-12 sm:col-span-6">
               <FormLabel htmlFor="modal-form-2">Description</FormLabel>
               <FormInput id="modal-form-2" type="text" name="title" value={formValues.title} onChange={handleInputChange} />
-              {errors?.title && <p className="text-danger">{errors.title}</p>}
             </div>
             <div className="col-span-12 sm:col-span-6">
               <FormLabel htmlFor="modal-form-6">Roles</FormLabel>
@@ -165,9 +160,9 @@ const Main: React.FC = () => {
                   <option key={role._id} value={role._id}>{role.key}</option>
                 ))}
               </FormSelect>
-              {errors?.role && <p className="text-danger">{errors.role}</p>}
             </div>
           </Dialog.Description>
+            {errors && <p className="text-danger text-center">{errors}</p>}
           <Dialog.Footer>
             <Button type="button" variant="outline-secondary" onClick={() => setHeaderFooterModalPreview(false)} className="w-20 mr-1">
               Cancel
@@ -207,7 +202,7 @@ const Main: React.FC = () => {
         <Button onClick={() => setHeaderFooterModalPreview(true)} variant="primary" className="mr-2 mb-2 shadow-md">
           Add New Plan
           {
-            stateCreatePlan.loading &&
+            stateCreatePlan?.loading &&
             <LoadingIcon icon="puff" className="ml-3" />
           }
         </Button>
@@ -238,7 +233,7 @@ const Main: React.FC = () => {
                   <label>Active Status</label>
                 </div>
                 <div className='flex flex-col justify-center h-full'>
-                  {actionPlanId === plan._id && stateUpdatePlan.loading ? (
+                  {actionPlanId === plan._id && stateUpdatePlan?.loading ? (
                     <LoadingIcon icon="puff" className="ml-3" />
                   ) : (
                     <FormSwitch className="mt-2">
@@ -259,7 +254,7 @@ const Main: React.FC = () => {
                   setActionPlanId(plan._id)
                 }}
               >
-                {actionPlanId === plan._id && stateDeletePlan.loading ? (
+                {actionPlanId === plan._id && stateDeletePlan?.loading ? (
                   <LoadingIcon icon="puff" className="w-4 h-4 mr-1" />
                 ) : (
                   <>
