@@ -18,4 +18,12 @@ export default defineConfig({
       "tailwind-config": path.resolve(__dirname, "./tailwind.config.js"),
     },
   },
+  server: {
+    port: 3000,
+    host: '0.0.0.0', 
+  },
+  preview: {
+    port: 3000,
+    host: '0.0.0.0', 
+  },
 });

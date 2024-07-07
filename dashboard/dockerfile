@@ -5,6 +5,6 @@ COPY package.json .
 RUN npm install --legacy-peer-deps --registry=https://registry.npmjs.org
 COPY . .
 RUN npm run build
-
+EXPOSE 3000
 CMD ["npm","start"]
 
