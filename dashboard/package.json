@@ -3,9 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --port 3001",
+    "dev": "vite --port 3000",
     "build": "tsc && vite build",
-    "start": "vite preview --port 3001"
+    "start": "vite preview --port 3000"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-balloon": "^35.1.0",
