@@ -31,11 +31,17 @@ import getAllRole from "./api/roles/getAll";
 import deleteRole from "./api/roles/delete";
 import createRole from "./api/roles/create";
 //////////////// roles
-// import updatePlan from "./api/plan/update";
-// import getPlanById from "./api/plan/getById";
-// import getAllPlan from "./api/plan/getAll";
-// import deletePlan from "./api/plan/delete";
-// import createPlan from "./api/plan/create";
+import updatePlan from "./api/plan/update";
+import getPlanById from "./api/plan/getById";
+import getAllPlan from "./api/plan/getAll";
+import deletePlan from "./api/plan/delete";
+import createPlan from "./api/plan/create";
+///////////////// ranks
+import updateRank from "./api/rank/update";
+import getRankById from "./api/rank/getById";
+import getAllRanks from "./api/rank/getAll";
+import deleteRank from "./api/rank/delete";
+import createRank from "./api/rank/create";
 
 export const store = configureStore({
   reducer: {
@@ -70,11 +76,17 @@ export const store = configureStore({
     deleteRole,
     createRole,
     //////////////// plans
-    // updatePlan,
-    // getPlanById,
-    // getAllPlan,
-    // deletePlan,
-    // createPlan
+    updatePlan,
+    getPlanById,
+    getAllPlan,
+    deletePlan,
+    createPlan,
+    //////////////// Ranks
+    updateRank,
+    getRankById,
+    getAllRanks,
+    deleteRank,
+    createRank
   },
 });
 

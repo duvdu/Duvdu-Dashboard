@@ -77,6 +77,7 @@ import WysiwygEditor from "../pages/WysiwygEditor";
 import Terms from "../pages/terms";
 import Roles from "../pages/roles";
 import Plan from "../pages/plan";
+import Ranks from "../pages/ranks";
 import Validation from "../pages/Validation";
 import Chart from "../pages/Chart";
 import Slider from "../pages/Slider";
@@ -102,7 +103,7 @@ function Router() {
           element: <EditCategory />,
         },
         {
-          path: "category-form",
+          path: "add-category",
           element: <CategoryForm />,
         },
         {
@@ -146,12 +147,12 @@ function Router() {
           element: <Roles />,
         },
         {
-          path: "plan",
+          path: "plans",
           element: <Plan />,
         },
         {
-          path: "plan",
-          element: <Plan />,
+          path: "ranks",
+          element: <Ranks />,
         },
 
 

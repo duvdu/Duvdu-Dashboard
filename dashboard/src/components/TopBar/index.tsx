@@ -7,7 +7,7 @@ import fakerData from "../../utils/faker";
 import _ from "lodash";
 import clsx from "clsx";
 import { Transition } from "@headlessui/react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
 import { selectAuthState } from "../../redux/stores/api/auth/auth";
 import { ActionMyProfile } from "../../redux/action/api/profile/myprofile";
@@ -130,7 +130,7 @@ function Main() {
 
   const username: string = authState?.data?.data?.name || ""
   const imgurl: string = authState?.data?.data?.profileImage || ""
-
+  const location = useLocation()
   return (
     <>
       <Notification
@@ -152,8 +152,8 @@ function Main() {
         {/* BEGIN: Breadcrumb */}
         <Breadcrumb className="hidden mr-auto -intro-x sm:flex">
           <Breadcrumb.Link to="/">Application</Breadcrumb.Link>
-          <Breadcrumb.Link to="/" active={true}>
-            Dashboard
+          <Breadcrumb.Link to={location.pathname.split('/')[1]} active={true}>
+            {location.pathname.split('/')[1]}
           </Breadcrumb.Link>
         </Breadcrumb>
         <div className="w-full flex justify-center items-center">

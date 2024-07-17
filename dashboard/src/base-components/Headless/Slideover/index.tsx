@@ -97,7 +97,7 @@ Slideover.Panel = ({
         <HeadlessDialog.Panel
           as={as}
           className={twMerge([
-            "w-[90%] ml-auto h-screen flex flex-col bg-white relative shadow-md transition-transform dark:bg-darkmode-600",
+            "top-1/2 bottom-1/2 -translate-y-1/2 max-w-[90%] max-h-[90%] ml-auto h-screen flex flex-col bg-white relative shadow-md transition-transform dark:bg-darkmode-600 overflow-auto",
             slideover.size == "md" && "sm:w-[460px]",
             slideover.size == "sm" && "sm:w-[300px]",
             slideover.size == "lg" && "sm:w-[600px]",

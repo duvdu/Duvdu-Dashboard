@@ -23,7 +23,7 @@ const initialState: SideMenuState = {
     },
     {
       icon: "ShoppingBag",
-      title: "categories",
+      title: "Categories",
       subMenu: [
         {
           icon: "Activity",
@@ -32,14 +32,14 @@ const initialState: SideMenuState = {
         },
         {
           icon: "Activity",
-          pathname: "/category-form",
+          pathname: "/add-category",
           title: "Add Category",
         },
       ],
     },
     {
       icon: "ShoppingBag",
-      title: "portfolio",
+      title: "Portfolio",
       subMenu: [
         {
           icon: "Activity",
@@ -50,7 +50,7 @@ const initialState: SideMenuState = {
     },
     {
       icon: "ShoppingBag",
-      title: "copy rights",
+      title: "Copy rights",
       subMenu: [
         {
           icon: "Activity",
@@ -61,7 +61,7 @@ const initialState: SideMenuState = {
     },
     {
       icon: "ShoppingBag",
-      title: "studios",
+      title: "Studios",
       subMenu: [
         {
           icon: "Activity",
@@ -72,7 +72,7 @@ const initialState: SideMenuState = {
     },
     {
       icon: "ShoppingBag",
-      title: "producer",
+      title: "Producer",
       subMenu: [
         {
           icon: "Activity",
@@ -84,7 +84,7 @@ const initialState: SideMenuState = {
     {
       icon: "HardDrive",
       pathname: "/terms",
-      title: "terms",
+      title: "Terms",
     },
     {
       icon: "Users",
@@ -99,12 +99,17 @@ const initialState: SideMenuState = {
     {
       icon: "HardDrive",
       pathname: "/roles",
-      title: "roles",
+      title: "Roles",
     },
     {
       icon: "HardDrive",
-      pathname: "/plan",
-      title: "plan",
+      pathname: "/plans",
+      title: "Plans",
+    },
+    {
+      icon: "HardDrive",
+      pathname: "/ranks",
+      title: "Ranks",
     },
 
     "divider",

@@ -100,3 +100,9 @@ export const KEY_DELETE_PLAN = 'KEY_DELETE_PLAN';
 export const KEY_GET_PLANS = 'KEY_GET_PLANS';
 export const KEY_GET_PLAN_BY_ID = 'KEY_GET_PLAN_BY_ID';
 export const KEY_UPDATE_PLAN = 'KEY_UPDATE_PLAN';
+// KEY_RANK
+export const KEY_CREATE_RANK = 'KEY_CREATE_RANK';
+export const KEY_DELETE_RANK = 'KEY_DELETE_RANK';
+export const KEY_GET_RANKS = 'KEY_GET_RANKS';
+export const KEY_GET_RANK_BY_ID = 'KEY_GET_RANK_BY_ID';
+export const KEY_UPDATE_RANK = 'KEY_UPDATE_RANK';

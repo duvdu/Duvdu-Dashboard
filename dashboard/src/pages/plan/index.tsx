@@ -47,7 +47,6 @@ const Main: React.FC = () => {
   const sendButtonRef = useRef(null);
   const deleteButtonRef = useRef(null);
   // Load plans and plan details
-
   useEffect(() => {
     if(stateDeletePlan?.data|| stateCreatePlan?.data|| stateUpdatePlan?.data)
     dispatch(ActionGetPlans())
@@ -60,6 +59,12 @@ const Main: React.FC = () => {
 
   useEffect(() => {
     dispatch(ActionGetRoles());
+    dispatch(ActionGetPlans())
+    .then(response => {
+      if (response.payload) {
+        setPlans(response.payload.data);
+      }
+    });
   }, []);
 
 
@@ -89,7 +94,6 @@ const Main: React.FC = () => {
   };
 
   const validateForm = () => {
-    console.log(formValues)
     let newErrors = null;
     if (!formValues.role) setErrors('Role is required');
     if (!formValues.key) setErrors('Description is required');
@@ -103,9 +107,8 @@ const Main: React.FC = () => {
       dispatch(ActionCreatePlan(formValues));
     }
   };
-
-  const updatePlan = (id: string, currentStatus: boolean) => {
-    dispatch(ActionUpdatePlan({ ...formValues, roleId: id, status: currentStatus }));
+  const updatePlan = (id: string, currentStatus: boolean , title:string) => {
+    dispatch(ActionUpdatePlan({ title, roleId: id, status: currentStatus }));
   };
 
   const deletePlan = () => {
@@ -131,9 +134,9 @@ const Main: React.FC = () => {
   const clear = () => {
     setFormValues({ key: '', title: '', role: '' });
   };
-  const handleStatusChange = (planId: string, currentStatus: boolean) => {
+  const handleStatusChange = (planId: string, currentStatus: boolean , title:string) => {
     setActionPlanId(planId);
-    updatePlan(planId, !currentStatus);
+    updatePlan(planId, !currentStatus, title);
   };
 
   return (
@@ -237,7 +240,7 @@ const Main: React.FC = () => {
                     <LoadingIcon icon="puff" className="ml-3" />
                   ) : (
                     <FormSwitch className="mt-2">
-                      <FormSwitch.Input checked={plan.status} type="checkbox" onChange={() => handleStatusChange(plan._id, plan.status)} />
+                      <FormSwitch.Input checked={plan.status} type="checkbox" onChange={() => handleStatusChange(plan._id, plan.status , plan.title)} />
                     </FormSwitch>
                   )}
                 </div>

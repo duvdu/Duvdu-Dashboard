@@ -103,7 +103,7 @@ function Main() {
       >
 
         {category &&
-          <Dialog.Panel className="py-10 text-center bg-slate-500 mt-14">
+          <Dialog.Panel className="py-10 text-center bg-slate-500">
             <div className="px-2 rounded-md">
               <div className="box mb-4 mx-4">
                 <h2 className="category-title text-2xl font-bold mb-4">{category.title.en}</h2>
