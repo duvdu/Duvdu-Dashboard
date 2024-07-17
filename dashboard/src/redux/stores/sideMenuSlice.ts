@@ -111,6 +111,11 @@ const initialState: SideMenuState = {
       pathname: "/ranks",
       title: "Ranks",
     },
+    {
+      icon: "HardDrive",
+      pathname: "/complaints",
+      title: "Complaints",
+    },
 
     "divider",
     {

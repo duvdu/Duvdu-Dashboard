@@ -78,6 +78,7 @@ import Terms from "../pages/terms";
 import Roles from "../pages/roles";
 import Plan from "../pages/plan";
 import Ranks from "../pages/ranks";
+import Complaint from "../pages/complaint";
 import Validation from "../pages/Validation";
 import Chart from "../pages/Chart";
 import Slider from "../pages/Slider";
@@ -153,6 +154,10 @@ function Router() {
         {
           path: "ranks",
           element: <Ranks />,
+        },
+        {
+          path: "complaints",
+          element: <Complaint />,
         },
 
 

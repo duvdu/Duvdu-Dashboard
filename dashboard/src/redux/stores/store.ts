@@ -42,7 +42,10 @@ import getRankById from "./api/rank/getById";
 import getAllRanks from "./api/rank/getAll";
 import deleteRank from "./api/rank/delete";
 import createRank from "./api/rank/create";
-
+///////////////// ranks
+import getComplaintById from "./api/complaint/getById";
+import getAllComplaints from "./api/complaint/getAll";
+import updateComplaint from "./api/complaint/update";
 export const store = configureStore({
   reducer: {
     darkMode: darkModeReducer,
@@ -86,7 +89,11 @@ export const store = configureStore({
     getRankById,
     getAllRanks,
     deleteRank,
-    createRank
+    createRank,
+    //////////////// Complaints
+    getAllComplaints,
+    getComplaintById,
+    updateComplaint,
   },
 });
 
