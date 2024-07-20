@@ -250,9 +250,19 @@ const Main: React.FC = () => {
               className="text-xl font-medium text-center ">{rank.actionCount}</div>
             </div>
             <div className='flex justify-between items-center'>
-              <Link
-                className="flex items-center text-danger"
-                to="#"
+              <div
+                className="flex items-center text-cyan-600 cursor-pointer"
+                onClick={(event) => {
+                  event.preventDefault();
+                  setOpenEditModel(true);
+                  setActionRankId(rank._id)
+                  setFormValues({rank:rank.rank , actionCount:rank.actionCount , color:rank.color})
+                }}
+              >
+                    <Lucide icon="Edit" className="w-4 h-4 mr-1" /> Edit
+              </div>
+              <div
+                className="flex items-center text-danger cursor-pointer"
                 onClick={(event) => {
                   event.preventDefault();
                   setDeleteModalPreview(true);
@@ -266,19 +276,7 @@ const Main: React.FC = () => {
                     <Lucide icon="Trash2" className="w-4 h-4 mr-1" /> Delete
                   </>
                 )}
-              </Link>
-              <Link
-                className="flex items-center text-cyan-600"
-                to="#"
-                onClick={(event) => {
-                  event.preventDefault();
-                  setOpenEditModel(true);
-                  setActionRankId(rank._id)
-                  setFormValues({rank:rank.rank , actionCount:rank.actionCount , color:rank.color})
-                }}
-              >
-                    <Lucide icon="Trash2" className="w-4 h-4 mr-1" /> Edit
-              </Link>
+              </div>
             </div>
           </div>
         ))}
