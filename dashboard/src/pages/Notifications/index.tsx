@@ -24,7 +24,6 @@ function Main() {
   const [errors, setErrors] = useState<string|null>(null);
   const [openAddModel, setOpenAddModel] = useState(false);
   const [openAddSelectedModel, setOpenAddSelectedModel] = useState(false);
-  const [searchKey, setSearchKey] = useState('');
   const navigate = useNavigate();
   const limit = 20;
   const selector = useAppSelector(StateUsers);
@@ -37,12 +36,11 @@ function Main() {
   const stateSendNotificationsToAllUsers = useAppSelector(StateSendNotificationsToAllUsers);
   const stateSendNotificationsToSelectedUsers = useAppSelector(StateSendNotificationsToSelectedUsers);
   const pagdnation = (page: number) => {
-    dispatch(ActionGetUsers({ search: searchKey, limit: limit, page: page }))
+    dispatch(ActionGetUsers({ limit: limit, page: page }))
   };
   useEffect(() => {
-    if (!selector.loading)
-      dispatch(ActionGetUsers({ search: searchKey , limit: limit}))
-  }, [searchKey])
+      dispatch(ActionGetUsers({  limit: limit}))
+  }, [])
   useEffect(() => {
     if(stateSendNotificationsToAllUsers?.data)
       setOpenAddModel(false)
