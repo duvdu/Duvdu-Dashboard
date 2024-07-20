@@ -92,6 +92,11 @@ const initialState: SideMenuState = {
       title: "Users",
     },
     {
+      icon: "BellPlus",
+      pathname: "/notifications",
+      title: "Notifications",
+    },
+    {
       icon: "MessageSquare",
       pathname: "/allchats",
       title: "Chats",

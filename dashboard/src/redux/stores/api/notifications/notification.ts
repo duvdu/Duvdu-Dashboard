@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-import { KEY_NOTIFICATION } from "../../constants/actionTypes";
-import { fulfilledCase, pendingCase, rejectedCase } from "./commanApi";
-import DataState from "../../moduls";
+import { RootState } from "../../store";
+import { KEY_NOTIFICATION } from "../../../constants/actionTypes";
+import { fulfilledCase, pendingCase, rejectedCase } from "../commanApi";
+import DataState from "../../../moduls";
 // import { ActionLogin } from "../action/api/login/login";
 
 export const AsyncThunkRef = createAsyncThunk(KEY_NOTIFICATION, async () => { });

@@ -23,6 +23,7 @@ import FileManager from "../pages/FileManager";
 import PointOfSale from "../pages/PointOfSale";
 import Chat from "../pages/Chat";
 import Users from "../pages/Users";
+import Notifications from "../pages/Notifications";
 import Allchats from "../pages/Allchats";
 import Ticket from "../pages/Ticket";
 import Post from "../pages/Post";
@@ -131,6 +132,10 @@ function Router() {
         {
           path: "users",
           element: <Users />,
+        },
+        {
+          path: "notifications",
+          element: <Notifications />,
         },
         {
           path: "allchats",

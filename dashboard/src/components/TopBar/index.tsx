@@ -13,7 +13,7 @@ import { selectAuthState } from "../../redux/stores/api/auth/auth";
 import { ActionMyProfile } from "../../redux/action/api/profile/myprofile";
 import LoadingIcon from "../../base-components/LoadingIcon";
 import { ActionAllNotifications } from "../../redux/action/api/notifications/notofication";
-import { StateAllNotification } from "../../redux/stores/api/notification";
+import { StateAllNotification } from "../../redux/stores/api/notifications/notification";
 import { StateMyProfile } from "../../redux/stores/api/profile/myprofile";
 import dayjs from "dayjs";
 import { GetAllErrors } from "../../redux/stores/apis_errors";

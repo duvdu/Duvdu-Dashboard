@@ -7,7 +7,9 @@ import topMenuReducer from "./topMenuSlice";
 import form from "./form";
 import auth from "./api/auth/auth";
 import messages from "./api/messages";
-import notification from "./api/notification";
+import notification from "./api/notifications/notification";
+import sendNotificationsToAllUsers from "./api/notifications/sendToAllUsers";
+import sendNotificationsToSelectedUsers from "./api/notifications/sendToSelectedUsers";
 import myprofile from "./api/profile/myprofile";
 
 import studios from "./api/cycles/rental";
@@ -64,6 +66,8 @@ export const store = configureStore({
     apisErrors,
     messages,
     notification,
+    sendNotificationsToAllUsers,
+    sendNotificationsToSelectedUsers,
     myprofile,
     studios,
     portfolioPost,
