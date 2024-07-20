@@ -9,6 +9,7 @@ import { Dialog, Menu } from "../../../base-components/Headless";
 import { useAppDispatch, useAppSelector } from "../../../redux/stores/hooks";
 import { StateGetPortfolio } from "../../../redux/stores/api/cycles/project";
 import { ActionGetPortfolio } from "../../../redux/action/api/cycles/project/get";
+import ProjectCard from "./ProjectCard";
 
 function Main() {
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
@@ -96,50 +97,51 @@ const handleKeyDown = (e:any) => {
         {
           data &&
           data.map((item:any) => (
-            <div
-              key={item._id}
-              className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"
-            >
-              <div className="box">
-                <div className="p-5">
-                  <div className="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
-                    <img
-                      alt="Midone - HTML Admin Template"
-                      className="rounded-md"
-                      src={item.cover}
-                    />
-                    <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
-                      <a href="" className="block text-base font-medium">
-                        {item.title}
-                      </a>
-                      <span className="mt-3 text-xs text-white/90">
-                        {item.user.name}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="mt-5 text-slate-600 dark:text-slate-500">
-                    <div className="flex items-center">
-                      <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
-                      {item.projectBudget}
-                    </div>
-                    <div className="flex items-center mt-2">
-                      <Lucide icon="Layers" className="w-4 h-4 mr-2" />
-                      {item.user.name}
-                    </div>
-                    <div className="flex items-center mt-2">
-                      <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
-                      {item.projectScale.scale + " "}
-                      {item.projectScale.time}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400 hidden">
-                  <a className="flex items-center mr-auto text-primary" >
-                    <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
-                  </a>
-                </div>
-              </div>
-            </div>
+            // <div
+            //   key={item._id}
+            //   className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"
+            // >
+            //   <div className="box">
+            //     <div className="p-5">
+            //       <div className="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
+            //         <img
+            //           alt="Midone - HTML Admin Template"
+            //           className="rounded-md"
+            //           src={item.cover}
+            //         />
+            //         <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
+            //           <a href="" className="block text-base font-medium">
+            //             {item.title}
+            //           </a>
+            //           <span className="mt-3 text-xs text-white/90">
+            //             {item.user.name}
+            //           </span>
+            //         </div>
+            //       </div>
+            //       <div className="mt-5 text-slate-600 dark:text-slate-500">
+            //         <div className="flex items-center">
+            //           <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
+            //           {item.projectBudget}
+            //         </div>
+            //         <div className="flex items-center mt-2">
+            //           <Lucide icon="Layers" className="w-4 h-4 mr-2" />
+            //           {item.user.name}
+            //         </div>
+            //         <div className="flex items-center mt-2">
+            //           <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
+            //           {item.projectScale.scale + " "}
+            //           {item.projectScale.time}
+            //         </div>
+            //       </div>
+            //     </div>
+            //     <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400 hidden">
+            //       <a className="flex items-center mr-auto text-primary" >
+            //         <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
+            //       </a>
+            //     </div>
+            //   </div>
+            // </div>
+            <ProjectCard item={item}/>
           ))}
         {/* END: Users Layout */}
         {/* BEGIN: Pagination */}

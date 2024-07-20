@@ -20,10 +20,12 @@ import { FileInfo, handleMultipleFileUpload } from "../../utils/helper";
 import FileIcon from "../../base-components/FileIcon";
 import Tippy from "../../base-components/Tippy";
 import AudioRecorder from "../../components/recording/recording";
+import { StateMessageSent } from "../../redux/stores/api/chat/sendMsg";
 
 function Main() {
   const dispatch = useAppDispatch()
   const statechat = useAppSelector(StateChat)
+  const stateMessageSent = useAppSelector(StateMessageSent)
   const stateAllchat = useAppSelector(StateAllChat)
   const stateMyProfile = useAppSelector(StateMyProfile)
   const [messageContent, setMessageField] = useState('');
@@ -41,7 +43,11 @@ function Main() {
     if (user1?._id == stateMyProfile?.data?.data?._id) return user2
     else return user1
   };
-
+  useEffect(()=>{
+    if(stateMessageSent?.data && id){
+      dispatch(ActionGetChat({ id: id }))
+    }
+  },[stateMessageSent?.data])
 
   const attachmentsUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFiles = handleMultipleFileUpload(e);

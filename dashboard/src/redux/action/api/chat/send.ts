@@ -7,6 +7,7 @@ import { FileInfo } from '../../../../utils/helper';
 export const ActionSendMessage = createAsyncThunk(
     KEY_CHAT_SEND, async (params: { message: string, id: any, files?: FileInfo[], vocieNote?: File | any }) => {
         const { vocieNote, message, id, files } = params;
+        console.log(vocieNote, message, id, files)
         const formdata = new FormData()
         if(message)
         formdata.append('content', message)
