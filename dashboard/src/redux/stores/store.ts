@@ -10,8 +10,8 @@ import messages from "./api/messages";
 import notification from "./api/notification";
 import myprofile from "./api/profile/myprofile";
 
-import studios from "./api/cycles/studioBooking";
-import portfolioPost from "./api/cycles/portfolioPost";
+import studios from "./api/cycles/rental";
+import portfolioPost from "./api/cycles/project";
 import producer from "./api/cycles/producer";
 import copyRights from "./api/cycles/copyRights";
 import apisErrors from "./apis_errors";
@@ -46,6 +46,12 @@ import createRank from "./api/rank/create";
 import getComplaintById from "./api/complaint/getById";
 import getAllComplaints from "./api/complaint/getAll";
 import updateComplaint from "./api/complaint/update";
+//////////////// Analysis
+import copyRightsAnalysis from "./api/analysis/copyright";
+import projectAnalysis from "./api/analysis/project";
+import producerAnalysis from "./api/analysis/producer";
+import rentalAnalysis from "./api/analysis/rental";
+
 export const store = configureStore({
   reducer: {
     darkMode: darkModeReducer,
@@ -94,6 +100,11 @@ export const store = configureStore({
     getAllComplaints,
     getComplaintById,
     updateComplaint,
+    //////////////// Analysis
+    projectAnalysis,
+    rentalAnalysis,
+    copyRightsAnalysis,
+    producerAnalysis
   },
 });
 

@@ -30,7 +30,7 @@ const Main: React.FC = () => {
   // Local states
   const details = stateGetRankById?.data?.data || [];
 
-  const [formValues, setFormValues] = useState({ rank: '', actionCount: '' });
+  const [formValues, setFormValues] = useState({ rank: '', actionCount: '' , color:'' });
   const [errors, setErrors] = useState<string|null>(null);
   const [actionRankId, setActionRankId] = useState<string>('');
   const [status, setStatus] = useState(false);
@@ -66,7 +66,7 @@ const Main: React.FC = () => {
 
   useEffect(() => {
     if(openAddModel == false){
-      setFormValues({rank: '', actionCount: '' });
+      setFormValues({rank: '', actionCount: '' , color:'' });
       // setErrors({});
     }
   }, [openAddModel]);
@@ -80,6 +80,7 @@ const Main: React.FC = () => {
     let newErrors = null;
     if (!formValues.rank) setErrors('Rank is required');
     if (!formValues.actionCount) setErrors('Action Count is required');
+    if (!formValues.color) setErrors('Color is required');
 
     return newErrors === null;
   };
@@ -90,7 +91,7 @@ const Main: React.FC = () => {
     }
   };
   const onUpdate = () => {
-    dispatch(ActionUpdateRank({ rank:formValues.rank , actionCount:formValues.actionCount, rankId: actionRankId }));
+    dispatch(ActionUpdateRank({ rank:formValues.rank , actionCount:formValues.actionCount,color:formValues.color, rankId: actionRankId }));
   };
 
   const deleteRank = () => {
@@ -108,15 +109,9 @@ const Main: React.FC = () => {
     clear();
   };
 
-
   const clear = () => {
-    setFormValues({ rank: '', actionCount: '' });
+    setFormValues({ rank: '', actionCount: '' , color:''});
   };
-  const handleUpdateRank = (rankId: string, rank:string, actionCount: number|string) => {
-    // setActionRankId(rankId);
-    // updateRank(rankId, rank ,actionCount );
-  };
-
   return (
     <>
      {/* Add Rank */}
@@ -134,6 +129,10 @@ const Main: React.FC = () => {
               <FormLabel htmlFor="modal-form-2">Count</FormLabel>
               <FormInput id="modal-form-2" type="number" name="actionCount" value={formValues.actionCount} onChange={handleInputChange} />
             </div>
+            <div className="col-span-12 sm:col-span-6">
+              <FormLabel htmlFor="modal-form-2">Color</FormLabel>
+              <FormInput id="modal-form-2" type="color" name="color" value={formValues.color} onChange={handleInputChange} />
+            </div>
           </Dialog.Description>
             {errors && <p className="text-danger text-center">{errors}</p>}
           <Dialog.Footer>
@@ -141,7 +140,13 @@ const Main: React.FC = () => {
               Cancel
             </Button>
             <Button onClick={onSubmit} variant="primary" type="button" className="w-20" ref={sendButtonRef}>
+            {stateCreateRank?.loading ? (
+                  <LoadingIcon icon="puff" className="w-4 h-4 mr-1" />
+                ) : (
+                  <>
               Add
+              </>
+              )}
             </Button>
           </Dialog.Footer>
         </Dialog.Panel>
@@ -162,6 +167,10 @@ const Main: React.FC = () => {
               <FormLabel htmlFor="modal-form-2">Count</FormLabel>
               <FormInput id="modal-form-2" type="number" name="actionCount" defaultValue={formValues.actionCount} onChange={handleInputChange} />
             </div>
+            <div className="col-span-12 sm:col-span-6">
+              <FormLabel htmlFor="modal-form-2">Color</FormLabel>
+              <FormInput id="modal-form-2" type="color" name="color" defaultValue={formValues.color} onChange={handleInputChange} />
+            </div>
           </Dialog.Description>
             {errors && <p className="text-danger text-center">{errors}</p>}
           <Dialog.Footer>
@@ -169,7 +178,13 @@ const Main: React.FC = () => {
               Cancel
             </Button>
             <Button onClick={onUpdate} variant="primary" type="button" className="w-20" ref={sendButtonRef}>
+            {stateUpdateRank?.loading ? (
+                  <LoadingIcon icon="puff" className="w-4 h-4 mr-1" />
+                ) : (
+                  <>
               Edit
+              </>
+            )}
             </Button>
           </Dialog.Footer>
         </Dialog.Panel>
@@ -200,12 +215,11 @@ const Main: React.FC = () => {
         <h2 className="mr-auto text-lg font-medium">Ranks</h2>
       </div>
       <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
-        <Button onClick={() => setOpenAddModel(true)} variant="primary" className="mr-2 mb-2 shadow-md">
+        <Button onClick={() => {
+          setOpenAddModel(true)
+          clear();
+          }} variant="primary" className="mr-2 mb-2 shadow-md">
           Add New Rank
-          {
-            stateCreateRank?.loading &&
-            <LoadingIcon icon="puff" className="ml-3" />
-          }
         </Button>
         <div className="hidden mx-auto md:block text-slate-500 md:hidden">
           Showing 1 to 10 of 150 entries
@@ -219,26 +233,21 @@ const Main: React.FC = () => {
       </div>
       <div className="grid grid-cols-3">
         {ranks.map((rank:any, index:number) => (
-          <div key={index} className="flex flex-col m-1 gap-5 intro-y box px-3 py-5">
+          <div key={index} style={{
+            borderColor: rank.color ?? 'white',
+            border:`solid 1px ${rank.color?? 'white'} `
+          }} className="flex flex-col m-1 gap-5 intro-y box px-3 py-5">
             <div className="flex justify-between items-center">
-              <div className="mt-2 font-black text-slate-500">
+              <div style={{
+                color:rank.color
+              }}
+              className="mt-2 font-black ">
                 {rank.rank}
               </div>
-              <div className="text-xl font-medium text-center">{rank.actionCount}</div>
-              {/* <div className="px-4 py-3 mx-auto mt-8 flex justify-center items-center gap-3 whitespace-nowrap h-14">
-                <div className='flex flex-col justify-end h-full'>
-                  <label>Active Status</label>
-                </div>
-                <div className='flex flex-col justify-center h-full'>
-                  {actionRankId === rank._id && stateUpdateRank?.loading ? (
-                    <LoadingIcon icon="puff" className="ml-3" />
-                  ) : (
-                    <FormSwitch className="mt-2">
-                      <FormSwitch.Input checked={rank.status} type="checkbox" onChange={() => handleUpdateRank(rank._id, rank.status , rank.title)} />
-                    </FormSwitch>
-                  )}
-                </div>
-              </div> */}
+              <div style={{
+                color:rank.color
+              }}
+              className="text-xl font-medium text-center ">{rank.actionCount}</div>
             </div>
             <div className='flex justify-between items-center'>
               <Link
@@ -259,22 +268,16 @@ const Main: React.FC = () => {
                 )}
               </Link>
               <Link
-                className="flex items-center text-danger"
+                className="flex items-center text-cyan-600"
                 to="#"
                 onClick={(event) => {
                   event.preventDefault();
                   setOpenEditModel(true);
                   setActionRankId(rank._id)
-                  setFormValues({rank:rank.rank , actionCount:rank.actionCount})
+                  setFormValues({rank:rank.rank , actionCount:rank.actionCount , color:rank.color})
                 }}
               >
-                {actionRankId === rank._id && stateUpdateRank?.loading ? (
-                  <LoadingIcon icon="puff" className="w-4 h-4 mr-1" />
-                ) : (
-                  <>
                     <Lucide icon="Trash2" className="w-4 h-4 mr-1" /> Edit
-                  </>
-                )}
               </Link>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import _ from "lodash";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import fakerData from "../../utils/faker";
 import Button from "../../base-components/Button";
 import { FormInput, FormTextarea } from "../../base-components/Form";
@@ -10,6 +10,7 @@ import { ActionGetTicket } from "../../redux/action/api/ticket/get";
 import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
 import { StateTicket } from "../../redux/stores/api/ticket";
 import dayjs from "dayjs";
+import { Dialog } from '../../base-components/Headless';
 import { ActionGetTicketById } from "../../redux/action/api/ticket/getById";
 import { formatDistanceToNow } from 'date-fns';
 import { ActionDeleteTicket } from "../../redux/action/api/ticket/delete";
@@ -20,6 +21,10 @@ function Main() {
   const [feedback, setfeedback] = useState<any>('');
   const [messages, setMessages] = useState<any>([]);
   const [message, setMessage] = useState<any>(null);
+  const [actionRankId, setActionTicketId] = useState<string>('');
+  const [deleteModalPreview, setDeleteModalPreview] = useState(false);
+  const deleteButtonRef = useRef(null);
+
   const dispatch = useAppDispatch()
   const state = useAppSelector(StateTicket)
   
@@ -31,6 +36,18 @@ function Main() {
   useEffect(() => {
     dispatch(ActionGetTicket({}))
   }, [])
+  console.log(actionRankId)
+  const deleteTicket = () => {
+    if (actionRankId)
+      dispatch(ActionDeleteTicket(actionRankId));
+  };
+
+  const onDelete = () => {
+    setDeleteModalPreview(false);
+    deleteTicket();
+  };
+
+
 
   useEffect(() => {
     // get all tickets 
@@ -55,9 +72,6 @@ function Main() {
   const getTicket = (id:any) => {
     dispatch(ActionGetTicketById({ id: id }))
   };
-  const deleteTicket = (id:any) => {
-    dispatch(ActionDeleteTicket({ id: id }))
-  };
   const sendMessage = () => {
     dispatch(ActionUpdateTicket({
       id: message?.id ?? '',
@@ -72,10 +86,30 @@ function Main() {
 
   return (
     <>
+      <Dialog open={deleteModalPreview} onClose={() => setDeleteModalPreview(false)} initialFocus={deleteButtonRef}>
+        <Dialog.Panel>
+          <div className="p-5 text-center">
+            <Lucide icon="XCircle" className="w-16 h-16 mx-auto mt-3 text-danger" />
+            <div className="mt-5 text-3xl">Are you sure?</div>
+            <div className="mt-2 text-slate-500">
+              Do you really want to delete these records? <br />
+              This process cannot be undone.
+            </div>
+          </div>
+          <div className="px-5 pb-8 text-center">
+            <Button type="button" variant="outline-secondary" onClick={() => setDeleteModalPreview(false)} className="w-24 mr-1">
+              Cancel
+            </Button>
+            <Button type="button" variant="danger" className="w-24" ref={deleteButtonRef} onClick={onDelete }>
+              Delete
+            </Button>
+          </div>
+        </Dialog.Panel>
+      </Dialog>
       <div className="flex flex-col items-center mt-8 intro-y sm:flex-row">
         <h2 className="mr-auto text-lg font-medium">Tickets</h2>
       </div>
-      <div className="grid grid-cols-12 gap-5 mt-5 intro-y">
+      <div className="grid grid-cols-12 gap-5 mt-5">
         {/* BEGIN: Chat Side Menu */}
         <Tab.Group className="col-span-12 lg:col-span-4 2xl:col-span-3">
           <div className="pr-1 intro-y">
@@ -140,7 +174,13 @@ function Main() {
                         <Lucide icon="MoreVertical" className="w-4 h-4" />
                       </Menu.Button>
                       <Menu.Items className="w-40">
-                        <Menu.Item onClick={() => { deleteTicket(item.id) }}>
+                        <Menu.Item                 
+                        onClick={(event:any) => {
+                          event.preventDefault();
+                          setDeleteModalPreview(true);
+                          setActionTicketId(item.id)
+                        }}
+>
                           <Lucide icon="Trash" className="w-4 h-4 mr-2" />{" "}
                           Delete
                         </Menu.Item>
@@ -415,7 +455,7 @@ function Main() {
         {/* END: Chat Side Menu */}
         {/* BEGIN: Chat Content */}
         <div className="col-span-12 intro-y lg:col-span-8 2xl:col-span-9">
-          <div className="h-[782px] box">
+          <div className="h-[75vh] box">
             {/* BEGIN: Chat Active */}
             {chatBox && (
               <div className="flex flex-col h-full">

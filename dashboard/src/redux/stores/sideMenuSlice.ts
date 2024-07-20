@@ -39,44 +39,44 @@ const initialState: SideMenuState = {
     },
     {
       icon: "ShoppingBag",
-      title: "Portfolio",
+      title: "Projects",
       subMenu: [
         {
           icon: "Activity",
-          title: "all portfolio posts",
-          pathname: "/portfolio-post",
+          title: "Get All Projects",
+          pathname: "/projects",
         },
       ],
     },
     {
       icon: "ShoppingBag",
-      title: "Copy rights",
+      title: "Copyrights",
       subMenu: [
         {
           icon: "Activity",
-          title: "all copy rights",
+          title: "Get All Copyrights",
           pathname: "/copy-rights",
         },
       ],
     },
     {
       icon: "ShoppingBag",
-      title: "Studios",
+      title: "Rentals",
       subMenu: [
         {
           icon: "Activity",
-          title: "all studio booking",
-          pathname: "/studio-booking",
+          title: "Get All Rentals",
+          pathname: "/rentals",
         },
       ],
     },
     {
       icon: "ShoppingBag",
-      title: "Producer",
+      title: "Producers",
       subMenu: [
         {
           icon: "Activity",
-          title: "all producer",
+          title: "Get All Producers",
           pathname: "/producer",
         },
       ],
@@ -95,6 +95,11 @@ const initialState: SideMenuState = {
       icon: "MessageSquare",
       pathname: "/allchats",
       title: "Chats",
+    },
+    {
+      icon: "MessageSquare",
+      pathname: "/ticket",
+      title: "Tickets",
     },
     {
       icon: "HardDrive",

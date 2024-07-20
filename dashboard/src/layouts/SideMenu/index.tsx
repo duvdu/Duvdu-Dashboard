@@ -31,7 +31,7 @@ function Main() {
       <MobileMenu />
       <div className="flex mt-[4.7rem] md:mt-0 overflow-hidden">
         {/* BEGIN: Side Menu */}
-        <nav className="hidden md:block md:w-[105px] xl:w-[250px] px-5 pb-16 overflow-x-hidden z-10">
+        <nav className="hidden md:block md:w-[105px] xl:w-[250px] px-5 pb-16 h-[100vh]  z-10">
           <Link
             to="/side-menu/dashboard-overview-1"
             className="flex items-center pt-4 pl-5 mt-3 intro-x"
@@ -46,6 +46,8 @@ function Main() {
             </span>
           </Link>
           <Divider type="div" className="my-6"></Divider>
+          <div className="overflow-y-auto scrollbar-hidden sm:h-[90%]">
+
           <ul>
             {/* BEGIN: First Child */}
             {formattedMenu.map((menu, menuKey) =>
@@ -154,18 +156,21 @@ function Main() {
             )}
             {/* END: First Child */}
           </ul>
+          </div>
         </nav>
         {/* END: Side Menu */}
         {/* BEGIN: Content */}
         <div
           className={clsx([
-            "rounded-[30px] md:rounded-[35px/50px_0px_0px_0px] min-w-0 min-h-screen max-w-full md:max-w-none bg-slate-100 flex-1 pb-10 px-4 md:px-6 relative md:ml-4 dark:bg-darkmode-700",
+            "rounded-[30px] h-[70vh] md:h-[100vh] md:rounded-[35px/50px_0px_0px_0px] min-w-0 min-h-screen max-w-full md:max-w-none bg-slate-100 flex-1 pb-10 px-4 md:px-6 relative md:ml-4 dark:bg-darkmode-700",
             "before:content-[''] before:w-full before:h-px before:block",
             "after:content-[''] after:z-[-1] after:rounded-[40px_0px_0px_0px] after:w-full after:inset-y-0 after:absolute after:left-0 after:bg-white/10 after:mt-8 after:-ml-4 after:dark:bg-darkmode-400/50",
           ])}
         >
           <TopBar />
-          <Outlet />
+          <div className="overflow-y-auto overflow-x-hidden h-[94%] scrollbar-hidden ">
+            <Outlet />
+          </div>
         </div>
         {/* END: Content */}
       </div>

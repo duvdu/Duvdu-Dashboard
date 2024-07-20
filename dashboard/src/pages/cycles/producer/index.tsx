@@ -8,6 +8,7 @@ import Lucide from "../../../base-components/Lucide";
 import { Dialog, Menu } from "../../../base-components/Headless";
 import { useAppDispatch, useAppSelector } from "../../../redux/stores/hooks";
 import { StateAllProducers } from "../../../redux/stores/api/cycles/producer";
+import { ActionGetProducer } from "../../../redux/action/api/cycles/producer/get";
 // import { ActionGetProducer } from "../../../redux/action/api/cycles/producer/get";
 
 function Main() {
@@ -38,7 +39,7 @@ function Main() {
   const handleSearch = () => action();
 
   const action = () => {
-    // dispatch(ActionGetProducer({ limit, page, search }))
+    dispatch(ActionGetProducer({ limit, page, search }))
   }
   const handleKeyDown = (e:any) => {
     if (e.key === 'Enter' && search) {
@@ -74,7 +75,9 @@ function Main() {
                 type="text"
                 className="w-56 pr-10 !box"
                 placeholder="search?..."
-              // onChange={(e) => setSearch(e.target.value)}
+                value={search??''}
+              onChange={(e:any) => setSearch(e.target.value)}
+              onKeyDown={handleKeyDown}
               />
               <Lucide
                 icon="Search"
@@ -108,33 +111,7 @@ function Main() {
                       </span>
                     </div>
                   </div>
-                  <div className="mt-5 text-slate-600 dark:text-slate-500 hidden">
-                    <div className="flex items-center">
-                      <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
-                      {item.pricePerHour} / hour
-                    </div>
-                    <div className="flex items-center mt-2">
-                      <Lucide icon="Layers" className="w-4 h-4 mr-2" />
-                      insurance : {item.insurance}
-                    </div>
-                    <div className="flex items-center mt-2">
-                      <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
-                      subCategory : {item.subCategory}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400">
-
-                  <a
-                    className="flex items-center text-danger"
-                    href="#"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      setDeleteConfirmationModal(true);
-                    }}
-                  >
-
-                  </a>
+    
                 </div>
               </div>
             </div>

@@ -7,8 +7,8 @@ import { FormInput, FormSelect } from "../../../base-components/Form";
 import Lucide from "../../../base-components/Lucide";
 import { Dialog, Menu } from "../../../base-components/Headless";
 import { useAppDispatch, useAppSelector } from "../../../redux/stores/hooks";
-import { StateGetPortfolio } from "../../../redux/stores/api/cycles/portfolioPost";
-import { ActionGetPortfolio } from "../../../redux/action/api/cycles/portfolioPost/get";
+import { StateGetPortfolio } from "../../../redux/stores/api/cycles/project";
+import { ActionGetPortfolio } from "../../../redux/action/api/cycles/project/get";
 
 function Main() {
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
@@ -64,7 +64,7 @@ const handleKeyDown = (e:any) => {
 
   return (
     <>
-      <h2 className="mt-10 text-lg font-medium intro-y">Portfolios</h2>
+      <h2 className="mt-10 text-lg font-medium intro-y">Projects</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
           <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-auto md:ml-0">

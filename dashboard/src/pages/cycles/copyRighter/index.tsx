@@ -8,7 +8,7 @@ import Lucide from "../../../base-components/Lucide";
 import { Dialog, Menu } from "../../../base-components/Headless";
 import { useAppDispatch, useAppSelector } from "../../../redux/stores/hooks";
 import { StateAllCopyRighter } from "../../../redux/stores/api/cycles/copyRights";
-import { ActionGetCopyRight } from "../../../redux/action/api/cycles/copyrighter/get";
+import { ActionGetCopyRight } from "../../../redux/action/api/cycles/copyright/get";
 
 function Main() {
 

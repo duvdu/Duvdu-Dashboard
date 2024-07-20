@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
-import {  KEY_PORTFOLIO_POST } from "../../../constants/actionTypes";
+import { KEY_PROJECT_ANALYSIS } from "../../../constants/actionTypes";
 import { fulfilledCase, pendingCase, rejectedCase } from "../commanApi";
 import DataState from "../../../moduls";
 
-export const AsyncThunkRef = createAsyncThunk(KEY_PORTFOLIO_POST, async () => { });
+export const AsyncThunkRef = createAsyncThunk(KEY_PROJECT_ANALYSIS, async () => { });
 
 const initialState: DataState = {
   loading: false,
@@ -15,7 +15,7 @@ const initialState: DataState = {
 };
 
 const dataSlice = createSlice({
-  name: 'producer',
+  name: 'project analysis',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -31,7 +31,7 @@ const dataSlice = createSlice({
   },
 });
 
-export const StateGetPortfolio = (state: RootState) => state.portfolioPost;
+export const StateAllProjectAnalysis = (state: RootState) => state.projectAnalysis;
 
 export const dataReducer = dataSlice.reducer;
 
