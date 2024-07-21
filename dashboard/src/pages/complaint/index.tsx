@@ -40,7 +40,6 @@ const Main: React.FC = () => {
         setOpenEditModel(false)
     }
   }, [ stateUpdateCompliant?.data]);
-  console.log(stateUpdateCompliant)
   useEffect(() => {
     dispatch(ActionGetComplaints())
     .then(response => {

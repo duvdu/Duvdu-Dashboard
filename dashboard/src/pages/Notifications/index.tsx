@@ -20,7 +20,6 @@ import { ActionSendNotificationToSelectedUsers } from "../../redux/action/api/no
 function Main() {
   const [formValues, setFormValues] = useState<{title:string , message:string , topic?:string}>({ title: '' , message:''  });
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
-  console.log(selectedUserIds)
   const [errors, setErrors] = useState<string|null>(null);
   const [openAddModel, setOpenAddModel] = useState(false);
   const [openAddSelectedModel, setOpenAddSelectedModel] = useState(false);

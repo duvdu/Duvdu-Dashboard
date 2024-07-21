@@ -16,7 +16,6 @@ export default function ContractsAnalysis() {
   const dispatch = useAppDispatch()
   const stateAllContract = useAppSelector(StateAllContractAnalysis)
   const data = stateAllContract?.data
-  console.log({data : data})
   
   useEffect(() => {
     dispatch(ActionGetContractAnalysis())
@@ -77,8 +76,8 @@ export default function ContractsAnalysis() {
             <h2 className="ml-auto text-base font-medium">Count</h2>
           </div>
           <div className="p-5">
-            {data?.copyrightContract?.statusCounts && Object?.entries(data?.copyrightContract?.statusCounts).map(([key, value]: [string, any]) => 
-              <div className="relative flex items-center pb-3">
+            {data?.copyrightContract?.statusCounts && Object?.entries(data?.copyrightContract?.statusCounts).map(([key, value]: [string, any], index:number) => 
+              <div key={index} className="relative flex items-center pb-3">
                 <div className="ml-4 mr-auto">
                   <div  className="font-medium capitalize">
                     {key?.replaceAll('-',' ')}
@@ -142,8 +141,8 @@ export default function ContractsAnalysis() {
             <h2 className="ml-auto text-base font-medium">Count</h2>
           </div>
           <div className="p-5">
-            {data?.producerContracts?.statusCounts && Object?.entries(data?.producerContracts?.statusCounts).map(([key, value]: [string, any]) => 
-              <div className="relative flex items-center pb-3">
+            {data?.producerContracts?.statusCounts && Object?.entries(data?.producerContracts?.statusCounts).map(([key, value]: [string, any],index:number) => 
+              <div key={index} className="relative flex items-center pb-3">
                 <div className="ml-4 mr-auto">
                   <div  className="font-medium capitalize">
                     {key?.replaceAll('-',' ')}
@@ -207,8 +206,8 @@ export default function ContractsAnalysis() {
             <h2 className="ml-auto text-base font-medium">Count</h2>
           </div>
           <div className="p-5">
-            {data?.projectContracts?.statusCounts && Object?.entries(data?.projectContracts?.statusCounts).map(([key, value]: [string, any]) => 
-              <div className="relative flex items-center pb-3">
+            {data?.projectContracts?.statusCounts && Object?.entries(data?.projectContracts?.statusCounts).map(([key, value]: [string, any],index:number) => 
+              <div key={index} className="relative flex items-center pb-3">
                 <div className="ml-4 mr-auto">
                   <div  className="font-medium capitalize">
                     {key?.replaceAll('-',' ')}
@@ -272,8 +271,8 @@ export default function ContractsAnalysis() {
             <h2 className="ml-auto text-base font-medium">Count</h2>
           </div>
           <div className="p-5">
-            {data?.rentalContracts?.statusCounts && Object?.entries(data?.rentalContracts?.statusCounts).map(([key, value]: [string, any]) => 
-              <div className="relative flex items-center pb-3">
+            {data?.rentalContracts?.statusCounts && Object?.entries(data?.rentalContracts?.statusCounts).map(([key, value]: [string, any],index:number) => 
+              <div key={index} className="relative flex items-center pb-3">
                 <div className="ml-4 mr-auto">
                   <div  className="font-medium capitalize">
                     {key?.replaceAll('-',' ')}
@@ -337,8 +336,8 @@ export default function ContractsAnalysis() {
               <h2 className="ml-auto text-base font-medium">Count</h2>
             </div>
             <div className="p-5">
-              {data?.teamContracts?.statusCounts && Object?.entries(data?.teamContracts?.statusCounts).map(([key, value]: [string, any]) => 
-                <div className="relative flex items-center pb-3">
+              {data?.teamContracts?.statusCounts && Object?.entries(data?.teamContracts?.statusCounts).map(([key, value]: [string, any],index:number) => 
+                <div key={index} className="relative flex items-center pb-3">
                   <div className="ml-4 mr-auto">
                     <div  className="font-medium">
                       {key?.replaceAll('-',' ')}

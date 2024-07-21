@@ -36,7 +36,6 @@ function Main() {
   useEffect(() => {
     dispatch(ActionGetTicket({}))
   }, [])
-  console.log(actionRankId)
   const deleteTicket = () => {
     if (actionRankId)
       dispatch(ActionDeleteTicket(actionRankId));

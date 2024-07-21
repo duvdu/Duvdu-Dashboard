@@ -101,8 +101,8 @@ export default function RentalsAnalysis() {
           <h2 className="ml-auto text-base font-medium">Total Booking</h2>
         </div>
         <div className="p-5">
-          {data?.topUsers?.map((user:any)=>
-            <div className="relative flex items-center">
+          {data?.topUsers?.map((user:any,index:number)=>
+            <div key={index} className="relative flex items-center">
               <div className="flex-none w-12 h-12 image-fit">
                 <img
                   alt="DuvDu Admin DashBoard"
@@ -130,8 +130,8 @@ export default function RentalsAnalysis() {
           <h2 className="ml-auto text-base font-medium">Total Booking</h2>
         </div>
         <div className="p-5">
-          {data?.addressStats?.map((address:any)=>
-          <div className="relative flex items-center">
+          {data?.addressStats?.map((address:any,index:number)=>
+          <div key={index} className="relative flex items-center">
             <div className="flex-none image-fit">
               <MapPin/>
             </div>

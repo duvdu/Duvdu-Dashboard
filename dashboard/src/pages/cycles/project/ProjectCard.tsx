@@ -20,7 +20,6 @@ export default function ProjectCard({item}:{item:any}) {
     const [isMuted, setIsMuted] = useState(false);
     const [Duration, setDuration] = useState(0);
     const videoRef = useRef<any>(null);
-    console.log(item)
     useEffect(() => {
       if (videoRef.current) {
         const timerId = setInterval(() => {

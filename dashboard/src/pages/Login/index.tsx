@@ -66,7 +66,6 @@ function Main() {
         stopOnFocus: true,
       }).showToast();
     } else if (authState.data) {
-      // console.log("navigate")
       // navigate('/');
     }
   }, [authState.error, authState.data])

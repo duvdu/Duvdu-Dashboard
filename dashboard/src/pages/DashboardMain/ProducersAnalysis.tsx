@@ -15,7 +15,6 @@ export default function ProducersAnalysis() {
   const dispatch = useAppDispatch()
   const stateAllProducer = useAppSelector(StateAllProducerAnalysis)
   const data = stateAllProducer?.data?.data
-  console.log({producer : data})
 
   useEffect(() => {
     dispatch(ActionGetProducerAnalysis())
@@ -52,8 +51,8 @@ export default function ProducersAnalysis() {
           <h2 className="ml-auto text-base font-medium">Total Budget</h2>
         </div>
         <div className="p-5">
-          {data?.topMaxBudgetUsers?.map((user:any)=>
-            <div className="relative flex items-center pb-3">
+          {data?.topMaxBudgetUsers?.map((user:any,index:number)=>
+            <div key={index} className="relative flex items-center pb-3">
               <div className="flex-none w-12 h-12 image-fit">
                 <img
                   alt="DuvDu Admin DashBoard"
@@ -81,8 +80,8 @@ export default function ProducersAnalysis() {
           <h2 className="ml-auto text-base font-medium">Total Budget</h2>
         </div>
         <div className="p-5">
-          {data?.bottomMaxBudgetUsers?.map((user:any)=>
-            <div className="relative flex items-center pb-3">
+          {data?.bottomMaxBudgetUsers?.map((user:any,index:number)=>
+            <div key={index} className="relative flex items-center pb-3">
               <div className="flex-none w-12 h-12 image-fit">
                 <img
                   alt="DuvDu Admin DashBoard"
@@ -103,32 +102,6 @@ export default function ProducersAnalysis() {
         </div>
       </div>
       {/* END: Bottom Budget Users */}
-      {/* BEGIN: Address Status */}
-      <div className="col-span-12 intro-y box lg:col-span-6">
-        <div className="flex items-center px-5 py-5 border-b sm:py-3 border-slate-200/60 dark:border-darkmode-400">
-          <h2 className="mr-auto text-base font-medium">Top Address Around</h2>
-          <h2 className="ml-auto text-base font-medium">Total Booking</h2>
-        </div>
-        <div className="p-5">
-          {data?.addressStats?.map((address:any)=>
-          <div className="relative flex items-center pb-3">
-            <div className="flex-none image-fit">
-              <MapPin/>
-            </div>
-            <div className="ml-4 mr-auto">
-              <a href="" className="font-medium">
-                {address.address}
-              </a>
-            </div>
-            <div className="font-medium text-slate-600 dark:text-slate-500">
-              {address.totalProjects}
-            </div>
-          </div>
-          )}
-
-        </div>
-      </div>
-      {/* END: Address Status */}
     </div>
   </Tab.Panel>
   )
