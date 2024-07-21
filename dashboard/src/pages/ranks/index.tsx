@@ -259,7 +259,7 @@ const Main: React.FC = () => {
                   setFormValues({rank:rank.rank , actionCount:rank.actionCount , color:rank.color})
                 }}
               >
-                    <Lucide icon="Edit" className="w-4 h-4 mr-1" /> Edit
+                    <Lucide icon="Edit" className="w-4 h-4 mr-1" />Edit
               </div>
               <div
                 className="flex items-center text-danger cursor-pointer"
