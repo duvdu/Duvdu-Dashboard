@@ -7,7 +7,7 @@ import fakerData from "../../utils/faker";
 import _ from "lodash";
 import clsx from "clsx";
 import { Transition } from "@headlessui/react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
 import { selectAuthState } from "../../redux/stores/api/auth/auth";
 import { ActionMyProfile } from "../../redux/action/api/profile/myprofile";
@@ -22,6 +22,7 @@ import Toastify from "toastify-js";
 import { useNavigate, useParams } from "react-router-dom";
 import { toRGB } from "../../utils/helper";
 import DarkModeSwitcher from "../../components/DarkModeSwitcher";
+import { ActionLogout } from "../../redux/action/api/auth/logout/logout";
 
 function Main() {
 
@@ -32,6 +33,11 @@ function Main() {
   const handlerrors = useAppSelector(GetAllErrors);
   const navigate = useNavigate();
   const dispatch = useAppDispatch()
+  const onLogout = () => {
+    dispatch(ActionLogout())
+    navigate('/login')
+};
+
   useEffect(() => {
 
     const errorAuth = handlerrors.some(item => item.error === "Request failed with status code 401");
@@ -150,6 +156,28 @@ function Main() {
       {/* BEGIN: Top Bar */}
       <div className="h-[67px] z-[51] flex items-center relative border-b border-slate-200">
         {/* BEGIN: Breadcrumb */}
+        <Menu>
+          <Menu.Button className="flex w-8 h-8 overflow-hidden rounded-full shadow-lg image-fit zoom-in intro-x mx-3 items-center justify-center">
+            <Lucide icon="StickyNote" className="w-6 h-6" />
+          </Menu.Button>
+          <Menu.Items className="w-56 mt-px text-white bg-primary">
+            <Link to="contract/analysis">
+            <Menu.Item className="hover:bg-white/5">
+              <Lucide icon="Activity" className="w-4 h-4 mr-2" /> Analysis
+            </Menu.Item>
+            </Link>
+            <Link to="contract/reviews">
+            <Menu.Item className="hover:bg-white/5">
+              <Lucide icon="Star" className="w-4 h-4 mr-2" /> Reviews 
+            </Menu.Item>
+            </Link>
+            <Link to="contract/complaints">
+            <Menu.Item className="hover:bg-white/5">
+              <Lucide icon="MailWarning" className="w-4 h-4 mr-2" /> Complaints
+            </Menu.Item>
+            </Link>
+          </Menu.Items>
+        </Menu>
         <Breadcrumb className="hidden mr-auto -intro-x sm:flex">
           <Breadcrumb.Link to="/">Application</Breadcrumb.Link>
           <Breadcrumb.Link to={location.pathname.split('/')[1]} active={true}>
@@ -305,7 +333,6 @@ function Main() {
         </Popover>
         {/* END: Notifications  */}
         {/* BEGIN: Account Menu */}
-
         <Menu>
           <Menu.Button className="block w-8 h-8 overflow-hidden rounded-full shadow-lg image-fit zoom-in intro-x">
             <img
@@ -321,20 +348,22 @@ function Main() {
               </div>
             </Menu.Header>
             <Menu.Divider className="bg-white/[0.08]" />
-            <Menu.Item className="hover:bg-white/5">
+            {/* <Menu.Item className="hover:bg-white/5">
               <Lucide icon="User" className="w-4 h-4 mr-2" /> Profile
-            </Menu.Item>
-            <Menu.Item className="hover:bg-white/5">
-              <Lucide icon="Edit" className="w-4 h-4 mr-2" /> Add Account
-            </Menu.Item>
-            <Menu.Item className="hover:bg-white/5">
+            </Menu.Item> */}
+            <Link to='settings'>
+              <Menu.Item className="hover:bg-white/5">
+                <Lucide icon="Settings" className="w-4 h-4 mr-2" /> Settings
+              </Menu.Item>
+            </Link>
+            {/* <Menu.Item className="hover:bg-white/5">
               <Lucide icon="Lock" className="w-4 h-4 mr-2" /> Reset Password
-            </Menu.Item>
-            <Menu.Item className="hover:bg-white/5">
+            </Menu.Item> */}
+            {/* <Menu.Item className="hover:bg-white/5">
               <Lucide icon="HelpCircle" className="w-4 h-4 mr-2" /> Help
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Divider className="bg-white/[0.08]" />
-            <Menu.Item className="hover:bg-white/5">
+            <Menu.Item onClick={onLogout} className="hover:bg-white/5">
               <Lucide icon="ToggleRight" className="w-4 h-4 mr-2" /> Logout
             </Menu.Item>
           </Menu.Items>

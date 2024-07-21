@@ -6,12 +6,13 @@ import simpleMenuReducer from "./simpleMenuSlice";
 import topMenuReducer from "./topMenuSlice";
 import form from "./form";
 import auth from "./api/auth/auth";
+import logout from "./api/auth/logout";
 import messages from "./api/messages";
 import notification from "./api/notifications/notification";
 import sendNotificationsToAllUsers from "./api/notifications/sendToAllUsers";
 import sendNotificationsToSelectedUsers from "./api/notifications/sendToSelectedUsers";
 import myprofile from "./api/profile/myprofile";
-
+import updateProfile from "./api/settings/profile/update";
 import studios from "./api/cycles/rental";
 import portfolioPost from "./api/cycles/project";
 import producer from "./api/cycles/producer";
@@ -54,6 +55,8 @@ import projectAnalysis from "./api/analysis/project";
 import producerAnalysis from "./api/analysis/producer";
 import rentalAnalysis from "./api/analysis/rental";
 import contractAnalysis from "./api/analysis/contracts";
+//////////////// reviews
+import reviews from "./api/reviews/reviews";
 
 export const store = configureStore({
   reducer: {
@@ -64,6 +67,7 @@ export const store = configureStore({
     topMenu: topMenuReducer,
     form,
     auth,
+    logout,
     apisErrors,
     messages,
     notification,
@@ -79,6 +83,7 @@ export const store = configureStore({
     copyRights,
     ticket,
     users,
+    updateProfile,
     chat,
     allchat,
     sendmessage,
@@ -111,6 +116,8 @@ export const store = configureStore({
     copyRightsAnalysis,
     producerAnalysis,
     contractAnalysis,
+    //////////////// reviews
+    reviews,
   },
 });
 

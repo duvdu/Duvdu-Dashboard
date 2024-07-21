@@ -79,12 +79,15 @@ import Terms from "../pages/terms";
 import Roles from "../pages/roles";
 import Plan from "../pages/plan";
 import Ranks from "../pages/ranks";
-import Complaint from "../pages/complaint";
+import Complaint from "../pages/contract/complaint";
 import Validation from "../pages/Validation";
 import Chart from "../pages/Chart";
 import Slider from "../pages/Slider";
 import ImageZoom from "../pages/ImageZoom";
 import DashboardMain from "../pages/DashboardMain";
+import ContractsAnalysis from "../pages/contract/analysis";
+import ContractsReviews from "../pages/contract/reviews";
+import Settings from "../pages/settings";
 
 function Router() {
   const routes = [
@@ -134,6 +137,10 @@ function Router() {
           element: <Users />,
         },
         {
+          path: "settings",
+          element: <Settings />,
+        },
+        {
           path: "notifications",
           element: <Notifications />,
         },
@@ -162,8 +169,16 @@ function Router() {
           element: <Ranks />,
         },
         {
-          path: "complaints",
+          path: "contract/complaints",
           element: <Complaint />,
+        },
+        {
+          path: "contract/reviews",
+          element: <ContractsReviews />,
+        },
+        {
+          path: "/contract/analysis",
+          element: <ContractsAnalysis />,
         },
 
 
@@ -172,12 +187,16 @@ function Router() {
           element: <DashboardMain />,
         },
         {
+          path: "dashboard-overview-1",
+          element: <DashboardOverview1 />,
+        },
+        {
           path: "dashboard-overview-2",
           element: <DashboardOverview2 />,
         },
         {
           path: "dashboard-overview-3",
-          element: <DashboardOverview1 />,
+          element: <DashboardOverview3/>,
         },
         {
           path: "dashboard-overview-4",

@@ -68,7 +68,9 @@ export const RESET_CHAT = 'RESET_CHAT';
 export const SET_MESSAGES_LIST = 'SET_MESSAGES_LIST';
 
 ////////////// KEYS OF APP ///////////////////
-export const KEY_AUTH = 'SET_CHATS';
+export const KEY_AUTH = 'SET_AUTH';
+export const KEY_SETTINGS = 'KEY_SETTINGS';
+export const KEY_AUTH_LOGOUT = 'KEY_AUTH_LOGOUT';
 export const KEY_NOTIFICATION = 'OPEN_CHAT';
 export const KEY_MESSAGES = 'CLOSE_CHAT';
 export const KEY_MYPROFILE = 'RESET_CHAT';
@@ -119,4 +121,5 @@ export const KEY_UPDATE_RANK = 'KEY_UPDATE_RANK';
 export const KEY_GET_COMPLAINTS = 'KEY_GET_COMPLAINTS';
 export const KEY_GET_COMPLAINT_BY_ID = 'KEY_GET_COMPLAINT_BY_ID';
 export const KEY_UPDATE_COMPLAINT = 'KEY_UPDATE_COMPLAINT';
-
+// KEY_REVIEWS
+export const KEY_GET_REVIEWS = 'KEY_GET_REVIEWS'

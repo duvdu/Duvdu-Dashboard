@@ -14,7 +14,6 @@ import ProjectsAnalysis from "./ProjectsAnalysis";
 import RentalsAnalysis from "./RentalsAnalysis";
 import CopyrightsAnalysis from "./CopyrightsAnalysis";
 import ProducersAnalysis from "./ProducersAnalysis";
-import ContractsAnalysis from "./ContractsAnalysis";
 
 function Main() {
   return (
@@ -49,11 +48,6 @@ function Main() {
                 Producers
               </Tab.Button>
             </Tab>
-            <Tab fullWidth={false}>
-              <Tab.Button className="py-4 cursor-pointer">
-                Contracts
-              </Tab.Button>
-            </Tab>
           </Tab.List>
         </div>
         {/* END: Profile Info */}
@@ -62,7 +56,6 @@ function Main() {
           <RentalsAnalysis/>
           <CopyrightsAnalysis/>
           <ProducersAnalysis/>
-          <ContractsAnalysis/>
         </Tab.Panels>
       </Tab.Group>
     </>

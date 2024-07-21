@@ -1,16 +1,16 @@
 import _ from "lodash";
-import fakerData from "../../utils/faker";
-import Button from "../../base-components/Button";
-import Lucide from "../../base-components/Lucide";
-import { Menu, Tab } from "../../base-components/Headless";
+import fakerData from "../../../utils/faker";
+import Button from "../../../base-components/Button";
+import Lucide from "../../../base-components/Lucide";
+import { Menu, Tab } from "../../../base-components/Headless";
 import clsx from "clsx";
-import Tippy from "../../base-components/Tippy";
+import Tippy from "../../../base-components/Tippy";
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
-import { StateAllContractAnalysis } from "../../redux/stores/api/analysis/contracts";
+import { useAppDispatch, useAppSelector } from "../../../redux/stores/hooks";
+import { StateAllContractAnalysis } from "../../../redux/stores/api/analysis/contracts";
 import { MapPin } from "lucide-react";
-import { ActionGetContractAnalysis } from "../../redux/action/api/cycles/contract/analysis";
-import LoadingIcon from "../../base-components/LoadingIcon";
+import { ActionGetContractAnalysis } from "../../../redux/action/api/cycles/contract/analysis";
+import LoadingIcon from "../../../base-components/LoadingIcon";
 
 export default function ContractsAnalysis() {
   const dispatch = useAppDispatch()
@@ -23,7 +23,7 @@ export default function ContractsAnalysis() {
 
 
   return (
-    <Tab.Panel>
+    <>
       {/* {    stateAllContract?.loading? 
       <>
         <LoadingIcon icon="puff" className="ml-3" />
@@ -35,7 +35,7 @@ export default function ContractsAnalysis() {
       <div className="grid grid-cols-12 gap-6 mt-5 mb-8">    
         <div className="col-span-12 sm:col-span-3 intro-y">
           <div className="grid grid-rows-12 gap-6">
-              <div className="grid grid-rows-2 gap-5 col-span-12 sm:col-span-6 intro-y">
+              <div className="grid grid-rows-12 gap-5 intro-y">
                 <div
                   className={clsx([
                     "relative zoom-in",
@@ -354,6 +354,6 @@ export default function ContractsAnalysis() {
         </div>
       </>
       }
-     </Tab.Panel>
+     </>
   )
 }

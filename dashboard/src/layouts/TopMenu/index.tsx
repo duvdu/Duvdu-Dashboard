@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { selectTopMenu } from "../../redux/stores/topMenuSlice";
-import { useAppSelector } from "../../redux/stores/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
 import fakerData from "../../utils/faker";
 import _ from "lodash";
 import { FormattedMenu, linkTo, nestedMenu } from "./top-menu";
@@ -15,6 +15,8 @@ import clsx from "clsx";
 import MobileMenu from "../../components/MobileMenu";
 import DarkModeSwitcher from "../../components/DarkModeSwitcher";
 import MainColorSwitcher from "../../components/MainColorSwitcher";
+import { selectLogoutState } from "../../redux/stores/api/auth/logout";
+import { ActionLogout } from "../../redux/action/api/auth/logout/logout";
 
 function Main() {
   const [searchDropdown, setSearchDropdown] = useState(false);
@@ -24,9 +26,17 @@ function Main() {
   const hideSearchDropdown = () => {
     setSearchDropdown(false);
   };
+  const dispatch = useAppDispatch()
   const location = useLocation();
+  const navigate = useNavigate();
   const [formattedMenu, setFormattedMenu] = useState<Array<FormattedMenu>>([]);
   const topMenuStore = useAppSelector(selectTopMenu);
+  const logoutState = useAppSelector(selectLogoutState)
+  const onLogout = () => {
+      dispatch(ActionLogout())
+      navigate('/login')
+  };
+
   const topMenu = () => nestedMenu(topMenuStore, location);
 
   useEffect(() => {
@@ -238,8 +248,10 @@ function Main() {
                 <Lucide icon="HelpCircle" className="w-4 h-4 mr-2" /> Help
               </Menu.Item>
               <Menu.Divider className="bg-white/[0.08]" />
-              <Menu.Item className="hover:bg-white/5">
+              <Menu.Item  className="hover:bg-white/5">
+              <div onClick={onLogout}>
                 <Lucide icon="ToggleRight" className="w-4 h-4 mr-2" /> Logout
+              </div>
               </Menu.Item>
             </Menu.Items>
           </Menu>
