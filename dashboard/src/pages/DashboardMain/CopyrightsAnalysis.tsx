@@ -109,9 +109,10 @@ export default function CopyrightsAnalysis() {
                 />
               </div>
               <div className="ml-4 mr-auto">
-                <a href="" className="font-medium">
-                  {user.username}
-                </a>
+                <span className="font-semibold">
+                {user?.name}
+                </span>
+                <p>{user.username}</p>
               </div>
               <div className="font-medium text-slate-600 dark:text-slate-500">
                 {user.totalBookings}
@@ -129,17 +130,22 @@ export default function CopyrightsAnalysis() {
         </div>
         <div className="p-5">
           {data?.addressStats?.map((address:any,index:number)=>
-          <div key={index} className="relative flex items-center">
+          <div key={index} className="relative flex items-center pb-3">
             <div className="flex-none image-fit">
               <MapPin/>
             </div>
             <div className="ml-4 mr-auto">
-              <a href="" className="font-medium">
-                {address.address}
-              </a>
+            <a 
+              href={`https://www.google.com/maps?q=${address.location.lat},${address.location.lng}`} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="font-medium"
+            >
+              {address.address}
+            </a>
             </div>
             <div className="font-medium text-slate-600 dark:text-slate-500">
-              {address.totalBookings}
+              {address.totalProjects}
             </div>
           </div>
           )}

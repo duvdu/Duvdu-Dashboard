@@ -64,6 +64,7 @@ function Main() {
       </div>
     );
   };
+  console.log({item:data})
   return (
     <>
       <h2 className="mt-10 text-lg font-medium intro-y">Rentals</h2>
@@ -111,18 +112,15 @@ function Main() {
                       src={item.cover}
                     />
                     <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
-                      <a href="" className="block text-base font-medium">
-                        {item.studioName}
-                      </a>
-                      <span className="mt-3 text-xs text-white/90">
-                        {item.user.name}
+                      <span className="block text-base font-medium">
+                        {item.title}
                       </span>
                     </div>
                   </div>
                   <div className="mt-5 text-slate-600 dark:text-slate-500">
                     <div className="flex items-center">
                       <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
-                      {item.pricePerHour} / hour
+                      {item.projectScale.pricerPerUnit} / {item.projectScale.unit} 
                     </div>
                     <div className="flex items-center mt-2">
                       <Lucide icon="Layers" className="w-4 h-4 mr-2" />
@@ -130,7 +128,7 @@ function Main() {
                     </div>
                     <div className="flex items-center mt-2">
                       <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
-                      subCategory : {item.subCategory}
+                      Sub Category : {item.subCategory}
                     </div>
                   </div>
                 </div>
@@ -141,10 +139,10 @@ function Main() {
                     
                     onClick={(event) => {
                       event.preventDefault();
-                      setDeleteConfirmationModal(true);
+                        (true);
                     }}
                   >
-
+                    delete
                   </a>
                 </div>
               </div>
@@ -196,7 +194,7 @@ function Main() {
       <Dialog
         open={deleteConfirmationModal}
         onClose={() => {
-          setDeleteConfirmationModal(false);
+            (false);
         }}
         initialFocus={deleteButtonRef}
       >

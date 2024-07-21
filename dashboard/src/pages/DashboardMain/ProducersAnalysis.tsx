@@ -61,9 +61,10 @@ export default function ProducersAnalysis() {
                 />
               </div>
               <div className="ml-4 mr-auto">
-                <a href="" className="font-medium">
-                  {user.userDetails.username}
-                </a>
+              <span className="font-semibold">
+                {user.userDetails?.name}
+                </span>
+                <p>{user.userDetails.username}</p>
               </div>
               <div className="font-medium text-slate-600 dark:text-slate-500">
                 {user.totalMaxBudget}

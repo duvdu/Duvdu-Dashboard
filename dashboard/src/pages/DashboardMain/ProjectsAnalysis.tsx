@@ -94,9 +94,10 @@ export default function ProjectsAnalysis() {
                 />
               </div>
               <div className="ml-4 mr-auto">
-                <a href="" className="font-medium">
-                  {user.username}
-                </a>
+                <span className="font-semibold">
+                {user?.name}
+                </span>
+                <p>{user.username}</p>
               </div>
               <div className="font-medium text-slate-600 dark:text-slate-500">
                 {user.totalProjects}
@@ -119,9 +120,14 @@ export default function ProjectsAnalysis() {
               <MapPin/>
             </div>
             <div className="ml-4 mr-auto">
-              <a href="" className="font-medium">
-                {address.address}
-              </a>
+            <a 
+              href={`https://www.google.com/maps?q=${address.location.lat},${address.location.lng}`} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="font-medium"
+            >
+              {address.address}
+            </a>
             </div>
             <div className="font-medium text-slate-600 dark:text-slate-500">
               {address.totalProjects}
