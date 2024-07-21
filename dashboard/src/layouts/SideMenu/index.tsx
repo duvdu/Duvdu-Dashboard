@@ -33,7 +33,7 @@ function Main() {
         {/* BEGIN: Side Menu */}
         <nav className="hidden md:block md:w-[105px] xl:w-[250px] px-5 pb-16 h-[100vh]  z-10">
           <Link
-            to="/side-menu/dashboard-overview-1"
+            to="/"
             className="flex items-center pt-4 pl-5 mt-3 intro-x"
           >
             <img
@@ -42,7 +42,7 @@ function Main() {
               src={logoUrl}
             />
             <span className="hidden ml-3 text-lg text-white xl:block">
-              Tinker
+            Duvdu
             </span>
           </Link>
           <Divider type="div" className="my-6"></Divider>

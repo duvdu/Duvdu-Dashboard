@@ -53,6 +53,7 @@ import copyRightsAnalysis from "./api/analysis/copyright";
 import projectAnalysis from "./api/analysis/project";
 import producerAnalysis from "./api/analysis/producer";
 import rentalAnalysis from "./api/analysis/rental";
+import contractAnalysis from "./api/analysis/contracts";
 
 export const store = configureStore({
   reducer: {
@@ -108,7 +109,8 @@ export const store = configureStore({
     projectAnalysis,
     rentalAnalysis,
     copyRightsAnalysis,
-    producerAnalysis
+    producerAnalysis,
+    contractAnalysis,
   },
 });
 
