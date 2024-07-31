@@ -9,6 +9,7 @@ import { Dialog, Menu } from "../../../base-components/Headless";
 import { useAppDispatch, useAppSelector } from "../../../redux/stores/hooks";
 import { ActionGetStudio } from "../../../redux/action/api/cycles/rental/get";
 import { StateAllStudios } from "../../../redux/stores/api/cycles/rental";
+import { formatDate } from "../../../utils/helper";
 
 function Main() {
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
@@ -18,15 +19,19 @@ function Main() {
   const stateAllStudios = useAppSelector(StateAllStudios)
   const state = stateAllStudios?.data
   const pagdnationState = state?.pagination
+  const [rental, setRental] = useState<any>(null);
 
   const [limit, setLimit] = useState("10");
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState(null);
-
-
+  
+  
   const dispatch = useAppDispatch()
-
+  
   const data = stateAllStudios?.data?.data
+  const filterCategory = (id: string) => {
+    setRental(data.find((rental:any) => rental?._id === id)??[]);
+  }
 
   useEffect(() => {
     if (search)
@@ -64,9 +69,47 @@ function Main() {
       </div>
     );
   };
-  console.log({item:data})
+  console.log(rental)
   return (
     <>
+            <Dialog open={rental == null ? false : true} onClose={() => {
+        setRental(null);
+      }}
+      >
+
+        {rental &&
+          <Dialog.Panel className="py-5 text-center bg-slate-500">
+            <div className=" px-2 rounded-md">
+              <div className="box mb-4 mx-4">
+                <h2 className="category-title text-2xl font-bold mb-4">{rental?.title?.en}</h2>
+                <div className="h-40 overflow-y-hidden">
+                  <img src={rental?.cover} alt={rental?.title?.en} className="category-image h-full  mb-4 max-w-full w-full" />
+                </div>
+              </div>
+                <h3 className="text-2xl font-bold">{rental.title}</h3>
+              <div className="flex flex-col gap-2 category-subcategories box mb-4 pt-4 px-4 mx-4">
+
+                <h3 className="text-start"><span className="font-semibold text-xl text-cyan-600">Price :</span>  {rental.projectScale.pricerPerUnit} $ / {rental.projectScale.unit}</h3>
+                <h3 className="text-start"><span className="font-semibold text-xl text-cyan-600">Insurance :</span>  {rental.insurance}</h3>
+                <h3 className="text-start"><span className="font-semibold text-xl text-cyan-600">Address :</span> {rental.address}</h3>
+                <h3 className="text-start"><span className="font-semibold text-xl text-cyan-600">Email :</span> {rental.email}</h3>
+                <h3 className="text-start"><span className="font-semibold text-xl text-cyan-600">Description :</span> {rental.description}</h3>
+                <h3 className="text-start">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full overflow-hidden">
+                      <img src={rental.user.profileImage} className="w-full h-full" alt="" />
+                    </div>
+                    <div className="text-white text-xl">{rental.user.name}</div>
+                  </div>
+                </h3>
+                
+              </div>
+            </div>
+          </Dialog.Panel>
+        }
+      </Dialog >
+
+
       <h2 className="mt-10 text-lg font-medium intro-y">Rentals</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
@@ -133,6 +176,9 @@ function Main() {
                   </div>
                 </div>
                 <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400">
+                <div className="flex items-center mr-auto text-primary cursor-pointer" onClick={() => { filterCategory(item._id); }}>
+                    <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
+                  </div>
 
                   <a
                     className="flex items-center text-danger"

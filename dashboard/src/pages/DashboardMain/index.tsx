@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import fakerData from "../../utils/faker";
 import Button from "../../base-components/Button";
 import { FormSwitch } from "../../base-components/Form";
@@ -16,8 +16,33 @@ import RentalsAnalysis from "./RentalsAnalysis";
 import CopyrightsAnalysis from "./CopyrightsAnalysis";
 import ProducersAnalysis from "./ProducersAnalysis";
 import { getToken, onMessage } from "firebase/messaging";
+import { useSocket } from "../../socketContext";
 
 function Main() {
+  const { visitorCount, loggedUserCount } = useSocket();
+  const [initialCounts, setInitialCounts] = useState<{ visitors: number; logged: number }>({ visitors: 0, logged: 0 });
+  console.log({visitorCount, loggedUserCount})
+  // useEffect(() => {
+  //   const fetchInitialCounts = async () => {
+  //     try {
+  //       const visitorsResponse = await fetch('https://api.duvdu.com/getVisitorsCounter');
+  //       console.log(visitorsResponse)
+  //       const visitorsData = await visitorsResponse.json();
+  //       const loggedResponse = await fetch('https://api.duvdu.com/getLoggedCounter');
+  //       const loggedData = await loggedResponse.json();
+
+  //       setInitialCounts({
+  //         visitors: visitorsData.count,
+  //         logged: loggedData.count,
+  //       });
+  //     } catch (error) {
+  //       console.error('Error fetching initial counts:', error);
+  //     }
+  //   };
+
+  //   fetchInitialCounts();
+  // }, []);
+
     return (
     <>
       <div className="flex items-center mt-8 intro-y">
@@ -50,6 +75,11 @@ function Main() {
                 Producers
               </Tab.Button>
             </Tab>
+            <Tab fullWidth={false}>
+              <Tab.Button className="py-4 cursor-pointer">
+                socket
+              </Tab.Button>
+            </Tab>
           </Tab.List>
         </div>
         {/* END: Profile Info */}
@@ -58,7 +88,13 @@ function Main() {
           <RentalsAnalysis/>
           <CopyrightsAnalysis/>
           <ProducersAnalysis/>
-        </Tab.Panels>
+          <Tab.Panel>
+            <div>
+              <h1>Visitor Count: {visitorCount }</h1>
+              <h2>Logged User Count: {loggedUserCount }</h2>
+            </div>
+          </Tab.Panel>
+          </Tab.Panels>
       </Tab.Group>
     </>
   );

@@ -44,6 +44,7 @@
     "react-transition-group": "^4.4.5",
     "redux-thunk": "^3.1.0",
     "simplebar": "^5.3.9",
+    "socket.io-client": "^4.7.5",
     "tabulator-tables": "^5.3.4",
     "tiny-slider": "^2.9.4",
     "tippy.js": "^6.3.7",

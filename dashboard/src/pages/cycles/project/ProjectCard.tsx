@@ -101,7 +101,7 @@ export default function ProjectCard({item}:{item:any}) {
         }
                     <div className="absolute bottom-0 z-10 px-5 pb-3 text-white">
                       <a href="" className="block text-base font-medium">
-                        {item.title}
+                        {item.name}
                       </a>
                       <span className="mt-3 text-xs text-white/90">
                         {item.user.name}
@@ -110,18 +110,18 @@ export default function ProjectCard({item}:{item:any}) {
                   </div>
                   <div className="mt-5 text-slate-600 dark:text-slate-500">
                     <div className="flex items-center">
-                      <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
-                      {item.projectBudget}
+                      <Lucide icon="Link" className="w-4 h-4 mr-2" /> Address
+                      : {item.address}
                     </div>
                     <div className="flex items-center mt-2">
                       <Lucide icon="Layers" className="w-4 h-4 mr-2" />
                       {item.user.name}
                     </div>
-                    <div className="flex items-center mt-2">
+                    {/* <div className="flex items-center mt-2">
                       <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
                       {item.projectScale.scale + " "}
                       {item.projectScale.time}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400 hidden">
