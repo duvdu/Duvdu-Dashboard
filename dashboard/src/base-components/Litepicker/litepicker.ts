@@ -2,7 +2,8 @@ import dayjs from "dayjs";
 import Litepicker from "litepicker";
 import { LitepickerElement, LitepickerProps } from "./index";
 
-interface Picker extends Litepicker {
+// Custom interface for the 'on' method callback
+interface Picker {
   on?: (
     event: string,
     cb: (
@@ -13,7 +14,7 @@ interface Picker extends Litepicker {
         dateInstance: Date;
       }
     ) => void
-  ) => {};
+  ) => void;
 }
 
 const getDateFormat = (format: string | undefined) => {
@@ -38,9 +39,10 @@ const init = (el: LitepickerElement, props: LitepickerProps) => {
     ...props.options,
     element: el,
     format: format,
-    setup: (picker: Picker) => {
-      if (picker.on) {
-        picker.on("selected", (startDate, endDate) => {
+    setup: (picker: Litepicker) => {
+      const customPicker = picker as Picker;
+      if (customPicker.on) {
+        customPicker.on("selected", (startDate, endDate) => {
           let date = dayjs(startDate.dateInstance).format(format);
           date +=
             endDate !== undefined
