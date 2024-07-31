@@ -1,0 +1,18 @@
+import axios from "axios";
+import { messaging,getToken } from './firebase';
+
+const subscribeToTopic = async (token: string, topic: string) => {
+    try {
+      const token = await getToken(messaging, { vapidKey: 'BNOqMNcX3bBmJyw0m5lOBvDmcTvGCnnJlVJGGCRJ3vov_hcHwPJRK-bfrmILh7U9Q2btT1g7OrHPwujpJgESfAI' });
+      const response = await axios.post('https://api.duvdu.com/api/notification/users', {
+          to: `/topics/${topic}`,
+          registration_tokens: [token],
+        })
+      console.log('Subscription response:', response.data);
+    } catch (error) {
+      console.error('Error subscribing to topic:', error);
+    }
+  };
+  
+  export default subscribeToTopic;
+  

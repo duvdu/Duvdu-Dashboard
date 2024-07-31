@@ -29,6 +29,7 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.5",
     "dropzone": "^6.0.0-beta.2",
+    "firebase": "^10.12.4",
     "flat": "^5.0.2",
     "highlight.js": "^11.6.0",
     "js-beautify": "^1.14.6",

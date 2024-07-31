@@ -95,7 +95,6 @@ function Router() {
       path: "/",
       element: <SideMenu />,
       children: [
-
         {
           path: "terms",
           element: <Terms />,

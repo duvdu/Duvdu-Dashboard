@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
 import { StateAllProducerAnalysis } from "../../redux/stores/api/analysis/producer";
 import { ActionGetProducerAnalysis } from "../../redux/action/api/cycles/producer/analysis";
-import { MapPin } from "lucide-react";
 
 export default function ProducersAnalysis() {
   const dispatch = useAppDispatch()

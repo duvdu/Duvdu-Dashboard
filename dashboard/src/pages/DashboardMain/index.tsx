@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { useEffect } from "react";
 import fakerData from "../../utils/faker";
 import Button from "../../base-components/Button";
 import { FormSwitch } from "../../base-components/Form";
@@ -14,9 +15,10 @@ import ProjectsAnalysis from "./ProjectsAnalysis";
 import RentalsAnalysis from "./RentalsAnalysis";
 import CopyrightsAnalysis from "./CopyrightsAnalysis";
 import ProducersAnalysis from "./ProducersAnalysis";
+import { getToken, onMessage } from "firebase/messaging";
 
 function Main() {
-  return (
+    return (
     <>
       <div className="flex items-center mt-8 intro-y">
         <h2 className="mr-auto text-lg font-medium">Analysis</h2>

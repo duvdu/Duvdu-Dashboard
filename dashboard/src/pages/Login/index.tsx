@@ -13,15 +13,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import Toastify from "toastify-js";
-import Notification from "../../base-components/Notification";
+import Notify from "../../base-components/Notification";
 import Lucide from "../../base-components/Lucide";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ActionLogin } from "../../redux/action/api/auth/login/login";
 import LoadingIcon from "../../base-components/LoadingIcon";
 import { Navigate} from "react-router-dom";
+import { getToken } from "firebase/messaging";
 
 function Main() {
-  
+  const [token, setToken] = useState('')
   const authState = useAppSelector(selectAuthState)
   const formState = useAppSelector(selectFormState);
   const dispatch = useAppDispatch()
@@ -46,7 +47,7 @@ function Main() {
     event.preventDefault();
     const result = await trigger();
     if (result) {
-      dispatch(ActionLogin({ username: formState.username, password: formState.password }))
+      dispatch(ActionLogin({ username: formState.username, password: formState.password , notificationToken:token??null}))
     }
   };
 
@@ -174,7 +175,7 @@ function Main() {
             {/* END: Login Form */}
           </div>
         </div>
-        <Notification
+        <Notify
           id="success-notification-content"
           className="flex hidden"
         >
@@ -185,10 +186,10 @@ function Main() {
               Please check your e-mail for further info!
             </div>
           </div>
-        </Notification>
+        </Notify>
         {/* END: Success Notification Content */}
         {/* BEGIN: Failed Notification Content */}
-        <Notification
+        <Notify
           id="failed-notification-content"
           className="flex hidden"
         >
@@ -199,7 +200,7 @@ function Main() {
               {authState.error}
             </div>
           </div>
-        </Notification>
+        </Notify>
       </div>
     </>
   );
