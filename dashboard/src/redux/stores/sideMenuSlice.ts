@@ -82,6 +82,27 @@ const initialState: SideMenuState = {
       ],
     },
     {
+      icon: "ShoppingBag",
+      title: "Contracts",
+      subMenu: [
+        {
+          icon: "Activity",
+          title: "Analytics",
+          pathname: "/contract/analysis",
+        },
+        {
+          icon: "Activity",
+          title: "Complaints",
+          pathname: "/contract/complaints",
+        },
+        {
+          icon: "Activity",
+          title: "Reviews",
+          pathname: "/contract/reviews",
+        },
+      ],
+    },
+    {
       icon: "HardDrive",
       pathname: "/terms",
       title: "Terms",

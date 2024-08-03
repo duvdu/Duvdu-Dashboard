@@ -86,6 +86,7 @@ import Slider from "../pages/Slider";
 import ImageZoom from "../pages/ImageZoom";
 import DashboardMain from "../pages/DashboardMain";
 import ContractsAnalysis from "../pages/contract/analysis";
+import ContractsAnalysiss from "../pages/Contracts/index";
 import ContractsReviews from "../pages/contract/reviews";
 import Settings from "../pages/settings";
 
@@ -175,9 +176,13 @@ function Router() {
           path: "contract/reviews",
           element: <ContractsReviews />,
         },
+        // {
+        //   path: "/contract/analysis",
+        //   element: <ContractsAnalysis />,
+        // },
         {
           path: "/contract/analysis",
-          element: <ContractsAnalysis />,
+          element: <ContractsAnalysiss />,
         },
 
 

@@ -102,7 +102,7 @@ export default function RentalsAnalysis() {
         </div>
         <div className="p-5">
           {data?.topUsers?.map((user:any,index:number)=>
-            <div key={index} className="relative flex items-center">
+            <div key={index} className="relative flex items-center pb-3">
               <div className="flex-none w-12 h-12 image-fit">
                 <img
                   alt="DuvDu Admin DashBoard"

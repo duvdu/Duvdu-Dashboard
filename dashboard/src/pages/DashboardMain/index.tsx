@@ -17,6 +17,7 @@ import CopyrightsAnalysis from "./CopyrightsAnalysis";
 import ProducersAnalysis from "./ProducersAnalysis";
 import { getToken, onMessage } from "firebase/messaging";
 import { useSocket } from "../../socketContext";
+import clsx from "clsx";
 
 function Main() {
   const { visitorCount, loggedUserCount } = useSocket();
@@ -89,10 +90,42 @@ function Main() {
           <CopyrightsAnalysis/>
           <ProducersAnalysis/>
           <Tab.Panel>
-            <div>
-              <h1>Visitor Count: {visitorCount }</h1>
-              <h2>Logged User Count: {loggedUserCount }</h2>
+          <div className="grid grid-cols-12 gap-6 mt-5 mb-8">
+            <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+              <div
+                className={clsx([
+                  "relative zoom-in",
+                  "before:content-[''] before:w-[90%] before:shadow-[0px_3px_20px_#0000000b] before:bg-slate-50 before:h-full before:mt-3 before:absolute before:rounded-md before:mx-auto before:inset-x-0 before:dark:bg-darkmode-400/70",
+                ])}
+              >
+                <div className="p-5 box">
+                  <div className="mt-6 text-3xl font-medium leading-8">
+                  {visitorCount}
+                  </div>
+                  <div className="mt-1 text-base text-slate-500">
+                  Visitor Count
+                  </div>
+                </div>
+              </div>
             </div>
+            <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+              <div
+                className={clsx([
+                  "relative zoom-in",
+                  "before:content-[''] before:w-[90%] before:shadow-[0px_3px_20px_#0000000b] before:bg-slate-50 before:h-full before:mt-3 before:absolute before:rounded-md before:mx-auto before:inset-x-0 before:dark:bg-darkmode-400/70",
+                ])}
+              >
+                <div className="p-5 box">
+                  <div className="mt-6 text-3xl font-medium leading-8">
+                  {loggedUserCount}
+                  </div>
+                  <div className="mt-1 text-base text-slate-500">
+                  Logged User Count
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           </Tab.Panel>
           </Tab.Panels>
       </Tab.Group>

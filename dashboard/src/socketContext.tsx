@@ -19,15 +19,25 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [loggedUserCount, setLoggedUserCount] = useState<number>(0);
 
   useEffect(() => {
-    const socketInstance = io('https://api.duvdu.com'); // Replace with your server URL
-    setSocket(socketInstance);
+    const socketInstance = io('https://api.duvdu.com');
 
+    console.log('Connecting to socket...');
+    socketInstance.on('connect', () => {
+      console.log('Connected to socket server');
+    });
+    
     socketInstance.on('getVisitorsCounter', (count: number) => {
+      console.log('getVisitorsCounter event received:', count);
       setVisitorCount(count);
     });
 
     socketInstance.on('getLoggedCounter', (count: number) => {
+      console.log('getLoggedCounter event received:', count);
       setLoggedUserCount(count);
+    });
+
+    socketInstance.on('disconnect', () => {
+      console.log('Disconnected from socket server');
     });
 
     return () => {

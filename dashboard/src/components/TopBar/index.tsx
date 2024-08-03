@@ -156,7 +156,7 @@ function Main() {
       {/* BEGIN: Top Bar */}
       <div className="h-[67px] z-[51] flex items-center relative border-b border-slate-200">
         {/* BEGIN: Breadcrumb */}
-        <Menu>
+        {/* <Menu>
           <Menu.Button className="flex w-8 h-8 overflow-hidden rounded-full shadow-lg image-fit zoom-in intro-x mx-3 items-center justify-center">
             <Lucide icon="StickyNote" className="w-6 h-6" />
           </Menu.Button>
@@ -177,7 +177,7 @@ function Main() {
             </Menu.Item>
             </Link>
           </Menu.Items>
-        </Menu>
+        </Menu> */}
         <Breadcrumb className="hidden mr-auto -intro-x sm:flex">
           <Breadcrumb.Link to="/">Application</Breadcrumb.Link>
           <Breadcrumb.Link to={location.pathname.split('/')[1]} active={true}>
