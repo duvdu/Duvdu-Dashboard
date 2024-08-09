@@ -89,6 +89,8 @@ import ContractsAnalysis from "../pages/contract/analysis";
 import ContractsAnalysiss from "../pages/Contracts/index";
 import ContractsReviews from "../pages/contract/reviews";
 import Settings from "../pages/settings";
+import Coupons from "../pages/Coupons";
+import AddCoupon from "../pages/Coupons/add";
 
 function Router() {
   const routes = [
@@ -175,6 +177,14 @@ function Router() {
         {
           path: "contract/reviews",
           element: <ContractsReviews />,
+        },
+        {
+          path: "coupons",
+          element: <Coupons />,
+        },
+        {
+          path: "add-coupon",
+          element: <AddCoupon />,
         },
         // {
         //   path: "/contract/analysis",

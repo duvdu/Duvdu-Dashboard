@@ -45,7 +45,12 @@ import getRankById from "./api/rank/getById";
 import getAllRanks from "./api/rank/getAll";
 import deleteRank from "./api/rank/delete";
 import createRank from "./api/rank/create";
-///////////////// ranks
+///////////////// copoun
+import updateCoupon from "./api/coupon/update";
+import getCouponById from "./api/coupon/getById";
+import getAllCoupons from "./api/coupon/getAll";
+import createCoupon from "./api/coupon/create";
+///////////////// complaint
 import getComplaintById from "./api/complaint/getById";
 import getAllComplaints from "./api/complaint/getAll";
 import updateComplaint from "./api/complaint/update";
@@ -106,6 +111,11 @@ export const store = configureStore({
     getAllRanks,
     deleteRank,
     createRank,
+    //////////////// Coupons
+    updateCoupon,
+    getCouponById,
+    getAllCoupons,
+    createCoupon,
     //////////////// Complaints
     getAllComplaints,
     getComplaintById,

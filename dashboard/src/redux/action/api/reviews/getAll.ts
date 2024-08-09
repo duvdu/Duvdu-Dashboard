@@ -4,8 +4,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const ActionGetReviews = createAsyncThunk(
   KEY_GET_REVIEWS,
-  async () => {
-    const response = await mainApiInstance.get('api/analysis/contract-review');
+  async (params:{limit?: string|number, page?: string|number}) => {
+    const { limit, page } = params;
+    const queryParams = { limit, page };
+    const response = await mainApiInstance.get('api/analysis/contract-review',{
+      params: queryParams,
+    });
     return response.data;
   }
 );
