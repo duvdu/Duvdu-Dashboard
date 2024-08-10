@@ -68,23 +68,23 @@ const Main: React.FC = () => {
       <Dialog open={openEditModel} onClose={() => setOpenEditModel(false)} initialFocus={sendButtonRef}>
         <Dialog.Panel>
           <Dialog.Title>
-            <h2 className="mr-auto text-base font-medium">Edit Rank</h2>
+            <h2 className="mr-auto text-base font-medium">Edit Coupon</h2>
           </Dialog.Title>
           <Dialog.Description className="grid grid-cols-6 gap-4 gap-y-3">
             <div className="col-span-12 sm:col-span-6">
-              <FormLabel htmlFor="modal-form-2">start</FormLabel>
+              <FormLabel htmlFor="modal-form-2">Start Date</FormLabel>
               <FormInput id="modal-form-2" type="date" name="start" defaultValue={formValues.start} onChange={handleInputChange} />
             </div>
             <div className="col-span-12 sm:col-span-6">
-              <FormLabel htmlFor="modal-form-2">end</FormLabel>
+              <FormLabel htmlFor="modal-form-2">End Date</FormLabel>
               <FormInput id="modal-form-2" type="date" name="end" defaultValue={formValues.end} onChange={handleInputChange} />
             </div>
             <div className="col-span-12 sm:col-span-6">
-              <FormLabel htmlFor="modal-form-2">couponCount</FormLabel>
+              <FormLabel htmlFor="modal-form-2">Coupon Count</FormLabel>
               <FormInput id="modal-form-2" type="number" name="couponCount" defaultValue={formValues.couponCount} onChange={handleInputChange} />
             </div>
             <div className="col-span-12 sm:col-span-6">
-              <FormLabel htmlFor="modal-form-2">userCount</FormLabel>
+              <FormLabel htmlFor="modal-form-2">User Count</FormLabel>
               <FormInput id="modal-form-2" type="number" name="userCount" defaultValue={formValues.userCount} onChange={handleInputChange} />
             </div>
           </Dialog.Description>
@@ -118,7 +118,7 @@ const Main: React.FC = () => {
             </Button>
         </Link>
       </div>
-      <div className="grid grid-cols-2">
+      <div className="grid grid-cols-2 gap-3">
         {coupons.map((coupon:any, index:number) => (
           <div key={index} className="flex flex-col m-1 gap-5 intro-y box px-3 py-5 relative">
             <div className='absolute bg-slate-800 top-0 right-0 rounded-bl-full text-white font-black px-3 py-1'>
@@ -126,38 +126,54 @@ const Main: React.FC = () => {
             </div>
             <div className='grid grid-cols-2'>
                 <div className='font-bold'>
-                    Title English: <span className='font-normal'>
+                    Coupon Name English: <span className='font-normal'>
                         {coupon.title.en} 
                     </span>
                 </div>
                 <div className='font-bold'>
-                    Title Arabic: <span className='font-normal'>
-                        {coupon.title.ar} 
+                    Start Date: <span className='font-normal'>
+                        {new Date(coupon.start).toISOString().split('T')[0]} 
                     </span>
                 </div>
             </div>
             <div className='grid grid-cols-2'>
                 <div className='font-bold'>
-                    Start At: <span className='font-normal'>
-                        {new Date(coupon.start).toISOString().split('T')[0]} 
+                    Coupon Name Arabic: <span className='font-normal'>
+                        {coupon.title.ar} 
                     </span>
                 </div>
+
                 <div className='font-bold'>
-                    End At: <span className='font-normal'>
+                    End Date: <span className='font-normal'>
                         {new Date(coupon.end).toISOString().split('T')[0]} 
                     </span>
                 </div>
             </div>
             <div className='grid grid-cols-2'>
             <div className='font-bold'>
-                 Promo Code: <span className='font-normal'>
-                     {coupon.promoCode} 
+                 Coupon Count: <span className='font-normal'>
+                     {coupon.couponCount} 
                 </span>
             </div>
+
             <div className='font-bold'>
                  User Count: <span className='font-normal'>
                      {coupon.userCount} 
                 </span>
+            </div>
+            
+            </div>
+            <div className='grid grid-cols-2'>
+            <div className='flex items-center justify-between'>
+              <div className='font-bold'>
+                  Promo Code: <span className='font-normal'>
+                      {coupon.promoCode} 
+                  </span>
+              </div>
+            <Button className='cursor-pointer' onClick={ () => {navigator.clipboard.writeText(coupon.promoCode)}  }>
+              <Lucide icon="Copy" className="w-4 h-4 mr-1" />
+            </Button>
+            
             </div>
             </div>
             <div className='flex coupon-between items-center'>
