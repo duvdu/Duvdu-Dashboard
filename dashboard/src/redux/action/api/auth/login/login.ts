@@ -7,6 +7,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 // Add the public key generated from the console here.
 
 export const ActionLogin = createAsyncThunk(KEY_AUTH,async ({ username, password , notificationToken }: { username: string, password: string ,notificationToken?:string | null}) => {
+  console.log({username})
       const response = await mainApiInstance.post('api/users/auth/signin', {
         login:username,
         password,

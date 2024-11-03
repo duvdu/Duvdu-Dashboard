@@ -11,7 +11,7 @@ import { useFormInputChange } from "../../redux/action/formInputChange";
 import { selectFormState, updateFormData } from "../../redux/stores/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import Toastify from "toastify-js";
 import Notify from "../../base-components/Notification";
 import Lucide from "../../base-components/Lucide";
@@ -20,57 +20,70 @@ import { ActionLogin } from "../../redux/action/api/auth/login/login";
 import LoadingIcon from "../../base-components/LoadingIcon";
 import { Navigate} from "react-router-dom";
 import { getToken } from "firebase/messaging";
-
+import useFcmToken from "../../utils/hooks/useFcmToken";
+interface LoginFormInputs {
+  username: string;
+  password: string;
+}
 function Main() {
-  const [token, setToken] = useState('')
-  const authState = useAppSelector(selectAuthState)
+  const { fcmToken,notificationPermissionStatus } = useFcmToken();
+  console.log({fcmToken})
+  const [token, setToken] = useState<string | null>(null);
+  const authState = useAppSelector(selectAuthState);
   const formState = useAppSelector(selectFormState);
-  const dispatch = useAppDispatch()
-  const handleInputChange = useFormInputChange();
+  const dispatch = useAppDispatch();
+
   const schema = yup
     .object({
-      username: yup.string().required().min(4),
-      password: yup.string().required().min(6),
+      username: yup.string().required("Username is required").min(4, "Minimum 4 characters"),
+      password: yup.string().required("Password is required").min(6, "Minimum 6 characters"),
     })
     .required();
 
   const {
     register,
     trigger,
+    setValue,
     formState: { errors },
-  } = useForm({
+    handleSubmit,
+  } = useForm<LoginFormInputs>({
     mode: "onChange",
     resolver: yupResolver(schema),
+    defaultValues: {
+      username: formState.username || "",
+      password: formState.password || "",
+    },
   });
 
-  const onSubmit = async (event: React.ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const result = await trigger();
-    if (result) {
-      dispatch(ActionLogin({ username: formState.username, password: formState.password , notificationToken:token??null}))
-    }
+  useEffect(() => {
+    setValue("username", formState.username || "");
+    setValue("password", formState.password || "");
+  }, [formState.username, formState.password, setValue]);
+
+  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+    console.log(data);
+    dispatch(ActionLogin({ username: data.username, password: data.password, notificationToken: fcmToken??null }));
   };
 
   useEffect(() => {
     if (authState.error) {
-      const failedEl = document
-        .querySelectorAll("#failed-notification-content")[0]
-        .cloneNode(true) as HTMLElement;
-      failedEl.classList.remove("hidden");
-      Toastify({
-        node: failedEl,
-        duration: 3000,
-        newWindow: true,
-        close: true,
-        gravity: "top",
-        position: "right",
-        stopOnFocus: true,
-      }).showToast();
-    } else if (authState.data) {
-      // navigate('/');
+      const failedEl = document.querySelector("#failed-notification-content")?.cloneNode(true) as HTMLElement;
+      if (failedEl) {
+        failedEl.classList.remove("hidden");
+        Toastify({
+          node: failedEl,
+          duration: 3000,
+          newWindow: true,
+          close: true,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+        }).showToast();
+      }
     }
-  }, [authState.error, authState.data])
-  if(authState.data) return <Navigate to="/"/>
+  }, [authState.error]);
+
+  if (authState.data) return <Navigate to="/" />;
   return (
     <>
       <div
@@ -113,8 +126,8 @@ function Main() {
             {/* BEGIN: Login Form */}
             <div className="flex h-screen py-5 my-10 xl:h-auto xl:py-0 xl:my-0">
               <div className="w-full px-5 py-8 mx-auto my-auto bg-white rounded-md shadow-md xl:ml-20 dark:bg-darkmode-600 xl:bg-transparent sm:px-8 xl:p-0 xl:shadow-none sm:w-3/4 lg:w-2/4 xl:w-auto">
-                <form className="validate-form" onSubmit={onSubmit}>
-                  <h2 className="text-2xl font-bold text-center intro-x xl:text-3xl xl:text-left">
+              <form className="validate-form" onSubmit={handleSubmit(onSubmit)}>
+                <h2 className="text-2xl font-bold text-center intro-x xl:text-3xl xl:text-left">
                     Sign In
                   </h2>
                   <div className="mt-2 text-center intro-x text-slate-400 xl:hidden">
@@ -122,13 +135,12 @@ function Main() {
                     e-commerce accounts in one place
                   </div>
                   <div className="mt-8 intro-x">
-                    <FormInput
+                  <FormInput
                       {...register("username")}
                       type="text"
                       className="block px-4 py-3 intro-x login__input min-w-full xl:min-w-[350px]"
-                      placeholder="UserName"
-                      value={formState.username || ''}
-                      onChange={handleInputChange('username')}
+                      placeholder="Username"
+                      onChange={() => trigger("username")}
                     />
                     {errors.username && (
                       <div className="mt-2 text-danger">
@@ -141,8 +153,7 @@ function Main() {
                       type="password"
                       className="block px-4 py-3 mt-4 intro-x login__input min-w-full xl:min-w-[350px]"
                       placeholder="Password"
-                      value={formState.password || ''}
-                      onChange={handleInputChange('password')}
+                      onChange={() => trigger("password")}
                     />
                     {errors.password && (
                       <div className="mt-2 text-danger">
@@ -175,7 +186,7 @@ function Main() {
             {/* END: Login Form */}
           </div>
         </div>
-        <Notify
+        {/* <Notify
           id="success-notification-content"
           className="flex hidden"
         >
@@ -187,8 +198,6 @@ function Main() {
             </div>
           </div>
         </Notify>
-        {/* END: Success Notification Content */}
-        {/* BEGIN: Failed Notification Content */}
         <Notify
           id="failed-notification-content"
           className="flex hidden"
@@ -200,7 +209,7 @@ function Main() {
               {authState.error}
             </div>
           </div>
-        </Notify>
+        </Notify> */}
       </div>
     </>
   );
