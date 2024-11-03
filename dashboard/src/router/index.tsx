@@ -91,7 +91,8 @@ import ContractsReviews from "../pages/contract/reviews";
 import Settings from "../pages/settings";
 import Coupons from "../pages/Coupons";
 import AddCoupon from "../pages/Coupons/add";
-
+import GetAdmins from "../pages/Admins/get"
+import AddAdmins from "../pages/Admins/add"
 function Router() {
   const routes = [
     {
@@ -185,6 +186,14 @@ function Router() {
         {
           path: "add-coupon",
           element: <AddCoupon />,
+        },
+        {
+          path: "admins",
+          element: <GetAdmins />,
+        },
+        {
+          path: "add-admin",
+          element: <AddAdmins />,
         },
         // {
         //   path: "/contract/analysis",

@@ -8,7 +8,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const ActionLogin = createAsyncThunk(KEY_AUTH,async ({ username, password , notificationToken }: { username: string, password: string ,notificationToken?:string | null}) => {
       const response = await mainApiInstance.post('api/users/auth/signin', {
-        username,
+        login:username,
         password,
         notificationToken:notificationToken??null
       });

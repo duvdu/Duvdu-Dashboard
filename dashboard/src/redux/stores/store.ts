@@ -62,7 +62,11 @@ import rentalAnalysis from "./api/analysis/rental";
 import contractAnalysis from "./api/analysis/contracts";
 //////////////// reviews
 import reviews from "./api/reviews/reviews";
-
+//////////////// Admin
+import createAdmin from "./api/Admin/create";
+import blockAdmin from "./api/Admin/block";
+import unBlockAdmin from "./api/Admin/unblock";
+import editAdmin from './api/Admin/edit'
 export const store = configureStore({
   reducer: {
     darkMode: darkModeReducer,
@@ -128,6 +132,10 @@ export const store = configureStore({
     contractAnalysis,
     //////////////// reviews
     reviews,
+    createAdmin,
+    blockAdmin,
+    unBlockAdmin,
+    editAdmin,
   },
 });
 

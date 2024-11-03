@@ -119,6 +119,22 @@ const initialState: SideMenuState = {
       ],
     },
     {
+      icon: "ShoppingBag",
+      title: "Admins",
+      subMenu: [
+        {
+          icon: "Activity",
+          title: "Admins",
+          pathname: "/admins",
+        },
+        {
+          icon: "Activity",
+          pathname: "/add-admin",
+          title: "Add Admin",
+        },
+      ],
+    },
+    {
       icon: "HardDrive",
       pathname: "/terms",
       title: "Terms",

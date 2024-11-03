@@ -23,7 +23,7 @@ function Main() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!selector.loading && (searchKey.length > 2 || searchKey.length == 0))
+    if (!selector.loading)
       dispatch(ActionGetUsers({ search: searchKey }))
   }, [searchKey])
 
