@@ -120,6 +120,17 @@ const initialState: SideMenuState = {
     },
     {
       icon: "ShoppingBag",
+      title: "Platforms",
+      subMenu: [
+        {
+          icon: "Activity",
+          title: "Platforms",
+          pathname: "/platforms",
+        },
+      ],
+    },
+    {
+      icon: "ShoppingBag",
       title: "Admins",
       subMenu: [
         {

@@ -45,6 +45,12 @@ import getRankById from "./api/rank/getById";
 import getAllRanks from "./api/rank/getAll";
 import deleteRank from "./api/rank/delete";
 import createRank from "./api/rank/create";
+///////////////// platform
+import updatePlatform from "./api/platform/update";
+import getPlatformById from "./api/platform/getById";
+import getAllPlatforms from "./api/platform/getAll";
+import deletePlatform from "./api/platform/delete";
+import createPlatform from "./api/platform/create";
 ///////////////// copoun
 import updateCoupon from "./api/coupon/update";
 import getCouponById from "./api/coupon/getById";
@@ -115,6 +121,12 @@ export const store = configureStore({
     getAllRanks,
     deleteRank,
     createRank,
+    //////////////// Platform
+    updatePlatform,
+    getPlatformById,
+    getAllPlatforms,
+    deletePlatform,
+    createPlatform,
     //////////////// Coupons
     updateCoupon,
     getCouponById,

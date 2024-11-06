@@ -90,6 +90,7 @@ import ContractsAnalysiss from "../pages/Contracts/index";
 import ContractsReviews from "../pages/contract/reviews";
 import Settings from "../pages/settings";
 import Coupons from "../pages/Coupons";
+import Platforms from "../pages/Platforms/index";
 import AddCoupon from "../pages/Coupons/add";
 import GetAdmins from "../pages/Admins/get"
 import AddAdmins from "../pages/Admins/add"
@@ -186,6 +187,10 @@ function Router() {
         {
           path: "add-coupon",
           element: <AddCoupon />,
+        },
+        {
+          path: "platforms",
+          element: <Platforms />,
         },
         {
           path: "admins",
