@@ -11,12 +11,11 @@ import { FormSwitch } from "../../base-components/Form";
 function Main() {
   return (
     <>
-      <div className="flex items-center mt-8 intro-y">
+      {/* <div className="flex items-center mt-8 intro-y">
         <h2 className="mr-auto text-lg font-medium">Alert</h2>
       </div>
       <div className="grid grid-cols-12 gap-6 mt-5 intro-y">
         <div className="col-span-12 lg:col-span-6">
-          {/* BEGIN: Basic Alert */}
           <PreviewComponent className="intro-y box">
             {({ toggle }) => (
               <>
@@ -91,8 +90,6 @@ function Main() {
               </>
             )}
           </PreviewComponent>
-          {/* END: Basic Alert */}
-          {/* BEGIN: Icon's Alert */}
           <PreviewComponent className="mt-5 intro-y box">
             {({ toggle }) => (
               <>
@@ -185,8 +182,6 @@ function Main() {
               </>
             )}
           </PreviewComponent>
-          {/* END: Icon's Alert */}
-          {/* BEGIN: Additional Content Alert */}
           <PreviewComponent className="mt-5 intro-y box">
             {({ toggle }) => (
               <>
@@ -429,10 +424,8 @@ function Main() {
               </>
             )}
           </PreviewComponent>
-          {/* END: Additional Content Alert */}
         </div>
         <div className="col-span-12 lg:col-span-6">
-          {/* BEGIN: Icon & Dismiss Alert */}
           <PreviewComponent className="intro-y box">
             {({ toggle }) => (
               <>
@@ -725,8 +718,6 @@ function Main() {
               </>
             )}
           </PreviewComponent>
-          {/* END: Icon & Dismiss Alert */}
-          {/* BEGIN: Outline Alert */}
           <PreviewComponent className="mt-5 intro-y box">
             {({ toggle }) => (
               <>
@@ -1049,8 +1040,6 @@ function Main() {
               </>
             )}
           </PreviewComponent>
-          {/* END: Outline Alert */}
-          {/* BEGIN: Soft Color Alert */}
           <PreviewComponent className="mt-5 intro-y box">
             {({ toggle }) => (
               <>
@@ -1181,9 +1170,8 @@ function Main() {
               </>
             )}
           </PreviewComponent>
-          {/* END: Soft Color Alert */}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
