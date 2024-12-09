@@ -45,6 +45,12 @@ import getRankById from "./api/rank/getById";
 import getAllRanks from "./api/rank/getAll";
 import deleteRank from "./api/rank/delete";
 import createRank from "./api/rank/create";
+///////////////// platform
+import updatePlatform from "./api/platform/update";
+import getPlatformById from "./api/platform/getById";
+import getAllPlatforms from "./api/platform/getAll";
+import deletePlatform from "./api/platform/delete";
+import createPlatform from "./api/platform/create";
 ///////////////// copoun
 import updateCoupon from "./api/coupon/update";
 import getCouponById from "./api/coupon/getById";
@@ -62,7 +68,11 @@ import rentalAnalysis from "./api/analysis/rental";
 import contractAnalysis from "./api/analysis/contracts";
 //////////////// reviews
 import reviews from "./api/reviews/reviews";
-
+//////////////// Admin
+import createAdmin from "./api/Admin/create";
+import blockAdmin from "./api/Admin/block";
+import unBlockAdmin from "./api/Admin/unblock";
+import editAdmin from './api/Admin/edit'
 export const store = configureStore({
   reducer: {
     darkMode: darkModeReducer,
@@ -111,6 +121,12 @@ export const store = configureStore({
     getAllRanks,
     deleteRank,
     createRank,
+    //////////////// Platform
+    updatePlatform,
+    getPlatformById,
+    getAllPlatforms,
+    deletePlatform,
+    createPlatform,
     //////////////// Coupons
     updateCoupon,
     getCouponById,
@@ -128,6 +144,10 @@ export const store = configureStore({
     contractAnalysis,
     //////////////// reviews
     reviews,
+    createAdmin,
+    blockAdmin,
+    unBlockAdmin,
+    editAdmin,
   },
 });
 

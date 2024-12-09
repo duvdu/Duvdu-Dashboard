@@ -4,7 +4,7 @@ let prevdate: number = Date.now();
 
 // Create an instance of axios
 export const mainApiInstance: AxiosInstance = axios.create({
-  baseURL: "https://api.duvdu.com" || "",
+  baseURL: "https://api.duvdu.com",
   withCredentials: true
 });
 
