@@ -8,7 +8,7 @@ const useFcmToken = () => {
     useState('');
 
   useEffect(() => {
-    const retrieveToken = async () => {
+    const retrieveToken = async () => { 
       try {
         if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
           const messaging = getMessaging(firebaseApp);

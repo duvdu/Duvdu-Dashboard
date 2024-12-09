@@ -1,38 +1,31 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Dialog } from "../../base-components/Headless";
-import Button from "../../base-components/Button";
+import React, { useState, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import Button from "../../base-components/Button";
 import {
   FormInput,
   FormLabel,
 } from "../../base-components/Form";
-import { StateCreateCoupon } from "../../redux/stores/api/coupon/create";
-import { StateGetCouponById } from "../../redux/stores/api/coupon/getById";
 import { ActionCreateCoupon } from "../../redux/action/api/coupon/create";
-import { StateGetAllCoupons } from "../../redux/stores/api/coupon/getAll";
 import LoadingIcon from "../../base-components/LoadingIcon";
+import { StateCreateCoupon } from "../../redux/stores/api/coupon/create";
 
 const Main: React.FC = () => {
   const dispatch = useAppDispatch();
 
   // Global states
+  const [type, setType] = useState<'percentage' | 'value'>('percentage');
   const stateCreateCoupon = useAppSelector(StateCreateCoupon);
-
+  
   const [formValues, setFormValues] = useState({
-    title: {
-      en: "",
-      ar: "",
-    },
+    title: { en: "", ar: "" },
     promoCode: "",
     start: "",
     end: "",
     couponCount: "",
     userCount: "",
-    percentage: "",
+    percentageOrValue: "",
   });
   const [errors, setErrors] = useState<string | null>(null);
-  const [openAddModel, setOpenAddModel] = useState(false);
   const sendButtonRef = useRef(null);
 
   // Form handlers
@@ -40,112 +33,147 @@ const Main: React.FC = () => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   };
+
   const validateForm = () => {
     let newErrors = null;
-    if (!formValues.title.en) setErrors("English Title is required");
-    if (!formValues.title.ar) setErrors("Arabic Title is required");
-    if (!formValues.start) setErrors("Start Date is required");
-    if (!formValues.end) setErrors("End Date is required");
-    if (!formValues.couponCount) setErrors("Coupon Count is required");
-    if (!formValues.userCount) setErrors("User Count is required");
-    if (!formValues.percentage) setErrors("Percentage is required");
-    if (!formValues.promoCode) setErrors("Promo Code is required");
+    const today = new Date().toISOString().split("T")[0];
 
+    if (!formValues.title.en) newErrors = "English Title is required";
+    if (!formValues.title.ar) newErrors = "Arabic Title is required";
+    if (!formValues.start) {
+      newErrors = "Start Date is required";
+    } else if (formValues.start <= today) {
+      newErrors = "Start Date must be in the future";
+    }
+    if (!formValues.end) {
+      newErrors = "End Date is required";
+    } else if (formValues.end <= formValues.start) {
+      newErrors = "End Date must be after the Start Date";
+    }
+    if (!formValues.couponCount) newErrors = "Coupon Count is required";
+    if (!formValues.userCount) newErrors = "User Count is required";
+    if (!formValues.percentageOrValue) {
+      newErrors = type === "percentage" ? "Percentage is required" : "Value is required";
+    }
+    if (!formValues.promoCode) newErrors = "Promo Code is required";
+
+    setErrors(newErrors);
     return newErrors === null;
   };
 
   const createCoupon = () => {
     if (validateForm()) {
-      dispatch(ActionCreateCoupon({ formdata: formValues }));
-      clear()
+      const formData = { 
+          title: { 
+            en: formValues.title.en,
+            ar: formValues.title.ar
+          },
+          promoCode: formValues.promoCode,
+          start: formValues.start,
+          end: formValues.end,
+          couponCount: formValues.couponCount,
+          userCount: formValues.userCount,
+          [type]: formValues.percentageOrValue,
+        };
+      dispatch(ActionCreateCoupon({ formdata: formData })).then((data: any) => {
+        if (data.error) {
+          setErrors('Promo Code already exists');
+          setTimeout(() => {
+            setErrors('');
+          }, 2000);
+        } else {
+          clear();
+        }
+      });
     }
   };
+
   const onSubmit = () => {
     createCoupon();
   };
 
-    const clear = () => {
-      setFormValues
-        ({
-            title: {
-              en: "",
-              ar: "",
-            },
-            promoCode: "",
-            start: "",
-            end: "",
-            couponCount: "",
-            userCount: "",
-            percentage: "",
-          });
-          // setErrors({});
-    };
+  const clear = () => {
+    setFormValues({
+      title: { en: "", ar: "" },
+      promoCode: "",
+      start: "",
+      end: "",
+      couponCount: "",
+      userCount: "",
+      percentageOrValue: "",
+    });
+  };
+
   return (
     <>
-
-      <div className="flex items-center mt-8">
+      <div className="flex items-center my-8">
         <h2 className="mr-auto text-lg font-medium">Add New Coupon</h2>
       </div>
 
       <div>
-        <div className="grid grid-cols-2 gap-4 gap-y-2">
-          <div className="col-span-2 grid grid-cols-12 gap-3">
+        <div className="grid grid-cols-2 gap-6">
+          <div className="col-span-2 grid grid-cols-12 gap-5">
             <div className="col-span-12 sm:col-span-6">
-              <FormLabel htmlFor="modal-form-1" className="font-bold">Coupon English</FormLabel>
+              <FormLabel htmlFor="modal-form-1" className="font-bold">Coupon Name English</FormLabel>
               <FormInput
                 id="modal-form-1"
                 type="text"
                 name="title[en]"
-                onChange={(e)=>{
-                    setFormValues({...formValues , title:{
-                        ...formValues.title , 
-                        en: e.target.value
-                    }})
+                value={formValues.title.en}
+                onChange={(e) => {
+                  setFormValues({
+                    ...formValues,
+                    title: { ...formValues.title, en: e.target.value },
+                  });
                 }}
               />
             </div>
             <div className="col-span-12 sm:col-span-6">
-              <FormLabel htmlFor="modal-form-2" className="font-bold">Coupon Arabic</FormLabel>
+              <FormLabel htmlFor="modal-form-2" className="font-bold">Coupon Name Arabic</FormLabel>
               <FormInput
                 id="modal-form-2"
                 type="text"
                 name="title[ar]"
-                onChange={(e)=>{
-                    setFormValues({...formValues , title:{
-                        ...formValues.title , 
-                        ar: e.target.value
-                    }})
+                value={formValues.title.ar}
+                onChange={(e) => {
+                  setFormValues({
+                    ...formValues,
+                    title: { ...formValues.title, ar: e.target.value },
+                  });
                 }}
               />
             </div>
           </div>
-          <div className="col-span-2 grid grid-cols-12 gap-3">
+          <div className="col-span-2 grid grid-cols-12 gap-5">
             <div className="col-span-12 sm:col-span-6">
-              <FormLabel htmlFor="modal-form-2" className="font-bold">Start</FormLabel>
+              <FormLabel htmlFor="modal-form-2" className="font-bold">Start Date</FormLabel>
               <FormInput
                 id="modal-form-2"
                 type="date"
                 name="start"
+                value={formValues.start}
                 onChange={handleInputChange}
               />
             </div>
             <div className="col-span-12 sm:col-span-6">
-              <FormLabel htmlFor="modal-form-2" className="font-bold">End</FormLabel>
+              <FormLabel htmlFor="modal-form-2" className="font-bold">End Date</FormLabel>
               <FormInput
                 id="modal-form-2"
                 type="date"
                 name="end"
+                value={formValues.end}
                 onChange={handleInputChange}
               />
             </div>
           </div>
-          <div className="col-span-2 grid grid-cols-12 gap-3">
+          <div className="col-span-2 grid grid-cols-12 gap-5">
             <div className="col-span-12 sm:col-span-6">
               <FormLabel htmlFor="modal-form-2" className="font-bold">Coupon Count</FormLabel>
               <FormInput
                 id="modal-form-2"
                 type="number"
                 name="couponCount"
+                value={formValues.couponCount}
                 onChange={handleInputChange}
               />
             </div>
@@ -155,17 +183,38 @@ const Main: React.FC = () => {
                 id="modal-form-2"
                 type="number"
                 name="userCount"
+                value={formValues.userCount}
                 onChange={handleInputChange}
               />
             </div>
           </div>
-          <div className="col-span-2 grid grid-cols-12 gap-3">
+          <div className="col-span-2 grid grid-cols-12 gap-5">
             <div className="col-span-12 sm:col-span-6">
-              <FormLabel htmlFor="modal-form-2" className="font-bold">Percentage</FormLabel>
+              <div className="grid grid-cols-2">
+                <div>
+                  <input
+                    id="percentage"
+                    checked={type === "percentage"}
+                    onChange={() => setType("percentage")}
+                    type="radio"
+                  />
+                  <FormLabel htmlFor="percentage" className="font-bold">Percentage</FormLabel>
+                </div>
+                <div>
+                  <input
+                    id="value"
+                    checked={type === "value"}
+                    onChange={() => setType("value")}
+                    type="radio"
+                  />
+                  <FormLabel htmlFor="value" className="font-bold">Value</FormLabel>
+                </div>
+              </div>
               <FormInput
                 id="modal-form-2"
-                type="text"
-                name="percentage"
+                type="number"
+                name="percentageOrValue"
+                value={formValues.percentageOrValue}
                 onChange={handleInputChange}
               />
             </div>
@@ -175,6 +224,7 @@ const Main: React.FC = () => {
                 id="modal-form-2"
                 type="text"
                 name="promoCode"
+                value={formValues.promoCode}
                 onChange={handleInputChange}
               />
             </div>

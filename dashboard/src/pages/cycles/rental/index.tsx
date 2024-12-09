@@ -17,6 +17,7 @@ function Main() {
 
 
   const stateAllStudios = useAppSelector(StateAllStudios)
+  console.log({stateAllStudios})
   const state = stateAllStudios?.data
   const pagdnationState = state?.pagination
   const [rental, setRental] = useState<any>(null);
@@ -30,7 +31,7 @@ function Main() {
   
   const data = stateAllStudios?.data?.data
   const filterCategory = (id: string) => {
-    setRental(data.find((rental:any) => rental?._id === id)??[]);
+    setRental(data?.find((rental:any) => rental?._id === id)??[]);
   }
 
   useEffect(() => {
@@ -69,21 +70,21 @@ function Main() {
       </div>
     );
   };
-  console.log(rental)
+  console.log({data})
   return (
     <>
-            <Dialog open={rental == null ? false : true} onClose={() => {
+      <Dialog open={rental == null ? false : true} onClose={() => {
         setRental(null);
-      }}
-      >
+        }}
+        >
 
         {rental &&
           <Dialog.Panel className="py-5 text-center bg-slate-500">
             <div className=" px-2 rounded-md">
               <div className="box mb-4 mx-4">
-                <h2 className="category-title text-2xl font-bold mb-4">{rental?.title?.en}</h2>
+                <h2 className="category-title text-2xl font-bold mb-4">{rental?.title}</h2>
                 <div className="h-40 overflow-y-hidden">
-                  <img src={rental?.cover} alt={rental?.title?.en} className="category-image h-full  mb-4 max-w-full w-full" />
+                  <img src={rental?.cover} alt={rental?.title} className="category-image h-full  mb-4 max-w-full w-full" />
                 </div>
               </div>
                 <h3 className="text-2xl font-bold">{rental.title}</h3>
@@ -140,8 +141,8 @@ function Main() {
         </div>
         {/* BEGIN: Users Layout */}
         {
-          data &&
-          data.map((item:any) => (
+          data && data.length>0 &&
+          data?.map((item:any) => (
             <div
               key={item._id}
               className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"
@@ -163,7 +164,7 @@ function Main() {
                   <div className="mt-5 text-slate-600 dark:text-slate-500">
                     <div className="flex items-center">
                       <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
-                      {item.projectScale.pricerPerUnit} / {item.projectScale.unit} 
+                      {item.projectScale?.pricerPerUnit} / {item.projectScale?.unit} 
                     </div>
                     <div className="flex items-center mt-2">
                       <Lucide icon="Layers" className="w-4 h-4 mr-2" />
@@ -171,7 +172,7 @@ function Main() {
                     </div>
                     <div className="flex items-center mt-2">
                       <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
-                      Sub Category : {item.subCategory}
+                      Sub Category : {item.subCategory?.title}
                     </div>
                   </div>
                 </div>

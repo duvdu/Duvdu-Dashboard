@@ -47,7 +47,7 @@ type ButtonComponent = <C extends React.ElementType = "button">(
   props: ButtonProps<C>
 ) => React.ReactElement | null;
 
-const Button: ButtonComponent = forwardRef(
+const Button: any = forwardRef(
   <C extends React.ElementType>(
     {
       as,

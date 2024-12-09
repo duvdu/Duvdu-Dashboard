@@ -27,7 +27,7 @@ function Main() {
                 dismissible
                 className="flex items-center mb-6 box dark:border-darkmode-600"
               >
-                {({ dismiss }) => (
+                {({ dismiss }:any) => (
                   <>
                     <span>
                       Introducing new dashboard! Download now at
