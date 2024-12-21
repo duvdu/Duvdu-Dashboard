@@ -40,11 +40,14 @@ function Main() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch()
   const formState = useAppSelector(selectFormState);
-
+  useEffect(() => {
+    // if (search)
+      action()
+  }, [dispatch, stateDeleteCategory, createCategory, search])
   useEffect(() => {
     if (search)
       action()
-  }, [dispatch, stateDeleteCategory, createCategory, search])
+  }, [dispatch, search])
 
   useEffect(() => {
     action()

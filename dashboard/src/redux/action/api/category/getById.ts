@@ -1,12 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { KEY_CATEGORY } from '../../../constants/actionTypes';
+import { KEY_CATEGORY_ID } from '../../../constants/actionTypes';
 import { mainApiInstance } from '../axiosInstances';
 
 
 export const ActionGetCategoryById = createAsyncThunk(
-    KEY_CATEGORY, async (params: { formdata: any; id: any }) => {
-      const { formdata, id } = params;
-    const response = await mainApiInstance.get(`api/category/${id}`);
+    KEY_CATEGORY_ID, async (params: { id: any }) => {
+      const { id } = params;
+    const response = await mainApiInstance.get(`api/category/crm/${id}`);
     return response.data;
   }
 ); 

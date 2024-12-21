@@ -71,7 +71,7 @@
     "clsx": "^1.2.1",
     "lodash": "^4.17.21",
     "postcss": "^8.4.16",
-    "postcss-advanced-variables": "^3.0.1",
+    "postcss-advanced-variables": "^5.0.0",
     "postcss-import": "^14.1.0",
     "postcss-nesting": "^10.1.10",
     "tailwind-merge": "^1.6.0",
