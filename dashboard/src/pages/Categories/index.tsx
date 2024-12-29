@@ -207,11 +207,11 @@ function Main() {
                     </div>
                     <div className="flex items-center mt-2">
                       <Lucide icon="Layers" className="w-4 h-4 mr-2" />
-                      type : {item.cycle}
+                      cycle : {item.cycle}
                     </div>
                     <div className="flex items-center mt-2">
                       <Lucide icon="Layers" className="w-4 h-4 mr-2" />
-                      main : {item.isRelated?'true':'false'}
+                      type : {item.isRelated?'Related':'Main'}
                     </div>
                     <div className="flex items-center mt-2">
                       <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}

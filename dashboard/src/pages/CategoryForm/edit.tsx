@@ -221,18 +221,33 @@ function Main() {
   };
 
 
-  useEffect(() => {
-    const typeOptions: Record<string, string | null> = {
-      "Choose Type": null,
-      "studio booking": 'studio-booking',
-      "portfolio post": 'portfolio-post',
-      "copy rights": 'copy-rights',
-      "producer": 'producer'
-    };
+  // useEffect(() => {
+  //   const typeOptions: Record<string, string | null> = {
+  //     "Choose Type": null,
+  //     "rentals": 'rentals',
+  //     "project": 'project',
+  //     "copy-rights": 'copy-rights',
+  //     "producer": 'producer'
+  //   };
   
-    const value = typeOptions[type];
-    putInBasket('cycle', value);
-  }, [type]);
+  //   const value = typeOptions[type];
+  //   putInBasket('cycle', value);
+  // }, [type]);
+  const cycles = [
+    {
+      name:"Project" , value: "project"
+    },
+    {
+      name:"Rental" , value: "rentals"
+    },
+    {
+      name:"Copy right" , value: "copy-rights"
+    },
+    {
+      name:"Producer" , value: "producer"
+    },
+]
+
   console.log(formState)
   return (
     <>
@@ -253,54 +268,16 @@ function Main() {
       </div>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="col-span-12 intro-y lg:col-span-6">
-          <div className="p-5 intro-y box mt-4">
-            <div className="p-5 border rounded-md border-slate-200/60 dark:border-darkmode-400">
-              <FormInline className="flex-col items-start mt-10 xl:flex-row">
-                <div className="flex-1 w-full pt-4 mt-3 border-2 border-dashed rounded-md xl:mt-0 dark:border-darkmode-400">
-                  <div className="gap-5 pl-4 pr-5">
-                    {(previewSrc || formState.image) && (
-                      <div className="relative cursor-pointer h-36 image-fit zoom-in aspect-square m-auto">
-                        <img className="rounded-md" alt="Uploaded" src={previewSrc ? previewSrc : formState.image} />
-                        <Tippy
-                          content="Remove this image?"
-                          className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
-                        >
-                          <div onClick={handleRemoveImage}>
-                            <Lucide icon="X" className="w-4 h-4" />
-                          </div>
-                        </Tippy>
-                      </div>
-                    )}
-                  </div>
-                  <div className="relative flex items-center justify-center px-4 pb-4 mt-5 cursor-pointer">
-                    <Lucide icon="Image" className="w-4 h-4 mr-2" />
-                    <span className="mr-1 text-primary">Upload a file</span> or drag and drop
-                    <FormInput
-                      id="horizontal-form-1"
-                      type="file"
-                      className="absolute top-0 left-0 w-full h-full opacity-0"
-                      onChange={handleFileChange}
-                    />
-                  </div>
-                </div>
-              </FormInline>
-            </div>
-          </div>
-          <div className="p-5 intro-y box mt-4">
+        <div className="p-5 intro-y box mt-4">
             <div className="p-5 border rounded-md border-slate-200/60 dark:border-darkmode-400">
               <div className="mt-3">
                 <FormLabel htmlFor="crud-form-3">Cycle</FormLabel>
                 {formState.cycle &&
-                  <FormSelect defaultValue={formState.cycle?.replace('-', ' ')} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => putInBasket('cycle', e.target.value)}>
+                  <FormSelect defaultValue={formState.cycle} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => putInBasket('cycle', e.target.value)}>
                     <option value="" disabled>(Choose Type)</option>
-                    {[
-                      "studio booking",
-                      "project",
-                      "copy rights",
-                      "producer"
-                    ].map((item, index) =>
-                      <option key={index}>{item}</option>
-                    )}
+                    {cycles.map((item, index) =>
+                    <option value={item.value} key={index}>{item.name}</option>
+                  )}
                   </FormSelect>}
               </div>
               {/* {type == "project" && */}
@@ -336,6 +313,39 @@ function Main() {
                   />
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="p-5 intro-y box mt-4">
+            <div className="p-5 border rounded-md border-slate-200/60 dark:border-darkmode-400">
+              <FormInline className="flex-col items-start mt-10 xl:flex-row">
+                <div className="flex-1 w-full pt-4 mt-3 border-2 border-dashed rounded-md xl:mt-0 dark:border-darkmode-400">
+                  <div className="gap-5 pl-4 pr-5">
+                    {(previewSrc || formState.image) && (
+                      <div className="relative cursor-pointer h-36 image-fit zoom-in aspect-square m-auto">
+                        <img className="rounded-md" alt="Uploaded" src={previewSrc ? previewSrc : formState.image} />
+                        <Tippy
+                          content="Remove this image?"
+                          className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
+                        >
+                          <div onClick={handleRemoveImage}>
+                            <Lucide icon="X" className="w-4 h-4" />
+                          </div>
+                        </Tippy>
+                      </div>
+                    )}
+                  </div>
+                  <div className="relative flex items-center justify-center px-4 pb-4 mt-5 cursor-pointer">
+                    <Lucide icon="Image" className="w-4 h-4 mr-2" />
+                    <span className="mr-1 text-primary">Upload a file</span> or drag and drop
+                    <FormInput
+                      id="horizontal-form-1"
+                      type="file"
+                      className="absolute top-0 left-0 w-full h-full opacity-0"
+                      onChange={handleFileChange}
+                    />
+                  </div>
+                </div>
+              </FormInline>
             </div>
           </div>
           <div className="p-5 intro-y box mt-4">
