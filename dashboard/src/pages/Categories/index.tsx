@@ -23,7 +23,7 @@ function Main() {
   const [category, setCategory] = useState<any>(null);
   const [categories, setCategories] = useState<any>([]);
 
-  const [limit, setLimit] = useState("10");
+  const [limit, setLimit] = useState<number>(10);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState(null);
 
@@ -210,6 +210,10 @@ function Main() {
                       type : {item.cycle}
                     </div>
                     <div className="flex items-center mt-2">
+                      <Lucide icon="Layers" className="w-4 h-4 mr-2" />
+                      main : {item.isRelated?'true':'false'}
+                    </div>
+                    <div className="flex items-center mt-2">
                       <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
                       status : {item.status ? 'Active' : 'inactive'}
 
@@ -278,11 +282,12 @@ function Main() {
               </Pagination.Link>
             </Pagination> : <div className="w-full sm:w-auto sm:mr-auto" />
           }
-          <FormSelect className="w-20 mt-3 !box sm:mt-0" onChange={(e) => setLimit(e.target.value)} >
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>5</option>
+          <FormSelect value={limit} className="w-20 mt-3 !box sm:mt-0" onChange={(e) => setLimit(Number(e.target.value))} >
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={30}>30</option>
+            <option value={40}>40</option>
+            <option value={50}>50</option>
           </FormSelect>
         </div>
         {/* END: Pagination */}
