@@ -94,6 +94,7 @@ function Main() {
       handleAddJopDetails()
       putInBasket('status', formState.status || true)
       putInBasket('isRelated', formState.isRelated || true)
+      putInBasket('insurance', formState.insurance || true)
       putInBasket('cycle', "")
       // putInBasket('media', "")
       setType('Choose Type')
@@ -311,6 +312,14 @@ function Main() {
                   )}
                 </FormSelect>
               </div>
+              {formState.cycle == "rentals" && 
+              <div className="mt-3">
+                <label>Insurance</label>
+                <FormSwitch className="mt-2" >
+                  <FormSwitch.Input checked={formState.insurance} type="checkbox" onChange={(c) => putInBasket('insurance', !formState.insurance)} />
+                </FormSwitch>
+              </div>
+            }
               {formState.cycle == "project" &&
                 <div className="mt-7">
                   <FormLabel htmlFor="crud-form-3">Media Type</FormLabel>

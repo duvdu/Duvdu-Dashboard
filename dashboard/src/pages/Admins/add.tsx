@@ -48,7 +48,11 @@ const Main: React.FC = () => {
   const validateForm = () => {
     let newErrors = null;
     const today = new Date().toISOString().split("T")[0];
-
+    if (!formValues.password) newErrors = "Password is required";
+    if (!formValues.role) newErrors = "Role is required";
+    if (!formValues.phoneNumber.number) newErrors = "Phone Number is required";
+    if (!formValues.username) newErrors = "Username is required";
+    if (!formValues.name) newErrors = "Name is required";
     // if (!formValues.title.en) newErrors = "English Title is required";
     // if (!formValues.title.ar) newErrors = "Arabic Title is required";
     // if (!formValues.start) {
@@ -85,7 +89,7 @@ const Main: React.FC = () => {
         };
       dispatch(ActionCreateAdmin({ formdata: formData })).then((data: any) => {
         if (data.error) {
-          setErrors('Promo Code already exists');
+          setErrors('Admin already exists');
           setTimeout(() => {
             setErrors('');
           }, 2000);

@@ -39,48 +39,61 @@ const initialState: SideMenuState = {
     },
     {
       icon: "ShoppingBag",
-      title: "Projects",
+      title: "Cycle",
       subMenu: [
         {
-          icon: "Activity",
-          title: "Get All Projects",
-          pathname: "/projects",
+          icon: "ShoppingBag",
+          title: "Projects",
+          subMenu: [
+            {
+              icon: "Activity",
+              title: "Get All Projects",
+              pathname: "/projects",
+            },
+          ],
         },
-      ],
-    },
-    {
-      icon: "ShoppingBag",
-      title: "Copyrights",
-      subMenu: [
         {
-          icon: "Activity",
-          title: "Get All Copyrights",
-          pathname: "/copy-rights",
+          icon: "ShoppingBag",
+          title: "Copyrights",
+          subMenu: [
+            {
+              icon: "Activity",
+              title: "Get All Copyrights",
+              pathname: "/copy-rights",
+            },
+          ],
         },
-      ],
-    },
-    {
-      icon: "ShoppingBag",
-      title: "Rentals",
-      subMenu: [
         {
-          icon: "Activity",
-          title: "Get All Rentals",
-          pathname: "/rentals",
+          icon: "ShoppingBag",
+          title: "Rentals",
+          subMenu: [
+            {
+              icon: "Activity",
+              title: "Get All Rentals",
+              pathname: "/rentals",
+            },
+          ],
         },
-      ],
-    },
-    {
-      icon: "ShoppingBag",
-      title: "Producers",
-      subMenu: [
         {
-          icon: "Activity",
-          title: "Get All Producers",
-          pathname: "/producer",
+          icon: "ShoppingBag",
+          title: "Producers",
+          subMenu: [
+            {
+              icon: "Activity",
+              title: "Get All Producers",
+              pathname: "/producer",
+            },
+            {
+              icon: "Activity",
+              title: "Platforms",
+              pathname: "/platforms",
+            },
+          ],
         },
+        
       ],
     },
+    
     {
       icon: "ShoppingBag",
       title: "Contracts",
@@ -102,33 +115,29 @@ const initialState: SideMenuState = {
         },
       ],
     },
-    {
-      icon: "ShoppingBag",
-      title: "Coupons",
-      subMenu: [
-        {
-          icon: "Activity",
-          title: "Coupons",
-          pathname: "/coupons",
-        },
-        {
-          icon: "Activity",
-          pathname: "/add-coupon",
-          title: "Add Coupon",
-        },
-      ],
-    },
-    {
-      icon: "ShoppingBag",
-      title: "Platforms",
-      subMenu: [
-        {
-          icon: "Activity",
-          title: "Platforms",
-          pathname: "/platforms",
-        },
-      ],
-    },
+    // {
+    //   icon: "ShoppingBag",
+    //   title: "Coupons",
+    //   subMenu: [
+    //     {
+    //       icon: "Activity",
+    //       title: "Coupons",
+    //       pathname: "/coupons",
+    //     },
+    //     {
+    //       icon: "Activity",
+    //       pathname: "/add-coupon",
+    //       title: "Add Coupon",
+    //     },
+    //   ],
+    // },
+    // {
+    //   icon: "ShoppingBag",
+    //   title: "Platforms",
+    //   subMenu: [
+        
+    //   ],
+    // },
     {
       icon: "ShoppingBag",
       title: "Admins",

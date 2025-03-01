@@ -96,7 +96,7 @@ function Main() {
           data &&
           data.map((item:any) => (
             <div
-              key={item._id}
+              key={item?._id}
               className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"
             >
               <div className="box">
@@ -109,25 +109,25 @@ function Main() {
                     />
                     <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
                       <a href="" className="block text-base font-medium">
-                        {item.studioName}
+                        {item?.studioName}
                       </a>
                       <span className="mt-3 text-xs text-white/90">
-                        {item.user.name}
+                        {item?.user.name}
                       </span>
                     </div>
                   </div>
                   <div className="mt-5 text-slate-600 dark:text-slate-500">
                     <div className="flex items-center">
                       <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
-                      {item.price} / hour
+                      {item?.price} / hour
                     </div>
                     <div className="flex items-center mt-2">
                       <Lucide icon="Layers" className="w-4 h-4 mr-2" />
-                      insurance : {item.address}
+                      insurance : {item?.address}
                     </div>
                     <div className="flex items-center mt-2">
                       <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
-                      subCategory : {item.subCategory}
+                      subCategory : {item?.subCategory?.en}
                     </div>
                   </div>
                 </div>
