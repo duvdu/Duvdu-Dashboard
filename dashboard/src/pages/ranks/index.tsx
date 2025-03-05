@@ -30,7 +30,7 @@ const Main: React.FC = () => {
   // Local states
   const details = stateGetRankById?.data?.data || [];
 
-  const [formValues, setFormValues] = useState({ rank: '', actionCount: '' , color:'' });
+  const [formValues, setFormValues] = useState({ rank: '', actionCount: '' , projectsCount:'' , projectsLiked:'', color:'' });
   const [errors, setErrors] = useState<string|null>(null);
   const [actionRankId, setActionRankId] = useState<string>('');
   const [status, setStatus] = useState(false);
@@ -66,7 +66,7 @@ const Main: React.FC = () => {
 
   useEffect(() => {
     if(openAddModel == false){
-      setFormValues({rank: '', actionCount: '' , color:'' });
+      setFormValues({rank: '', actionCount: '' , projectsCount:'' , projectsLiked:'' , color:'' });
       // setErrors({});
     }
   }, [openAddModel]);
@@ -80,6 +80,8 @@ const Main: React.FC = () => {
     let newErrors = null;
     if (!formValues.rank) setErrors('Rank is required');
     if (!formValues.actionCount) setErrors('Action Count is required');
+    if (!formValues.projectsCount) setErrors('Projects Count is required');
+    if (!formValues.projectsLiked) setErrors('Projects Liked is required');
     if (!formValues.color) setErrors('Color is required');
 
     return newErrors === null;
@@ -110,7 +112,7 @@ const Main: React.FC = () => {
   };
 
   const clear = () => {
-    setFormValues({ rank: '', actionCount: '' , color:''});
+    setFormValues({ rank: '', actionCount: '' , projectsCount:'' ,  projectsLiked:'' , color:''});
   };
   return (
     <>
@@ -126,8 +128,16 @@ const Main: React.FC = () => {
               <FormInput id="modal-form-1" type="text" name="rank" value={formValues.rank} onChange={handleInputChange} />
             </div>
             <div className="col-span-12 sm:col-span-6">
-              <FormLabel htmlFor="modal-form-2">Count</FormLabel>
+              <FormLabel htmlFor="modal-form-2">Action Count</FormLabel>
               <FormInput id="modal-form-2" type="number" name="actionCount" value={formValues.actionCount} onChange={handleInputChange} />
+            </div>
+            <div className="col-span-12 sm:col-span-6">
+              <FormLabel htmlFor="modal-form-2">Projects Count</FormLabel>
+              <FormInput id="modal-form-2" type="number" name="projectsCount" value={formValues.projectsCount} onChange={handleInputChange} />
+            </div>
+            <div className="col-span-12 sm:col-span-6">
+              <FormLabel htmlFor="modal-form-2">Projects Liked</FormLabel>
+              <FormInput id="modal-form-2" type="number" name="projectsLiked" value={formValues.projectsLiked} onChange={handleInputChange} />
             </div>
             <div className="col-span-12 sm:col-span-6">
               <FormLabel htmlFor="modal-form-2">Color</FormLabel>
@@ -164,8 +174,16 @@ const Main: React.FC = () => {
               <FormInput id="modal-form-1" type="text" name="rank" defaultValue={formValues.rank} onChange={handleInputChange} />
             </div>
             <div className="col-span-12 sm:col-span-6">
-              <FormLabel htmlFor="modal-form-2">Count</FormLabel>
+              <FormLabel htmlFor="modal-form-2">Action Count</FormLabel>
               <FormInput id="modal-form-2" type="number" name="actionCount" defaultValue={formValues.actionCount} onChange={handleInputChange} />
+            </div>
+            <div className="col-span-12 sm:col-span-6">
+              <FormLabel htmlFor="modal-form-2">Projects Count</FormLabel>
+              <FormInput id="modal-form-2" type="number" name="projectsCount" defaultValue={formValues.projectsCount} onChange={handleInputChange} />
+            </div>
+            <div className="col-span-12 sm:col-span-6">
+              <FormLabel htmlFor="modal-form-2">Projects Liked</FormLabel>
+              <FormInput id="modal-form-2" type="number" name="projectsLiked" defaultValue={formValues.projectsLiked} onChange={handleInputChange} />
             </div>
             <div className="col-span-12 sm:col-span-6">
               <FormLabel htmlFor="modal-form-2">Color</FormLabel>
@@ -256,7 +274,7 @@ const Main: React.FC = () => {
                   event.preventDefault();
                   setOpenEditModel(true);
                   setActionRankId(rank._id)
-                  setFormValues({rank:rank.rank , actionCount:rank.actionCount , color:rank.color})
+                  setFormValues({rank:rank.rank , actionCount:rank.actionCount , color:rank.color , projectsCount: rank.projectsCount , projectsLiked: rank.projectsLiked})
                 }}
               >
                     <Lucide icon="Edit" className="w-4 h-4 mr-1" />Edit

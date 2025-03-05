@@ -2,69 +2,58 @@ import DarkModeSwitcher from "../../components/DarkModeSwitcher";
 import MainColorSwitcher from "../../components/MainColorSwitcher";
 import logoUrl from "../../assets/images/logo.svg";
 import illustrationUrl from "../../assets/images/illustration.svg";
-import { FormInput, FormCheck } from "../../base-components/Form";
+import { FormInput } from "../../base-components/Form";
 import Button from "../../base-components/Button";
 import clsx from "clsx";
 import { useAppSelector, useAppDispatch } from "../../redux/stores/hooks";
-import { selectAuthState, dataReducer } from "../../redux/stores/api/auth/auth";
-import { useFormInputChange } from "../../redux/action/formInputChange";
-import { selectFormState, updateFormData } from "../../redux/stores/form";
+import { selectAuthState } from "../../redux/stores/api/auth/auth";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useForm, SubmitHandler } from "react-hook-form";
 import Toastify from "toastify-js";
 import Notify from "../../base-components/Notification";
 import Lucide from "../../base-components/Lucide";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ActionLogin } from "../../redux/action/api/auth/login/login";
 import LoadingIcon from "../../base-components/LoadingIcon";
-import { Navigate} from "react-router-dom";
-import { getToken } from "firebase/messaging";
+import { Navigate, useNavigate } from "react-router-dom";
 import useFcmToken from "../../utils/hooks/useFcmToken";
+
 interface LoginFormInputs {
   username: string;
   password: string;
 }
-function Main() {
-  const { fcmToken,notificationPermissionStatus } = useFcmToken();
-  console.log({fcmToken})
-  const [token, setToken] = useState<string | null>(null);
+
+const Main = () => {
   const authState = useAppSelector(selectAuthState);
-  const formState = useAppSelector(selectFormState);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate()
 
-  const schema = yup
-    .object({
-      username: yup.string().required("Username is required").min(4, "Minimum 4 characters"),
-      password: yup.string().required("Password is required").min(6, "Minimum 6 characters"),
-    })
-    .required();
+  const schema = yup.object({
+    username: yup.string().required("Username is required").min(4, "Minimum 4 characters"),
+    password: yup.string().required("Password is required").min(6, "Minimum 6 characters"),
+  }).required();
 
-  const {
-    register,
-    trigger,
-    setValue,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<LoginFormInputs>({
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
     mode: "onChange",
     resolver: yupResolver(schema),
-    defaultValues: {
-      username: formState.username || "",
-      password: formState.password || "",
-    },
   });
 
-  useEffect(() => {
-    setValue("username", formState.username || "");
-    setValue("password", formState.password || "");
-  }, [formState.username, formState.password, setValue]);
-
-  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
-    console.log(data);
-    dispatch(ActionLogin({ username: data.username, password: data.password, notificationToken: fcmToken??null }));
+  const onSubmit = (data: LoginFormInputs) => {
+    dispatch(ActionLogin({ username: data.username, password: data.password })).then(((res)=>{
+      console.log({res})
+      if(res.payload.message){
+        navigate('/')
+      }
+      // <Navigate to="/" />
+    }));
   };
-
+  console.log({authState})
+  // useEffect(()=>{
+  //   if(authState.data){
+  //     navigate('/')
+  //   }
+  // },[])
   useEffect(() => {
     if (authState.error) {
       const failedEl = document.querySelector("#failed-notification-content")?.cloneNode(true) as HTMLElement;
@@ -83,7 +72,7 @@ function Main() {
     }
   }, [authState.error]);
 
-  if (authState.data) return <Navigate to="/" />;
+
   return (
     <>
       <div
@@ -140,12 +129,10 @@ function Main() {
                       type="text"
                       className="block px-4 py-3 intro-x login__input min-w-full xl:min-w-[350px]"
                       placeholder="Username"
-                      onChange={() => trigger("username")}
                     />
                     {errors.username && (
                       <div className="mt-2 text-danger">
-                        {typeof errors.username.message === "string" &&
-                          errors.username.message}
+                        {errors.username.message}
                       </div>
                     )}
                     <FormInput
@@ -153,12 +140,10 @@ function Main() {
                       type="password"
                       className="block px-4 py-3 mt-4 intro-x login__input min-w-full xl:min-w-[350px]"
                       placeholder="Password"
-                      onChange={() => trigger("password")}
                     />
                     {errors.password && (
                       <div className="mt-2 text-danger">
-                        {typeof errors.password.message === "string" &&
-                          errors.password.message}
+                        {errors.password.message}
                       </div>
                     )}
                   </div>
@@ -197,7 +182,7 @@ function Main() {
               Please check your e-mail for further info!
             </div>
           </div>
-        </Notify>
+        </Notify>*/}
         <Notify
           id="failed-notification-content"
           className="flex hidden"
@@ -209,10 +194,10 @@ function Main() {
               {authState.error}
             </div>
           </div>
-        </Notify> */}
+        </Notify> 
       </div>
     </>
   );
-}
+};
 
 export default Main;
