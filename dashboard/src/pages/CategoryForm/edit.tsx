@@ -58,6 +58,11 @@ function Main() {
   useEffect(() => {
       dispatch(ActionGetCategory({ page: 1, limit: 1000 , isRelated:true}))
   }, [dispatch])
+  useEffect(()=>{
+    if(formState?.isRelated===true){
+      putInBasket('relatedCategory', [])
+    }
+},[formState?.isRelated])
   useEffect(() => {
       dispatch(ActionGetCategoryById({ id}))
   }, [dispatch , id])
@@ -100,6 +105,23 @@ function Main() {
     const formDate = new FormData();
     if (uploadedFile)
       formDate.append('cover', uploadedFile)
+    if(formState?.cycle == "project"){
+      delete formState?.insurance;
+      if(formState?.isRelated === true ){
+        delete formState?.relatedCategory;
+      }
+    }
+    else if(formState?.cycle == "rentals"){
+      delete formState?.isRelated;
+      delete formState?.media;
+      delete formState?.relatedCategory;
+    }else{
+      delete formState?.isRelated;
+      delete formState?.insurance;
+      delete formState?.relatedCategory;
+      delete formState?.media
+    }
+
     objectToFormData(formState, formDate)
     dispatch(ActionUpdateCategory({ formdata: formDate, id: id }))
   };
@@ -271,48 +293,100 @@ function Main() {
         <div className="p-5 intro-y box mt-4">
             <div className="p-5 border rounded-md border-slate-200/60 dark:border-darkmode-400">
               <div className="mt-3">
-                <FormLabel htmlFor="crud-form-3">Cycle</FormLabel>
-                {formState.cycle &&
-                  <FormSelect defaultValue={formState.cycle} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => putInBasket('cycle', e.target.value)}>
-                    <option value="" disabled>(Choose Type)</option>
-                    {cycles.map((item, index) =>
-                    <option value={item.value} key={index}>{item.name}</option>
-                  )}
-                  </FormSelect>}
-              </div>
-              {/* {type == "project" && */}
-              {formState.cycle == "project" &&
-                <div className="mt-7">
-                  <FormLabel htmlFor="crud-form-3">Media Type</FormLabel>
-                  <FormSelect value={formState.media} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => putInBasket('media',e.target.value)}> 
-                    <option value="" disabled>(Choose Type)</option>
-                    {[
-                      "video",
-                      "image",
-                      "audio",
-                    ].map((item, index) =>
-                      <option key={index}>{item}</option>
-                    )}
-                  </FormSelect>
-                </div>}
-              <div className="mt-3">
                 <label>Active Status</label>
                 <FormSwitch className="mt-2" >
                   <FormSwitch.Input checked={formState.status} type="checkbox" onChange={(c) => putInBasket('status', !formState.status)} />
                 </FormSwitch>
               </div>
-
-
-              <div className="mt-3 hidden">
-                <label>Description</label>
-                <div className="mt-2">
-                  <ClassicEditor
-                    value={editorData}
-                    onChange={setEditorData}
-                    config={editorConfig}
-                  />
+              <div className={`grid ${formState.cycle == "project"?'grid-cols-2':'grid-cols-1'} gap-2`}>
+                <div className="mt-3">
+                  <FormLabel htmlFor="crud-form-3">Cycle</FormLabel>
+                  {formState.cycle &&
+                    <FormSelect defaultValue={formState.cycle} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => putInBasket('cycle', e.target.value)}>
+                      <option value="" disabled>(Choose Type)</option>
+                      {cycles.map((item, index) =>
+                      <option value={item.value} key={index}>{item.name}</option>
+                    )}
+                    </FormSelect>}
                 </div>
+                {/* {type == "project" && */}
+                {formState.cycle == "project" &&
+                  <div className="mt-3">
+                    <FormLabel htmlFor="crud-form-3">Media Type</FormLabel>
+                    <FormSelect value={formState.media} className="sm:mt-2 sm:mr-2" aria-label=".form-select-lg example" onChange={(e) => putInBasket('media',e.target.value)}> 
+                      <option value="" disabled>(Choose Type)</option>
+                      {[
+                        "video",
+                        "image",
+                        "audio",
+                      ].map((item, index) =>
+                        <option key={index}>{item}</option>
+                      )}
+                    </FormSelect>
+                  </div>}
+                </div>
+                {formState.cycle == "project" && 
+              <div className="flex items-center mt-6 gap-5">
+                <label className="flex items-center">
+                  <input 
+                    type="radio" 
+                    checked={formState.isRelated === false} 
+                    onChange={() => putInBasket('isRelated', false)} 
+                  />
+                  <span className="ml-2">Main Category</span>
+                </label>
+                <label className="flex items-center">
+                  <input 
+                    type="radio" 
+                    checked={formState.isRelated === true} 
+                    onChange={() => putInBasket('isRelated', true)} 
+                  />
+                  <span className="ml-2">Related Category</span>
+                </label>
               </div>
+              }
+
+              {formState?.isRelated === false && formState.cycle == "project" && 
+                <div className="mt-3">
+                  <FormLabel htmlFor="crud-form-2">Related Categories</FormLabel>
+                  <TomSelect
+                    id="crud-form-2"
+                    value={formState?.relatedCategory}
+                    onChange={(e) =>{
+                      
+                      putInBasket('relatedCategory', e)}
+                    } 
+                    className="w-full"
+                    multiple 
+                  >
+                    {list?.filter((i:any)=> i.cycle ==='project').map((item:any)=>
+                    <option key={item._id} value={item._id}>{item.title.en}</option>
+                    )}
+                  </TomSelect>
+                </div>
+                }
+
+              {formState.cycle == "rentals" && 
+              <div className="flex items-center mt-6 gap-5">
+                <label className="flex items-center">
+                  <input 
+                    type="radio" 
+                    checked={formState.insurance === true} 
+                    onChange={() => putInBasket('insurance', true)} 
+                  />
+                  <span className="ml-2">Have Insurance</span>
+                </label>
+                <label className="flex items-center">
+                  <input 
+                    type="radio" 
+                    checked={formState.insurance === false} 
+                    onChange={() => putInBasket('insurance', false)} 
+                  />
+                  <span className="ml-2">Not Have Insurance</span>
+                </label>
+              </div>
+              }
+
             </div>
           </div>
           <div className="p-5 intro-y box mt-4">
@@ -350,14 +424,6 @@ function Main() {
           </div>
           <div className="p-5 intro-y box mt-4">
             <div className="p-5 border rounded-md border-slate-200/60 dark:border-darkmode-400">
-            {formState.cycle == "project" && 
-            <div className="mt-3">
-                <label>Is Related Category</label>
-                <FormSwitch className="mt-2" >
-                  <FormSwitch.Input checked={formState.isRelated} type="checkbox" onChange={(c) => putInBasket('isRelated', !formState.isRelated)} />
-                </FormSwitch>
-              </div>
-            }
 
               <div className="mt-3">
                 <FormLabel >
@@ -510,29 +576,10 @@ function Main() {
                   </div>
                 ))}
               </div>
-              {formState?.isRelated === false && formState.cycle == "project" && 
-                <div className="mt-3">
-                  <FormLabel htmlFor="crud-form-2">Category</FormLabel>
-                  <TomSelect
-                    id="crud-form-2"
-                    value={formState?.relatedCategory}
-                    onChange={(e) =>{
-                      
-                      putInBasket('relatedCategory', e)}
-                    } 
-                    className="w-full"
-                    multiple
-                  >
-                    {list?.map((item:any)=>
-                    <option key={item._id} value={item._id}>{item.title.en}</option>
-                    )}
-                  </TomSelect>
-                </div>
-                }
             </div>
           </div>
 
-          <div className="p-5 intro-y box mt-4">
+          {/* <div className="p-5 intro-y box mt-4">
             <div className="p-5 border rounded-md border-slate-200/60 dark:border-darkmode-400">
               <div className="mt-3">
                 <div className="mt-4">
@@ -578,7 +625,7 @@ function Main() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
 
           <div className="mt-5 text-right">
