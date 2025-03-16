@@ -140,26 +140,33 @@ function Main() {
 
   const onSubmit = () => {
     const formDate = new FormData();
-    if (uploadedFile)
-      formDate.append('cover', uploadedFile)
-    if(formState?.cycle == "project"){
-      delete formState?.insurance;
-      if(formState?.isRelated === true ){
-        delete formState?.relatedCategory;
+    if (uploadedFile) {
+      formDate.append('cover', uploadedFile);
+    }
+
+    // Create a new object without the unwanted properties
+    let formDataToSubmit = { ...formState };
+    
+    if(formState?.cycle === "project") {
+      const { insurance, ...rest } = formDataToSubmit;
+      formDataToSubmit = rest;
+      
+      if(formState?.isRelated === true) {
+        const { relatedCategory, ...remaining } = formDataToSubmit;
+        formDataToSubmit = remaining;
       }
     }
-    else if(formState?.cycle == "rentals"){
-      delete formState?.isRelated;
-      delete formState?.media;
-      delete formState?.relatedCategory;
-    }else{
-      delete formState?.isRelated;
-      delete formState?.insurance;
-      delete formState?.relatedCategory;
-      delete formState?.media
+    else if(formState?.cycle === "rentals") {
+      const { isRelated, media, relatedCategory, ...rest } = formDataToSubmit;
+      formDataToSubmit = rest;
     }
-    objectToFormData(formState, formDate)
-    dispatch(ActionCreateCategory({ formdata: formDate }))
+    else {
+      const { isRelated, insurance, relatedCategory, media, ...rest } = formDataToSubmit;
+      formDataToSubmit = rest;
+    }
+
+    objectToFormData(formDataToSubmit, formDate);
+    dispatch(ActionCreateCategory({ formdata: formDate }));
   };
 
   useEffect(() => {
