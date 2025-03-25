@@ -113,6 +113,11 @@ const initialState: SideMenuState = {
           title: "Reviews",
           pathname: "/contract/reviews",
         },
+        {
+          icon: "Activity",
+          title: "Cancels",
+          pathname: "/contract/cancels",
+        },
       ],
     },
     // {

@@ -195,10 +195,25 @@ const Main: React.FC = () => {
     fetchData();
   }, []);
 
+  const [openRoles, setOpenRoles] = useState<{ [key: string]: boolean }>({
+    auth:true,
+    bookmarks:true,
+    category:true,
+    ticket: true,
+    terms: true,
+    plans: true,
+    roles:true,
+    portfolioPost: true,
+    copyrights: true,
+    studioBooking:true,
+    booking: true,
+  });
+  console.log({openRoles})
   const toggleRole = (roleKey: string) => {
-    setOpenCategories((prev) =>
-      prev.includes(roleKey) ? prev.filter((key) => key !== roleKey) : [...prev, roleKey]
-    );
+    setOpenRoles((prev) => ({
+      ...prev,
+      [roleKey]: !prev[roleKey],
+    }));
   };
   const showChatBox = (id: string) => {
     navigate(`/roles/${id}`)
@@ -312,7 +327,7 @@ const Main: React.FC = () => {
         </Dialog.Panel>
       </Dialog>
       {/* END: Modal Content */}
-      <div className="flex items-center mt-8">
+      <div className="flex items-center mt-5">
         <h2 className="mr-auto text-lg font-medium">Roles</h2>
       </div>
       <div className="grid grid-cols-12 gap-5 mt-5 intro-y">
@@ -325,8 +340,8 @@ const Main: React.FC = () => {
               Add New Role
             </Button>
           }
-          <div className="pt-1 pr-1 mt-4 overflow-y-auto h-[525px] scrollbar-hidden">
-            <ul>
+          <div className={`${id && 'pt-1 mt-4'} pr-1 overflow-y-auto h-[525px] scrollbar-hidden`}>
+            <ul className='flex flex-col gap-4'>
               {data && data.map((item: any) => (
                 <li key={item._id}>
                   <div
@@ -334,7 +349,7 @@ const Main: React.FC = () => {
                     className={clsx({
                       "intro-x cursor-pointer box relative flex items-center p-5":
                         true,
-                      "mt-5": item._id,
+                      "": item._id,
                     })}
                     onClick={() => showChatBox(item._id)}>
                     <div className="flex-none w-12 h-12 mr-1 image-fit">
@@ -367,41 +382,36 @@ const Main: React.FC = () => {
           </div>
         </Tab.Group>
         <div className="col-span-12 intro-y lg:col-span-8 2xl:col-span-9">
-          <div className="h-[782px] box overflow-y-scroll scrollbar-hidden">
+          <div className="h-[525px] box overflow-y-scroll scrollbar-hidden">
             <ul>
               {categories.map((role) => {
-                const isRoleOpen = !openCategories.includes(role.key);
                 return (
                   <li key={role.key} className="cursor-pointer">
                     <div
-                      className="flex w-full gap-10 items-center p-5"
+                      className="flex w-full gap-10 items-center px-5 py-1"
                       onClick={() => toggleRole(role.key)}
                     >
                       <span className="text-[#4F5E7B] font-semibold text-xl">
                         {role.key}
                       </span>
-
-                      <div
-                        className={`transition-all duration-300 ${isRoleOpen ? "rotate-90" : "rotate-0"
-                          }`}
-                      >
-                        <SpeficIcon name={`${isRoleOpen ? "minus" : "plus"}`} />
-                      </div>
                     </div>
-                    <ul
-                      className={`transition-all duration-300 overflow-hidden ${isRoleOpen ? "max-h-64" : "max-h-0"
-                        }`}
-                    >
-                      {role.permissions.map((permission, index) => (
-                        (id ? features : newfeatures)?.includes(permission) ?
-                          <li key={index} className="p-2 pl-10 text-primary font-bold" onClick={() => toggleFeature(permission)}>
-                            {permission}
-                          </li> :
-                          <li key={index} className="p-2 pl-10" onClick={() => toggleFeature(permission)}>
-                            {permission}
+                    {openRoles[role.key] && (
+                      <ul className="pl-5">
+                        {role.permissions.map((permission, index) => (
+                          <li key={index} className="p-2">
+                            <label className='flex items-center gap-2'>
+                              <input
+                                type="checkbox"
+                                className='p-2 bg-slate-500 rounded'
+                                checked={(id ? features : newfeatures)?.includes(permission)}
+                                onChange={() => toggleFeature(permission)}
+                              />
+                              {permission}
+                            </label>
                           </li>
-                      ))}
-                    </ul>
+                        ))}
+                      </ul>
+                    )}
                   </li>
                 );
               })}
@@ -410,7 +420,7 @@ const Main: React.FC = () => {
           {
             (id && changed()) &&
             <div className='w-full flex justify-end'>
-              <Button onClick={onSubmit} type="button"  className="w-24 mt-2" >
+              <Button onClick={onSubmit} type="button"  className="w- mt-2" >
                 Save Changes
                 {
                   stateCreateRole.loading || stateUpdateeRole.loading &&

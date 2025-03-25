@@ -67,6 +67,7 @@ import projectAnalysis from "./api/analysis/project";
 import producerAnalysis from "./api/analysis/producer";
 import rentalAnalysis from "./api/analysis/rental";
 import contractAnalysis from "./api/analysis/contracts";
+import cancelledContracts from "./api/contracts/cancelledContracts"
 //////////////// reviews
 import reviews from "./api/reviews/reviews";
 //////////////// Admin
@@ -144,6 +145,7 @@ export const store = configureStore({
     copyRightsAnalysis,
     producerAnalysis,
     contractAnalysis,
+    cancelledContracts,
     //////////////// reviews
     reviews,
     createAdmin,

@@ -88,6 +88,7 @@ import DashboardMain from "../pages/DashboardMain";
 import ContractsAnalysis from "../pages/contract/analysis";
 import ContractsAnalysiss from "../pages/Contracts/index";
 import ContractsReviews from "../pages/contract/reviews";
+import ContractsCancels from "../pages/contract/cancelled";
 import Settings from "../pages/settings";
 import Coupons from "../pages/Coupons";
 import Platforms from "../pages/Platforms/index";
@@ -179,6 +180,10 @@ function Router() {
         {
           path: "contract/reviews",
           element: <ContractsReviews />,
+        },
+        {
+          path: "contract/cancels",
+          element: <ContractsCancels />,
         },
         {
           path: "coupons",
