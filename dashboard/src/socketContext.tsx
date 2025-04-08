@@ -23,8 +23,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       withCredentials: true,
       transports: ['websocket', 'polling'],
     });
-
-    console.log('Connecting to socket...');
+    setSocket(socketInstance)
     socketInstance.on('connect', () => {
       console.log('Connected to socket server');
     });

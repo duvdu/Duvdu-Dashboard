@@ -9,7 +9,7 @@ import { Dialog, Menu } from "../../../base-components/Headless";
 import { useAppDispatch, useAppSelector } from "../../../redux/stores/hooks";
 import { StateAllProducers } from "../../../redux/stores/api/cycles/producer";
 import { ActionGetProducer } from "../../../redux/action/api/cycles/producer/get";
-// import { ActionGetProducer } from "../../../redux/action/api/cycles/producer/get";
+import ProducerCard from "./ProducerCard";
 
 function Main() {
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
@@ -94,26 +94,7 @@ function Main() {
               key={item._id}
               className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"
             >
-              <div className="box">
-                <div className="p-5">
-                  <div className="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
-                    <img
-                      alt="Midone - HTML Admin Template"
-                      className="rounded-md"
-                      src={item.user.profileImage}
-                    />
-                    <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
-                      <a href="" className="block text-base font-medium">
-                        {item.user.username}
-                      </a>
-                      <span className="mt-3 text-xs text-white/90">
-                        
-                      </span>
-                    </div>
-                  </div>
-    
-                </div>
-              </div>
+              <ProducerCard producer={item} />
             </div>
           ))}
         {/* END: Users Layout */}

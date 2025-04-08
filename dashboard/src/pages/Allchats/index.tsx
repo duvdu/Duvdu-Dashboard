@@ -21,6 +21,7 @@ import FileIcon from "../../base-components/FileIcon";
 import Tippy from "../../base-components/Tippy";
 import AudioRecorder from "../../components/recording/recording";
 import { StateMessageSent } from "../../redux/stores/api/chat/sendMsg";
+import { useSocket } from "../../socketContext";
 
 function Main() {
   const dispatch = useAppDispatch()
@@ -30,6 +31,9 @@ function Main() {
   const stateMyProfile = useAppSelector(StateMyProfile)
   const [messageContent, setMessageField] = useState('');
   const [files, setFiles] = useState<FileInfo[]>([]);
+  const { socket } = useSocket();
+  const [messages, setMessages] = useState<any[]>([]);
+  console.log({messages})
   ///////////// audio //////////////
   const [isRecording, setisRecord] = useState(false)
   ///////////// audio //////////////
@@ -43,6 +47,41 @@ function Main() {
     if (user1?._id == stateMyProfile?.data?.data?._id) return user2
     else return user1
   };
+  console.log({socket})
+  // Set up socket listeners
+  useEffect(() => {
+    if (!socket) return;
+    
+    // Listen for new messages
+    socket.on('new_message', (newMessage: any) => {
+      console.log('New message received:', newMessage);
+      
+      // If the message is for the current chat, update the messages
+      if (id && (newMessage.message.sender._id === id || newMessage.message.receiver._id === id)) {
+        // Add the new message to the existing messages
+        setMessages(prevMessages => [...prevMessages, newMessage.message]);
+        
+        // Fetch the updated chat data to ensure everything is in sync
+        // dispatch(ActionGetChat({ id: id }));
+      }
+      
+      // Refresh the chat list to show the latest message in the sidebar
+      // dispatch(ActionGetChats());
+    });
+    
+    // Clean up the socket event listener when component unmounts
+    return () => {
+      socket.off('new_message');
+    };
+  }, [socket, id]);
+  
+  // Update local messages state when statechat changes
+  useEffect(() => {
+    if (statechat?.data?.data) {
+      setMessages(statechat.data.data);
+    }
+  }, [statechat?.data?.data]);
+  
   useEffect(()=>{
     if(stateMessageSent?.data && id){
       dispatch(ActionGetChat({ id: id }))
@@ -68,6 +107,8 @@ function Main() {
   }, [id])
 
   const sendmessage = () => {
+    if ((!messageContent || messageContent.trim() === '') && files.length === 0 && !recordobject) return;
+    
     dispatch(ActionSendMessage({ id: id, message: messageContent, files: files, vocieNote: recordobject }));
     clearInput()
   };
@@ -85,19 +126,28 @@ function Main() {
   const handleInputChange = (e:any) => {
     setMessageField(e.target.value);
   };
+  
+  const handleKeyDown = (e:any) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendmessage();
+    }
+  };
+  
   const showChatBox = (id: string) => {
     navigate(`/allchats/${id}`)
   }
   const other = getOther(statechat?.data?.data[0]?.sender, statechat?.data?.data[0]?.receiver)
-  const getLastMessageId = (statechat:any) => {
-    const messages = statechat?.data?.data;
+  const getLastMessageId = (messages:any[]) => {
     if (messages && messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
       return lastMessage._id;
     }
     return null; // Return null or handle the case where there are no messages
   };
-  const lastMessageId = getLastMessageId(statechat);
+  
+  const lastMessageId = getLastMessageId(messages);
+  
   // Example usage:
   useEffect(() => {
     if (lastMessageId) {
@@ -106,7 +156,7 @@ function Main() {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     }
-  }, [lastMessageId]);
+  }, [lastMessageId, messages]);
 
 
   // Function to handle file upload
@@ -164,7 +214,7 @@ function Main() {
         <Tab.Group className="col-span-12 lg:col-span-4 2xl:col-span-3">
           <Tab.Panels>
             <Tab.Panel>
-              <div className="pt-1 pr-1 mt-4 overflow-y-auto h-[525px] scrollbar-hidden">
+              <div className="pr-1 overflow-y-auto h-[525px] scrollbar-hidden">
                 {stateAllchat?.data?.data?.map((item:any, key:number) => {
                   const other = getOther(item.newestMessage.sender, item.newestMessage.receiver);
                   return (
@@ -174,6 +224,7 @@ function Main() {
                         "intro-x cursor-pointer box relative flex items-center p-5":
                           true,
                         "mt-5": key,
+                        "bg-primary/10": id === other._id, 
                       })}
                       onClick={() => showChatBox(other._id)}
                     >
@@ -214,7 +265,7 @@ function Main() {
         {/* END: Chat Side Menu */}
         {/* BEGIN: Chat Content */}
         <div className="col-span-12 intro-y lg:col-span-8 2xl:col-span-9">
-          <div className="h-[782px] box">
+          <div className="h-[525px] box">
             {/* BEGIN: Chat Active */}
             {statechat?.data?.data && (
               <div className="flex flex-col h-full">
@@ -233,36 +284,9 @@ function Main() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center px-5 pt-3 mt-5 -mx-5 border-t sm:ml-auto sm:mt-0 sm:border-0 border-slate-200/60 sm:pt-0 sm:mx-0 sm:px-0">
-                    <a  className="w-5 h-5 text-slate-500">
-                      <Lucide icon="Search" className="w-5 h-5" />
-                    </a>
-                    <a  className="w-5 h-5 ml-5 text-slate-500">
-                      <Lucide icon="UserPlus" className="w-5 h-5" />
-                    </a>
-                    <Menu className="ml-auto sm:ml-3">
-                      <Menu.Button
-                        as="a"
-                        
-                        className="w-5 h-5 text-slate-500"
-                      >
-                        <Lucide icon="MoreVertical" className="w-5 h-5" />
-                      </Menu.Button>
-                      <Menu.Items className="w-40">
-                        <Menu.Item>
-                          <Lucide icon="Share2" className="w-4 h-4 mr-2" />
-                          Share Contact
-                        </Menu.Item>
-                        <Menu.Item>
-                          <Lucide icon="Settings" className="w-4 h-4 mr-2" />
-                          Settings
-                        </Menu.Item>
-                      </Menu.Items>
-                    </Menu>
-                  </div>
                 </div>
                 <div className="p-4 h-full overflow-y-scroll scrollbar-hidden" ref={chatref}>
-                  {statechat?.data?.data?.map((message:any, index:number) => (
+                  {messages.map((message:any, index:number) => (
                     <div id={message._id} key={index}>
                       {message.sender._id === getOther(message.sender, message.receiver)._id ? (
                         <div className="flex items-end float-left mb-4 max-w-[90%] sm:max-w-[49%]">
@@ -354,7 +378,7 @@ function Main() {
                       content="Remove all files"
                       className="absolute top-3 right-3 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
                     >
-                      <div onClick={()=> handleRemoveImage}>
+                      <div onClick={()=>handleRemoveImage}>
                         <Lucide icon="X" className="w-4 h-4" />
                       </div>
                     </Tippy>
@@ -366,9 +390,6 @@ function Main() {
                             if (file.fileType.includes('pdf')) {
                               return <FileIcon className="w-3/5 mx-auto" variant="file" />;
                             }
-                            // else if (file.fileType.includes('video')) {
-                            //   return <FileIcon className="w-3/5 mx-auto" variant="" />;
-                            // }
                             else if (file.fileType.includes('audio')) {
                               return <FileIcon className="w-3/5 mx-auto" variant="file" />;
                             } else if (file.fileType.includes('image')) {
@@ -404,6 +425,7 @@ function Main() {
                     placeholder="Type your message..."
                     value={messageContent}
                     onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
                   ></FormTextarea>
                   <AudioRecorder
                     isstartRecording={isRecording}
@@ -456,7 +478,7 @@ function Main() {
                       />
                     </div>
                   }
-                  <div className="flex items-center justify-center flex-none w-8 h-8 mr-5 text-white rounded-full sm:w-10 sm:h-10 bg-primary" onClick={sendmessage}>
+                  <div className="flex items-center justify-center flex-none w-8 h-8 mr-5 text-white rounded-full sm:w-10 sm:h-10 bg-primary cursor-pointer" onClick={sendmessage}>
                     <Lucide icon="Send" className="w-4 h-4" />
                   </div>
                 </div>

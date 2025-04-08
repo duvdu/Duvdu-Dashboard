@@ -6,7 +6,7 @@ import { mainApiInstance } from '../axiosInstances';
 export const ActionGetChat = createAsyncThunk(
     KEY_CHAT, async (params: { id: string }) => {
         const { id } = params;
-        const response = await mainApiInstance.get(`/api/message/${id}/chat?limit=100`);
+        const response = await mainApiInstance.get(`/api/message/${id}/chat?limit=1000`);
         return response.data;
     }
 ); 

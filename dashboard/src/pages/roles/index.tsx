@@ -59,8 +59,7 @@ const Main: React.FC = () => {
   const stateGetAllRole = useAppSelector(StateGetAllRole)
   const stateGetRoleById = useAppSelector(StateGetRoleById)
   const stateDeleteRole = useAppSelector(StateDeleteRole)
-  const { id } = useParams();
-
+  const [id, setId] = useState<string | null>(null);
   /////////////// get roleById and roles ////////////////////
   const data = stateGetAllRole?.data?.data || []
   const details = stateGetRoleById?.data?.data || []
@@ -73,7 +72,7 @@ const Main: React.FC = () => {
 
   useEffect(() => {
     dispatch(ActionGetRoles())
-  }, [stateDeleteRole, stateCreateRole])
+  }, [stateDeleteRole, stateCreateRole, stateUpdateeRole])
   useEffect(() => {
     if (id) {
       dispatch(ActionGetRoleById(id))
@@ -86,8 +85,10 @@ const Main: React.FC = () => {
   const [newKey, setNewKey] = useState("");
   const [newfeatures, setNewfeatures] = useState<string[]>([]);
   const createRole = () => {
-    if (newKey.length > 0)
+    if (newKey.length > 0) {
       dispatch(ActionCreateRole({ key: newKey, features: newfeatures }))
+      setHeaderFooterModalPreview(false)
+    }
   }
 
   /////////////// end of create Role ////////////////////
@@ -96,15 +97,18 @@ const Main: React.FC = () => {
   const [features, setfeatures] = useState<string[]>([]);
 
   const updateRole = () => {
-    if (key.length > 0 && id)
+    if (key.length > 0 && id) {
       dispatch(ActionUpdateRole({ key: key, features: features, roleId: id }))
+      setHeaderFooterModalPreview(false)
+    }
   }
   /////////////// end of update Role ////////////////////
   /////////////// delete Role ////////////////////
   const [idToDelete, setIdToDelete] = useState("");
   const deleteRole = () => {
-    if (idToDelete)
+    if (idToDelete) {
       dispatch(ActionDeleteRole(idToDelete))
+    }
   }
   /////////////// end of update Role ////////////////////
   ///////////////////////////////  controles ////////////////////////////////////////////
@@ -260,8 +264,24 @@ const Main: React.FC = () => {
 
   const [deleteModalPreview, setDeleteModalPreview] = useState(false);
   const [headerFooterModalPreview, setHeaderFooterModalPreview] = useState(false);
+  const [modalTitle, setModalTitle] = useState("Add New Role");
   const sendButtonRef = useRef(null);
   const deleteButtonRef = useRef(null);
+
+  const openAddRoleModal = () => {
+    setModalTitle("Add New Role");
+    setNewKey("");
+    setNewfeatures([]);
+    setHeaderFooterModalPreview(true);
+  };
+
+  const openEditRoleModal = (itemKey: string, itemPermissions: string[] , itemId: string) => {
+    setModalTitle("Edit Role");
+    setId(itemId);
+    setKey(itemKey);
+    setfeatures(itemPermissions || []);
+    setHeaderFooterModalPreview(true);
+  };
 
   return (
     <>
@@ -303,25 +323,67 @@ const Main: React.FC = () => {
       }}
         initialFocus={sendButtonRef}
       >
-        <Dialog.Panel>
-          <Dialog.Description className="grid grid-cols-12 gap-4 gap-y-3">
-            <div className="col-span-12 sm:col-span-6">
-              <FormLabel htmlFor="modal-form-1">
-                Add New Key
-              </FormLabel>
-              <FormInput id="modal-form-1" type="text" placeholder="EX. Moderator" onChange={handleChange} value={newKey} />
+        <Dialog.Panel className="w-full max-w-5xl">
+          <Dialog.Title>
+            <h2 className="mr-auto text-base font-medium p-5 border-b border-slate-200/60 dark:border-darkmode-400">
+              {modalTitle}
+            </h2>
+          </Dialog.Title>
+          <Dialog.Description className="p-5">
+            <div className="grid grid-cols-12 gap-4 gap-y-3">
+              <div className="col-span-12">
+                <FormLabel htmlFor="modal-form-1">
+                  Role Name
+                </FormLabel>
+                <FormInput 
+                  id="modal-form-1" 
+                  type="text" 
+                  placeholder="Ex. Moderator" 
+                  disabled={modalTitle === "Edit Role"}
+                  onChange={modalTitle === "Edit Role" ? (e) => setKey(e.target.value) : handleChange} 
+                  value={modalTitle === "Edit Role" ? key : newKey} 
+                />
+              </div>
+              <div className="col-span-12">
+                <div className="font-medium text-slate-600 mb-2">Permissions</div>
+                <div className="max-h-72 w-full overflow-y-auto border rounded-md p-3">
+                  {categories.map((role) => (
+                    <div key={role.key} className="mb-3">
+                      <div className="font-medium text-slate-600 mb-1">{role.key}</div>
+                      <div className="pl-4">
+                        {role.permissions.map((permission, index) => (
+                          <div key={index} className="mb-1">
+                            <label className="flex items-center gap-2">
+                              <input
+                                type="checkbox"
+                                className="p-2 rounded"
+                                checked={(id ? features : newfeatures)?.includes(permission)}
+                                onChange={() => toggleFeature(permission)}
+                              />
+                              {permission}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </Dialog.Description>
-          <Dialog.Footer>
-            <Button type="button"  onClick={() => {
+          <Dialog.Footer className="px-5 py-3 text-right border-t border-slate-200/60 dark:border-darkmode-400">
+            <Button type="button" onClick={() => {
               setHeaderFooterModalPreview(false);
             }}
               className="w-20 mr-1"
             >
               Cancel
             </Button>
-            <Button  type="button" className="w-20" ref={sendButtonRef} onClick={onAdd}>
-              Add
+            <Button type="button" variant="primary" className="w-20" ref={sendButtonRef} onClick={onAdd}>
+              {id ? "Save" : "Add"}
+              {(stateCreateRole.loading || stateUpdateeRole.loading) && (
+                <LoadingIcon icon="puff" className="ml-3" />
+              )}
             </Button>
           </Dialog.Footer>
         </Dialog.Panel>
@@ -329,51 +391,55 @@ const Main: React.FC = () => {
       {/* END: Modal Content */}
       <div className="flex items-center mt-5">
         <h2 className="mr-auto text-lg font-medium">Roles</h2>
+        <Button 
+          className="shadow-md" 
+          onClick={openAddRoleModal}
+        >
+          Add New Role
+        </Button>
       </div>
-      <div className="grid grid-cols-12 gap-5 mt-5 intro-y">
+      <div className=" mt-5 intro-y">
         {/* BEGIN: Chat Side Menu */}
-        <Tab.Group className="col-span-12 lg:col-span-4 2xl:col-span-3">
-
-          {
-            id &&
-            <Button  className="mr-2 shadow-md" onClick={goToMainRole}>
-              Add New Role
-            </Button>
-          }
-          <div className={`${id && 'pt-1 mt-4'} pr-1 overflow-y-auto h-[525px] scrollbar-hidden`}>
-            <ul className='flex flex-col gap-4'>
-              {data && data.map((item: any) => (
+        <Tab.Group className="gap-5">
+          <div className="pr-1 overflow-y-auto h-[525px] scrollbar-hidden">
+            <ul className='grid grid-cols-4 gap-4'>
+            {data && data.map((item: any) => (
                 <li key={item._id}>
                   <div
-                    key={item._id}
                     className={clsx({
-                      "intro-x cursor-pointer box relative flex items-center p-5":
+                      "intro-x box relative flex items-center p-5":
                         true,
-                      "": item._id,
-                    })}
-                    onClick={() => showChatBox(item._id)}>
-                    <div className="flex-none w-12 h-12 mr-1 image-fit">
-
-                    </div>
-                    <div className="ml-2 overflow-hidden">
+                      "bg-primary text-white": item._id === id,
+                    })}>
+                    <div className="ml-2 overflow-hidden flex-grow">
                       <div className="flex items-center">
-                        <a  className="font-medium">
+                        <a className="font-medium">
                           {item.key}
-                          <Tippy
-                            onClick={() => {
-                              setDeleteModalPreview(true),
-                                setIdToDelete(item._id)
-                            }}
-                            content="Remove record message"
-                            className="absolute top-3 right-3 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
-                          >
-                            <div>
-                              <Lucide icon="X" className="w-4 h-4" />
-                            </div>
-                          </Tippy>
-
                         </a>
                       </div>
+                    </div>
+                    <div className="flex">
+                      <Tippy
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openEditRoleModal(item.key, item.permissions || [], item._id);
+                        }}
+                        content="Edit role"
+                        className="flex items-center justify-center w-8 h-8 mr-1 text-slate-500"
+                      >
+                        <Lucide icon="Edit" className="w-4 h-4" />
+                      </Tippy>
+                      <Tippy
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setDeleteModalPreview(true);
+                          setIdToDelete(item._id);
+                        }}
+                        content="Delete role"
+                        className="flex items-center justify-center w-8 h-8 text-danger"
+                      >
+                        <Lucide icon="Trash" className="w-4 h-4" />
+                      </Tippy>
                     </div>
                   </div>
                 </li>
@@ -381,73 +447,68 @@ const Main: React.FC = () => {
             </ul>
           </div>
         </Tab.Group>
-        <div className="col-span-12 intro-y lg:col-span-8 2xl:col-span-9">
-          <div className="h-[525px] box overflow-y-scroll scrollbar-hidden">
-            <ul>
-              {categories.map((role) => {
-                return (
-                  <li key={role.key} className="cursor-pointer">
-                    <div
-                      className="flex w-full gap-10 items-center px-5 py-1"
-                      onClick={() => toggleRole(role.key)}
-                    >
-                      <span className="text-[#4F5E7B] font-semibold text-xl">
-                        {role.key}
-                      </span>
-                    </div>
-                    {openRoles[role.key] && (
-                      <ul className="pl-5">
-                        {role.permissions.map((permission, index) => (
-                          <li key={index} className="p-2">
-                            <label className='flex items-center gap-2'>
-                              <input
-                                type="checkbox"
-                                className='p-2 bg-slate-500 rounded'
-                                checked={(id ? features : newfeatures)?.includes(permission)}
-                                onChange={() => toggleFeature(permission)}
-                              />
-                              {permission}
-                            </label>
-                          </li>
-                        ))}
-                      </ul>
+        {/* <div className="col-span-12 intro-y lg:col-span-8 2xl:col-span-9">
+          <div className="h-[525px] box overflow-y-scroll scrollbar-hidden"> */}
+            {/* {id ? (
+              <div className="p-5">
+                <h2 className="text-lg font-medium mb-5">{key} - Permissions</h2>
+                <ul>
+                  {categories.map((role) => {
+                    return (
+                      <li key={role.key} className="cursor-pointer mb-4">
+                        <div
+                          className="flex w-full gap-10 items-center py-2 px-3 bg-slate-100 rounded-md"
+                          onClick={() => toggleRole(role.key)}
+                        >
+                          <span className="text-[#4F5E7B] font-semibold">
+                            {role.key}
+                          </span>
+                          <Lucide 
+                            icon={openRoles[role.key] ? "ChevronUp" : "ChevronDown"} 
+                            className="w-4 h-4 ml-auto" 
+                          />
+                        </div>
+                        {openRoles[role.key] && (
+                          <ul className="pl-5 mt-2">
+                            {role.permissions.map((permission, index) => (
+                              <li key={index} className="p-2">
+                                <label className='flex items-center gap-2'>
+                                  <input
+                                    type="checkbox"
+                                    className='p-2 rounded'
+                                    checked={features?.includes(permission)}
+                                    onChange={() => toggleFeature(permission)}
+                                  />
+                                  {permission}
+                                </label>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div className='w-full flex justify-end mt-5'>
+                  <Button onClick={onSubmit} type="button" className="w-32" >
+                    Save Changes
+                    {(stateCreateRole.loading || stateUpdateeRole.loading) && (
+                      <LoadingIcon icon="puff" className="ml-3" />
                     )}
-                  </li>
-                );
-              })}
-            </ul>
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex h-full justify-center items-center">
+                <div className="text-center">
+                  <Lucide icon="Users" className="w-12 h-12 mx-auto text-primary" />
+                  <div className="mt-3 text-slate-500">Select a role to view details or create a new one</div>
+                </div>
+              </div>
+            )} */}
           </div>
-          {
-            (id && changed()) &&
-            <div className='w-full flex justify-end'>
-              <Button onClick={onSubmit} type="button"  className="w- mt-2" >
-                Save Changes
-                {
-                  stateCreateRole.loading || stateUpdateeRole.loading &&
-                  <LoadingIcon icon="puff" className="ml-3" />
-                }
-              </Button>
-            </div>
-          }
-          {
-            (!id) &&
-            <div className='w-full flex justify-end'>
-              <Button disabled={newfeatures.length == 0}
-                type="button"  className="w-24 mt-2 whitespace-nowrap"
-                onClick={() => {
-                  setHeaderFooterModalPreview(true);
-                }}
-              >
-                Add New Key
-                {
-                  stateCreateRole.loading || stateUpdateeRole.loading &&
-                  <LoadingIcon icon="puff" className="ml-3" />
-                }
-              </Button>
-            </div>
-          }
-        </div>
-      </div>
+        {/* </div>
+      </div> */}
     </>
   );
 };
