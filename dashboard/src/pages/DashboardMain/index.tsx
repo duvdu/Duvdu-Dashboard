@@ -26,10 +26,10 @@ function Main() {
   // useEffect(() => {
   //   const fetchInitialCounts = async () => {
   //     try {
-  //       const visitorsResponse = await fetch('https://api.duvdu.com/getVisitorsCounter');
+  //       const visitorsResponse = await fetch('https://dashboardapi.duvdu.com/getVisitorsCounter');
   //       console.log(visitorsResponse)
   //       const visitorsData = await visitorsResponse.json();
-  //       const loggedResponse = await fetch('https://api.duvdu.com/getLoggedCounter');
+  //       const loggedResponse = await fetch('https://dashboardapi.duvdu.com/getLoggedCounter');
   //       const loggedData = await loggedResponse.json();
 
   //       setInitialCounts({

@@ -19,7 +19,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
   const [loggedUserCount, setLoggedUserCount] = useState<number>(0);
 
   useEffect(() => {
-    const socketInstance = io('https://api.duvdu.com/', {
+    const socketInstance = io('https://dashboardapi.duvdu.com/', {
       withCredentials: true,
       transports: ['websocket', 'polling'],
     });
