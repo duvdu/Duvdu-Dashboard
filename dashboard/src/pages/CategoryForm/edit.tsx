@@ -635,13 +635,9 @@ function Main() {
 
 
           <div className="mt-5 text-right">
-            <Button
-              type="button"
-              
-              className="w-24 mr-1"
-            >
+            {/* <Button type="button" className="w-24 mr-1">
               Cancel
-            </Button>
+            </Button> */}
             <Button onClick={onSubmit} type="button"  className="w-24" >
               Update
             </Button>
