@@ -10,7 +10,6 @@ import { ActionGetTerms } from "../../redux/action/api/terms/get";
 function Main() {
   const [tab, setTab] = useState("terms");
   const [langTab, setLangTab] = useState<"en" | "ar">("en");
-  const [isLoading, setIsLoading] = useState(false);
 
   const [editorState, setEditorState] = useState<{
     desc: { en: string; ar: string };
@@ -51,20 +50,13 @@ function Main() {
     }
   }, [state?.data?.data]);
 
-  const handleUpdate = async () => {
-    try {
-      setIsLoading(true);
-      await dispatch(
-        ActionUpdateTerms({
-          formdata: editorState,
-          id,
-        })
-      ).unwrap();
-    } catch (error) {
-      console.error("Update failed", error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleUpdate = () => {
+    dispatch(
+      ActionUpdateTerms({
+        formdata: editorState,
+        id: id,
+      })
+    );
   };
 
   const handleEditorChange = (
@@ -106,12 +98,23 @@ function Main() {
         </button>
       </div>
 
-      <Preview>
-        <ClassicEditor
-          value={editorState[key][langTab]}
-          onChange={(val) => handleEditorChange(key, langTab, val)}
-        />
-      </Preview>
+      {langTab === "en" && (
+        <Preview>
+          <ClassicEditor
+            value={editorState[key].en}
+            onChange={(val) => handleEditorChange(key, "en", val)}
+          />
+        </Preview>
+      )}
+
+      {langTab === "ar" && (
+        <Preview>
+          <ClassicEditor
+            value={editorState[key].ar}
+            onChange={(val) => handleEditorChange(key, "ar", val)}
+          />
+        </Preview>
+      )}
     </>
   );
 
@@ -119,12 +122,8 @@ function Main() {
     <>
       <div className="flex items-center justify-between mt-8 mb-4">
         <h2 className="text-lg font-medium">Legal Documents Management</h2>
-        <Button className="w-24 flex items-center justify-center" onClick={handleUpdate} disabled={isLoading}>
-          {isLoading ? (
-            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-          ) : (
-            "Update"
-          )}
+        <Button className="w-24" onClick={handleUpdate}>
+          Update
         </Button>
       </div>
 
