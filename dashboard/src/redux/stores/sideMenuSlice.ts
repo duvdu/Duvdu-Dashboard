@@ -162,7 +162,7 @@ const initialState: SideMenuState = {
     {
       icon: "HardDrive",
       pathname: "/terms",
-      title: "Terms",
+      title: "Legal Documents",
     },
     {
       icon: "Users",
