@@ -170,6 +170,11 @@ const initialState: SideMenuState = {
           pathname: "/terms",
           title: "Legal Documents",
         },
+        {
+          icon: "Users",
+          pathname: "/settings",
+          title: "Default Images",
+        },
       ],
     },
     // {

@@ -138,7 +138,7 @@ const Main: React.FC = () => {
               <div className="mt-2 font-black text-slate-500">
                 {complaint.state.feedback}
               </div>
-            <div className='flex justify-between items-center'>
+            {/* <div className='flex justify-between items-center'>
               <Link
                 className="flex items-center text-danger"
                 to="#"
@@ -153,7 +153,7 @@ const Main: React.FC = () => {
                     <Lucide icon="Edit" className="w-4 h-4 mr-1" /> Feedback
                   </>
               </Link>
-            </div>
+            </div> */}
           </div>
         ))}
       </div>
