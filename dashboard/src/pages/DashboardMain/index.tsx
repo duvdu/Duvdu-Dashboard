@@ -21,8 +21,11 @@ import clsx from "clsx";
 
 function Main() {
   const { visitorCount, loggedUserCount } = useSocket();
-  const [initialCounts, setInitialCounts] = useState<{ visitors: number; logged: number }>({ visitors: 0, logged: 0 });
-  console.log({visitorCount, loggedUserCount})
+  const [initialCounts, setInitialCounts] = useState<{
+    visitors: number;
+    logged: number;
+  }>({ visitors: 0, logged: 0 });
+  console.log({ visitorCount, loggedUserCount });
   // useEffect(() => {
   //   const fetchInitialCounts = async () => {
   //     try {
@@ -44,7 +47,7 @@ function Main() {
   //   fetchInitialCounts();
   // }, []);
 
-    return (
+  return (
     <>
       <div className="flex items-center mt-8 intro-y">
         <h2 className="mr-auto text-lg font-medium">Analysis</h2>
@@ -57,14 +60,10 @@ function Main() {
             className="flex-col justify-center text-center sm:flex-row lg:justify-start"
           >
             <Tab fullWidth={false}>
-              <Tab.Button className="py-4 cursor-pointer">
-                Projects
-              </Tab.Button>
+              <Tab.Button className="py-4 cursor-pointer">Projects</Tab.Button>
             </Tab>
             <Tab fullWidth={false}>
-              <Tab.Button className="py-4 cursor-pointer">
-                Rental
-              </Tab.Button>
+              <Tab.Button className="py-4 cursor-pointer">Rental</Tab.Button>
             </Tab>
             <Tab fullWidth={false}>
               <Tab.Button className="py-4 cursor-pointer">
@@ -72,62 +71,58 @@ function Main() {
               </Tab.Button>
             </Tab>
             <Tab fullWidth={false}>
-              <Tab.Button className="py-4 cursor-pointer">
-                Producers
-              </Tab.Button>
+              <Tab.Button className="py-4 cursor-pointer">Producers</Tab.Button>
             </Tab>
             <Tab fullWidth={false}>
-              <Tab.Button className="py-4 cursor-pointer">
-                socket
-              </Tab.Button>
+              <Tab.Button className="py-4 cursor-pointer">socket</Tab.Button>
             </Tab>
           </Tab.List>
         </div>
         {/* END: Profile Info */}
         <Tab.Panels className="mt-5 intro-y">
-          <ProjectsAnalysis/>
-          <RentalsAnalysis/>
-          <CopyrightsAnalysis/>
-          <ProducersAnalysis/>
+          <ProjectsAnalysis />
+          <RentalsAnalysis />
+          <CopyrightsAnalysis />
+          <ProducersAnalysis />
           <Tab.Panel>
-          <div className="grid grid-cols-12 gap-6 mt-5 mb-8">
-            <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-              <div
-                className={clsx([
-                  "relative zoom-in",
-                  "before:content-[''] before:w-[90%] before:shadow-[0px_3px_20px_#0000000b] before:bg-slate-50 before:h-full before:mt-3 before:absolute before:rounded-md before:mx-auto before:inset-x-0 before:dark:bg-darkmode-400/70",
-                ])}
-              >
-                <div className="p-5 box">
-                  <div className="mt-6 text-3xl font-medium leading-8">
-                  {visitorCount}
+            <div className="grid grid-cols-12 gap-6 mt-5 mb-8">
+              <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                <div
+                  className={clsx([
+                    "relative zoom-in",
+                    "before:content-[''] before:w-[90%] before:shadow-[0px_3px_20px_#0000000b] before:bg-slate-50 before:h-full before:mt-3 before:absolute before:rounded-md before:mx-auto before:inset-x-0 before:dark:bg-darkmode-400/70",
+                  ])}
+                >
+                  <div className="p-5 box">
+                    <div className="mt-6 text-3xl font-medium leading-8">
+                      {visitorCount}
+                    </div>
+                    <div className="mt-1 text-base text-slate-500">
+                      Visitor Count
+                    </div>
                   </div>
-                  <div className="mt-1 text-base text-slate-500">
-                  Visitor Count
+                </div>
+              </div>
+              <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                <div
+                  className={clsx([
+                    "relative zoom-in",
+                    "before:content-[''] before:w-[90%] before:shadow-[0px_3px_20px_#0000000b] before:bg-slate-50 before:h-full before:mt-3 before:absolute before:rounded-md before:mx-auto before:inset-x-0 before:dark:bg-darkmode-400/70",
+                  ])}
+                >
+                  <div className="p-5 box">
+                    <div className="mt-6 text-3xl font-medium leading-8">
+                      {loggedUserCount}
+                    </div>
+                    <div className="mt-1 text-base text-slate-500">
+                      Logged User Count
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-              <div
-                className={clsx([
-                  "relative zoom-in",
-                  "before:content-[''] before:w-[90%] before:shadow-[0px_3px_20px_#0000000b] before:bg-slate-50 before:h-full before:mt-3 before:absolute before:rounded-md before:mx-auto before:inset-x-0 before:dark:bg-darkmode-400/70",
-                ])}
-              >
-                <div className="p-5 box">
-                  <div className="mt-6 text-3xl font-medium leading-8">
-                  {loggedUserCount}
-                  </div>
-                  <div className="mt-1 text-base text-slate-500">
-                  Logged User Count
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
           </Tab.Panel>
-          </Tab.Panels>
+        </Tab.Panels>
       </Tab.Group>
     </>
   );

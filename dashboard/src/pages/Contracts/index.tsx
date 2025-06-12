@@ -21,19 +21,19 @@ import { useAppDispatch, useAppSelector } from "../../redux/stores/hooks";
 import TeamsAnalysis from "./TeamsAnalysis";
 
 function Main() {
-  const dispatch = useAppDispatch()
-  const stateAllContract = useAppSelector(StateAllContractAnalysis)
-  const data = stateAllContract?.data
-  const CopyrightContract = data?.copyrightContract
-  const RentalContract = data?.rentalContracts
-  const ProjectContract = data?.projectContracts
-  const TeamContracts = data?.teamContracts
-  const ProducerContracts = data?.producerContracts
+  const dispatch = useAppDispatch();
+  const stateAllContract = useAppSelector(StateAllContractAnalysis);
+  const data = stateAllContract?.data;
+  const CopyrightContract = data?.copyrightContract;
+  const RentalContract = data?.rentalContracts;
+  const ProjectContract = data?.projectContracts;
+  const TeamContracts = data?.teamContracts;
+  const ProducerContracts = data?.producerContracts;
   useEffect(() => {
-    dispatch(ActionGetContractAnalysis())
-  }, [])
+    dispatch(ActionGetContractAnalysis());
+  }, []);
 
-    return (
+  return (
     <>
       <div className="flex items-center mt-8 intro-y">
         <h2 className="mr-auto text-lg font-medium">Analysis</h2>
@@ -46,14 +46,10 @@ function Main() {
             className="flex-col justify-center text-center sm:flex-row lg:justify-start"
           >
             <Tab fullWidth={false}>
-              <Tab.Button className="py-4 cursor-pointer">
-                Projects
-              </Tab.Button>
+              <Tab.Button className="py-4 cursor-pointer">Projects</Tab.Button>
             </Tab>
             <Tab fullWidth={false}>
-              <Tab.Button className="py-4 cursor-pointer">
-                Rental
-              </Tab.Button>
+              <Tab.Button className="py-4 cursor-pointer">Rental</Tab.Button>
             </Tab>
             <Tab fullWidth={false}>
               <Tab.Button className="py-4 cursor-pointer">
@@ -61,25 +57,23 @@ function Main() {
               </Tab.Button>
             </Tab>
             <Tab fullWidth={false}>
-              <Tab.Button className="py-4 cursor-pointer">
-                Producers
-              </Tab.Button>
+              <Tab.Button className="py-4 cursor-pointer">Producers</Tab.Button>
             </Tab>
-            <Tab fullWidth={false}>
+            {/* <Tab fullWidth={false}>
               <Tab.Button className="py-4 cursor-pointer">
                 Teams
               </Tab.Button>
-            </Tab>
+            </Tab> */}
           </Tab.List>
         </div>
         {/* END: Profile Info */}
         <Tab.Panels className="mt-5 intro-y">
-          <ProjectsAnalysis ProjectContract={ProjectContract}/> 
-          <RentalsAnalysis RentalContract={RentalContract}/>
-          <CopyrightsAnalysis CopyrightContract={CopyrightContract}/>
-          <ProducersAnalysis  ProducerContracts={ProducerContracts}/>
-          <TeamsAnalysis TeamContracts={TeamContracts} />
-          </Tab.Panels>
+          <ProjectsAnalysis ProjectContract={ProjectContract} />
+          <RentalsAnalysis RentalContract={RentalContract} />
+          <CopyrightsAnalysis CopyrightContract={CopyrightContract} />
+          <ProducersAnalysis ProducerContracts={ProducerContracts} />
+          {/* <TeamsAnalysis TeamContracts={TeamContracts} /> */}
+        </Tab.Panels>
       </Tab.Group>
     </>
   );

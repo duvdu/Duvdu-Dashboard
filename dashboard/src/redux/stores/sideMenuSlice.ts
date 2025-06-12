@@ -118,44 +118,42 @@ const initialState: SideMenuState = {
         },
       ],
     },
-    // {
-    //   icon: "ShoppingBag",
-    //   title: "Coupons",
-    //   subMenu: [
-    //     {
-    //       icon: "Activity",
-    //       title: "Coupons",
-    //       pathname: "/coupons",
-    //     },
-    //     {
-    //       icon: "Activity",
-    //       pathname: "/add-coupon",
-    //       title: "Add Coupon",
-    //     },
-    //   ],
-    // },
-    // {
-    //   icon: "ShoppingBag",
-    //   title: "Platforms",
-    //   subMenu: [
-
-    //   ],
-    // },
-    // {
-    //   icon: "Users",
-    //   pathname: "/users",
-    //   title: "Users",
-    // },
-    // {
-    //   icon: "BellPlus",
-    //   pathname: "/notifications",
-    //   title: "Notifications",
-    // },
-    // {
-    //   icon: "MessageSquare",
-    //   pathname: "/allchats",
-    //   title: "Chats",
-    // },
+    {
+      icon: "ShoppingBag",
+      title: "Coupons",
+      subMenu: [
+        {
+          icon: "Activity",
+          title: "Coupons",
+          pathname: "/coupons",
+        },
+        {
+          icon: "Activity",
+          pathname: "/add-coupon",
+          title: "Add Coupon",
+        },
+      ],
+    },
+    {
+      icon: "ShoppingBag",
+      title: "Platforms",
+      subMenu: [],
+    },
+    {
+      icon: "Users",
+      pathname: "/users",
+      title: "Users",
+    },
+    {
+      icon: "BellPlus",
+      pathname: "/notifications",
+      title: "Notifications",
+    },
+    {
+      icon: "MessageSquare",
+      pathname: "/allchats",
+      title: "Chats",
+    },
     {
       icon: "Settings",
       title: "Settings",
@@ -177,11 +175,11 @@ const initialState: SideMenuState = {
         },
       ],
     },
-    // {
-    //   icon: "MessageSquare",
-    //   pathname: "/ticket",
-    //   title: "Tickets",
-    // },
+    {
+      icon: "MessageSquare",
+      pathname: "/ticket",
+      title: "Tickets",
+    },
     {
       icon: "HardDrive",
       pathname: "/roles",
