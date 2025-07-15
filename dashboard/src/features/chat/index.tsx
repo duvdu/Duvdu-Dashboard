@@ -1,6 +1,5 @@
 // Chat module exports
 export { getChatBetweenUsers } from "./api/chat.api";
-export { useChatColumns } from "./columns/chat-columns";
 export { ChatHeader } from "./components/ChatHeader";
 export { ChatMessagesView } from "./components/ChatMessagesView";
 export { ChatSearchBar } from "./components/ChatSearchBar";

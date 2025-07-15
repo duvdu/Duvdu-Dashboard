@@ -8,6 +8,7 @@ export async function fetchUsersForCSV({
   status,
   isBlocked,
   isAdmin,
+  isDeleted,
 }: {
   search?: string;
   page?: number;
@@ -15,6 +16,7 @@ export async function fetchUsersForCSV({
   status?: string;
   isBlocked?: boolean;
   isAdmin?: boolean;
+  isDeleted?: boolean;
 }): Promise<any[]> {
   try {
     const response = await getUsers({
@@ -24,6 +26,7 @@ export async function fetchUsersForCSV({
       status: status || "",
       isBlocked: isBlocked || undefined,
       isAdmin: isAdmin || false,
+      isDeleted: isDeleted || false,
     });
 
     const users = response.data || [];

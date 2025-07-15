@@ -196,7 +196,7 @@ export function ChatHeader({
               <Separator className="my-1" />
 
               <ProtectedComponent
-                permissionKey={PERMISSION_KEYS.MESSAGES.MANAGE}
+                permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
               >
                 <Button
                   variant="ghost"
@@ -209,7 +209,7 @@ export function ChatHeader({
               </ProtectedComponent>
 
               <ProtectedComponent
-                permissionKey={PERMISSION_KEYS.MESSAGES.MANAGE}
+                permissionKey={PERMISSION_KEYS.MESSAGES.DELETE}
               >
                 <Button
                   variant="ghost"
@@ -222,7 +222,7 @@ export function ChatHeader({
               </ProtectedComponent>
 
               <ProtectedComponent
-                permissionKey={PERMISSION_KEYS.MESSAGES.MANAGE}
+                permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
               >
                 <Button
                   variant="ghost"
@@ -237,7 +237,7 @@ export function ChatHeader({
               </ProtectedComponent>
 
               <ProtectedComponent
-                permissionKey={PERMISSION_KEYS.MESSAGES.MANAGE}
+                permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
               >
                 <Button
                   variant="ghost"
@@ -252,7 +252,7 @@ export function ChatHeader({
               <Separator className="my-1" />
 
               <ProtectedComponent
-                permissionKey={PERMISSION_KEYS.MESSAGES.MANAGE}
+                permissionKey={PERMISSION_KEYS.MESSAGES.DELETE}
               >
                 <Button
                   variant="ghost"
