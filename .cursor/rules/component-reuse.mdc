@@ -1,0 +1,13 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+title: Component Reuse
+---
+
+- Check for existing reusable components before creating new ones.
+- Review the `components` directory to identify reusable elements.
+- Prefer extending existing components over duplicating functionality, but confirm suitability first.
+- Follow the project's component organization patterns.

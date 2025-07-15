@@ -1,30 +1,18 @@
-import { defineConfig } from "vite";
+import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { defineConfig, type PluginOption } from "vite";
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
-  build: {
-    commonjsOptions: {
-      include: ["tailwind.config.js", "node_modules/**"],
-    },
-  },
-  optimizeDeps: {
-    include: ["tailwind-config"],
-  },
-  plugins: [react()],
+  plugins: [tailwindcss() as unknown as PluginOption, react()],
   resolve: {
     alias: {
-      "tailwind-config": path.resolve(__dirname, "./tailwind.config.js"),
-      '@': '/src', // Adjust alias if necessary
+      "@": path.resolve(__dirname, "./src"),
     },
   },
+
   server: {
     port: 3000,
-    host: '0.0.0.0', 
-  },
-  preview: {
-    port: 3000,
-    host: '0.0.0.0', 
   },
 });

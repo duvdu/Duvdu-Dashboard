@@ -1,0 +1,12 @@
+---
+alwaysApply: true
+---
+
+# Project Structure Guide
+
+- The main entry point is [src/App.tsx](mdc:src/App.tsx), which uses the router from [src/routes.tsx](mdc:src/routes.tsx).
+- API modules and authentication logic are in [src/features/auth/](mdc:src/features/auth/).
+- Shared utilities (including the Axios instance) are in [src/lib/](mdc:src/lib/).
+- UI components are in [src/components/](mdc:src/components/) and [src/components/ui/](mdc:src/components/ui/).
+- Feature-specific code is organized under [src/features/](mdc:src/features/).
+- The Postman collection for backend API reference is in [docs/duvdu-postman-collection.json](mdc:docs/duvdu-postman-collection.json).

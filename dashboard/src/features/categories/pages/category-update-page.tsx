@@ -1,0 +1,82 @@
+import DashboardLayout from "@/components/layout/DashboardLayout";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Loader } from "@/components/ui/loader";
+import { useQuery } from "@tanstack/react-query";
+import { useNavigate, useParams } from "react-router-dom";
+import { getCategoryById, updateCategory } from "../api/category.api";
+import { CategoryForm } from "../components/category-form";
+import type { CategorySchema } from "../schemas/category.schema";
+
+function CategoryUpdatePage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const {
+    data: category,
+    isLoading: loading,
+    error,
+  } = useQuery({
+    queryKey: ["category", id],
+    queryFn: () => getCategoryById(id),
+  });
+
+  async function handleSubmit(values: CategorySchema, file: File | null) {
+    if (!id) return;
+
+    try {
+      const formData = new FormData();
+      formData.append("title[ar]", values.title.ar);
+      formData.append("title[en]", values.title.en);
+      formData.append("cycle", values.cycle);
+      formData.append("status", values.status ? "true" : "false");
+      if (values.trend !== undefined)
+        formData.append("trend", values.trend ? "true" : "false");
+      if (values.isRelated !== undefined)
+        formData.append("isRelated", values.isRelated ? "true" : "false");
+      if (values.insurance !== undefined)
+        formData.append("insurance", values.insurance ? "true" : "false");
+      if (file) formData.append("cover", file);
+      // Job Titles
+      values.jobTitles.forEach((jt, i) => {
+        formData.append(`jobTitles[${i}][ar]`, jt.ar);
+        formData.append(`jobTitles[${i}][en]`, jt.en);
+      });
+      // Subcategories & Tags
+      values.subCategories.forEach((sc, i) => {
+        formData.append(`subCategories[${i}][title][ar]`, sc.title.ar);
+        formData.append(`subCategories[${i}][title][en]`, sc.title.en);
+        sc.tags.forEach((tag, j) => {
+          formData.append(`subCategories[${i}][tags][${j}][ar]`, tag.ar);
+          formData.append(`subCategories[${i}][tags][${j}][en]`, tag.en);
+        });
+      });
+      await updateCategory(id, formData);
+      navigate("../categories");
+    } catch (e: unknown) {
+      console.log(e);
+    }
+  }
+
+  return (
+    <DashboardLayout className="w-full  py-8">
+      <h1 className="text-2xl font-bold mb-6">Update Category</h1>
+      {error && (
+        <Alert variant="destructive" className="mb-4">
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error.message}</AlertDescription>
+        </Alert>
+      )}
+      {loading ? (
+        <Loader className="w-8 h-8 mt-4" />
+      ) : (
+        <CategoryForm
+          defaultValues={category}
+          onSubmit={handleSubmit}
+          isLoading={loading}
+          submitLabel="Update"
+        />
+      )}
+    </DashboardLayout>
+  );
+}
+
+export default CategoryUpdatePage;

@@ -1,0 +1,13 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+---
+
+## title: Modal Structure
+
+- Define modal types in `~/store/modal-store.ts`.
+- Create new modals following the pattern in `~/features/{feature}/components/ExampleModal.tsx`.
+- Add new modals to `~/contexts/ModalProviders.tsx`.

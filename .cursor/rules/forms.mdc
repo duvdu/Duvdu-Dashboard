@@ -1,0 +1,10 @@
+---
+alwaysApply: true
+---
+
+# Forms Guidelines
+
+- All forms should use shadcn UI form components, integrated with react-hook-form for state management and submission.
+- Use zod for form validation.
+- Validation schemas must be created under a `schemas/` folder within the relevant feature/module directory (e.g., `login.schema.ts`).
+- Always import and use the schema for validation with react-hook-form's resolver.

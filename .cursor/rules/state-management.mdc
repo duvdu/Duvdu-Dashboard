@@ -1,0 +1,14 @@
+---
+alwaysApply: true
+---
+# State Management Guidelines
+
+- Use Zustand for global state management.
+- The main auth/session store is in [src/features/auth/store.ts](mdc:src/features/auth/store.ts).
+- Avoid introducing other state management libraries unless absolutely necessary.
+- Use the `useAuthStore` hook to access and update authentication/session state throughout the app.
+  description:
+  globs:
+  alwaysApply: false
+
+---

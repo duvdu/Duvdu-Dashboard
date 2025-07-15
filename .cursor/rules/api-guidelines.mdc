@@ -1,0 +1,11 @@
+---
+alwaysApply: true
+---
+
+# API Usage Guidelines
+
+- Never use the native fetch API directly for backend requests.
+- Never use api functions directly with useeffect in the pages instead use useQuery , useMutation Wrappers around it
+- API modules should be placed in the appropriate feature directory under `api/`.
+
+---
