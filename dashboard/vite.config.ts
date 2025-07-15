@@ -15,4 +15,7 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+   preview: {
+    allowedHosts: ["dashboard.duvdu.com"],
+  },
 });
