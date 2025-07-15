@@ -154,7 +154,7 @@ export function DataTable<TData, TValue>({
         {/* Header Section with Filters and Search */}
         {(!disableSearch || filters) && (
           <div className="bg-primary/10 px-2 py-2 border-b border-border">
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
               {!disableSearch && (
                 <div className="relative">
                   <Search
@@ -167,7 +167,7 @@ export function DataTable<TData, TValue>({
                       updateQueryParam("keyword", e.target.value);
                     }}
                     placeholder="Search"
-                    className="h-8 pl-8 pr-3 w-[300px] bg-transparent rounded-sm text-sm border-gray-300 "
+                    className="h-8 pl-8 pr-3 w-full sm:w-[300px] bg-transparent rounded-sm text-sm border-gray-300 "
                   />
                 </div>
               )}
@@ -277,12 +277,15 @@ export function DataTable<TData, TValue>({
         )}
       </div>
       {limit && pagesCount ? (
-        <div className="px-4 py-2 border-t border-border rounded-b-lg">
-          <div className="flex items-center justify-end gap-4">
+        <div className="px-2 sm:px-4 py-2 border-t border-border rounded-b-lg">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-4">
             {/* Page size selector */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">
+            <div className="flex items-center gap-2 justify-center sm:justify-start">
+              <span className="text-sm text-muted-foreground hidden xs:inline">
                 Rows per page:
+              </span>
+              <span className="text-sm text-muted-foreground xs:hidden">
+                Rows:
               </span>
               <Select
                 value={String(limit)}
@@ -291,7 +294,7 @@ export function DataTable<TData, TValue>({
                   updateQueryParam("page", "1");
                 }}
               >
-                <SelectTrigger className="w-20 h-8" size="sm">
+                <SelectTrigger className="w-16 sm:w-20 h-8" size="sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -302,11 +305,11 @@ export function DataTable<TData, TValue>({
                 </SelectContent>
               </Select>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 justify-center sm:justify-start overflow-x-auto">
               <Button
                 variant="ghost"
                 size="icon"
-                className={cn("h-8 w-8 p-0", {
+                className={cn("h-8 w-8 p-0 flex-shrink-0", {
                   "pointer-events-none opacity-50": page === 1,
                 })}
                 onClick={() => {
@@ -361,7 +364,7 @@ export function DataTable<TData, TValue>({
                     return (
                       <span
                         key={`ellipsis-${index}`}
-                        className="h-8 w-8 flex items-center justify-center text-sm text-muted-foreground"
+                        className="h-8 w-8 flex items-center justify-center text-sm text-muted-foreground flex-shrink-0"
                       >
                         ...
                       </span>
@@ -375,7 +378,7 @@ export function DataTable<TData, TValue>({
                       variant={isActive ? "default" : "ghost"}
                       size="icon"
                       className={cn(
-                        "h-8 w-8 p-0 text-sm",
+                        "h-8 w-8 p-0 text-sm flex-shrink-0",
                         isActive && "bg-gray-200 text-gray-900"
                       )}
                       onClick={() => {
@@ -391,7 +394,7 @@ export function DataTable<TData, TValue>({
               <Button
                 variant="ghost"
                 size="icon"
-                className={cn("h-8 w-8 p-0", {
+                className={cn("h-8 w-8 p-0 flex-shrink-0", {
                   "pointer-events-none opacity-50": page === Number(pagesCount),
                 })}
                 onClick={() => {

@@ -61,6 +61,12 @@ export function ChatSidebar({
       : content;
   };
 
+  useEffect(() => {
+    if (!selectedUserId && chats.length > 0) {
+      onUserSelect(chats[0].newestMessage?.receiver as User);
+    }
+  }, [selectedUserId, chatsData?.data, onUserSelect]);
+
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
