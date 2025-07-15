@@ -111,7 +111,7 @@ export function ChatMessagesView() {
 
   const handleMessageSent = () => {
     setReplyingTo(null);
-    refetch();
+    // No need to refetch - optimistic rendering handles the update
     queryClient.invalidateQueries({ queryKey: ["chats"] });
   };
 

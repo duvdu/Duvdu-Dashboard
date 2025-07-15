@@ -25,7 +25,7 @@ import { Link, useLocation } from "react-router-dom";
 function DashboardSidebar() {
   const sidebarLinks = [
     {
-      path: "/dashboard",
+      path: "/dashboard/home",
       icon: Home,
       label: "Home",
       iconColor: "text-green-600",
@@ -98,7 +98,7 @@ function DashboardSidebar() {
   const { pathname } = useLocation();
 
   const isActive = (path: string) => {
-    return pathname === path;
+    return pathname.includes(path);
   };
 
   return (

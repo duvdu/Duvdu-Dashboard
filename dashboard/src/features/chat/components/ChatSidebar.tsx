@@ -8,7 +8,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import { MessageCircleIcon, SearchIcon, UserIcon } from "lucide-react";
+import {
+  MessageCircleIcon,
+  PlusIcon,
+  SearchIcon,
+  UserIcon,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { getChats, searchUsers } from "../api/chat.api";
 import { type Chat, type User } from "../types/chat.types";
@@ -37,8 +42,11 @@ export function ChatSidebar({
 
   // Fetch existing chats
   const { data: chatsData, isLoading: isLoadingChats } = useQuery({
-    queryKey: ["chats"],
-    queryFn: () => getChats(),
+    queryKey: ["chats", debouncedQuery],
+    queryFn: () =>
+      getChats({
+        search: debouncedQuery,
+      }),
     enabled: activeTab === "chats",
   });
 
@@ -46,7 +54,7 @@ export function ChatSidebar({
   const { data: searchedUsers = [], isLoading: isLoadingUsers } = useQuery({
     queryKey: ["users", "search", debouncedQuery],
     queryFn: () => searchUsers(debouncedQuery, undefined, 20),
-    // enabled: activeTab === "users" && debouncedQuery.trim().length > 0,
+    enabled: activeTab === "users",
   });
 
   const chats = chatsData?.data || [];
@@ -67,17 +75,29 @@ export function ChatSidebar({
     }
   }, [selectedUserId, chatsData?.data, onUserSelect]);
 
+  const handleStartNewChat = () => {
+    setActiveTab("users");
+    setSearchQuery("");
+    setDebouncedQuery("");
+  };
+
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <CardHeader className="pb-3">
-        <CardTitle className="text-lg font-semibold">Messages</CardTitle>
+      <CardHeader className="pb-3 gap-4">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-lg font-semibold">Messages</CardTitle>
+        </div>
 
         {/* Search Input */}
         <div className="relative">
           <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
-            placeholder="Search conversations or users..."
+            placeholder={
+              activeTab === "chats"
+                ? "Search conversations..."
+                : "Search users to start new chat..."
+            }
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -89,20 +109,24 @@ export function ChatSidebar({
           <Button
             variant={activeTab === "chats" ? "default" : "outline"}
             size="sm"
-            onClick={() => setActiveTab("chats")}
+            onClick={() => {
+              setActiveTab("chats");
+              setSearchQuery("");
+              setDebouncedQuery("");
+            }}
             className="flex-1"
           >
             <MessageCircleIcon className="w-4 h-4 mr-2" />
-            Chats
+            Recent Chats
           </Button>
           <Button
             variant={activeTab === "users" ? "default" : "outline"}
             size="sm"
-            onClick={() => setActiveTab("users")}
+            onClick={handleStartNewChat}
             className="flex-1"
           >
             <UserIcon className="w-4 h-4 mr-2" />
-            Users
+            Start New Chat
           </Button>
         </div>
       </CardHeader>
@@ -120,9 +144,20 @@ export function ChatSidebar({
                 </div>
               ) : chats.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
-                  <MessageCircleIcon className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                  <p>No conversations yet</p>
-                  <p className="text-sm">Start a new conversation</p>
+                  <MessageCircleIcon className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                  <p className="font-medium">No conversations yet</p>
+                  <p className="text-sm mb-4">
+                    Start chatting with users to see your conversations here
+                  </p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleStartNewChat}
+                    className="flex items-center gap-2"
+                  >
+                    <PlusIcon className="w-4 h-4" />
+                    Start New Chat
+                  </Button>
                 </div>
               ) : (
                 chats.map((chat) => {
@@ -191,14 +226,27 @@ export function ChatSidebar({
             </div>
           ) : (
             <div className="space-y-1 p-3">
+              {/* Info banner */}
+              <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 mb-3">
+                <div className="flex items-center gap-2">
+                  <PlusIcon className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
+                    Start New Conversation
+                  </p>
+                </div>
+                <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                  Search for users below and click to start chatting
+                </p>
+              </div>
+
               {isLoadingUsers ? (
                 <div className="flex justify-center py-8">
                   <Loader className="size-10" />
                 </div>
               ) : searchedUsers.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
-                  <UserIcon className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                  <p>
+                  <UserIcon className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                  <p className="font-medium">
                     {debouncedQuery.trim()
                       ? "No users found"
                       : "Search for users"}
@@ -206,52 +254,71 @@ export function ChatSidebar({
                   <p className="text-sm">
                     {debouncedQuery.trim()
                       ? "Try a different search term"
-                      : "Enter a name, username, or email"}
+                      : "Enter a name, username, or email to find users"}
                   </p>
                 </div>
               ) : (
-                searchedUsers.map((user) => (
-                  <div
-                    key={user._id}
-                    className={cn(
-                      "flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-accent",
-                      selectedUserId === user._id && "bg-accent"
-                    )}
-                    onClick={() => onUserSelect(user)}
-                  >
-                    <div className="relative">
-                      <MediaPreview
-                        src={user.profileImage}
-                        alt={user.name}
-                        className="w-12 h-12 rounded-full"
-                        fallback={
-                          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                            <UserIcon className="w-6 h-6 text-primary" />
-                          </div>
-                        }
-                      />
-                      {user.isOnline && (
-                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
+                <>
+                  <div className="text-xs text-muted-foreground px-3 py-2 font-medium">
+                    {searchedUsers.length} user
+                    {searchedUsers.length !== 1 ? "s" : ""} found
+                  </div>
+                  {searchedUsers.map((user) => (
+                    <div
+                      key={user._id}
+                      className={cn(
+                        "flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-accent border border-transparent hover:border-border",
+                        selectedUserId === user._id && "bg-accent border-border"
                       )}
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center space-x-2">
-                        <span className="font-medium max-w-[180px] truncate">
-                          {user.name}
-                        </span>
-                        {user.hasVerificationBadge && (
-                          <Badge variant="secondary" className="text-xs">
-                            ✓
-                          </Badge>
+                      onClick={() => onUserSelect(user)}
+                    >
+                      <div className="relative">
+                        <MediaPreview
+                          src={user.profileImage}
+                          alt={user.name}
+                          className="w-12 h-12 rounded-full"
+                          fallback={
+                            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                              <UserIcon className="w-6 h-6 text-primary" />
+                            </div>
+                          }
+                        />
+                        {user.isOnline && (
+                          <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-background"></div>
                         )}
                       </div>
-                      <span className="text-sm text-muted-foreground truncate">
-                        @{user.username}
-                      </span>
+
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <span className="font-medium max-w-[150px] truncate">
+                              {user.name}
+                            </span>
+                            {user.hasVerificationBadge && (
+                              <Badge variant="secondary" className="text-xs">
+                                ✓
+                              </Badge>
+                            )}
+                          </div>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="text-xs px-2 py-1 h-auto"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onUserSelect(user);
+                            }}
+                          >
+                            Chat
+                          </Button>
+                        </div>
+                        <span className="text-xs text-muted-foreground max-w-[150px] truncate">
+                          @{user.username}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                ))
+                  ))}
+                </>
               )}
             </div>
           )}

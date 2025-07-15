@@ -7,6 +7,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuthStore } from "@/features/auth/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PaperclipIcon, SendIcon, XIcon } from "lucide-react";
@@ -18,6 +19,7 @@ import {
   type SendMessageForm,
   sendMessageSchema,
 } from "../schemas/chat.schema";
+import { type Message, type MessagesResponse } from "../types/chat.types";
 
 interface SendMessageFormProps {
   receiverId: string;
@@ -36,6 +38,7 @@ export function SendMessageForm({
 }: SendMessageFormProps) {
   const [attachments, setAttachments] = useState<File[]>([]);
   const queryClient = useQueryClient();
+  const { user: currentUser } = useAuthStore();
 
   const form = useForm<SendMessageForm>({
     resolver: zodResolver(sendMessageSchema),
@@ -49,16 +52,92 @@ export function SendMessageForm({
 
   const sendMessageMutation = useMutation({
     mutationFn: sendMessage,
-    onSuccess: () => {
+    onMutate: async (payload) => {
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ["messages", receiverId] });
+
+      // Snapshot the previous value
+      const previousMessages = queryClient.getQueryData<MessagesResponse>([
+        "messages",
+        receiverId,
+      ]);
+
+      // Create optimistic message
+      const receiver =
+        previousMessages?.data?.[0]?.receiver || previousMessages?.user;
+
+      if (!receiver || !currentUser) {
+        throw new Error("Missing receiver or current user");
+      }
+
+      const optimisticMessage: Message = {
+        _id: `temp-${Date.now()}`, // Temporary ID
+        sender: {
+          _id: currentUser._id,
+          name: currentUser.name,
+          username: "",
+          isOnline: true,
+          hasVerificationBadge: false,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+        receiver: receiver,
+        content: payload.content,
+        attachments: undefined, // Will be handled by server
+        messageType: payload.messageType || "text",
+        replyTo: payload.replyTo,
+        watchers: [],
+        reactions: [],
+        updated: false,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+
+      // Optimistically update the messages cache
+      if (previousMessages) {
+        queryClient.setQueryData<MessagesResponse>(["messages", receiverId], {
+          ...previousMessages,
+          data: [...previousMessages.data, optimisticMessage],
+        });
+      }
+
+      // Return context for potential rollback
+      return { previousMessages };
+    },
+    onSuccess: (newMessage) => {
       toast.success("Message sent successfully");
       form.reset();
       setAttachments([]);
       onMessageSent?.();
-      // Invalidate and refetch chats and messages
+
+      // Update the cache with the real message from server
+      queryClient.setQueryData<MessagesResponse>(
+        ["messages", receiverId],
+        (old) => {
+          if (!old) return old;
+
+          // Replace the optimistic message with the real one
+          const updatedData = old.data.map((msg) =>
+            msg._id.startsWith("temp-") && msg.content === newMessage.content
+              ? newMessage
+              : msg
+          );
+
+          return { ...old, data: updatedData };
+        }
+      );
+
+      // Invalidate chats to update the chat list
       queryClient.invalidateQueries({ queryKey: ["chats"] });
-      queryClient.invalidateQueries({ queryKey: ["messages", receiverId] });
     },
-    onError: (error: any) => {
+    onError: (error: any, payload, context) => {
+      // Rollback on error
+      if (context?.previousMessages) {
+        queryClient.setQueryData(
+          ["messages", receiverId],
+          context.previousMessages
+        );
+      }
       toast.error(error.response?.data?.message || "Failed to send message");
     },
   });

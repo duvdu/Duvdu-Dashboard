@@ -11,6 +11,7 @@ const DashboardPage = lazy(() => import("./pages/dashboard"));
 
 export const dashboardRoutes = [
   {
+    path: "home",
     index: true,
     element: <DashboardPage />,
   },
