@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -16,6 +15,7 @@ interface UserSearchSelectProps {
   selectedUserId?: string;
   placeholder?: string;
   className?: string;
+  disabled?: boolean;
 }
 
 export function UserSearchSelect({
@@ -23,6 +23,7 @@ export function UserSearchSelect({
   selectedUserId,
   placeholder = "Search users by name, username, email, or phone...",
   className,
+  disabled = false,
 }: UserSearchSelectProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
@@ -54,6 +55,7 @@ export function UserSearchSelect({
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (disabled) return;
     const value = e.target.value;
     setSearchQuery(value);
     setIsOpen(value.trim().length > 0);
@@ -62,28 +64,6 @@ export function UserSearchSelect({
   const handleClear = () => {
     setSearchQuery("");
     setIsOpen(false);
-  };
-
-  const getUserStatusBadge = (user: User) => {
-    const badges = [];
-
-    if (user.isOnline) {
-      badges.push(
-        <Badge key="online" variant="default" className="bg-green-500">
-          Online
-        </Badge>
-      );
-    }
-
-    if (user.hasVerificationBadge) {
-      badges.push(
-        <Badge key="verified" variant="secondary">
-          Verified
-        </Badge>
-      );
-    }
-
-    return badges;
   };
 
   return (
@@ -95,8 +75,9 @@ export function UserSearchSelect({
           onChange={handleInputChange}
           placeholder={placeholder}
           className="pl-10 pr-10"
+          disabled={disabled}
         />
-        {searchQuery && (
+        {searchQuery && !disabled && (
           <Button
             type="button"
             variant="ghost"
@@ -109,10 +90,10 @@ export function UserSearchSelect({
         )}
       </div>
 
-      {isOpen && (
+      {isOpen && !disabled && (
         <Card className="absolute top-full left-0 right-0 mt-1 z-50 shadow-lg">
-          <CardContent className="p-0">
-            <ScrollArea className="max-h-64">
+          <CardContent className="p-0  ">
+            <ScrollArea className="max-h-64 overflow-y-auto">
               {isLoading ? (
                 <div className="p-4 text-center text-muted-foreground">
                   Searching users...
@@ -136,54 +117,31 @@ export function UserSearchSelect({
                       )}
                       onClick={() => handleUserSelect(user)}
                     >
-                      <MediaPreview
-                        src={user.profileImage}
-                        alt={user.name}
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-
+                      <div className="relative">
+                        <MediaPreview
+                          src={user.profileImage}
+                          alt={user.name}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                        {user.isOnline && (
+                          <div className="absolute top-0 right-0 w-2 h-2 bg-green-500 rounded-full" />
+                        )}
+                      </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-medium truncate">{user.name}</h4>
-                          {getUserStatusBadge(user)}
-                        </div>
-
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <span>@{user.username}</span>
-                          {user.email && (
-                            <>
-                              <span>•</span>
-                              <span className="truncate">{user.email}</span>
-                            </>
-                          )}
-                        </div>
+                        <h4 className="font-medium truncate flex-1 min-w-0 max-w-[70%]">
+                          {user.name}
+                        </h4>
 
                         {user.phoneNumber && (
-                          <div className="text-xs text-muted-foreground">
+                          <div className="text-xs text-muted-foreground mb-1">
                             {user.phoneNumber.number}
                           </div>
                         )}
 
                         {user.about && (
-                          <div className="text-xs text-muted-foreground truncate mt-1">
+                          <div className="text-xs text-muted-foreground truncate max-w-[70%]">
                             {user.about}
                           </div>
-                        )}
-                      </div>
-
-                      <div className="text-xs text-muted-foreground">
-                        {user.isOnline ? (
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-2 bg-green-500 rounded-full" />
-                            Online
-                          </div>
-                        ) : (
-                          user.lastSeen && (
-                            <div>
-                              Last seen{" "}
-                              {new Date(user.lastSeen).toLocaleDateString()}
-                            </div>
-                          )
                         )}
                       </div>
                     </div>

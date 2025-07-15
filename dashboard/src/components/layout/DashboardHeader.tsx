@@ -1,6 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import LogoutButton from "@/features/auth/components/logout-button";
+import { ThemeToggle } from "../ui/ThemeToggle";
 
 export function SiteHeader({ title = "Dashboard" }: { title?: string }) {
   return (
@@ -13,10 +14,10 @@ export function SiteHeader({ title = "Dashboard" }: { title?: string }) {
         />
         <h1 className="text-3xl font-bold">{title}</h1>
         <div className="ml-auto flex items-center gap-2">
-          {/* <div className="flex items-center gap-2 hover:bg-secondary rounded-md p-2">
+          <div className="flex items-center gap-2 hover:bg-secondary rounded-md p-2">
             <h2 className="text-sm">Dark Mode</h2>
             <ThemeToggle />
-          </div> */}
+          </div>
           <LogoutButton />
         </div>
       </div>

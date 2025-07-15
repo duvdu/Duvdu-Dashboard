@@ -1,4 +1,3 @@
- 
 import { create } from "zustand";
 
 export type ModalType =
@@ -14,7 +13,11 @@ export type ModalType =
   | "deleteProject"
   | "approveProject"
   | "rejectProject"
-  | "pauseProject";
+  | "pauseProject"
+  | "pinChat"
+  | "archiveChat"
+  | "muteChat"
+  | "deleteChat";
 
 export interface ModalData {
   id?: string;
@@ -31,6 +34,7 @@ export interface ModalData {
   reason?: string;
   isBlocked?: boolean;
   userId?: string;
+  chatId?: string;
 }
 
 interface ModalStore {

@@ -1,4 +1,5 @@
 // Chat module exports
+export { getChatBetweenUsers } from "./api/chat.api";
 export { useChatColumns } from "./columns/chat-columns";
 export { ChatHeader } from "./components/ChatHeader";
 export { ChatMessagesView } from "./components/ChatMessagesView";
@@ -7,6 +8,8 @@ export { ChatSidebar } from "./components/ChatSidebar";
 export { MessageList } from "./components/MessageList";
 export { SendMessageForm } from "./components/SendMessageForm";
 export { UserSearchSelect } from "./components/UserSearchSelect";
+export { UserToUserChatSidebar } from "./components/UserToUserChatSidebar";
+export { UserToUserConversationView } from "./components/UserToUserConversationView";
 export { chatRoutes } from "./routes";
 export type {
   BulkChatActionForm,
@@ -16,7 +19,7 @@ export type {
   MarkMessagesAsWatchedForm,
   MessageFilterForm,
   MessageSearchForm,
-  SendMessageForm,
+  SendMessageForm as SendMessageFormType,
   UpdateMessageForm,
   UserSearchForm,
 } from "./schemas/chat.schema";

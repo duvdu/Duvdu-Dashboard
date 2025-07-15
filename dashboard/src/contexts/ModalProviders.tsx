@@ -37,6 +37,10 @@ export const ModalProvider = () => {
     approveProject: <ApproveProjectModal />,
     rejectProject: <RejectProjectModal />,
     pauseProject: <PauseProjectModal />,
+    pinChat: <div>Pin Chat Modal</div>,
+    archiveChat: <div>Archive Chat Modal</div>,
+    muteChat: <div>Mute Chat Modal</div>,
+    deleteChat: <div>Delete Chat Modal</div>,
   };
 
   return <>{type && modals[type]}</>;

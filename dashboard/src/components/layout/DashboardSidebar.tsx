@@ -1,20 +1,22 @@
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import {
   Calendar,
-  ChevronRight,
   Home,
   MessageCircleMore,
+  MoreHorizontal,
   Settings,
   Shield,
   User,
@@ -23,6 +25,7 @@ import {
 import { Link, useLocation } from "react-router-dom";
 
 function DashboardSidebar() {
+  const { isMobile } = useSidebar();
   const sidebarLinks = [
     {
       path: "/dashboard/home",
@@ -56,7 +59,16 @@ function DashboardSidebar() {
       icon: MessageCircleMore,
       label: "Chat",
       iconColor: "text-blue-600",
-      items: [],
+      items: [
+        {
+          path: "/dashboard/chat",
+          label: "Message Users",
+        },
+        {
+          path: "/dashboard/chat/user-to-user",
+          label: "User-to-User Chat",
+        },
+      ],
     },
     {
       path: "/dashboard/categories",
@@ -79,26 +91,12 @@ function DashboardSidebar() {
       iconColor: "text-gray-600",
       items: [],
     },
-    // {
-    //   path: "/dashboard/partners",
-    //   icon: UserCircle,
-    //   label: "Partners",
-    //   iconColor: "text-gray-600",
-    //   items: [],
-    // },
-    // {
-    //   path: "/dashboard/suppliers",
-    //   icon: Users,
-    //   label: "Suppliers",
-    //   iconColor: "text-gray-600",
-    //   items: [],
-    // },
   ];
 
   const { pathname } = useLocation();
 
   const isActive = (path: string) => {
-    return pathname.includes(path);
+    return pathname === path;
   };
 
   return (
@@ -113,23 +111,16 @@ function DashboardSidebar() {
           {sidebarLinks.map((link, index) => (
             <SidebarMenuItem key={index}>
               {link.items && link.items.length > 0 ? (
-                <Popover>
-                  <PopoverTrigger asChild>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
                     <SidebarMenuButton
-                      asChild
-                      className={`selection:bg-black w-full text-left flex items-center justify-between ${
+                      className={`data-[state=open]:bg-sidebar-accent h-12 data-[state=open]:text-sidebar-accent-foreground w-full text-left flex items-center justify-between ${
                         isActive(link.path)
                           ? `bg-secondary font-bold text-primary hover:bg-secondary`
                           : ``
                       }`}
                     >
-                      <Link
-                        to={link.path}
-                        className={`flex items-center h-12 w-full ${isActive(
-                          link.path
-                        )}`}
-                        tabIndex={0}
-                      >
+                      <div className="flex items-center h-12 w-full">
                         <div
                           className={`flex items-center justify-center w-8 h-8 mr-1 ${
                             isActive(link.path) ? "bg-secondary" : ""
@@ -138,35 +129,29 @@ function DashboardSidebar() {
                           <link.icon className="h-6 w-6" />
                         </div>
                         <span className="text-base">{link.label}</span>
-                        <span className="ml-auto text-xs">
-                          <ChevronRight />
-                        </span>
-                      </Link>
+                        <MoreHorizontal className="ml-auto h-4 w-4" />
+                      </div>
                     </SidebarMenuButton>
-                  </PopoverTrigger>
-                  <PopoverContent
-                    align="start"
-                    side="right"
-                    className="p-0 w-48"
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    side={isMobile ? "bottom" : "right"}
+                    align={isMobile ? "end" : "start"}
+                    className="min-w-56 rounded-lg"
                   >
-                    <ul className="flex flex-col gap-1">
-                      {link.items.map((child, childIdx) => (
-                        <li key={childIdx}>
-                          <Link
-                            to={child.path}
-                            className={`block text-sm py-2 px-4 rounded hover:bg-muted transition-colors ${
-                              isActive(child.path)
-                                ? "bg-muted font-semibold"
-                                : ""
-                            }`}
-                          >
-                            {child.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </PopoverContent>
-                </Popover>
+                    {link.items.map((child, childIdx) => (
+                      <DropdownMenuItem asChild key={childIdx}>
+                        <Link
+                          to={child.path}
+                          className={`w-full ${
+                            isActive(child.path) ? "bg-muted font-semibold" : ""
+                          }`}
+                        >
+                          {child.label}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               ) : (
                 <SidebarMenuButton
                   asChild

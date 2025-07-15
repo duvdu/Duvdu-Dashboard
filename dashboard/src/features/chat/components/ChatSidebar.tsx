@@ -84,7 +84,7 @@ export function ChatSidebar({
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <CardHeader className="pb-3 gap-4">
+      <CardHeader className="py-2 gap-4">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg font-semibold">Messages</CardTitle>
         </div>

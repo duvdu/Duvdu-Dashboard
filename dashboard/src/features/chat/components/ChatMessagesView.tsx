@@ -192,7 +192,7 @@ export function ChatMessagesView() {
           <Link to={`/dashboard/users/${userId}`}>
             <Button variant="ghost" size="lg" disabled={isLoading}>
               <User className="w-4 h-4" />
-              Profile
+              Go to Profile
             </Button>
           </Link>
         </div>
