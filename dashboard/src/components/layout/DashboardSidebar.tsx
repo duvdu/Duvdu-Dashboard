@@ -11,6 +11,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import {
+  Calendar,
   ChevronRight,
   Home,
   Settings,
@@ -27,27 +28,32 @@ function DashboardSidebar() {
       icon: Home,
       label: "Home",
       iconColor: "text-green-600",
+      items: [],
+    },
+
+    {
+      path: "/dashboard/projects",
+      icon: Calendar,
+      label: "Cycles",
+      iconColor: "text-gray-600",
       items: [
         {
-          path: "/dashboard/home/analysis",
-          label: "Analysis",
-        },
-        {
-          path: "/dashboard/home/analysis",
+          path: "/dashboard/projects",
+          label: "Projects",
         },
       ],
-    },
-    {
-      path: "/dashboard/categories",
-      icon: Settings,
-      label: "Categories",
-      iconColor: "text-gray-600",
-      items: [],
     },
     {
       path: "/dashboard/users",
       icon: User,
       label: "Users",
+      iconColor: "text-gray-600",
+      items: [],
+    },
+    {
+      path: "/dashboard/categories",
+      icon: Settings,
+      label: "Categories",
       iconColor: "text-gray-600",
       items: [],
     },

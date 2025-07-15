@@ -1,0 +1,288 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { MediaPreview } from "@/components/ui/media-preview";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useModal } from "@/store/modal-store";
+import { type ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
+import {
+  CheckIcon,
+  Globe,
+  MoreHorizontalIcon,
+  PauseIcon,
+  PencilIcon,
+  PlayIcon,
+  TrashIcon,
+  XIcon,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import { getProjectPublicUrl } from "../api/project.api";
+import { type Project } from "../types/project.types";
+
+export const useProjectColumns = (
+  refetch?: () => void
+): ColumnDef<Project>[] => {
+  const { onOpen } = useModal();
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case "approved":
+        return (
+          <Badge variant="default" className="bg-green-500">
+            Approved
+          </Badge>
+        );
+      case "rejected":
+        return <Badge variant="destructive">Rejected</Badge>;
+      case "paused":
+        return <Badge variant="secondary">Paused</Badge>;
+      case "deleted":
+        return (
+          <Badge variant="outline" className="text-red-500">
+            Deleted
+          </Badge>
+        );
+      default:
+        return <Badge variant="outline">Pending</Badge>;
+    }
+  };
+
+  return [
+    {
+      accessorKey: "cover",
+      header: "Cover",
+      cell: ({ row }) => (
+        <MediaPreview
+          src={row.original.cover}
+          alt={row.original.name}
+          className="w-12 h-12 rounded-md object-cover"
+          preview
+        />
+      ),
+    },
+    {
+      accessorKey: "name",
+      header: "Title",
+      cell: ({ row }) => (
+        <div className="max-w-[200px]">
+          <div className="font-medium truncate">{row.original.name}</div>
+          <div className="text-sm text-muted-foreground truncate">
+            {row.original.description}
+          </div>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "user",
+      header: "Creator",
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2">
+          <MediaPreview
+            src={row.original.user.profileImage}
+            alt={row.original.user.name}
+            className="w-8 h-8 rounded-full object-cover"
+            preview
+          />
+          <div>
+            <div className="font-medium">{row.original.user.name}</div>
+            <div className="text-sm text-muted-foreground">
+              @{row.original.user.username}
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "category",
+      header: "Category",
+      cell: ({ row }) => (
+        <div>
+          <div className="font-medium">{row.original.category.title}</div>
+          {row.original.subCategory?.title && (
+            <div className="text-sm text-muted-foreground">
+              {row.original.subCategory.title}
+            </div>
+          )}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => getStatusBadge(row.original.status || "pending"),
+    },
+    {
+      accessorKey: "projectsView",
+      header: "Views",
+      cell: ({ row }) => (
+        <div className="text-center">
+          {row.original.views || row.original.user.projectsView || 0}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "bookings",
+      header: "Bookings",
+      cell: ({ row }) => (
+        <div className="text-center">
+          {row.original.bookings ||
+            row.original.user.acceptedProjectsCounter ||
+            0}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "favouriteCount",
+      header: "Likes",
+      cell: ({ row }) => (
+        <div className="text-center">{row.original.favouriteCount}</div>
+      ),
+    },
+    {
+      accessorKey: "showOnHome",
+      header: "Show on Home",
+      cell: ({ row }) => (
+        <Badge variant={row.original.showOnHome ? "default" : "outline"}>
+          {row.original.showOnHome ? "Yes" : "No"}
+        </Badge>
+      ),
+    },
+    {
+      accessorKey: "createdAt",
+      header: "Created At",
+      cell: ({ row }) =>
+        format(new Date(row.original.createdAt), "MMM dd, yyyy"),
+    },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => {
+        const project = row.original;
+        const status = project.status || "pending";
+
+        return (
+          <div className="flex items-center gap-2">
+            {/* Quick Actions */}
+            {status === "pending" && (
+              <>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-8 text-green-600 hover:bg-green-50"
+                      onClick={() =>
+                        onOpen("approveProject", { id: project._id }, refetch)
+                      }
+                    >
+                      <CheckIcon className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Approve Project</TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-8 text-red-600 hover:bg-red-50"
+                      onClick={() =>
+                        onOpen("rejectProject", { id: project._id }, refetch)
+                      }
+                    >
+                      <XIcon className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Reject Project</TooltipContent>
+                </Tooltip>
+              </>
+            )}
+
+            {/* View Public Version */}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="sm" className="h-8" asChild>
+                  <Link
+                    to={getProjectPublicUrl(project._id)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Globe className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>View Public Version</TooltipContent>
+            </Tooltip>
+
+            {/* More Actions */}
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" size="sm" className="h-8 w-8 p-0">
+                  <MoreHorizontalIcon className="h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-48 p-0" align="end">
+                <Link to={`/dashboard/projects/${project._id}`}>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start rounded-none px-3 py-2"
+                  >
+                    <PencilIcon className="w-4 h-4 mr-2" />
+                    View Details
+                  </Button>
+                </Link>
+
+                {status === "approved" && (
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start rounded-none px-3 py-2"
+                    onClick={() =>
+                      onOpen("pauseProject", { id: project._id }, refetch)
+                    }
+                  >
+                    <PauseIcon className="w-4 h-4 mr-2" />
+                    Pause
+                  </Button>
+                )}
+
+                {status === "paused" && (
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start rounded-none px-3 py-2"
+                    onClick={() =>
+                      onOpen("approveProject", { id: project._id }, refetch)
+                    }
+                  >
+                    <PlayIcon className="w-4 h-4 mr-2" />
+                    Resume
+                  </Button>
+                )}
+
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start rounded-none px-3 py-2 text-destructive"
+                  onClick={() =>
+                    onOpen("deleteProject", { id: project._id }, refetch)
+                  }
+                >
+                  <TrashIcon className="w-4 h-4 mr-2" />
+                  Delete
+                </Button>
+              </PopoverContent>
+            </Popover>
+          </div>
+        );
+      },
+    },
+  ];
+};

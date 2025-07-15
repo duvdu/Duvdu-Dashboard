@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import React from "react";
+import DatePicker from "../DatePicker";
 import { Button } from "./button";
-import { Input } from "./input";
 import {
   Select,
   SelectContent,
@@ -61,11 +61,10 @@ export const Filters: React.FC<FiltersProps> = ({
       {filters.map((filter) => (
         <div key={filter.key} className={cn("flex flex-col", filter.className)}>
           {filter.type === "date" && (
-            <Input
-              type="date"
-              value={values[filter.key] || ""}
-              onChange={(e) => handleChange(filter.key, e.target.value)}
-              className="h-8 text-sm"
+            <DatePicker
+              date={values[filter.key] || undefined}
+              placeholder={filter.placeholder || "Pick Date"}
+              onSelect={(date) => handleChange(filter.key, date)}
             />
           )}
           {filter.type === "select" && filter.options && (

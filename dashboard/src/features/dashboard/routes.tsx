@@ -2,6 +2,7 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import { lazy } from "react";
 import { adminsRoutes } from "../admins/routes";
 import { categoryRoutes } from "../categories/routes";
+import { projectRoutes } from "../cycles-projects/routes";
 import { rolesRoutes } from "../roles/routes";
 import { usersRoutes } from "../users/routes";
 
@@ -15,6 +16,10 @@ export const dashboardRoutes = [
   {
     path: "categories",
     children: categoryRoutes,
+  },
+  {
+    path: "projects",
+    children: projectRoutes,
   },
   {
     path: "users",

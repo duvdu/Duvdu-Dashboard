@@ -10,7 +10,11 @@ export type ModalType =
   | "updateRole"
   | "blockUnblockUser"
   | "createAdmin"
-  | "updateAdmin";
+  | "updateAdmin"
+  | "deleteProject"
+  | "approveProject"
+  | "rejectProject"
+  | "pauseProject";
 
 export interface ModalData {
   id?: string;
