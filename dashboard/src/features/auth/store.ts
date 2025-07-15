@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 interface User {
   // Define user fields as needed, e.g.:
-  id: string;
+  _id: string;
   name: string;
 }
 

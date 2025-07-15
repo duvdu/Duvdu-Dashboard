@@ -21,6 +21,8 @@ export interface MediaPreviewProps extends React.ComponentProps<typeof Avatar> {
 }
 
 const getMediaType = (src: string): "image" | "video" | "unknown" => {
+  if (!src) return "unknown";
+  
   const videoExtensions = [
     ".mp4",
     ".webm",

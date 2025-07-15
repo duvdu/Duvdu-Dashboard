@@ -14,6 +14,7 @@ import {
   Calendar,
   ChevronRight,
   Home,
+  MessageCircleMore,
   Settings,
   Shield,
   User,
@@ -48,6 +49,13 @@ function DashboardSidebar() {
       icon: User,
       label: "Users",
       iconColor: "text-gray-600",
+      items: [],
+    },
+    {
+      path: "/dashboard/chat",
+      icon: MessageCircleMore,
+      label: "Chat",
+      iconColor: "text-blue-600",
       items: [],
     },
     {

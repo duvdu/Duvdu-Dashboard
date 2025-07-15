@@ -1,3 +1,4 @@
+import { Volume2Icon } from "lucide-react";
 import * as React from "react";
 
 export interface VideoPlayerProps {
@@ -276,13 +277,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
                       <path d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.617.797L4.828 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.828l3.555-3.797A1 1 0 019.383 3.076zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" />
                     </svg>
                   ) : (
-                    <svg
-                      className="w-5 h-5"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.617.797L4.828 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.828l3.555-3.797A1 1 0 019.383 3.076zM12.146 5.146a.5.5 0 01.708 0 11.702 11.702 0 010 16.708.5.5 0 01-.708-.708 10.702 10.702 0 000-15.292.5.5 0 010-.708zm2.195 2.195a.5.5 0 01.708 0 7.928 7.928 0 010 11.314.5.5 0 01-.708-.708 6.928 6.928 0 000-9.898.5.5 0 010-.708z" />
-                    </svg>
+                    <Volume2Icon className="w-5 h-5" />
                   )}
                 </button>
                 <input
@@ -292,7 +287,7 @@ export const VideoPlayer: React.FC<VideoPlayerProps> = ({
                   step="0.1"
                   value={volume}
                   onChange={handleVolumeChange}
-                  className="w-20 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer slider"
+                  className="w-20 h-[1px] bg-white/20 rounded-lg appearance-none cursor-pointer slider"
                 />
               </div>
 
