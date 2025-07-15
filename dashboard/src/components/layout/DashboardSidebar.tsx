@@ -57,7 +57,7 @@ function DashboardSidebar() {
     {
       path: "/dashboard/chat",
       icon: MessageCircleMore,
-      label: "Chat",
+      label: "Messages",
       iconColor: "text-blue-600",
       items: [
         {
