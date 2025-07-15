@@ -1,3 +1,5 @@
+import { ProtectedRoute } from "@/components/rbac/ProtectedRoute";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { lazy } from "react";
 import { ChatMessagesView } from "./components/ChatMessagesView";
 
@@ -7,16 +9,28 @@ const UserToUserChatPage = lazy(() => import("./pages/user-to-user-chat-page"));
 export const chatRoutes = [
   {
     path: "chat",
-    element: <ChatMainPage />,
+    element: (
+      // <ProtectedRoute permissionKey={PERMISSION_KEYS.CHAT.VIEW}>
+      <ChatMainPage />
+      // </ProtectedRoute>
+    ),
     children: [
       {
         path: ":userId",
-        element: <ChatMessagesView />,
+        element: (
+          // <ProtectedRoute permissionKey={PERMISSION_KEYS.CHAT.VIEW}>
+          <ChatMessagesView />
+          // </ProtectedRoute>
+        ),
       },
     ],
   },
   {
     path: "chat/user-to-user",
-    element: <UserToUserChatPage />,
+    element: (
+      <ProtectedRoute permissionKey={PERMISSION_KEYS.CHAT.MANAGE}>
+        <UserToUserChatPage />
+      </ProtectedRoute>
+    ),
   },
 ];

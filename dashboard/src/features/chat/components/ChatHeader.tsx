@@ -1,3 +1,4 @@
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MediaPreview } from "@/components/ui/media-preview";
@@ -7,6 +8,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import {
@@ -193,54 +195,64 @@ export function ChatHeader({
 
               <Separator className="my-1" />
 
-              <Button
-                variant="ghost"
-                className="w-full justify-start px-3 py-2 h-auto"
-                onClick={onPin}
-              >
-                <PinIcon className="w-4 h-4 mr-2" />
-                {chat.isPinned ? "Unpin Chat" : "Pin Chat"}
-              </Button>
+              <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.MANAGE}>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start px-3 py-2 h-auto"
+                  onClick={onPin}
+                >
+                  <PinIcon className="w-4 h-4 mr-2" />
+                  {chat.isPinned ? "Unpin Chat" : "Pin Chat"}
+                </Button>
+              </ProtectedComponent>
 
-              <Button
-                variant="ghost"
-                className="w-full justify-start px-3 py-2 h-auto"
-                onClick={onArchive}
-              >
-                <ArchiveIcon className="w-4 h-4 mr-2" />
-                {chat.isArchived ? "Unarchive Chat" : "Archive Chat"}
-              </Button>
+              <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.MANAGE}>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start px-3 py-2 h-auto"
+                  onClick={onArchive}
+                >
+                  <ArchiveIcon className="w-4 h-4 mr-2" />
+                  {chat.isArchived ? "Unarchive Chat" : "Archive Chat"}
+                </Button>
+              </ProtectedComponent>
 
-              <Button
-                variant="ghost"
-                className="w-full justify-start px-3 py-2 h-auto"
-                onClick={onMute}
-              >
-                <VolumeXIcon className="w-4 h-4 mr-2" />
-                {chat.mutedUntil && new Date(chat.mutedUntil) > new Date()
-                  ? "Unmute Chat"
-                  : "Mute Chat"}
-              </Button>
+              <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.MANAGE}>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start px-3 py-2 h-auto"
+                  onClick={onMute}
+                >
+                  <VolumeXIcon className="w-4 h-4 mr-2" />
+                  {chat.mutedUntil && new Date(chat.mutedUntil) > new Date()
+                    ? "Unmute Chat"
+                    : "Mute Chat"}
+                </Button>
+              </ProtectedComponent>
 
-              <Button
-                variant="ghost"
-                className="w-full justify-start px-3 py-2 h-auto"
-                onClick={onExport}
-              >
-                <DownloadIcon className="w-4 h-4 mr-2" />
-                Export Chat
-              </Button>
+              <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.MANAGE}>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start px-3 py-2 h-auto"
+                  onClick={onExport}
+                >
+                  <DownloadIcon className="w-4 h-4 mr-2" />
+                  Export Chat
+                </Button>
+              </ProtectedComponent>
 
               <Separator className="my-1" />
 
-              <Button
-                variant="ghost"
-                className="w-full justify-start px-3 py-2 h-auto text-destructive hover:text-destructive"
-                onClick={onDelete}
-              >
-                <TrashIcon className="w-4 h-4 mr-2" />
-                Delete Chat
-              </Button>
+              <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.MANAGE}>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start px-3 py-2 h-auto text-destructive hover:text-destructive"
+                  onClick={onDelete}
+                >
+                  <TrashIcon className="w-4 h-4 mr-2" />
+                  Delete Chat
+                </Button>
+              </ProtectedComponent>
             </div>
           </PopoverContent>
         </Popover>

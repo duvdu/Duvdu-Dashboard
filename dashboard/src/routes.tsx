@@ -1,5 +1,5 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
-import ProtectedRoute from "./features/auth/components/ProtectedRoute";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
+import { RBACProvider } from "./contexts/RBACProvider";
 import { authRoutes } from "./features/auth/routes";
 import { dashboardRoutes } from "./features/dashboard/routes";
 
@@ -10,7 +10,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <ProtectedRoute />,
+    element: (
+      <RBACProvider>
+        <Outlet />
+      </RBACProvider>
+    ),
     children: [...dashboardRoutes],
   },
   {

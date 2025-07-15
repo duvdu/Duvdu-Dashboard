@@ -1,3 +1,4 @@
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MediaPreview } from "@/components/ui/media-preview";
@@ -11,6 +12,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { useModal } from "@/store/modal-store";
 import { type ColumnDef } from "@tanstack/react-table";
 import { format, formatDistanceToNow } from "date-fns";
@@ -251,61 +253,66 @@ export const useChatColumns = (refetch?: () => void): ColumnDef<Chat>[] => {
                   </Button>
                 </Link>
 
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start rounded-none px-3 py-2"
-                  onClick={() =>
-                    onOpen(
-                      "pinChat",
-                      { chatId: chat._id, isPinned: !chat.isPinned },
-                      refetch
-                    )
-                  }
+                <ProtectedComponent
+                  permissionKey={PERMISSION_KEYS.CHAT.MANAGE}
+                  fallback={null}
                 >
-                  <PinIcon className="w-4 h-4 mr-2" />
-                  {chat.isPinned ? "Unpin" : "Pin"}
-                </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start rounded-none px-3 py-2"
+                    onClick={() =>
+                      onOpen(
+                        "pinChat",
+                        { chatId: chat._id, isPinned: !chat.isPinned },
+                        refetch
+                      )
+                    }
+                  >
+                    <PinIcon className="w-4 h-4 mr-2" />
+                    {chat.isPinned ? "Unpin" : "Pin"}
+                  </Button>
 
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start rounded-none px-3 py-2"
-                  onClick={() =>
-                    onOpen(
-                      "archiveChat",
-                      { chatId: chat._id, isArchived: !chat.isArchived },
-                      refetch
-                    )
-                  }
-                >
-                  <ArchiveIcon className="w-4 h-4 mr-2" />
-                  {chat.isArchived ? "Unarchive" : "Archive"}
-                </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start rounded-none px-3 py-2"
+                    onClick={() =>
+                      onOpen(
+                        "archiveChat",
+                        { chatId: chat._id, isArchived: !chat.isArchived },
+                        refetch
+                      )
+                    }
+                  >
+                    <ArchiveIcon className="w-4 h-4 mr-2" />
+                    {chat.isArchived ? "Unarchive" : "Archive"}
+                  </Button>
 
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start rounded-none px-3 py-2"
-                  onClick={() =>
-                    onOpen("muteChat", { chatId: chat._id }, refetch)
-                  }
-                >
-                  <VolumeXIcon className="w-4 h-4 mr-2" />
-                  Mute
-                </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start rounded-none px-3 py-2"
+                    onClick={() =>
+                      onOpen("muteChat", { chatId: chat._id }, refetch)
+                    }
+                  >
+                    <VolumeXIcon className="w-4 h-4 mr-2" />
+                    Mute
+                  </Button>
 
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start rounded-none px-3 py-2 text-destructive"
-                  onClick={() =>
-                    onOpen(
-                      "deleteChat",
-                      { chatId: chat._id, userId: primaryParticipant._id },
-                      refetch
-                    )
-                  }
-                >
-                  <TrashIcon className="w-4 h-4 mr-2" />
-                  Delete
-                </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start rounded-none px-3 py-2 text-destructive"
+                    onClick={() =>
+                      onOpen(
+                        "deleteChat",
+                        { chatId: chat._id, userId: primaryParticipant._id },
+                        refetch
+                      )
+                    }
+                  >
+                    <TrashIcon className="w-4 h-4 mr-2" />
+                    Delete
+                  </Button>
+                </ProtectedComponent>
               </PopoverContent>
             </Popover>
           </div>

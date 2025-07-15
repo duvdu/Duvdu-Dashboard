@@ -1,8 +1,10 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { type FilterDefinition } from "@/components/ui/filters";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { getUsers } from "@/features/users/api/users.api";
 import { useUserColumns } from "@/features/users/columns/user-columns";
 import { useModal } from "@/store/modal-store";
@@ -65,9 +67,11 @@ export default function UserListPage() {
     <DashboardLayout className="space-y-6">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Admins</h1>
-        <Button onClick={() => onOpen("createAdmin", {}, refetch)}>
-          + New Admin
-        </Button>
+        <ProtectedComponent permissionKey={PERMISSION_KEYS.ADMINS.CREATE}>
+          <Button onClick={() => onOpen("createAdmin", {}, refetch)}>
+            + New Admin
+          </Button>
+        </ProtectedComponent>
       </div>
 
       {error && (

@@ -1,3 +1,4 @@
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,6 +7,7 @@ import { Loader } from "@/components/ui/loader";
 import { MediaPreview } from "@/components/ui/media-preview";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -119,15 +121,17 @@ export function ChatSidebar({
             <MessageCircleIcon className="w-4 h-4 mr-2" />
             Recent Chats
           </Button>
-          <Button
-            variant={activeTab === "users" ? "default" : "outline"}
-            size="sm"
-            onClick={handleStartNewChat}
-            className="flex-1"
-          >
-            <UserIcon className="w-4 h-4 mr-2" />
-            Start New Chat
-          </Button>
+          <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.SEND}>
+            <Button
+              variant={activeTab === "users" ? "default" : "outline"}
+              size="sm"
+              onClick={handleStartNewChat}
+              className="flex-1"
+            >
+              <UserIcon className="w-4 h-4 mr-2" />
+              Start New Chat
+            </Button>
+          </ProtectedComponent>
         </div>
       </CardHeader>
 
@@ -149,15 +153,17 @@ export function ChatSidebar({
                   <p className="text-sm mb-4">
                     Start chatting with users to see your conversations here
                   </p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleStartNewChat}
-                    className="flex items-center gap-2"
-                  >
-                    <PlusIcon className="w-4 h-4" />
-                    Start New Chat
-                  </Button>
+                  <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.SEND}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleStartNewChat}
+                      className="flex items-center justify-center w-full gap-2"
+                    >
+                      <PlusIcon className="w-4 h-4" />
+                      Start New Chat
+                    </Button>
+                  </ProtectedComponent>
                 </div>
               ) : (
                 chats.map((chat) => {
@@ -202,18 +208,27 @@ export function ChatSidebar({
                             )}
                           </div>
                           <span className="text-xs text-muted-foreground">
-                            {/* {formatLastMessageTime(chat.updatedAt)} */}
+                            {chat.newestMessage?.createdAt &&
+                              new Date(
+                                chat.newestMessage.createdAt
+                              ).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
                           </span>
                         </div>
 
-                        <div className="flex items-center justify-between mt-1">
-                          <span className="text-sm text-muted-foreground truncate">
-                            {chat.newestMessage
+                        <div className="flex items-center justify-between text-sm text-muted-foreground">
+                          <span className="truncate">
+                            {chat.newestMessage?.content
                               ? truncateMessage(chat.newestMessage.content)
-                              : "No messages yet"}
+                              : "No messages"}
                           </span>
                           {chat.unreadMessageCount > 0 && (
-                            <Badge variant="destructive" className="text-xs">
+                            <Badge
+                              variant="destructive"
+                              className="text-xs ml-2"
+                            >
                               {chat.unreadMessageCount}
                             </Badge>
                           )}
@@ -226,19 +241,6 @@ export function ChatSidebar({
             </div>
           ) : (
             <div className="space-y-1 p-3">
-              {/* Info banner */}
-              <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 mb-3">
-                <div className="flex items-center gap-2">
-                  <PlusIcon className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                  <p className="text-sm font-medium text-blue-800 dark:text-blue-200">
-                    Start New Conversation
-                  </p>
-                </div>
-                <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
-                  Search for users below and click to start chatting
-                </p>
-              </div>
-
               {isLoadingUsers ? (
                 <div className="flex justify-center py-8">
                   <Loader className="size-10" />
@@ -247,28 +249,24 @@ export function ChatSidebar({
                 <div className="text-center py-8 text-muted-foreground">
                   <UserIcon className="w-12 h-12 mx-auto mb-3 opacity-50" />
                   <p className="font-medium">
-                    {debouncedQuery.trim()
+                    {debouncedQuery
                       ? "No users found"
-                      : "Search for users"}
+                      : "Search users to start a conversation"}
                   </p>
                   <p className="text-sm">
-                    {debouncedQuery.trim()
-                      ? "Try a different search term"
-                      : "Enter a name, username, or email to find users"}
+                    {debouncedQuery
+                      ? "Try searching with different keywords"
+                      : "Type a name to find users"}
                   </p>
                 </div>
               ) : (
                 <>
-                  <div className="text-xs text-muted-foreground px-3 py-2 font-medium">
-                    {searchedUsers.length} user
-                    {searchedUsers.length !== 1 ? "s" : ""} found
-                  </div>
                   {searchedUsers.map((user) => (
                     <div
                       key={user._id}
                       className={cn(
-                        "flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-accent border border-transparent hover:border-border",
-                        selectedUserId === user._id && "bg-accent border-border"
+                        "flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-accent",
+                        selectedUserId === user._id && "bg-accent"
                       )}
                       onClick={() => onUserSelect(user)}
                     >
@@ -300,17 +298,21 @@ export function ChatSidebar({
                               </Badge>
                             )}
                           </div>
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            className="text-xs px-2 py-1 h-auto"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              onUserSelect(user);
-                            }}
+                          <ProtectedComponent
+                            permissionKey={PERMISSION_KEYS.CHAT.SEND}
                           >
-                            Chat
-                          </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="text-xs px-2 py-1 h-auto"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onUserSelect(user);
+                              }}
+                            >
+                              Chat
+                            </Button>
+                          </ProtectedComponent>
                         </div>
                         <span className="text-xs text-muted-foreground max-w-[150px] truncate">
                           @{user.username}

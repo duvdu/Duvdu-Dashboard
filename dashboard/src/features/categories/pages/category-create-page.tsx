@@ -1,5 +1,8 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Loader } from "@/components/ui/loader";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -66,14 +69,27 @@ function CategoryCreatePage() {
 
   return (
     <DashboardLayout className="w-full mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-6">Create Category</h1>
+      <ProtectedComponent
+        permissionKey={PERMISSION_KEYS.CATEGORIES.CREATE}
+        fallback={
+          <Alert variant="destructive">
+            <AlertTitle>Access Denied</AlertTitle>
+            <AlertDescription>
+              You don't have permission to create categories.
+            </AlertDescription>
+          </Alert>
+        }
+        showFallback={true}
+      >
+        <h1 className="text-2xl font-bold mb-6">Create Category</h1>
 
-      <CategoryForm
-        onSubmit={handleSubmit}
-        isLoading={isPending}
-        submitLabel="Create"
-      />
-      {isPending && <Loader className="w-8 h-8 mt-4" />}
+        <CategoryForm
+          onSubmit={handleSubmit}
+          isLoading={isPending}
+          submitLabel="Create"
+        />
+        {isPending && <Loader className="w-8 h-8 mt-4" />}
+      </ProtectedComponent>
     </DashboardLayout>
   );
 }

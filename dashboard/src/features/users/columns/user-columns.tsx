@@ -1,3 +1,4 @@
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Image } from "@/components/ui/image";
@@ -6,6 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { useModal } from "@/store/modal-store";
 import { type ColumnDef } from "@tanstack/react-table";
 import {
@@ -99,14 +101,16 @@ export const useUserColumns = (
         header: "Actions",
         cell: ({ row }) => (
           <div className="flex items-center gap-2">
-            {!isAdmin && (
-              <Button variant="outline" asChild>
-                <Link to={`../users/${row.original._id}`}>
-                  View Profile
-                  <SquareArrowOutUpRightIcon className="h-4 w-4" />
-                </Link>
-              </Button>
-            )}
+            <ProtectedComponent permissionKey={PERMISSION_KEYS.USERS.VIEW}>
+              {!isAdmin && (
+                <Button variant="outline" asChild>
+                  <Link to={`../users/${row.original._id}`}>
+                    View Profile
+                    <SquareArrowOutUpRightIcon className="h-4 w-4" />
+                  </Link>
+                </Button>
+              )}
+            </ProtectedComponent>
 
             <Popover>
               <PopoverTrigger asChild>
@@ -116,76 +120,100 @@ export const useUserColumns = (
               </PopoverTrigger>
               <PopoverContent className="w-40 p-0" align="end">
                 {isAdmin ? (
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start rounded-none px-3 py-2"
-                    onClick={() => {
-                      onOpen("updateAdmin", { id: row.original._id }, refetch);
-                    }}
+                  <ProtectedComponent
+                    permissionKey={PERMISSION_KEYS.ADMINS.UPDATE}
                   >
-                    <PencilIcon className="mr-2 h-4 w-4" />
-                    Edit
-                  </Button>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start rounded-none px-3 py-2"
+                      onClick={() => {
+                        onOpen(
+                          "updateAdmin",
+                          { id: row.original._id },
+                          refetch
+                        );
+                      }}
+                    >
+                      <PencilIcon className="mr-2 h-4 w-4" />
+                      Edit
+                    </Button>
+                  </ProtectedComponent>
                 ) : (
                   <>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start rounded-none px-3 py-2"
-                      onClick={() => {
-                        onOpen("sendNotification", {
-                          users: [row.original._id],
-                        });
-                      }}
+                    <ProtectedComponent
+                      permissionKey={PERMISSION_KEYS.NOTIFICATIONS.SEND}
                     >
-                      <BellIcon className="mr-2 h-4 w-4" />
-                      Notify
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start rounded-none px-3 py-2"
-                      onClick={() => {
-                        onOpen("sendMessage", { receiver: row.original._id });
-                      }}
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-start rounded-none px-3 py-2"
+                        onClick={() => {
+                          onOpen("sendNotification", {
+                            users: [row.original._id],
+                          });
+                        }}
+                      >
+                        <BellIcon className="mr-2 h-4 w-4" />
+                        Notify
+                      </Button>
+                    </ProtectedComponent>
+                    <ProtectedComponent
+                      permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
                     >
-                      <MessageCircleIcon className="mr-2 h-4 w-4" />
-                      Message
-                    </Button>
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-start rounded-none px-3 py-2"
+                        onClick={() => {
+                          onOpen("sendMessage", { receiver: row.original._id });
+                        }}
+                      >
+                        <MessageCircleIcon className="mr-2 h-4 w-4" />
+                        Message
+                      </Button>
+                    </ProtectedComponent>
                   </>
                 )}
 
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start rounded-none px-3 py-2 text-destructive"
-                  onClick={() => {
-                    onOpen(
-                      "blockUnblockUser",
-                      {
-                        userId: row.original._id,
-                        isBlocked: row.original.isBlocked.value,
-                      },
-                      refetch
-                    );
-                  }}
+                <ProtectedComponent
+                  permissionKeys={[
+                    PERMISSION_KEYS.USERS.BLOCK,
+                    PERMISSION_KEYS.USERS.UNBLOCK,
+                  ]}
                 >
-                  {row.original.isBlocked.value ? (
-                    <>
-                      <CircleOff className="mr-2 h-4 w-4" />
-                      Unblock
-                    </>
-                  ) : (
-                    <>
-                      <Ban className="mr-2 h-4 w-4" />
-                      Block
-                    </>
-                  )}
-                </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start rounded-none px-3 py-2 text-destructive"
+                    onClick={() => {
+                      onOpen(
+                        "blockUnblockUser",
+                        {
+                          userId: row.original._id,
+                          isBlocked: row.original.isBlocked.value,
+                        },
+                        refetch
+                      );
+                    }}
+                  >
+                    {row.original.isBlocked.value ? (
+                      <>
+                        <CircleOff className="mr-2 h-4 w-4" />
+                        Unblock
+                      </>
+                    ) : (
+                      <>
+                        <Ban className="mr-2 h-4 w-4" />
+                        Block
+                      </>
+                    )}
+                  </Button>
+                </ProtectedComponent>
               </PopoverContent>
             </Popover>
           </div>
         ),
       },
     ],
-    [onOpen, refetch]
+    [onOpen, refetch, isAdmin]
   );
+
   return columns;
 };

@@ -1,3 +1,4 @@
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MediaPreview } from "@/components/ui/media-preview";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { cn } from "@/lib/utils";
 
 import { format, isToday, isYesterday } from "date-fns";
@@ -474,26 +476,36 @@ export function MessageList({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => onReplyToMessage?.(message)}>
-                  <ReplyIcon className="h-3 w-3 mr-2" />
-                  Reply
-                </DropdownMenuItem>
+                <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.SEND}>
+                  <DropdownMenuItem onClick={() => onReplyToMessage?.(message)}>
+                    <ReplyIcon className="h-3 w-3 mr-2" />
+                    Reply
+                  </DropdownMenuItem>
+                </ProtectedComponent>
 
                 {isOwn && (
-                  <DropdownMenuItem onClick={() => handleStartEdit(message)}>
-                    <EditIcon className="h-3 w-3 mr-2" />
-                    Edit
-                  </DropdownMenuItem>
+                  <ProtectedComponent
+                    permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
+                  >
+                    <DropdownMenuItem onClick={() => handleStartEdit(message)}>
+                      <EditIcon className="h-3 w-3 mr-2" />
+                      Edit
+                    </DropdownMenuItem>
+                  </ProtectedComponent>
                 )}
 
                 {isOwn && (
-                  <DropdownMenuItem
-                    onClick={() => onDeleteMessage?.(message._id)}
-                    className="text-destructive"
+                  <ProtectedComponent
+                    permissionKey={PERMISSION_KEYS.MESSAGES.DELETE}
                   >
-                    <TrashIcon className="h-3 w-3 mr-2" />
-                    Delete
-                  </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => onDeleteMessage?.(message._id)}
+                      className="text-destructive"
+                    >
+                      <TrashIcon className="h-3 w-3 mr-2" />
+                      Delete
+                    </DropdownMenuItem>
+                  </ProtectedComponent>
                 )}
               </DropdownMenuContent>
             </DropdownMenu>

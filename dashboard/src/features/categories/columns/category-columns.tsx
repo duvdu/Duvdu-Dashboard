@@ -1,3 +1,4 @@
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Image } from "@/components/ui/image";
@@ -7,6 +8,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { useModal } from "@/store/modal-store";
 import { type ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
@@ -67,12 +69,12 @@ export const useCategoryColumns = (
       ),
     },
     {
-      accessorKey: "insurance",
-      header: "Insurance",
+      accessorKey: "isRelated",
+      header: "Related",
       cell: ({ row }) => (
         <Switch
           className="cursor-default pointer-events-none"
-          checked={!!row.original.insurance}
+          checked={!!row.original.isRelated}
           disabled
         />
       ),
@@ -90,11 +92,13 @@ export const useCategoryColumns = (
       header: "Actions",
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
-          <Button variant="outline" asChild>
-            <Link to={`../categories/${row.original._id}`}>
-              <SquareArrowOutUpRightIcon className="w-4 h-4" /> View
-            </Link>
-          </Button>
+          <ProtectedComponent permissionKey={PERMISSION_KEYS.CATEGORIES.VIEW}>
+            <Button variant="outline" asChild>
+              <Link to={`../categories/${row.original._id}`}>
+                <SquareArrowOutUpRightIcon className="w-4 h-4" /> View
+              </Link>
+            </Button>
+          </ProtectedComponent>
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="outline" className="h-8 w-8 p-0">
@@ -102,25 +106,33 @@ export const useCategoryColumns = (
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-40 p-0" align="end">
-              <Link to={`/dashboard/categories/update/${row.original._id}`}>
+              <ProtectedComponent
+                permissionKey={PERMISSION_KEYS.CATEGORIES.UPDATE}
+              >
+                <Link to={`/dashboard/categories/update/${row.original._id}`}>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start rounded-none px-3 py-2"
+                  >
+                    <PencilIcon className="w-4 h-4" />
+                    Edit
+                  </Button>
+                </Link>
+              </ProtectedComponent>
+              <ProtectedComponent
+                permissionKey={PERMISSION_KEYS.CATEGORIES.DELETE}
+              >
                 <Button
                   variant="ghost"
-                  className="w-full justify-start rounded-none px-3 py-2"
+                  className="w-full justify-start rounded-none px-3 py-2 text-destructive"
+                  onClick={() =>
+                    onOpen("deleteCategory", { id: row.original._id }, refetch)
+                  }
                 >
-                  <PencilIcon className="w-4 h-4" />
-                  Edit
+                  <TrashIcon className="w-4 h-4" />
+                  Delete
                 </Button>
-              </Link>
-              <Button
-                variant="ghost"
-                className="w-full justify-start rounded-none px-3 py-2 text-destructive"
-                onClick={() =>
-                  onOpen("deleteCategory", { id: row.original._id }, refetch)
-                }
-              >
-                <TrashIcon className="w-4 h-4" />
-                Delete
-              </Button>
+              </ProtectedComponent>
             </PopoverContent>
           </Popover>
         </div>

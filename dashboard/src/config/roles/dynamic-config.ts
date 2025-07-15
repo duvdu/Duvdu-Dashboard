@@ -1,0 +1,222 @@
+import { PERMISSION_KEYS } from "@/config/permissions";
+import {
+  type Permission,
+  type RoleConfig,
+  type SidebarItem,
+} from "@/types/rbac";
+import {
+  Calendar,
+  Home,
+  MessageCircleMore,
+  Settings,
+  Shield,
+  User,
+  Users,
+} from "lucide-react";
+
+// Default sidebar items based on permissions
+const SIDEBAR_ITEMS: SidebarItem[] = [
+  {
+    path: "/dashboard",
+    icon: Home,
+    label: "Home",
+    requiredPermissions: [PERMISSION_KEYS.DASHBOARD.VIEW],
+    exactMatch: true,
+  },
+  {
+    path: "/dashboard/categories",
+    icon: Settings,
+    label: "Categories",
+    requiredPermissions: [PERMISSION_KEYS.CATEGORIES.VIEW],
+  },
+  {
+    path: "/dashboard/projects",
+    icon: Calendar,
+    label: "Cycles",
+    requiredPermissions: [PERMISSION_KEYS.PROJECTS.VIEW],
+    children: [
+      {
+        path: "/dashboard/projects",
+        icon: Calendar,
+        label: "Projects",
+        requiredPermissions: [PERMISSION_KEYS.PROJECTS.VIEW],
+      },
+    ],
+  },
+  {
+    path: "/dashboard/users",
+    icon: User,
+    label: "Users",
+    requiredPermissions: [PERMISSION_KEYS.USERS.VIEW],
+  },
+  {
+    path: "/dashboard/chat",
+    icon: MessageCircleMore,
+    label: "Messages",
+    // requiredPermissions: [PERMISSION_KEYS.MESSAGES.VIEW],
+    children: [
+      {
+        path: "/dashboard/chat",
+        icon: MessageCircleMore,
+        label: "Message Users",
+        // requiredPermissions: [PERMISSION_KEYS.CHAT.VIEW],
+      },
+      {
+        path: "/dashboard/chat/user-to-user",
+        icon: MessageCircleMore,
+        label: "User-to-User Chat",
+        requiredPermissions: [PERMISSION_KEYS.CHAT.FROM_TO],
+      },
+    ],
+  },
+
+  {
+    path: "/dashboard/roles",
+    icon: Shield,
+    label: "Roles",
+    requiredPermissions: [PERMISSION_KEYS.ROLES.VIEW],
+  },
+  {
+    path: "/dashboard/admins",
+    icon: Users,
+    label: "Admins",
+    requiredPermissions: [PERMISSION_KEYS.ADMINS.VIEW],
+  },
+];
+
+// Default theme for dynamic roles
+const DEFAULT_THEME = {
+  primaryColor: "blue",
+  accentColor: "blue-600",
+  sidebarStyle: "default" as const,
+  sidebar: {
+    backgroundColor: "bg-white",
+    hoverTextColor: "text-muted",
+    selectedBackgroundColor: "bg-secondary",
+    logoColor: "primary",
+  },
+};
+
+/**
+ * Generate features object based on permissions
+ */
+function generateFeatures(permissions: Permission[]): Record<string, boolean> {
+  const permissionKeys = permissions.map((p) => p);
+
+  return {
+    canManageUsers: permissionKeys.some(
+      (key) => key.includes("users") && key.includes("manage")
+    ),
+    canManageRoles: permissionKeys.some(
+      (key) => key.includes("roles") && key.includes("manage")
+    ),
+    canManagePermissions: permissionKeys.some(
+      (key) => key.includes("permissions") && key.includes("manage")
+    ),
+    canViewAnalytics: permissionKeys.some(
+      (key) => key.includes("dashboard") && key.includes("view")
+    ),
+    canManageProjects: permissionKeys.some(
+      (key) => key.includes("projects") && key.includes("manage")
+    ),
+    canManageCategories: permissionKeys.some(
+      (key) => key.includes("categories") && key.includes("manage")
+    ),
+    canManageAdmins: permissionKeys.some(
+      (key) => key.includes("admins") && key.includes("manage")
+    ),
+    canSendMessages: permissionKeys.some(
+      (key) => key.includes("messages") && key.includes("send")
+    ),
+    canManageChat: permissionKeys.some(
+      (key) => key.includes("chat") && key.includes("manage")
+    ),
+  };
+}
+
+/**
+ * Filter sidebar items based on user permissions
+ */
+function filterSidebarItems(
+  items: SidebarItem[],
+  permissions: Permission[]
+): SidebarItem[] {
+  const permissionKeys = permissions.map((p) => p);
+
+  return items.filter((item) => {
+    // If item has no required permissions, show it
+    if (!item.requiredPermissions || item.requiredPermissions.length === 0) {
+      return true;
+    }
+
+    // Check if user has any of the required permissions
+    const hasPermission = item.requiredPermissions.some((reqPerm) =>
+      permissionKeys.includes(reqPerm)
+    );
+
+    if (hasPermission) {
+      // If item has children, filter them recursively
+      if (item.children) {
+        item.children = filterSidebarItems(item.children, permissions);
+      }
+      return true;
+    }
+
+    return false;
+  });
+}
+
+/**
+ * Generate a dynamic role configuration based on role key and permissions
+ */
+export function generateDynamicRoleConfig(
+  roleKey: string,
+  permissions: Permission[]
+): RoleConfig {
+  const filteredSidebar = filterSidebarItems(SIDEBAR_ITEMS, permissions);
+  const features = generateFeatures(permissions);
+
+  return {
+    role: roleKey,
+    displayName:
+      roleKey.charAt(0).toUpperCase() + roleKey.slice(1).toLowerCase(),
+    defaultRoute: "/dashboard/home",
+    theme: DEFAULT_THEME,
+    sidebar: filteredSidebar,
+    features,
+    isStatic: false,
+  };
+}
+
+/**
+ * Check if a role has access to a specific route
+ */
+export function hasRouteAccess(
+  route: string,
+  permissions: Permission[]
+): boolean {
+  const permissionKeys = permissions.map((p) => p);
+
+  // Find the sidebar item for this route
+  const findRouteItem = (items: SidebarItem[]): SidebarItem | null => {
+    for (const item of items) {
+      if (item.path === route) {
+        return item;
+      }
+      if (item.children) {
+        const childItem = findRouteItem(item.children);
+        if (childItem) return childItem;
+      }
+    }
+    return null;
+  };
+
+  const routeItem = findRouteItem(SIDEBAR_ITEMS);
+  if (!routeItem || !routeItem.requiredPermissions) {
+    return true; // No specific permissions required
+  }
+
+  return routeItem.requiredPermissions.some((reqPerm) =>
+    permissionKeys.includes(reqPerm)
+  );
+}

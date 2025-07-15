@@ -1,6 +1,8 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Loader } from "@/components/ui/loader";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCategoryById, updateCategory } from "../api/category.api";
@@ -57,24 +59,38 @@ function CategoryUpdatePage() {
   }
 
   return (
-    <DashboardLayout className="w-full  py-8">
-      <h1 className="text-2xl font-bold mb-6">Update Category</h1>
-      {error && (
-        <Alert variant="destructive" className="mb-4">
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{error.message}</AlertDescription>
-        </Alert>
-      )}
-      {loading ? (
-        <Loader className="w-8 h-8 mt-4" />
-      ) : (
-        <CategoryForm
-          defaultValues={category}
-          onSubmit={handleSubmit}
-          isLoading={loading}
-          submitLabel="Update"
-        />
-      )}
+    <DashboardLayout className="w-full mx-auto py-8">
+      <ProtectedComponent
+        permissionKey={PERMISSION_KEYS.CATEGORIES.UPDATE}
+        fallback={
+          <Alert variant="destructive">
+            <AlertTitle>Access Denied</AlertTitle>
+            <AlertDescription>
+              You don't have permission to update categories.
+            </AlertDescription>
+          </Alert>
+        }
+        showFallback={true}
+      >
+        <h1 className="text-2xl font-bold mb-6">Update Category</h1>
+
+        {error && (
+          <Alert variant="destructive">
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{error.message}</AlertDescription>
+          </Alert>
+        )}
+
+        {loading && <Loader className="w-8 h-8 mx-auto mt-10" />}
+
+        {!loading && !error && category && (
+          <CategoryForm
+            defaultValues={category}
+            onSubmit={handleSubmit}
+            submitLabel="Update"
+          />
+        )}
+      </ProtectedComponent>
     </DashboardLayout>
   );
 }

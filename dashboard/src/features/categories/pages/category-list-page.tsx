@@ -1,8 +1,10 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { type FilterDefinition } from "@/components/ui/filters";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { getCategories } from "../api/category.api";
@@ -69,9 +71,11 @@ function CategoryListPage() {
     <DashboardLayout className="space-y-6">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Categories</h1>
-        <Button onClick={() => navigate("../categories/create")}>
-          + New Category
-        </Button>
+        <ProtectedComponent permissionKey={PERMISSION_KEYS.CATEGORIES.CREATE}>
+          <Button onClick={() => navigate("../categories/create")}>
+            + New Category
+          </Button>
+        </ProtectedComponent>
       </div>
       {error && (
         <Alert variant="destructive">
@@ -80,17 +84,19 @@ function CategoryListPage() {
         </Alert>
       )}
 
-      <DataTable
-        columns={categoryColumns}
-        data={categories}
-        loading={loading}
-        pagesCount={pagesCount}
-        page={page}
-        limit={limit}
-        filters={filters}
-        filterValues={filterValues}
-        onFiltersChange={handleFiltersChange}
-      />
+      <ProtectedComponent permissionKey={PERMISSION_KEYS.CATEGORIES.VIEW}>
+        <DataTable
+          columns={categoryColumns}
+          data={categories}
+          loading={loading}
+          pagesCount={pagesCount}
+          page={page}
+          limit={limit}
+          filters={filters}
+          filterValues={filterValues}
+          onFiltersChange={handleFiltersChange}
+        />
+      </ProtectedComponent>
     </DashboardLayout>
   );
 }

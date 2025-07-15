@@ -12,92 +12,30 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import {
-  Calendar,
-  Home,
-  MessageCircleMore,
-  MoreHorizontal,
-  Settings,
-  Shield,
-  User,
-  Users,
-} from "lucide-react";
+import { useRBAC, useRoleSidebar } from "@/contexts/RBACProvider";
+import { MoreHorizontal } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 function DashboardSidebar() {
   const { isMobile } = useSidebar();
-  const sidebarLinks = [
-    {
-      path: "/dashboard/home",
-      icon: Home,
-      label: "Home",
-      iconColor: "text-green-600",
-      items: [],
-    },
-
-    {
-      path: "/dashboard/projects",
-      icon: Calendar,
-      label: "Cycles",
-      iconColor: "text-gray-600",
-      items: [
-        {
-          path: "/dashboard/projects",
-          label: "Projects",
-        },
-      ],
-    },
-    {
-      path: "/dashboard/users",
-      icon: User,
-      label: "Users",
-      iconColor: "text-gray-600",
-      items: [],
-    },
-    {
-      path: "/dashboard/chat",
-      icon: MessageCircleMore,
-      label: "Messages",
-      iconColor: "text-blue-600",
-      items: [
-        {
-          path: "/dashboard/chat",
-          label: "Message Users",
-        },
-        {
-          path: "/dashboard/chat/user-to-user",
-          label: "User-to-User Chat",
-        },
-      ],
-    },
-    {
-      path: "/dashboard/categories",
-      icon: Settings,
-      label: "Categories",
-      iconColor: "text-gray-600",
-      items: [],
-    },
-    {
-      path: "/dashboard/roles",
-      icon: Shield,
-      label: "Roles",
-      iconColor: "text-gray-600",
-      items: [],
-    },
-    {
-      path: "/dashboard/admins",
-      icon: Users,
-      label: "Admins",
-      iconColor: "text-gray-600",
-      items: [],
-    },
-  ];
+  const { canAccess } = useRBAC();
+  const sidebarItems = useRoleSidebar();
 
   const { pathname } = useLocation();
 
   const isActive = (path: string) => {
     return pathname === path;
   };
+
+  // Filter sidebar items based on permissions
+  const filterSidebarItems = (items: typeof sidebarItems) => {
+    return items.filter((item) => {
+      if (!item.requiredPermissions) return true;
+      return canAccess(item.requiredPermissions);
+    });
+  };
+
+  const filteredSidebarItems = filterSidebarItems(sidebarItems);
 
   return (
     <Sidebar side={"left"} className="bg-background border-r-0">
@@ -108,9 +46,9 @@ function DashboardSidebar() {
           </Link>
         </div>
         <SidebarMenu className="px-4">
-          {sidebarLinks.map((link, index) => (
+          {filteredSidebarItems.map((link, index) => (
             <SidebarMenuItem key={index}>
-              {link.items && link.items.length > 0 ? (
+              {link.children && link.children.length > 0 ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <SidebarMenuButton
@@ -138,18 +76,25 @@ function DashboardSidebar() {
                     align={isMobile ? "end" : "start"}
                     className="min-w-56 rounded-lg"
                   >
-                    {link.items.map((child, childIdx) => (
-                      <DropdownMenuItem asChild key={childIdx}>
-                        <Link
-                          to={child.path}
-                          className={`w-full ${
-                            isActive(child.path) ? "bg-muted font-semibold" : ""
-                          }`}
-                        >
-                          {child.label}
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
+                    {link.children
+                      .filter((child) => {
+                        if (!child.requiredPermissions) return true;
+                        return canAccess(child.requiredPermissions);
+                      })
+                      .map((child, childIdx) => (
+                        <DropdownMenuItem asChild key={childIdx}>
+                          <Link
+                            to={child.path}
+                            className={`w-full ${
+                              isActive(child.path)
+                                ? "bg-muted font-semibold"
+                                : ""
+                            }`}
+                          >
+                            {child.label}
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
