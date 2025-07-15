@@ -55,7 +55,7 @@ export function useLogoutMutation(options?: LogoutMutationOptions) {
 type ProfileUseQueryOptions = UseQueryOptions<
   AxiosResponse<{
     data: {
-      id: string;
+      _id: string;
       name: string;
     };
   }>
