@@ -7,18 +7,23 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { useAuthStore } from "@/features/auth/store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { MessageCircleIcon, User, UserIcon } from "lucide-react";
+import { ArrowLeft, MessageCircleIcon, User, UserIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useOutletContext, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { deleteMessage, getChatMessages, updateMessage } from "../api/chat.api";
 import { type Message } from "../types/chat.types";
 import { MessageList } from "./MessageList";
 import { SendMessageForm } from "./SendMessageForm";
 
+interface ChatOutletContext {
+  onBackToChats: () => void;
+}
+
 export function ChatMessagesView() {
   const { userId } = useParams();
   const { user } = useAuthStore();
+  const { onBackToChats } = useOutletContext<ChatOutletContext>();
   const currentUserId = user?._id;
   console.log(currentUserId, "currentUserId");
   const [replyingTo, setReplyingTo] = useState<Message | null>(null);
@@ -132,8 +137,18 @@ export function ChatMessagesView() {
   return (
     <div className="flex-1 flex flex-col h-full">
       {/* Chat Header */}
-      <CardHeader className="border-b flex items-center justify-between py-2   ">
-        <div className="flex items-center  space-x-3 ">
+      <CardHeader className="border-b flex items-center justify-between py-2">
+        <div className="flex items-center space-x-3">
+          {/* Back Button - Only visible on mobile */}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onBackToChats}
+            className="lg:hidden p-2"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </Button>
+
           <div className="relative">
             <MediaPreview
               src={currentReceiver?.profileImage}
