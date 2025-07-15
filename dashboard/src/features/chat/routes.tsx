@@ -8,27 +8,19 @@ const UserToUserChatPage = lazy(() => import("./pages/user-to-user-chat-page"));
 
 export const chatRoutes = [
   {
-    path: "chat",
-    element: (
-      // <ProtectedRoute permissionKey={PERMISSION_KEYS.CHAT.VIEW}>
-      <ChatMainPage />
-      // </ProtectedRoute>
-    ),
+    path: "messages",
+    element: <ChatMainPage />,
     children: [
       {
         path: ":userId",
-        element: (
-          // <ProtectedRoute permissionKey={PERMISSION_KEYS.CHAT.VIEW}>
-          <ChatMessagesView />
-          // </ProtectedRoute>
-        ),
+        element: <ChatMessagesView />,
       },
     ],
   },
   {
-    path: "chat/user-to-user",
+    path: "user-to-user",
     element: (
-      <ProtectedRoute permissionKey={PERMISSION_KEYS.CHAT.MANAGE}>
+      <ProtectedRoute permissionKey={PERMISSION_KEYS.MESSAGES.FROM_TO}>
         <UserToUserChatPage />
       </ProtectedRoute>
     ),

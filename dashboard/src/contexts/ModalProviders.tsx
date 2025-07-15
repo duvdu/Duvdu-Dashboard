@@ -7,9 +7,11 @@ import { ApproveProjectModal } from "@/features/cycles-projects/components/Appro
 import { DeleteProjectModal } from "@/features/cycles-projects/components/DeleteProjectModal";
 import { PauseProjectModal } from "@/features/cycles-projects/components/PauseProjectModal";
 import { RejectProjectModal } from "@/features/cycles-projects/components/RejectProjectModal";
+import { CreateRoleModal } from "@/features/roles/components/CreateRoleModal";
 import DeleteRoleModal from "@/features/roles/components/DeleteRoleModal";
-import RoleFormModal from "@/features/roles/components/RoleFormModal";
+import { UpdateRoleModal } from "@/features/roles/components/UpdateRoleModal";
 import { BlockUnblockUserModal } from "@/features/users/components/BlockUnblockUserModal";
+import { DeleteUserModal } from "@/features/users/components/DeleteUserModal";
 import { useModal, type ModalType } from "@/store/modal-store";
 import { useEffect, useState, type JSX } from "react";
 
@@ -27,8 +29,8 @@ export const ModalProvider = () => {
     sendNotification: <SendNotificationModal />,
     sendMessage: <SendMessageModal />,
     deleteCategory: <DeleteCategoryModal />,
-    createRole: <RoleFormModal />,
-    updateRole: <RoleFormModal />,
+    createRole: <CreateRoleModal />,
+    updateRole: <UpdateRoleModal />,
     deleteRole: <DeleteRoleModal />,
     blockUnblockUser: <BlockUnblockUserModal />,
     createAdmin: <CreateAdminModal />,
@@ -41,6 +43,7 @@ export const ModalProvider = () => {
     archiveChat: <div>Archive Chat Modal</div>,
     muteChat: <div>Mute Chat Modal</div>,
     deleteChat: <div>Delete Chat Modal</div>,
+    deleteUser: <DeleteUserModal />,
   };
 
   return <>{type && modals[type]}</>;

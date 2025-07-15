@@ -254,7 +254,7 @@ export const useChatColumns = (refetch?: () => void): ColumnDef<Chat>[] => {
                 </Link>
 
                 <ProtectedComponent
-                  permissionKey={PERMISSION_KEYS.CHAT.MANAGE}
+                  permissionKey={PERMISSION_KEYS.MESSAGES.MANAGE}
                   fallback={null}
                 >
                   <Button

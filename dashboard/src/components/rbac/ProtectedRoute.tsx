@@ -33,7 +33,7 @@ export function ProtectedRoute({
   resource,
   action,
   roles,
-  redirectTo = "/dashboard/home",
+  redirectTo = "/dashboard/not-allowed",
   requireAll = false,
 }: ProtectedRouteProps) {
   const location = useLocation();

@@ -34,6 +34,7 @@ export default function UserListPage() {
         isBlocked:
           status === "blocked" ? true : status === "active" ? false : undefined,
         isAdmin: true,
+        isDeleted: status === "deleted" ? true : false,
       }),
   });
   const users = usersData?.data || [];
@@ -48,6 +49,7 @@ export default function UserListPage() {
       options: [
         { label: "Active", value: "active" },
         { label: "Blocked", value: "blocked" },
+        { label: "Deleted", value: "deleted" },
       ],
       placeholder: "Select Status",
     },

@@ -9,6 +9,7 @@ export async function getUsers({
   userType = "",
   isBlocked,
   isAdmin = false,
+  isDeleted,
 }) {
   const params = {
     search,
@@ -18,6 +19,7 @@ export async function getUsers({
     userType,
     isBlocked,
     isAdmin,
+    isDeleted,
   };
   const { data } = await api.get("api/users/auth/crm", { params });
   return data as PaginatedResponse<User>;
@@ -62,6 +64,11 @@ export async function unblockUser(userId: string, reason?: string) {
   return data;
 }
 
+export async function deleteUser(userId: string) {
+  const { data } = await api.delete(`/api/users/auth/crm/${userId}`);
+  return data;
+}
+
 export const usersApi = {
   getUsers,
   createUser,
@@ -71,4 +78,5 @@ export const usersApi = {
   getUserWithdrawMethodById,
   blockUser,
   unblockUser,
+  deleteUser,
 };

@@ -476,7 +476,9 @@ export function MessageList({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.SEND}>
+                <ProtectedComponent
+                  permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
+                >
                   <DropdownMenuItem onClick={() => onReplyToMessage?.(message)}>
                     <ReplyIcon className="h-3 w-3 mr-2" />
                     Reply

@@ -195,7 +195,9 @@ export function ChatHeader({
 
               <Separator className="my-1" />
 
-              <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.MANAGE}>
+              <ProtectedComponent
+                permissionKey={PERMISSION_KEYS.MESSAGES.MANAGE}
+              >
                 <Button
                   variant="ghost"
                   className="w-full justify-start px-3 py-2 h-auto"
@@ -206,7 +208,9 @@ export function ChatHeader({
                 </Button>
               </ProtectedComponent>
 
-              <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.MANAGE}>
+              <ProtectedComponent
+                permissionKey={PERMISSION_KEYS.MESSAGES.MANAGE}
+              >
                 <Button
                   variant="ghost"
                   className="w-full justify-start px-3 py-2 h-auto"
@@ -217,7 +221,9 @@ export function ChatHeader({
                 </Button>
               </ProtectedComponent>
 
-              <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.MANAGE}>
+              <ProtectedComponent
+                permissionKey={PERMISSION_KEYS.MESSAGES.MANAGE}
+              >
                 <Button
                   variant="ghost"
                   className="w-full justify-start px-3 py-2 h-auto"
@@ -230,7 +236,9 @@ export function ChatHeader({
                 </Button>
               </ProtectedComponent>
 
-              <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.MANAGE}>
+              <ProtectedComponent
+                permissionKey={PERMISSION_KEYS.MESSAGES.MANAGE}
+              >
                 <Button
                   variant="ghost"
                   className="w-full justify-start px-3 py-2 h-auto"
@@ -243,7 +251,9 @@ export function ChatHeader({
 
               <Separator className="my-1" />
 
-              <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.MANAGE}>
+              <ProtectedComponent
+                permissionKey={PERMISSION_KEYS.MESSAGES.MANAGE}
+              >
                 <Button
                   variant="ghost"
                   className="w-full justify-start px-3 py-2 h-auto text-destructive hover:text-destructive"

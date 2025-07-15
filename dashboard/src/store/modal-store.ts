@@ -17,7 +17,8 @@ export type ModalType =
   | "pinChat"
   | "archiveChat"
   | "muteChat"
-  | "deleteChat";
+  | "deleteChat"
+  | "deleteUser";
 
 export interface ModalData {
   id?: string;

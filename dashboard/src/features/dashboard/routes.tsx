@@ -1,8 +1,9 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { NotAllowedPage } from "@/components/layout/NotAllowedPage";
 import { ProtectedRoute } from "@/components/rbac/ProtectedRoute";
 import { PERMISSION_KEYS } from "@/config/permissions";
 import { lazy } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { adminsRoutes } from "../admins/routes";
 import { categoryRoutes } from "../categories/routes";
 import { chatRoutes } from "../chat/routes";
@@ -15,15 +16,15 @@ const DashboardPage = lazy(() => import("./pages/dashboard"));
 export const dashboardRoutes = [
   {
     index: true,
-    element: <Navigate to="home" replace />,
-  },
-  {
-    path: "home",
     element: (
       <ProtectedRoute permissionKey={PERMISSION_KEYS.DASHBOARD.VIEW}>
         <DashboardPage />
       </ProtectedRoute>
     ),
+  },
+  {
+    path: "not-allowed",
+    element: <NotAllowedPage />,
   },
   {
     path: "categories",
@@ -34,14 +35,12 @@ export const dashboardRoutes = [
     ),
     children: categoryRoutes,
   },
-  ...chatRoutes.map((route) => ({
-    ...route,
-    element: (
-      <ProtectedRoute permissionKey={PERMISSION_KEYS.CHAT.VIEW}>
-        <Outlet />
-      </ProtectedRoute>
-    ),
-  })),
+  {
+    path: "chat",
+    element: <Outlet />,
+    children: chatRoutes,
+  },
+
   {
     path: "projects",
     element: (

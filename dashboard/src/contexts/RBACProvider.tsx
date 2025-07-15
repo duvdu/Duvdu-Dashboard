@@ -21,10 +21,6 @@ export function RBACProvider({ children }: RBACProviderProps) {
 
   const role = user?.role?.key as UserRole | null;
 
-  // if (!isAuthenticated || !user) {
-  //   return null;
-  // }
-
   const contextValue = useMemo<RBACContext>(
     () => ({
       role,
@@ -39,9 +35,6 @@ export function RBACProvider({ children }: RBACProviderProps) {
     }),
     [role, permissions]
   );
-  // if (isLoading) {
-  //   return <PageLoader />;
-  // }
 
   return (
     <RBACContext.Provider value={contextValue}>{children}</RBACContext.Provider>
@@ -58,7 +51,6 @@ export function useRBAC(): RBACContext {
 
 export function useRole(): UserRole | null {
   const rbac = useRBAC();
-  console.log(rbac, "rbac");
   return rbac.role;
 }
 
@@ -85,12 +77,10 @@ export function useCanAccess(requiredPermissions?: string[]): boolean {
 export function useRoleConfig() {
   const role = useRole();
   const permissions = usePermissions();
-  console.log(role, permissions, "role, permissions");
   return role ? getRoleConfig(role, permissions) : null;
 }
 
 export function useRoleSidebar() {
   const roleConfig = useRoleConfig();
-  console.log(roleConfig, "roleConfig");
   return roleConfig?.sidebar || [];
 }

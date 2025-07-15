@@ -121,17 +121,15 @@ export function ChatSidebar({
             <MessageCircleIcon className="w-4 h-4 mr-2" />
             Recent Chats
           </Button>
-          <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.SEND}>
-            <Button
-              variant={activeTab === "users" ? "default" : "outline"}
-              size="sm"
-              onClick={handleStartNewChat}
-              className="flex-1"
-            >
-              <UserIcon className="w-4 h-4 mr-2" />
-              Start New Chat
-            </Button>
-          </ProtectedComponent>
+          <Button
+            variant={activeTab === "users" ? "default" : "outline"}
+            size="sm"
+            onClick={handleStartNewChat}
+            className="flex-1"
+          >
+            <UserIcon className="w-4 h-4 mr-2" />
+            Start New Chat
+          </Button>
         </div>
       </CardHeader>
 
@@ -153,7 +151,9 @@ export function ChatSidebar({
                   <p className="text-sm mb-4">
                     Start chatting with users to see your conversations here
                   </p>
-                  <ProtectedComponent permissionKey={PERMISSION_KEYS.CHAT.SEND}>
+                  <ProtectedComponent
+                    permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
+                  >
                     <Button
                       variant="outline"
                       size="sm"
@@ -174,7 +174,7 @@ export function ChatSidebar({
                     <div
                       key={chat._id}
                       className={cn(
-                        "flex items-center space-x-3 p-3 rounded-lg cursor-pointer transition-colors hover:bg-accent",
+                        "flex items-center space-x-3 p-3 rounded-lg  cursor-pointer transition-colors hover:bg-accent",
                         selectedUserId === otherUser._id && "bg-accent"
                       )}
                       onClick={() => onUserSelect(otherUser)}
@@ -198,7 +198,7 @@ export function ChatSidebar({
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center space-x-2">
-                            <span className="font-medium truncate">
+                            <span className="font-medium truncate max-w-[150px]">
                               {otherUser.name}
                             </span>
                             {otherUser.hasVerificationBadge && (
@@ -298,21 +298,18 @@ export function ChatSidebar({
                               </Badge>
                             )}
                           </div>
-                          <ProtectedComponent
-                            permissionKey={PERMISSION_KEYS.CHAT.SEND}
+
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="text-xs px-2 py-1 h-auto"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onUserSelect(user);
+                            }}
                           >
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="text-xs px-2 py-1 h-auto"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onUserSelect(user);
-                              }}
-                            >
-                              Chat
-                            </Button>
-                          </ProtectedComponent>
+                            Chat
+                          </Button>
                         </div>
                         <span className="text-xs text-muted-foreground max-w-[150px] truncate">
                           @{user.username}

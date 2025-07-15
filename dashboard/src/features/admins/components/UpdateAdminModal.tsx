@@ -30,13 +30,22 @@ export function UpdateAdminModal() {
   });
 
   const { mutateAsync: updateUserMutation, isPending } = useMutation({
-    mutationFn: (values: UpdateAdminSchema) =>
-      updateUser(adminId, {
-        ...values,
-        phoneNumber: {
-          number: values.phoneNumber,
-        },
-      }),
+    mutationFn: (values: UpdateAdminSchema) => {
+      const formData = new FormData();
+
+      // Append basic fields
+      formData.append("name", values.name);
+      formData.append("username", values.username);
+      formData.append("email", values.email);
+      formData.append("role", values.role);
+
+      // Append phone number
+      if (values.phoneNumber) {
+        formData.append("phoneNumber[number]", values.phoneNumber);
+      }
+
+      return updateUser(adminId, formData);
+    },
     onSuccess: () => {
       toast.success("Admin updated successfully");
       if (refetch) refetch();

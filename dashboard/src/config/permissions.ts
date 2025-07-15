@@ -46,16 +46,11 @@ export const PERMISSION_KEYS = {
     SEND: "send-message",
     DELETE: "delete-message",
   },
-  CHAT: {
-    FROM_TO: "list-messages-from-to",
-    VIEW: "list-messages-from-to",
-    SEND: "send-message",
-    MANAGE: "manage-chat",
-  },
+
   NOTIFICATIONS: {
     VIEW: "list-notifications",
-    SEND: "send-notification",
-    DELETE: "delete-notification",
+    SEND: "send-notification-to-users",
+    DELETE: "remove-notification",
   },
 } as const;
 
@@ -67,7 +62,6 @@ export const RESOURCES = {
   CATEGORIES: "categories",
   ROLES: "roles",
   MESSAGES: "messages",
-  CHAT: "chat",
   NOTIFICATIONS: "notifications",
   TERMS_AND_CONDITIONS: "terms_and_conditions",
   PERMISSIONS: "permissions",
@@ -100,7 +94,6 @@ export function hasPermission(
   permissions: Permission[],
   permissionKey: string
 ): boolean {
-  console.log(permissions, permissionKey, "permissions");
   return permissions.some((permission) => permission === permissionKey);
 }
 

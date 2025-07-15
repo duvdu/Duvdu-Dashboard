@@ -18,6 +18,7 @@ import {
   MoreHorizontalIcon,
   PencilIcon,
   SquareArrowOutUpRightIcon,
+  Trash2Icon,
 } from "lucide-react";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
@@ -78,12 +79,23 @@ export const useUserColumns = (
         header: "Status",
         cell: ({ row }) => {
           const isBlocked = row.original?.isBlocked?.value || false;
+          const isDeleted = row.original?.isDeleted || false;
+          const status = isDeleted
+            ? "Deleted"
+            : isBlocked
+            ? "Suspended"
+            : "Active";
           return (
             <Badge
-              variant={isBlocked ? "destructive" : "default"}
-              className="text-xs"
+              variant={
+                isDeleted
+                  ? "destructive"
+                  : isBlocked
+                  ? "destructive"
+                  : "default"
+              }
             >
-              {isBlocked ? "Blocked" : "Active"}
+              {status}
             </Badge>
           );
         },
@@ -181,7 +193,7 @@ export const useUserColumns = (
                 >
                   <Button
                     variant="ghost"
-                    className="w-full justify-start rounded-none px-3 py-2 text-destructive"
+                    className="w-full justify-start rounded-none px-3 py-2 text-yellow-600"
                     onClick={() => {
                       onOpen(
                         "blockUnblockUser",
@@ -205,6 +217,27 @@ export const useUserColumns = (
                       </>
                     )}
                   </Button>
+                </ProtectedComponent>
+
+                <ProtectedComponent
+                  permissionKey={
+                    isAdmin
+                      ? PERMISSION_KEYS.ADMINS.DELETE
+                      : PERMISSION_KEYS.USERS.DELETE
+                  }
+                >
+                  {!row.original.isDeleted && (
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start rounded-none px-3 py-2 text-destructive"
+                      onClick={() => {
+                        onOpen("deleteUser", { id: row.original._id }, refetch);
+                      }}
+                    >
+                      <Trash2Icon className="mr-2 h-4 w-4" />
+                      Delete
+                    </Button>
+                  )}
                 </ProtectedComponent>
               </PopoverContent>
             </Popover>
