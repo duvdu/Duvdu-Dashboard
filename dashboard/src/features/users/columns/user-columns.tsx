@@ -168,20 +168,20 @@ export const useUserColumns = (
                         Notify
                       </Button>
                     </ProtectedComponent>
-                    <ProtectedComponent
+                    {/* <ProtectedComponent
                       permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
+                    > */}
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start rounded-none px-3 py-2"
+                      onClick={() => {
+                        onOpen("sendMessage", { receiver: row.original._id });
+                      }}
                     >
-                      <Button
-                        variant="ghost"
-                        className="w-full justify-start rounded-none px-3 py-2"
-                        onClick={() => {
-                          onOpen("sendMessage", { receiver: row.original._id });
-                        }}
-                      >
-                        <MessageCircleIcon className="mr-2 h-4 w-4" />
-                        Message
-                      </Button>
-                    </ProtectedComponent>
+                      <MessageCircleIcon className="mr-2 h-4 w-4" />
+                      Message
+                    </Button>
+                    {/* </ProtectedComponent> */}
                   </>
                 )}
 

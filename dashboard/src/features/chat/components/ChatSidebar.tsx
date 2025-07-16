@@ -151,7 +151,7 @@ export function ChatSidebar({
                   <p className="text-sm mb-4">
                     Start chatting with users to see your conversations here
                   </p>
-                  <ProtectedComponent
+                  {/* <ProtectedComponent
                     permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
                   >
                     <Button
@@ -163,7 +163,7 @@ export function ChatSidebar({
                       <PlusIcon className="w-4 h-4" />
                       Start New Chat
                     </Button>
-                  </ProtectedComponent>
+                  </ProtectedComponent> */}
                 </div>
               ) : (
                 chats.map((chat) => {

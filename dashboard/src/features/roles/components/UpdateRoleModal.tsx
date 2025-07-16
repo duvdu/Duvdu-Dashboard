@@ -18,7 +18,7 @@ export function UpdateRoleModal() {
   const queryClient = useQueryClient();
   const { isOpen, type, onClose, refetch, data } = useModal();
   const isModalOpen = isOpen && type === "updateRole";
-  const roleId = data?._id;
+  const roleId = data?.id;
 
   const {
     data: role,
@@ -53,7 +53,7 @@ export function UpdateRoleModal() {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] ">
         <DialogHeader>
           <DialogTitle>Update Role</DialogTitle>
           <DialogDescription>

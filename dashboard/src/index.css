@@ -166,3 +166,34 @@ button {
   background-color: rgba(0, 0, 0, 0.5);
   transform: scale(1.05);
 }
+
+/* Global Scrollbar Styles */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) var(--background);
+}
+
+body::-webkit-scrollbar,
+html::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: var(--background);
+}
+
+body::-webkit-scrollbar-thumb,
+html::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+  border: 2px solid var(--background);
+}
+
+body::-webkit-scrollbar-track,
+html::-webkit-scrollbar-track {
+  background: var(--background);
+  border-radius: 9999px;
+}
+
+body::-webkit-scrollbar-corner,
+html::-webkit-scrollbar-corner {
+  background: var(--background);
+}

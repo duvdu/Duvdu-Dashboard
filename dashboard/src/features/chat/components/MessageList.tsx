@@ -1,21 +1,17 @@
-import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MediaPreview } from "@/components/ui/media-preview";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { PERMISSION_KEYS } from "@/config/permissions";
 import { cn } from "@/lib/utils";
 
 import { format, isToday, isYesterday } from "date-fns";
 import {
   ArchiveIcon,
-  EditIcon,
   FileCodeIcon,
   FileIcon,
   FileImageIcon,
@@ -26,8 +22,6 @@ import {
   PauseIcon,
   PlayIcon,
   Presentation,
-  ReplyIcon,
-  TrashIcon,
   VideoIcon,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -476,16 +470,16 @@ export function MessageList({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <ProtectedComponent
+                {/* <ProtectedComponent
                   permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
                 >
                   <DropdownMenuItem onClick={() => onReplyToMessage?.(message)}>
                     <ReplyIcon className="h-3 w-3 mr-2" />
                     Reply
                   </DropdownMenuItem>
-                </ProtectedComponent>
+                </ProtectedComponent> */}
 
-                {isOwn && (
+                {/* {isOwn && (
                   <ProtectedComponent
                     permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
                   >
@@ -494,9 +488,9 @@ export function MessageList({
                       Edit
                     </DropdownMenuItem>
                   </ProtectedComponent>
-                )}
+                )} */}
 
-                {isOwn && (
+                {/* {isOwn && (
                   <ProtectedComponent
                     permissionKey={PERMISSION_KEYS.MESSAGES.DELETE}
                   >
@@ -508,7 +502,7 @@ export function MessageList({
                       Delete
                     </DropdownMenuItem>
                   </ProtectedComponent>
-                )}
+                )} */}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

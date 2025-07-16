@@ -20,7 +20,7 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     path: "/dashboard",
     icon: Home,
     label: "Home",
-    requiredPermissions: [PERMISSION_KEYS.DASHBOARD.VIEW],
+    // requiredPermissions: [PERMISSION_KEYS.DASHBOARD.VIEW],
     exactMatch: true,
   },
   {

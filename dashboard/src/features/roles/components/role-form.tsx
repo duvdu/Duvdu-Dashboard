@@ -141,6 +141,8 @@ export function RoleForm({
     Object.values(filteredPermissions).flat().includes(perm)
   ).length;
 
+  console.log(selectedPermissions);
+
   return (
     <Form {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -217,7 +219,7 @@ export function RoleForm({
                   <div className="max-h-96 overflow-y-auto border rounded-md">
                     {Object.entries(filteredPermissions).map(
                       ([group, perms]) => {
-                        const isExpanded = expandedGroups[group] !== false; // Default to expanded
+                        const isExpanded = expandedGroups[group] !== true;
                         const groupSelectedCount = perms.filter((perm) =>
                           selectedPermissions.includes(perm)
                         ).length;

@@ -18,9 +18,9 @@ export const dashboardRoutes = [
   {
     index: true,
     element: (
-      <ProtectedRoute permissionKey={PERMISSION_KEYS.DASHBOARD.VIEW}>
-        <DashboardPage />
-      </ProtectedRoute>
+      // <ProtectedRoute permissionKey={PERMISSION_KEYS.DASHBOARD.VIEW}>
+      <DashboardPage />
+      // </ProtectedRoute>
     ),
   },
   {

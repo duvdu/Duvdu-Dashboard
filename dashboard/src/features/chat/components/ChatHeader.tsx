@@ -195,7 +195,7 @@ export function ChatHeader({
 
               <Separator className="my-1" />
 
-              <ProtectedComponent
+              {/* <ProtectedComponent
                 permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
               >
                 <Button
@@ -206,9 +206,9 @@ export function ChatHeader({
                   <PinIcon className="w-4 h-4 mr-2" />
                   {chat.isPinned ? "Unpin Chat" : "Pin Chat"}
                 </Button>
-              </ProtectedComponent>
+              </ProtectedComponent> */}
 
-              <ProtectedComponent
+              {/* <ProtectedComponent
                 permissionKey={PERMISSION_KEYS.MESSAGES.DELETE}
               >
                 <Button
@@ -219,9 +219,9 @@ export function ChatHeader({
                   <ArchiveIcon className="w-4 h-4 mr-2" />
                   {chat.isArchived ? "Unarchive Chat" : "Archive Chat"}
                 </Button>
-              </ProtectedComponent>
+              </ProtectedComponent> */}
 
-              <ProtectedComponent
+              {/* <ProtectedComponent
                 permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
               >
                 <Button
@@ -234,8 +234,8 @@ export function ChatHeader({
                     ? "Unmute Chat"
                     : "Mute Chat"}
                 </Button>
-              </ProtectedComponent>
-
+              </ProtectedComponent> */}
+{/* 
               <ProtectedComponent
                 permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
               >
@@ -247,11 +247,11 @@ export function ChatHeader({
                   <DownloadIcon className="w-4 h-4 mr-2" />
                   Export Chat
                 </Button>
-              </ProtectedComponent>
+              </ProtectedComponent> */}
 
               <Separator className="my-1" />
 
-              <ProtectedComponent
+              {/* <ProtectedComponent
                 permissionKey={PERMISSION_KEYS.MESSAGES.DELETE}
               >
                 <Button
@@ -262,7 +262,7 @@ export function ChatHeader({
                   <TrashIcon className="w-4 h-4 mr-2" />
                   Delete Chat
                 </Button>
-              </ProtectedComponent>
+              </ProtectedComponent> */}
             </div>
           </PopoverContent>
         </Popover>
