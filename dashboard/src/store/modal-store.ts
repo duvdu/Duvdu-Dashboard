@@ -18,7 +18,8 @@ export type ModalType =
   | "archiveChat"
   | "muteChat"
   | "deleteChat"
-  | "deleteUser";
+  | "deleteUser"
+  | "activateDeactivatePayoutMethod";
 
 export interface ModalData {
   id?: string;

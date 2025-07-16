@@ -71,6 +71,7 @@ export const useTableQueryParams = (tableId: string) => {
 
   return {
     params,
+    allParams: searchParams,
     updateParams,
     tableId,
   };

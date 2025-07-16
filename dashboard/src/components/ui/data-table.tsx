@@ -155,7 +155,7 @@ export function DataTable<TData, TValue>({
         {(!disableSearch || filters) && (
           <div className="bg-primary/10 px-2 py-2 border-b border-border">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
-              {!disableSearch && (
+              {!disableSearch ? (
                 <div className="relative">
                   <Search
                     size={16}
@@ -170,6 +170,8 @@ export function DataTable<TData, TValue>({
                     className="h-8 pl-8 pr-3 w-full sm:w-[300px] bg-transparent rounded-sm text-sm border-gray-300 "
                   />
                 </div>
+              ) : (
+                <div />
               )}
               {filters ? (
                 <Filters
