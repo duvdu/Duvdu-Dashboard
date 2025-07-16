@@ -27,6 +27,21 @@ export const getChats = async (
   return data;
 };
 
+// Get chats for a specific user
+export const getUserChats = async (
+  userId: string,
+  filters: ChatFilters = {}
+): Promise<ChatResponse> => {
+  const { data } = await axios.get(`/api/message/${userId}/chats`, {
+    params: Object.fromEntries(
+      Object.entries(filters).filter(
+        ([, value]) => value !== undefined && value !== ""
+      )
+    ),
+  });
+  return data;
+};
+
 // Get messages in a specific chat
 export const getChatMessages = async (
   userId: string,

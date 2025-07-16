@@ -1,9 +1,10 @@
+import ChatMessagePopup from "@/components/ChatMessagePopup";
 import { useAuthStore } from "@/features/auth/store";
 import type { Message } from "@/features/chat";
+import { getOtherUser } from "@/features/chat/utils";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-import { toast } from "sonner";
 import { type SocketContextValue } from "./SocketProvider.types";
 
 const SocketContext = createContext<SocketContextValue>({ socket: null });
@@ -18,11 +19,15 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
   const socketRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const [newMessagePopup, setNewMessagePopup] = useState<{
+    senderName: string;
+    messagePreview: string;
+    chatPath: string;
+  } | null>(null);
 
   useEffect(() => {
     if (!user?._id) return;
     if (socketRef.current) return;
-    // TODO: Replace with your backend socket URL
     const s = io(import.meta.env.VITE_API_URL, {
       query: { userId: user._id },
       autoConnect: true,
@@ -37,33 +42,24 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
     };
   }, [user?._id]);
 
-  // Global new_message handler for toast
   useEffect(() => {
-    if (
-      !socket ||
-      !user?._id ||
-      !location.pathname ||
-      location.pathname.includes("/dashboard/chat/messages")
-    )
-      return;
-    const handleNewMessage = (res: { data: Message }) => {
-      const message = res.data;
-      if (message.sourceUser?._id === user._id) return; // Ignore own messages
-      const chatPath = `/dashboard/chat/messages/${message.sourceUser?._id}`;
+    if (!socket || !user?._id) return;
+    const handleNewMessage = (res: { message: Message }) => {
+      const message = res.message;
+      const otherUser = getOtherUser(user?._id, message);
+      if (!otherUser || otherUser._id === user?._id) return;
+      const chatPath = `/dashboard/chat/messages/${otherUser._id}`;
       const isInChat = location.pathname === chatPath;
       if (!isInChat) {
-        toast(
-          `${
-            message.sourceUser?.name || "New message"
-          }: ${message.message.slice(0, 40)}`,
-          {
-            action: {
-              label: "View",
-              onClick: () => navigate(chatPath),
-            },
-            duration: 7000,
-          }
-        );
+        setNewMessagePopup({
+          senderName: otherUser.name || "New message",
+          messagePreview: message.content.slice(0, 40),
+          chatPath,
+        });
+
+        setTimeout(() => {
+          setNewMessagePopup(null);
+        }, 5000);
       }
     };
     socket.on("new_message", handleNewMessage);
@@ -72,9 +68,26 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
     };
   }, [socket, user?._id, location.pathname, navigate]);
 
+  const handleViewMessage = () => {
+    if (newMessagePopup) {
+      navigate(newMessagePopup.chatPath);
+      setNewMessagePopup(null);
+    }
+  };
+  const handleClosePopup = () => {
+    setNewMessagePopup(null);
+  };
+
   return (
     <SocketContext.Provider value={{ socket }}>
       {children}
+      <ChatMessagePopup
+        open={!!newMessagePopup}
+        senderName={newMessagePopup?.senderName || ""}
+        messagePreview={newMessagePopup?.messagePreview || ""}
+        onView={handleViewMessage}
+        onClose={handleClosePopup}
+      />
     </SocketContext.Provider>
   );
 }
