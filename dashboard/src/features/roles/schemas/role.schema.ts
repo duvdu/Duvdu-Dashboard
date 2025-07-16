@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { PERMISSIONS } from "../constants/permissions";
+import { getGroupedPermissionsForForm } from "../constants/permissions";
 
-const allPermissions = Object.values(PERMISSIONS).flat();
+const allPermissions = Object.values(getGroupedPermissionsForForm()).flat();
 
 export const roleSchema = z.object({
   key: z.string().min(2, "Role key is required"),

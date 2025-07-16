@@ -19,7 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronDown, ChevronRight, Search } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { PERMISSIONS } from "../constants/permissions";
+import { getGroupedPermissionsForForm } from "../constants/permissions";
 import type { RoleSchema } from "../schemas/role.schema";
 import { roleSchema } from "../schemas/role.schema";
 
@@ -86,7 +86,7 @@ export function RoleForm({
   };
 
   const handleSelectAll = () => {
-    const allPermissions = Object.values(PERMISSIONS)
+    const allPermissions = Object.values(getGroupedPermissionsForForm())
       .flat()
       .filter(
         (perm) =>
@@ -98,7 +98,7 @@ export function RoleForm({
   const handleClearAll = () => {
     if (searchTerm) {
       // Clear only filtered permissions
-      const filteredPerms = Object.values(PERMISSIONS)
+      const filteredPerms = Object.values(getGroupedPermissionsForForm())
         .flat()
         .filter((perm) =>
           perm.toLowerCase().includes(searchTerm.toLowerCase())
@@ -120,7 +120,9 @@ export function RoleForm({
     }));
   };
 
-  const filteredPermissions = Object.entries(PERMISSIONS).reduce(
+  const groupedPermissions = getGroupedPermissionsForForm();
+
+  const filteredPermissions = Object.entries(groupedPermissions).reduce(
     (acc, [group, perms]) => {
       const filteredPerms = perms.filter(
         (perm) =>

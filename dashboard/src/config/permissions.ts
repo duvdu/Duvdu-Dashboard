@@ -131,3 +131,13 @@ export function filterPermissionsByResource(
 export function getPermissionsByRole(permissions: Permission[]): Permission[] {
   return permissions;
 }
+
+// Utility to generate grouped permissions for forms (auto, lowerCamelCase keys)
+export function getGroupedPermissionsForForm() {
+  return Object.entries(PERMISSION_KEYS).reduce((acc, [key, value]) => {
+    // Convert key to lowerCamelCase (e.g., PROJECTS -> projects, CATEGORIES -> categories)
+    const groupKey = key.charAt(0).toLowerCase() + key.slice(1).toLowerCase();
+    acc[groupKey] = Object.values(value);
+    return acc;
+  }, {} as Record<string, string[]>);
+}
