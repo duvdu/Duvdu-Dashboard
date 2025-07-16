@@ -167,6 +167,26 @@ function filterSidebarItems(
 }
 
 /**
+ * Recursively find the first accessible route path from sidebar items
+ */
+function findFirstAccessiblePath(items: SidebarItem[]): string | null {
+  for (const item of items) {
+    if (item.path && !item.children) {
+      return item.path;
+    }
+    if (item.children && item.children.length > 0) {
+      const childPath = findFirstAccessiblePath(item.children);
+      if (childPath) return childPath;
+    }
+    // If item has both path and children, prefer the path
+    if (item.path && item.children && item.children.length > 0) {
+      return item.path;
+    }
+  }
+  return null;
+}
+
+/**
  * Generate a dynamic role configuration based on role key and permissions
  */
 export function generateDynamicRoleConfig(
@@ -219,4 +239,16 @@ export function hasRouteAccess(
   return routeItem.requiredPermissions.some((reqPerm) =>
     permissionKeys.includes(reqPerm)
   );
+}
+
+/**
+ * Get the first accessible dashboard route for the user based on permissions
+ */
+export function getFirstAccessibleDashboardRoute(
+  permissions: Permission[]
+): string {
+  const filteredSidebar = filterSidebarItems(SIDEBAR_ITEMS, permissions);
+  const firstPath = findFirstAccessiblePath(filteredSidebar);
+  // Fallback to /dashboard if nothing found
+  return firstPath || "/dashboard";
 }

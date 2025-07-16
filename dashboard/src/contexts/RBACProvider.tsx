@@ -1,4 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
+import { PageLoader } from "@/components/ui/page-loader";
 import {
   canAccess,
   hasAnyPermission,
@@ -8,7 +9,8 @@ import {
 import { getRoleConfig } from "@/config/roles";
 import { useAuthStore } from "@/features/auth/store";
 import { type Permission, type RBACContext, type UserRole } from "@/types/rbac";
-import React, { createContext, useContext, useMemo } from "react";
+import React, { createContext, useContext, useEffect, useMemo } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 
 const RBACContext = createContext<RBACContext | null>(null);
 
@@ -17,7 +19,13 @@ interface RBACProviderProps {
 }
 
 export function RBACProvider({ children }: RBACProviderProps) {
-  const { user, permissions } = useAuthStore();
+  const location = useLocation();
+  const { user, permissions, isLoading, error, fetchProfile, isAuthenticated } =
+    useAuthStore();
+
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
 
   const role = user?.role?.key as UserRole | null;
 
@@ -35,6 +43,18 @@ export function RBACProvider({ children }: RBACProviderProps) {
     }),
     [role, permissions]
   );
+
+  if (isLoading) {
+    return <PageLoader />;
+  }
+
+  if (error && !isLoading) {
+    return <Navigate to="/auth/login" state={{ from: location }} replace />;
+  }
+
+  if (!isAuthenticated && !isLoading) {
+    return <Navigate to="/auth/login" state={{ from: location }} replace />;
+  }
 
   return (
     <RBACContext.Provider value={contextValue}>{children}</RBACContext.Provider>
