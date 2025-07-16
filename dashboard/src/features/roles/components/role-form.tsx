@@ -19,7 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronDown, ChevronRight, Search } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { getGroupedPermissionsForForm } from "../constants/permissions";
+import { getGroupedPermissionsForForm } from "@/config/permissions";
 import type { RoleSchema } from "../schemas/role.schema";
 import { roleSchema } from "../schemas/role.schema";
 

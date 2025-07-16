@@ -1,4 +1,4 @@
-import type { Permission } from "../constants/permissions";
+import type { Permission } from "@/types/rbac";
 
 export interface Role {
   _id: string;
