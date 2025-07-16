@@ -5,6 +5,7 @@ export type PayoutMethod = {
   name: string;
   number: string;
   isDeleted: boolean;
+  status: "active" | "disabled";
   default: boolean;
   __v?: number;
 };

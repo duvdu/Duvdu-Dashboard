@@ -14,10 +14,8 @@ import { format } from "date-fns";
 import {
   ArchiveIcon,
   ArrowLeftIcon,
-  DownloadIcon,
   MoreVerticalIcon,
   PinIcon,
-  TrashIcon,
   UserIcon,
   VolumeXIcon,
 } from "lucide-react";
@@ -38,11 +36,11 @@ interface ChatHeaderProps {
 export function ChatHeader({
   chat,
   otherParticipant,
-  onArchive,
-  onPin,
-  onMute,
-  onDelete,
-  onExport,
+  // onArchive,
+  // onPin,
+  // onMute,
+  // onDelete,
+  // onExport,
   className,
 }: ChatHeaderProps) {
   const getParticipantStatus = (participant: User) => {
@@ -183,16 +181,17 @@ export function ChatHeader({
           </PopoverTrigger>
           <PopoverContent className="w-56 p-0" align="end">
             <div className="py-2">
-              <Link to={`/dashboard/users/${otherParticipant._id}`}>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start px-3 py-2 h-auto"
-                >
-                  <UserIcon className="w-4 h-4 mr-2" />
-                  View Profile
-                </Button>
-              </Link>
-
+              <ProtectedComponent permissionKeys={[PERMISSION_KEYS.USERS.VIEW]}>
+                <Link to={`/dashboard/users/${otherParticipant._id}`}>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start px-3 py-2 h-auto"
+                  >
+                    <UserIcon className="w-4 h-4 mr-2" />
+                    View Profile
+                  </Button>
+                </Link>
+              </ProtectedComponent>
               <Separator className="my-1" />
 
               {/* <ProtectedComponent
@@ -235,7 +234,7 @@ export function ChatHeader({
                     : "Mute Chat"}
                 </Button>
               </ProtectedComponent> */}
-{/* 
+              {/* 
               <ProtectedComponent
                 permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
               >

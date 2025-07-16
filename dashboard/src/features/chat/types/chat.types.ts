@@ -75,8 +75,8 @@ export type Message = {
 
 export type Chat = {
   _id: string;
-  sender: string;
-  receiver: string;
+  sender: User;
+  receiver: User;
   newestMessage?: Message;
   unreadMessageCount: number;
   canChat: boolean;

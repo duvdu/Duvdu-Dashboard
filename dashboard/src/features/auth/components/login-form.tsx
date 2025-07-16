@@ -40,7 +40,7 @@ export default function LoginForm({
   };
 
   return (
-    <div className="flex items-center  bg-primary justify-center min-h-screen px-24">
+    <div className="flex items-center  bg-primary justify-center min-h-screen px-8">
       <Card className="w-full max-w-lg bg-white text-primary rounded-xl shadow-xl border mx-auto p-8 ">
         <CardHeader className="mb-1">
           <CardTitle className="text-2xl font-semibold">

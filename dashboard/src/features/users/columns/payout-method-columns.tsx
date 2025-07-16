@@ -21,13 +21,20 @@ export const payoutMethodColumns: ColumnDef<PayoutMethod>[] = [
     cell: ({ row }) => row.original.number,
   },
   {
-    accessorKey: "isDeleted",
+    accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => (
-      <Badge variant={row.original.isDeleted ? "destructive" : "default"}>
-        {row.original.isDeleted ? "Disabled" : "Active"}
-      </Badge>
-    ),
+    cell: ({ row }) => {
+      const isDeleted = row.original.isDeleted;
+      const status = row.original.status;
+      if (isDeleted) {
+        return <Badge variant="destructive">Deleted</Badge>;
+      }
+      return (
+        <Badge variant={status === "active" ? "default" : "destructive"}>
+          {status === "active" ? "Active" : "Disabled"}
+        </Badge>
+      );
+    },
   },
   {
     accessorKey: "default",

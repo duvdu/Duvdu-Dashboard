@@ -1,3 +1,4 @@
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardHeader } from "@/components/ui/card";
@@ -5,6 +6,8 @@ import { Loader } from "@/components/ui/loader";
 import { MediaPreview } from "@/components/ui/media-preview";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { PERMISSION_KEYS } from "@/config/permissions";
+import { useSocket } from "@/contexts/SocketProvider";
 import { useAuthStore } from "@/features/auth/store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, MessageCircleIcon, User, UserIcon } from "lucide-react";
@@ -13,6 +16,7 @@ import { Link, useOutletContext, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { deleteMessage, getChatMessages, updateMessage } from "../api/chat.api";
 import { type Message } from "../types/chat.types";
+import { getOtherUser } from "../utils";
 import { MessageList } from "./MessageList";
 import { SendMessageForm } from "./SendMessageForm";
 
@@ -24,11 +28,12 @@ export function ChatMessagesView() {
   const { userId } = useParams();
   const { user } = useAuthStore();
   const { onBackToChats } = useOutletContext<ChatOutletContext>();
+  const { socket } = useSocket();
   const currentUserId = user?._id;
-  console.log(currentUserId, "currentUserId");
   const [replyingTo, setReplyingTo] = useState<Message | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
+  const [localMessages, setLocalMessages] = useState<Message[]>([]);
   // Fetch messages for selected user
   const {
     data: messagesData,
@@ -42,21 +47,8 @@ export function ChatMessagesView() {
   });
 
   const messages = messagesData?.data || [];
-  const currentReceiver = messages.length > 0 ? messages[0]?.receiver : null;
-
-  // Mark messages as watched
-  // const markAsWatchedMutation = useMutation({
-  //   mutationFn: (userId: string) =>
-  //     markMessagesAsWatched(userId, {
-  //       messages: messages.map((message) => message._id),
-  //     }),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({
-  //       queryKey: ["messages", userId],
-  //     });
-  //     queryClient.invalidateQueries({ queryKey: ["chats"] });
-  //   },
-  // });
+  const currentReceiver =
+    messages.length > 0 ? getOtherUser(user?._id, messages[0]) : null;
 
   // Delete message
   const deleteMessageMutation = useMutation({
@@ -95,12 +87,38 @@ export function ChatMessagesView() {
     }
   }, [messagesData?.data]);
 
-  // Mark messages as watched when user is selected
-  // useEffect(() => {
-  //   if (userId && messages.length > 0) {
-  //     markAsWatchedMutation.mutate(userId);
-  //   }
-  // }, [userId, messages.length, markAsWatchedMutation]);
+  // Sync localMessages with query data when userId or messagesData changes
+  useEffect(() => {
+    if (messagesData?.data) {
+      setLocalMessages(messagesData.data);
+    }
+  }, [messagesData?.data, userId]);
+
+  // Listen for new_message events for this chat
+  useEffect(() => {
+    if (!socket || !userId || !currentUserId) return;
+
+    const handleNewMessage = (res: { message: Message }) => {
+      const message = res.message;
+      const otherUser = getOtherUser(currentUserId, message);
+      if (otherUser?._id === userId) {
+        setLocalMessages((prev) => {
+          if (prev.some((m) => m._id === message._id)) return prev;
+          return [...prev, message];
+        });
+      }
+    };
+    socket.on("new_message", handleNewMessage);
+    return () => {
+      socket.off("new_message", handleNewMessage);
+    };
+  }, [socket, userId, currentUserId]);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [localMessages.length]);
 
   const handleDeleteMessage = (messageId: string) => {
     deleteMessageMutation.mutate(messageId);
@@ -116,7 +134,6 @@ export function ChatMessagesView() {
 
   const handleMessageSent = () => {
     setReplyingTo(null);
-    // No need to refetch - optimistic rendering handles the update
     queryClient.invalidateQueries({ queryKey: ["chats"] });
   };
 
@@ -189,12 +206,14 @@ export function ChatMessagesView() {
         </div>
 
         <div className="flex items-center space-x-2">
-          <Link to={`/dashboard/users/${userId}`}>
-            <Button variant="ghost" size="lg" disabled={isLoading}>
-              <User className="w-4 h-4" />
-              Go to Profile
-            </Button>
-          </Link>
+          <ProtectedComponent permissionKeys={[PERMISSION_KEYS.USERS.VIEW]}>
+            <Link to={`/dashboard/users/${userId}`}>
+              <Button variant="ghost" size="lg" disabled={isLoading}>
+                <User className="w-4 h-4" />
+                Go to Profile
+              </Button>
+            </Link>
+          </ProtectedComponent>
         </div>
       </CardHeader>
 
@@ -225,7 +244,7 @@ export function ChatMessagesView() {
               </div>
             ) : (
               <MessageList
-                messages={messages}
+                messages={localMessages}
                 currentUserId={currentUserId!}
                 onDeleteMessage={handleDeleteMessage}
                 onUpdateMessage={handleUpdateMessage}

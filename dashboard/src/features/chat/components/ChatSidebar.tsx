@@ -1,4 +1,3 @@
-import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,18 +6,15 @@ import { Loader } from "@/components/ui/loader";
 import { MediaPreview } from "@/components/ui/media-preview";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { PERMISSION_KEYS } from "@/config/permissions";
+import { useSidebar } from "@/components/ui/sidebar";
+import { useAuthStore } from "@/features/auth/store";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
-import {
-  MessageCircleIcon,
-  PlusIcon,
-  SearchIcon,
-  UserIcon,
-} from "lucide-react";
+import { MessageCircleIcon, SearchIcon, UserIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getChats, searchUsers } from "../api/chat.api";
-import { type Chat, type User } from "../types/chat.types";
+import { type User } from "../types/chat.types";
+import { getOtherUser } from "../utils";
 
 interface ChatSidebarProps {
   selectedUserId?: string | null;
@@ -32,6 +28,8 @@ export function ChatSidebar({
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"chats" | "users">("chats");
+  const { isMobile } = useSidebar();
+  const { user } = useAuthStore();
 
   // Debounce search query
   useEffect(() => {
@@ -61,10 +59,6 @@ export function ChatSidebar({
 
   const chats = chatsData?.data || [];
 
-  const getOtherUser = (chat: Chat) => {
-    return chat.newestMessage?.receiver;
-  };
-
   const truncateMessage = (content: string, maxLength: number = 40) => {
     return content.length > maxLength
       ? `${content.substring(0, maxLength)}...`
@@ -72,8 +66,8 @@ export function ChatSidebar({
   };
 
   useEffect(() => {
-    if (!selectedUserId && chats.length > 0) {
-      onUserSelect(chats[0].newestMessage?.receiver as User);
+    if (!selectedUserId && chats.length > 0 && !isMobile) {
+      onUserSelect(getOtherUser(user?._id, chats[0].newestMessage));
     }
   }, [selectedUserId, chatsData?.data, onUserSelect]);
 
@@ -167,7 +161,7 @@ export function ChatSidebar({
                 </div>
               ) : (
                 chats.map((chat) => {
-                  const otherUser = getOtherUser(chat);
+                  const otherUser = getOtherUser(user?._id, chat.newestMessage);
                   if (!otherUser) return null;
 
                   return (
