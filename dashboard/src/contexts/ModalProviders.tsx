@@ -10,6 +10,7 @@ import { RejectProjectModal } from "@/features/cycles-projects/components/Reject
 import { CreateRoleModal } from "@/features/roles/components/CreateRoleModal";
 import DeleteRoleModal from "@/features/roles/components/DeleteRoleModal";
 import { UpdateRoleModal } from "@/features/roles/components/UpdateRoleModal";
+import { ActivateDeactivatePayoutMethodModal } from "@/features/users/components/ActivateDeactivatePayoutMethodModal";
 import { BlockUnblockUserModal } from "@/features/users/components/BlockUnblockUserModal";
 import { DeleteUserModal } from "@/features/users/components/DeleteUserModal";
 import { useModal, type ModalType } from "@/store/modal-store";
@@ -44,6 +45,7 @@ export const ModalProvider = () => {
     muteChat: <div>Mute Chat Modal</div>,
     deleteChat: <div>Delete Chat Modal</div>,
     deleteUser: <DeleteUserModal />,
+    activateDeactivatePayoutMethod: <ActivateDeactivatePayoutMethodModal />,
   };
 
   return <>{type && modals[type]}</>;

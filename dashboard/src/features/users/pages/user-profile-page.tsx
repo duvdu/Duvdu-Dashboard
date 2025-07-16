@@ -4,7 +4,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { getUserById } from "../api/users.api";
-import { ActivateDeactivatePayoutMethodModal } from "../components/ActivateDeactivatePayoutMethodModal";
 import PayoutMethodsPanel from "../components/PayoutMethodsPanel";
 import UserProfileHeader from "../components/UserProfileHeader";
 
@@ -72,7 +71,6 @@ export default function UserProfilePage() {
           </Tabs>
         </div>
       </DashboardLayout>
-      <ActivateDeactivatePayoutMethodModal />
     </>
   );
 }
