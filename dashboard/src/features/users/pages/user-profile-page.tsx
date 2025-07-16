@@ -40,9 +40,8 @@ export default function UserProfilePage() {
         <h1 className="text-2xl font-bold mb-6">User Profile</h1>
         <div>
           <UserProfileHeader user={user} />
-          <Tabs defaultValue="overview" className="mt-8 flex-wrap">
+          <Tabs defaultValue="payout-methods" className="mt-8 flex-wrap">
             <TabsList className="mb-4">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="payout-methods">Payout Methods</TabsTrigger>
               <TabsTrigger value="complaints">Complaints</TabsTrigger>
               <TabsTrigger value="subscription-insight">
@@ -52,9 +51,6 @@ export default function UserProfilePage() {
               <TabsTrigger value="content-log">Content Log</TabsTrigger>
               <TabsTrigger value="contract-log">Contract Log</TabsTrigger>
             </TabsList>
-            <TabsContent value="overview">
-              <div>Overview content goes here.</div>
-            </TabsContent>
             <TabsContent value="payout-methods">
               <PayoutMethodsPanel userId={id} />
             </TabsContent>

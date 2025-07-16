@@ -37,4 +37,9 @@ export type User = {
     ratersCounter: number;
     totalRates: number;
   };
+  projectsCount: number;
+  rank: {
+    title: string;
+    color: string;
+  };
 };

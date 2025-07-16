@@ -22,7 +22,7 @@ export const Image: React.FC<ImageProps> = ({
   fallback,
   preview = false,
   className,
-  imageClassName,
+  imageClassName = "object-cover",
   ...avatarProps
 }) => {
   const [open, setOpen] = React.useState(false);
