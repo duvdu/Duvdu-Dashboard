@@ -1,4 +1,6 @@
 {
-  "module-templates.templateFiles": ["../dashboard/module-template.json"],
+  "module-templates.templateFiles": [
+    "../dashboard/templates/module-template.json"
+  ],
   "module-templates.engine": "handlebars"
 }

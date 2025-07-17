@@ -11,6 +11,7 @@ import { chatRoutes } from "../chat/routes";
 import { projectRoutes } from "../cycles-projects/routes";
 import { rolesRoutes } from "../roles/routes";
 import { usersRoutes } from "../users/routes";
+import { contractRoutes } from "../contracts/routes";
 
 const DashboardPage = lazy(() => import("./pages/dashboard"));
 
@@ -50,6 +51,11 @@ export const dashboardRoutes = [
       </ProtectedRoute>
     ),
     children: projectRoutes,
+  },
+  {
+    path: "contracts",
+    element: <Outlet />,
+    children: contractRoutes,
   },
   {
     path: "users",

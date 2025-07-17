@@ -6,6 +6,7 @@ import {
 } from "@/types/rbac";
 import {
   Calendar,
+  FileText,
   Home,
   MessageCircleMore,
   Settings,
@@ -40,6 +41,12 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
         icon: Calendar,
         label: "Projects",
         requiredPermissions: [PERMISSION_KEYS.PROJECTS.VIEW],
+      },
+      {
+        path: "/dashboard/contracts",
+        icon: FileText,
+        label: "Contracts",
+        // requiredPermissions: [PERMISSION_KEYS.CONTRACTS.VIEW],
       },
     ],
   },

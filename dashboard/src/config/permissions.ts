@@ -46,7 +46,12 @@ export const PERMISSION_KEYS = {
     VIEW: "list-withdraw-methods",
     UPDATE: "update-withdraw-method",
   },
-
+  CONTRACTS: {
+    VIEW: "list-contracts",
+    CREATE: "create-contract",
+    UPDATE: "update-contract",
+    DELETE: "remove-contract",
+  },
   NOTIFICATIONS: {
     SEND: "send-notification-to-users",
   },
