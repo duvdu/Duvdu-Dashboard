@@ -113,7 +113,7 @@ export function ChatSidebar({
             className="flex-1"
           >
             <MessageCircleIcon className="w-4 h-4 mr-2" />
-            Recent Chats
+            Chats
           </Button>
           <Button
             variant={activeTab === "users" ? "default" : "outline"}
@@ -122,7 +122,7 @@ export function ChatSidebar({
             className="flex-1"
           >
             <UserIcon className="w-4 h-4 mr-2" />
-            Start New Chat
+            New Chat
           </Button>
         </div>
       </CardHeader>

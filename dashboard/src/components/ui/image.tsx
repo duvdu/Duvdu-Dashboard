@@ -36,7 +36,9 @@ export const Image: React.FC<ImageProps> = ({
         className={imageClassName}
         onError={() => setImgError(true)}
       />
-      <AvatarFallback>{fallback || (alt ? alt[0] : "?")}</AvatarFallback>
+      <AvatarFallback className="font-semibold uppercase">
+        {fallback || (alt ? alt[0] + alt[1] : "?")}
+      </AvatarFallback>
     </Avatar>
   );
 

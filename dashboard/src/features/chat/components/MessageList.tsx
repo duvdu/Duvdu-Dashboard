@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { type Message } from "../types/chat.types";
+import { getOtherUser } from "../utils";
 
 interface AudioPlayerProps {
   src: string;
@@ -35,7 +36,7 @@ interface AudioPlayerProps {
 function AudioPlayer({ src, className }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -144,9 +145,9 @@ interface MessageListProps {
 export function MessageList({
   messages,
   currentUserId,
-  onDeleteMessage,
+  // onDeleteMessage,
   onUpdateMessage,
-  onReplyToMessage,
+  // onReplyToMessage,
   className,
 }: MessageListProps) {
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
@@ -223,10 +224,10 @@ export function MessageList({
 
   const isCurrentUser = (senderId: string) => senderId === currentUserId;
 
-  const handleStartEdit = (message: Message) => {
-    setEditingMessageId(message._id);
-    setEditContent(message.content);
-  };
+  // const handleStartEdit = (message: Message) => {
+  //   setEditingMessageId(message._id);
+  //   setEditContent(message.content);
+  // };
 
   const handleSaveEdit = (messageId: string) => {
     if (editContent.trim() !== "") {
@@ -450,7 +451,9 @@ export function MessageList({
             {message.updated && <span className="opacity-60">(edited)</span>}
             {message.watchers &&
               message.watchers.some(
-                (watcher) => watcher.user === currentUserId && !watcher.watched
+                (watcher) =>
+                  watcher.user === getOtherUser(currentUserId, message)._id &&
+                  !watcher.watched
               ) &&
               isOwn && (
                 <Badge variant="outline" className="text-xs">

@@ -20,7 +20,7 @@ export function ActivateDeactivatePayoutMethodModal() {
   const isActive = data?.status === "active";
 
   const { mutate: updateStatus, isPending } = useMutation({
-    mutationKey: ["withdraw-methods", "activateDeactivate"],
+    mutationKey: ["withdraw-methods"],
     mutationFn: async () => {
       if (!payoutMethodId) throw new Error("No payout method ID");
       const newStatus = isActive ? "inactive" : "active";

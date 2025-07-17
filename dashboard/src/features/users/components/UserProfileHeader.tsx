@@ -1,15 +1,23 @@
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Image } from "@/components/ui/image";
+import { PERMISSION_KEYS } from "@/config/permissions";
+import { useModal } from "@/store/modal-store";
 import {
   Ban,
+  BellIcon,
   Briefcase,
   CheckCircle,
   CircleDot,
+  CircleOff,
   Eye,
   Mail,
   MapPin,
+  MessageCircleIcon,
   Phone,
   Star,
+  Trash2Icon,
   Users,
 } from "lucide-react";
 import { type FC } from "react";
@@ -17,9 +25,11 @@ import type { User } from "../types/user.types";
 
 interface UserProfileHeaderProps {
   user: User;
+  refetch?: () => void;
 }
 
-const UserProfileHeader: FC<UserProfileHeaderProps> = ({ user }) => {
+const UserProfileHeader: FC<UserProfileHeaderProps> = ({ user, refetch }) => {
+  const { onOpen } = useModal();
   return (
     <div className="relative w-full rounded-lg shadow mb-4 overflow-hidden bg-white">
       {user.coverImage ? (
@@ -162,6 +172,65 @@ const UserProfileHeader: FC<UserProfileHeaderProps> = ({ user }) => {
             </div>
           </div>
         </div>
+      </div>
+      {/* ACTION BAR */}
+      <div className="flex flex-wrap gap-2 px-6 pb-4 border-t pt-4 bg-gray-50 justify-end">
+        <ProtectedComponent permissionKey={PERMISSION_KEYS.NOTIFICATIONS.SEND}>
+          <Button
+            variant="outline"
+            onClick={() =>
+              onOpen("sendNotification", { users: [user._id] }, refetch)
+            }
+          >
+            <BellIcon className="mr-2 h-4 w-4" /> Notify
+          </Button>
+        </ProtectedComponent>
+        {/* <ProtectedComponent permissionKey={PERMISSION_KEYS.MESSAGES.SEND}> */}
+        <Button
+          variant="outline"
+          onClick={() => onOpen("sendMessage", { receiver: user._id }, refetch)}
+        >
+          <MessageCircleIcon className="mr-2 h-4 w-4" /> Message
+        </Button>
+        {/* </ProtectedComponent> */}
+        <ProtectedComponent
+          permissionKeys={[
+            PERMISSION_KEYS.USERS.BLOCK,
+            PERMISSION_KEYS.USERS.UNBLOCK,
+          ]}
+        >
+          <Button
+            variant="outline"
+            className="text-yellow-600"
+            onClick={() =>
+              onOpen(
+                "blockUnblockUser",
+                { userId: user._id, isBlocked: user.isBlocked.value },
+                refetch
+              )
+            }
+          >
+            {user.isBlocked.value ? (
+              <>
+                <CircleOff className="mr-2 h-4 w-4" /> Unblock
+              </>
+            ) : (
+              <>
+                <Ban className="mr-2 h-4 w-4" /> Block
+              </>
+            )}
+          </Button>
+        </ProtectedComponent>
+        <ProtectedComponent permissionKey={PERMISSION_KEYS.USERS.DELETE}>
+          {!user.isDeleted && (
+            <Button
+              variant="destructive"
+              onClick={() => onOpen("deleteUser", { id: user._id }, refetch)}
+            >
+              <Trash2Icon className="mr-2 h-4 w-4" /> Delete
+            </Button>
+          )}
+        </ProtectedComponent>
       </div>
     </div>
   );

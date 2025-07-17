@@ -13,6 +13,7 @@ export default function UserProfilePage() {
     data: user,
     isLoading: loading,
     error,
+    refetch,
   } = useQuery({
     queryKey: ["user", id],
     queryFn: () => getUserById(id),
@@ -38,7 +39,7 @@ export default function UserProfilePage() {
       <DashboardLayout className="w-full py-8">
         <h1 className="text-2xl font-bold mb-6">User Profile</h1>
         <div>
-          <UserProfileHeader user={user} />
+          <UserProfileHeader user={user} refetch={refetch} />
           <Tabs defaultValue="payout-methods" className="mt-8 flex-wrap">
             <TabsList className="mb-4">
               <TabsTrigger value="payout-methods">Payout Methods</TabsTrigger>

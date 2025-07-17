@@ -105,7 +105,6 @@ export function SendMessageForm({
       return { previousMessages };
     },
     onSuccess: (newMessage) => {
-      toast.success("Message sent successfully");
       form.reset();
       setAttachments([]);
       onMessageSent?.();

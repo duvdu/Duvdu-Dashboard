@@ -82,7 +82,11 @@ export const usePayoutMethodColumns = () => {
             permissionKeys={[PERMISSION_KEYS.WITHDRAW_METHODS.UPDATE]}
           >
             <Button
-              variant={isActive ? "destructive" : "default"}
+              variant={"outline"}
+              className={cn(
+                isActive && "border-destructive text-destructive",
+                !isActive && "border-primary text-primary"
+              )}
               onClick={() =>
                 onOpen("activateDeactivatePayoutMethod", {
                   payoutMethodId: row.original._id,

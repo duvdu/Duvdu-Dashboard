@@ -147,6 +147,37 @@ export function DataTable<TData, TValue>({
 
   const { updateQueryParam } = useUpdateQueryParam(tableId);
 
+  // Ref for search input
+  const searchInputRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      // Ctrl+F (or Cmd+F on Mac) focuses search
+      if ((e.ctrlKey || e.metaKey) && e.key === "f") {
+        if (!disableSearch && searchInputRef.current) {
+          e.preventDefault();
+          searchInputRef.current.focus();
+        }
+      }
+      // Ctrl+ArrowRight: next page
+      if ((e.ctrlKey || e.metaKey) && e.key === "ArrowRight") {
+        if (limit && pagesCount && page < pagesCount) {
+          e.preventDefault();
+          updateQueryParam("page", (Number(page) + 1).toString());
+        }
+      }
+      // Ctrl+ArrowLeft: previous page
+      if ((e.ctrlKey || e.metaKey) && e.key === "ArrowLeft") {
+        if (limit && pagesCount && page > 1) {
+          e.preventDefault();
+          updateQueryParam("page", (Number(page) - 1).toString());
+        }
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [disableSearch, limit, pagesCount, page, updateQueryParam]);
+
   // Remove old search input and replace with Filters if provided
   return (
     <div className="w-full">
@@ -162,17 +193,19 @@ export function DataTable<TData, TValue>({
                     className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
                   />
                   <DebouncedInput
+                    ref={searchInputRef}
                     defaultValue={filterValues.search as string}
                     onChange={(e) => {
                       updateQueryParam("keyword", e.target.value);
                     }}
-                    placeholder="Search"
+                    placeholder="Search or press Ctrl+F"
                     className="h-8 pl-8 pr-3 w-full sm:w-[300px] bg-transparent rounded-sm text-sm border-gray-300 "
                   />
                 </div>
               ) : (
                 <div />
               )}
+
               {filters ? (
                 <Filters
                   filters={filters}
