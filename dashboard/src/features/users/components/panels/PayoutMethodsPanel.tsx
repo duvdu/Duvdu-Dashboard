@@ -2,12 +2,12 @@ import { DataTable } from "@/components/ui/data-table";
 import { type FilterDefinition } from "@/components/ui/filters";
 import { useUpdateQueryParam } from "@/hooks/useUpdateQueryParam";
 import { useQuery } from "@tanstack/react-query";
-import { getUserWithdrawMethods } from "../api/users.api";
-import { usePayoutMethodColumns } from "../columns/payout-method-columns";
+import { getUserWithdrawMethods } from "../../api/users.api";
+import { usePayoutMethodColumns } from "../../columns/payout-method-columns";
 import {
   type PayoutMethod,
   type PayoutMethodListResponse,
-} from "../types/payout-method.types";
+} from "../../types/payout-method.types";
 
 interface PayoutMethodsPanelProps {
   userId: string;

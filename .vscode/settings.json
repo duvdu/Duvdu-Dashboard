@@ -1,0 +1,4 @@
+{
+  "module-templates.templateFiles": ["../dashboard/module-template.json"],
+  "module-templates.engine": "handlebars"
+}

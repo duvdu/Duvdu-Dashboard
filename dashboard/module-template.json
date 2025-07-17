@@ -1,0 +1,189 @@
+{
+  "feature-module": {
+    "displayName": "Feature Module ",
+    "defaultPath": "dashboard/src/features",
+    "folder": "{{kebab name}}",
+    "questions": {
+      "name": "Module name (singular, e.g. category)",
+      "Name": "Module name PascalCase (e.g. Category)",
+      "namePlural": "Module name plural (e.g. categories)",
+      "NamePlural": "Module name plural PascalCase (e.g. Categories)"
+    },
+    "files": [
+      {
+        "name": "index.tsx",
+        "content": ["// Dashboard feature entry point (empty for now)", ""]
+      },
+      {
+        "name": "routes.tsx",
+        "content": [
+          "import { lazy } from 'react';",
+          "",
+          "const {{Name}}ListPage = lazy(() => import('./pages/{{name}}-list-page'));",
+          "const {{Name}}CreatePage = lazy(() => import('./pages/{{name}}-create-page'));",
+          "const {{Name}}UpdatePage = lazy(() => import('./pages/{{name}}-update-page'));",
+          "const {{Name}}DetailsPage = lazy(() => import('./pages/{{name}}-details-page'));",
+          "",
+          "export const {{name}}Routes = [",
+          "  {",
+          "    index: true,",
+          "    element: <{{Name}}ListPage />",
+          "  },",
+          "  {",
+          "    path: 'create',",
+          "    element: <{{Name}}CreatePage />",
+          "  },",
+          "  {",
+          "    path: 'update/:id',",
+          "    element: <{{Name}}UpdatePage />",
+          "  },",
+          "  {",
+          "    path: ':id',",
+          "    element: <{{Name}}DetailsPage />",
+          "  }",
+          "];",
+          ""
+        ]
+      },
+      {
+        "name": "api/{{name}}.api.ts",
+        "content": [
+          "import axios from '@/lib/axios';",
+          "import type { {{Name}}Schema } from '../schemas/{{name}}.schema';",
+          "import type { {{Name}} } from '../types/{{name}}.types';",
+          "",
+          "// List {{namePlural}}",
+          "export const get{{NamePlural}} = async (filters: Record<string, any>) => {",
+          "  const { data } = await axios.get('/api/{{name}}/crm', { params: filters });",
+          "  return data;",
+          "};",
+          "",
+          "// Get {{name}} by ID",
+          "export const get{{Name}}ById = async (id: string) => {",
+          "  const { data } = await axios.get(`/api/{{name}}/crm/${id}`);",
+          "  return data?.data;",
+          "};",
+          "",
+          "// Create {{name}}",
+          "export const create{{Name}} = async (formData: FormData) => {",
+          "  const { data } = await axios.post('/api/{{name}}', formData, {",
+          "    headers: { 'Content-Type': 'multipart/form-data' },",
+          "  });",
+          "  return data;",
+          "};",
+          "",
+          "// Update {{name}}",
+          "export const update{{Name}} = async (id: string, formData: FormData) => {",
+          "  const { data } = await axios.put(`/api/{{name}}/${id}`, formData, {",
+          "    headers: { 'Content-Type': 'multipart/form-data' },",
+          "  });",
+          "  return data;",
+          "};",
+          "",
+          "// Delete {{name}}",
+          "export const delete{{Name}} = async (id: string) => {",
+          "  const { data } = await axios.delete(`/api/{{name}}/${id}`);",
+          "  return data;",
+          "};",
+          ""
+        ]
+      },
+      {
+        "name": "columns/{{name}}-columns.tsx",
+        "content": [
+          "import { type ColumnDef } from '@tanstack/react-table';",
+          "import { type {{Name}} } from '../types/{{name}}.types';",
+          "",
+          "export const use{{Name}}Columns = (): ColumnDef<{{Name}}>[] => [",
+          "  // Define your columns here",
+          "];",
+          ""
+        ]
+      },
+      {
+        "name": "components/{{name}}-form.tsx",
+        "content": [
+          "import type { {{Name}}Schema } from '../schemas/{{name}}.schema';",
+          "export function {{Name}}Form() {",
+          "  // Implement form logic",
+          "  return null;",
+          "}",
+          ""
+        ]
+      },
+      {
+        "name": "components/Delete{{Name}}Modal.tsx",
+        "content": [
+          "import { delete{{Name}} } from '../api/{{name}}.api';",
+          "export function Delete{{Name}}Modal() {",
+          "  // Implement modal logic",
+          "  return null;",
+          "}",
+          ""
+        ]
+      },
+      {
+        "name": "pages/{{name}}-list-page.tsx",
+        "content": [
+          "export default function {{Name}}ListPage() {",
+          "  // Implement list page",
+          "  return null;",
+          "}",
+          ""
+        ]
+      },
+      {
+        "name": "pages/{{name}}-create-page.tsx",
+        "content": [
+          "export default function {{Name}}CreatePage() {",
+          "  // Implement create page",
+          "  return null;",
+          "}",
+          ""
+        ]
+      },
+      {
+        "name": "pages/{{name}}-update-page.tsx",
+        "content": [
+          "export default function {{Name}}UpdatePage() {",
+          "  // Implement update page",
+          "  return null;",
+          "}",
+          ""
+        ]
+      },
+      {
+        "name": "pages/{{name}}-details-page.tsx",
+        "content": [
+          "export default function {{Name}}DetailsPage() {",
+          "  // Implement details page",
+          "  return null;",
+          "}",
+          ""
+        ]
+      },
+      {
+        "name": "schemas/{{name}}.schema.ts",
+        "content": [
+          "import { z } from 'zod';",
+          "",
+          "export const {{name}}Schema = z.object({",
+          "  // Define schema fields",
+          "});",
+          "",
+          "export type {{Name}}Schema = z.infer<typeof {{name}}Schema>;",
+          ""
+        ]
+      },
+      {
+        "name": "types/{{name}}.types.ts",
+        "content": [
+          "export type {{Name}} = {",
+          "  // Define type fields",
+          "};",
+          ""
+        ]
+      }
+    ]
+  }
+}

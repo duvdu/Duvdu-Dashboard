@@ -4,7 +4,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { getUserById } from "../api/users.api";
-import PayoutMethodsPanel from "../components/PayoutMethodsPanel";
+import PayoutMethodsPanel from "../components/panels/PayoutMethodsPanel";
+import TransactionsPanel from "../components/panels/TransactionsPanel";
 import UserProfileHeader from "../components/UserProfileHeader";
 
 export default function UserProfilePage() {
@@ -61,7 +62,7 @@ export default function UserProfilePage() {
               <div>Subscription Insight content goes here.</div>
             </TabsContent>
             <TabsContent value="financial-log">
-              <div>Financial Log content goes here.</div>
+              <TransactionsPanel userId={id} />
             </TabsContent>
             <TabsContent value="content-log">
               <div>Content Log content goes here.</div>
