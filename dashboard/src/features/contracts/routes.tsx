@@ -1,25 +1,21 @@
-import { lazy } from 'react';
+import { lazy } from "react";
 
-const ContractListPage = lazy(() => import('./pages/contract-list-page'));
-const ContractCreatePage = lazy(() => import('./pages/contract-create-page'));
-const ContractUpdatePage = lazy(() => import('./pages/contract-update-page'));
-const ContractDetailsPage = lazy(() => import('./pages/contract-details-page'));
+const ContractListPage = lazy(() => import("./pages/contract-list-page"));
+const ContractUpdatePage = lazy(() => import("./pages/contract-update-page"));
+const ContractDetailsPage = lazy(() => import("./pages/contract-details-page"));
 
 export const contractRoutes = [
   {
     index: true,
-    element: <ContractListPage />
+    element: <ContractListPage />,
+  },
+
+  {
+    path: "update/:id",
+    element: <ContractUpdatePage />,
   },
   {
-    path: 'create',
-    element: <ContractCreatePage />
+    path: ":id",
+    element: <ContractDetailsPage />,
   },
-  {
-    path: 'update/:id',
-    element: <ContractUpdatePage />
-  },
-  {
-    path: ':id',
-    element: <ContractDetailsPage />
-  }
 ];

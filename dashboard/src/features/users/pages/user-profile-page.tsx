@@ -7,6 +7,7 @@ import { getUserById } from "../api/users.api";
 import PayoutMethodsPanel from "../components/panels/PayoutMethodsPanel";
 import TransactionsPanel from "../components/panels/TransactionsPanel";
 import UserProfileHeader from "../components/UserProfileHeader";
+import ContractsPanel from "@/features/contracts/components/ContractsPanel";
 
 export default function UserProfilePage() {
   const { id } = useParams();
@@ -37,8 +38,7 @@ export default function UserProfilePage() {
 
   return (
     <>
-      <DashboardLayout className="w-full py-8">
-        <h1 className="text-2xl font-bold mb-6">User Profile</h1>
+      <DashboardLayout className=" py-6">
         <div>
           <UserProfileHeader user={user} refetch={refetch} />
           <Tabs defaultValue="payout-methods" className="mt-8 flex-wrap">
@@ -68,7 +68,7 @@ export default function UserProfilePage() {
               <div>Content Log content goes here.</div>
             </TabsContent>
             <TabsContent value="contract-log">
-              <div>Contract Log content goes here.</div>
+              <ContractsPanel userId={id} />
             </TabsContent>
           </Tabs>
         </div>

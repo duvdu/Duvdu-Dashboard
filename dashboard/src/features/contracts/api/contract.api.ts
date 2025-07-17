@@ -6,6 +6,11 @@ import type {
 
 // List contracts
 export const getContracts = async (filters: {
+  user?: string;
+  status?: string;
+  type?: string;
+  from?: string;
+  to?: string;
   search?: string;
   page?: number;
   limit?: number;

@@ -1,10 +1,11 @@
-import { deleteContract } from '../api/contract.api';
-import { useModal } from '@/store/modal-store';
-import { Button } from '@/components/ui/button';
+import { deleteContract } from "../api/contract.api";
+import { useModal } from "@/store/modal-store";
+import { Button } from "@/components/ui/button";
 
 export function DeleteContractModal() {
   const { data, isOpen, type, onClose, refetch } = useModal();
-  const isModalOpen = isOpen && type === 'deleteContract';
+  const isModalOpen = isOpen;
+  // && type === 'deleteContract';
   const handleDelete = async () => {
     if (!data?.id) return;
     await deleteContract(data.id);

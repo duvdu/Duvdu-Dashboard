@@ -1,12 +1,37 @@
 import { Separator } from "@/components/ui/separator";
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import LogoutButton from "@/features/auth/components/logout-button";
 import { ThemeToggle } from "../ui/ThemeToggle";
+import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
-export function SiteHeader({ title = "Dashboard" }: { title?: string }) {
+export function DashboardHeader({
+  title = "Dashboard",
+  className,
+}: {
+  title?: string;
+  className?: string;
+}) {
+  const { open, isMobile } = useSidebar();
+  const isOpen = open && !isMobile;
+
   return (
-    <header className="flex h-[60px] shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
-      <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
+    <motion.header
+      animate={{
+        left: isOpen ? "256px" : "0",
+        width: isOpen ? "calc(100% - 256px)" : "100%",
+      }}
+      initial={{
+        left: isOpen ? "256px" : "0",
+        width: isOpen ? "calc(100% - 256px)" : "100%",
+      }}
+      transition={{ duration: 0.2, ease: "linear" }}
+      className={cn(
+        "fixed top-0 h-[60px] shrink-0 z-50 bg-background items-center gap-2 border-b",
+        className
+      )}
+    >
+      <div className="flex  h-full  w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
         <SidebarTrigger className="-ml-1" />
         <Separator
           orientation="vertical"
@@ -21,6 +46,6 @@ export function SiteHeader({ title = "Dashboard" }: { title?: string }) {
           <LogoutButton />
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }

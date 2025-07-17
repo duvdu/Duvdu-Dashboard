@@ -178,9 +178,8 @@ export function DataTable<TData, TValue>({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [disableSearch, limit, pagesCount, page, updateQueryParam]);
 
-  // Remove old search input and replace with Filters if provided
   return (
-    <div className="w-full">
+    <div className=" w-full">
       <div className="rounded-lg w-full overflow-hidden ">
         {/* Header Section with Filters and Search */}
         {(!disableSearch || filters) && (
