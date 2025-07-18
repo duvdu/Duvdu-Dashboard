@@ -9,6 +9,7 @@ export const getTransactions = async ({
   status,
   from,
   to,
+  isSubscribed,
 }: {
   user?: string;
   page?: number;
@@ -17,6 +18,7 @@ export const getTransactions = async ({
   status?: string;
   from?: string;
   to?: string;
+  isSubscribed?: boolean;
 }) => {
   const { data } = await axios.get<TransactionsListResponse>(
     "/api/payment/transactions/crm",
@@ -29,6 +31,7 @@ export const getTransactions = async ({
         status,
         from,
         to,
+        isSubscribed,
       },
     }
   );

@@ -50,12 +50,12 @@ export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
       header: "Contract",
       cell: ({ row }) => (
         <Link
-          to={`/dashboard/projects/${row.original.contract}`}
+          to={`/dashboard/contracts/${row.original.contract}`}
           className="truncate w-fit flex items-center gap-2 max-w-xs"
           target="_blank"
         >
           <Button variant="link" size="sm" className="p-0">
-            {row.original.contract || "-"}
+            View
             <ExternalLinkIcon className="w-4 h-4" />
           </Button>
         </Link>
@@ -79,10 +79,10 @@ export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
         );
       },
     },
-    {
-      accessorKey: "model",
-      header: "Model",
-      cell: ({ row }) => row.original.model || "-",
-    },
+    // {
+    //   accessorKey: "model",
+    //   header: "Model",
+    //   cell: ({ row }) => row.original.model || "-",
+    // },
   ];
 };

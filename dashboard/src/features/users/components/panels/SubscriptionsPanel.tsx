@@ -6,13 +6,16 @@ import { type Transaction } from "@/features/transactions/types/transaction.type
 import { useUpdateQueryParam } from "@/hooks/useUpdateQueryParam";
 import { useQuery } from "@tanstack/react-query";
 
-interface TransactionsPanelProps {
+interface SubscriptionsPanelProps {
   userId: string;
 }
 
-export default function TransactionsPanel({ userId }: TransactionsPanelProps) {
+export default function SubscriptionsPanel({
+  userId,
+}: SubscriptionsPanelProps) {
+  console.log("userId", userId);
   const transactionColumns = useTransactionColumns();
-  const { getQueryParam } = useUpdateQueryParam("transactions");
+  const { getQueryParam } = useUpdateQueryParam("subscriptions");
   const status = getQueryParam("status") || "";
   const type = getQueryParam("type") || "";
   const page = parseInt(getQueryParam("page") || "1");
@@ -30,7 +33,7 @@ export default function TransactionsPanel({ userId }: TransactionsPanelProps) {
   };
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["transactions", userId, filterValues],
+    queryKey: ["subscriptions", userId, filterValues],
     queryFn: () =>
       getTransactions({
         user: userId,
@@ -40,7 +43,7 @@ export default function TransactionsPanel({ userId }: TransactionsPanelProps) {
         type: type || undefined,
         from: from || undefined,
         to: to || undefined,
-        isSubscribed:false
+        isSubscribed: true,
       }),
   });
 
@@ -99,7 +102,7 @@ export default function TransactionsPanel({ userId }: TransactionsPanelProps) {
       page={page}
       limit={limit}
       disableSearch
-      tableId="transactions"
+      tableId="subscriptions"
       filters={filterDefinitions}
       filterValues={filterValues}
     />

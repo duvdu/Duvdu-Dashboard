@@ -1,13 +1,14 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import DashboardLoader from "@/components/layout/DashboardLoader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ContractsPanel from "@/features/contracts/components/ContractsPanel";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { getUserById } from "../api/users.api";
 import PayoutMethodsPanel from "../components/panels/PayoutMethodsPanel";
+import SubscriptionsPanel from "../components/panels/SubscriptionsPanel";
 import TransactionsPanel from "../components/panels/TransactionsPanel";
 import UserProfileHeader from "../components/UserProfileHeader";
-import ContractsPanel from "@/features/contracts/components/ContractsPanel";
 
 export default function UserProfilePage() {
   const { id } = useParams();
@@ -45,9 +46,7 @@ export default function UserProfilePage() {
             <TabsList className="mb-4">
               <TabsTrigger value="payout-methods">Payout Methods</TabsTrigger>
               <TabsTrigger value="complaints">Complaints</TabsTrigger>
-              <TabsTrigger value="subscription-insight">
-                Subscription Insight
-              </TabsTrigger>
+              <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
               <TabsTrigger value="financial-log">Financial Log</TabsTrigger>
               <TabsTrigger value="content-log">Content Log</TabsTrigger>
               <TabsTrigger value="contract-log">Contract Log</TabsTrigger>
@@ -58,8 +57,8 @@ export default function UserProfilePage() {
             <TabsContent value="complaints">
               <div>Complaints content goes here.</div>
             </TabsContent>
-            <TabsContent value="subscription-insight">
-              <div>Subscription Insight content goes here.</div>
+            <TabsContent value="subscriptions">
+              <SubscriptionsPanel userId={id} />
             </TabsContent>
             <TabsContent value="financial-log">
               <TransactionsPanel userId={id} />
