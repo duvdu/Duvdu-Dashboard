@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Image as ImageIcon, Upload, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { MediaPreview } from "./media-preview";
 
 export type ImageUploaderProps = {
   value?: string | File;
@@ -125,18 +126,11 @@ export function ImageUploader({
 
         {preview ? (
           <div className="relative">
-            <div className="relative overflow-hidden rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600">
-              <img
-                src={preview}
-                alt="Preview"
-                className="h-32 w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all duration-200 flex items-center justify-center">
-                <div className="opacity-0 group-hover:opacity-100 transition-all duration-200">
-                  <Upload className="h-8 w-8 text-white" />
-                </div>
-              </div>
-            </div>
+            <MediaPreview
+              className="h-32 w-full rounded-md object-cover"
+              imageClassName="object-cover w-full"
+              src={preview}
+            />
 
             {!disabled && (
               <button

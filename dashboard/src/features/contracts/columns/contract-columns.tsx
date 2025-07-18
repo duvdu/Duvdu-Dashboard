@@ -1,12 +1,16 @@
-import { type ColumnDef } from "@tanstack/react-table";
-import { type ContractRoot } from "../types/contract.types";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { Image } from "@/components/ui/image";
-import { ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Image } from "@/components/ui/image";
+import { type ColumnDef } from "@tanstack/react-table";
+import { ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
+import { type ContractRoot } from "../types/contract.types";
 
-export const useContractColumns = (): ColumnDef<ContractRoot>[] => [
+export const useContractColumns = ({
+  userId,
+}: {
+  userId?: string;
+}): ColumnDef<ContractRoot>[] => [
   {
     accessorKey: "customer",
     header: "Customer",
@@ -16,13 +20,19 @@ export const useContractColumns = (): ColumnDef<ContractRoot>[] => [
         <span className="flex items-center  gap-3">
           <Image src={customer.profileImage} alt={customer.name} />
           <div className="flex flex-col">
-            <Link
-              to={`/dashboard/users/${customer._id}`}
-              target="_blank"
-              className="font-medium text-base text-foreground truncate hover:underline hover:text-primary flex items-center gap-1"
-            >
-              {customer.name} <ExternalLink className="w-4 h-4" />
-            </Link>
+            {userId === customer._id ? (
+              <span className="font-medium text-base text-foreground truncate  flex items-center gap-1">
+                {customer.name}
+              </span>
+            ) : (
+              <Link
+                to={`/dashboard/users/${customer._id}`}
+                target="_blank"
+                className="font-medium text-base text-foreground truncate hover:underline hover:text-primary flex items-center gap-1"
+              >
+                {customer.name} <ExternalLink className="w-4 h-4" />
+              </Link>
+            )}
             <span className="text-xs text-muted-foreground">
               @{customer.username}
             </span>
@@ -40,13 +50,19 @@ export const useContractColumns = (): ColumnDef<ContractRoot>[] => [
         <span className="flex items-center  gap-3">
           <Image src={sp.profileImage} alt={sp.name} />
           <div className="flex flex-col">
-            <Link
-              to={`/dashboard/users/${sp._id}`}
-              target="_blank"
-              className="font-medium text-base text-foreground truncate hover:underline hover:text-primary flex items-center gap-1"
-            >
-              {sp.name} <ExternalLink className="w-4 h-4" />
-            </Link>
+            {userId === sp._id ? (
+              <span className="font-medium text-base text-foreground truncate  flex items-center gap-1">
+                {sp.name}
+              </span>
+            ) : (
+              <Link
+                to={`/dashboard/users/${sp._id}`}
+                target="_blank"
+                className="font-medium text-base text-foreground truncate hover:underline hover:text-primary flex items-center gap-1"
+              >
+                {sp.name} <ExternalLink className="w-4 h-4" />
+              </Link>
+            )}
             <span className="text-xs text-muted-foreground">
               @{sp.username}
             </span>
@@ -69,7 +85,7 @@ export const useContractColumns = (): ColumnDef<ContractRoot>[] => [
               ? "default"
               : status === "pending"
               ? "outline"
-              : status === "accepted"
+              : status === "accepted" || status === "completed"
               ? "success"
               : "secondary"
           }
@@ -117,7 +133,7 @@ export const useContractColumns = (): ColumnDef<ContractRoot>[] => [
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
         <Button variant="outline" asChild>
-          <Link to={`../contracts/${row.original._id}`}>
+          <Link to={`/dashboard/contracts/${row.original._id}`}>
             View
             <ExternalLink className="w-4 h-4" />
           </Link>

@@ -19,7 +19,7 @@ export default function SubscriptionsPanel({
   const status = getQueryParam("status") || "";
   const type = getQueryParam("type") || "";
   const page = parseInt(getQueryParam("page") || "1");
-  const limit = parseInt(getQueryParam("limit") || "10");
+  const limit = parseInt(getQueryParam("limit") || "5");
   const from = getQueryParam("from") || "";
   const to = getQueryParam("to") || "";
 

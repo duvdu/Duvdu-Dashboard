@@ -22,7 +22,16 @@ export const getProjects = async (
 // Get project by ID
 export const getProjectById = async (id: string): Promise<Project> => {
   const { data } = await axios.get(`/api/projects/crm/${id}`);
-  return data.data;
+  return data.data as Project;
+};
+
+// Update project
+export const updateProject = async (
+  id: string,
+  data: any
+): Promise<Project> => {
+  const { data: res } = await axios.patch(`/api/projects/crm/${id}`, data);
+  return res.data;
 };
 
 // Approve project

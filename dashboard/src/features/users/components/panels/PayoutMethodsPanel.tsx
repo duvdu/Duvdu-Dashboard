@@ -22,7 +22,7 @@ export default function PayoutMethodsPanel({
   const method = getQueryParam("method") || "";
   const keyword = getQueryParam("keyword") || "";
   const page = parseInt(getQueryParam("page") || "1");
-  const limit = parseInt(getQueryParam("limit") || "10");
+  const limit = parseInt(getQueryParam("limit") || "5");
 
   const filterValues = {
     status: status,

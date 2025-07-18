@@ -1,3 +1,8 @@
+import type {
+  Category,
+  SubCategory,
+} from "@/features/categories/types/category.types";
+
 export type User = {
   _id: string;
   profileImage: string;
@@ -28,16 +33,6 @@ export type User = {
     following: number;
   };
   address: string | null;
-};
-
-export type Category = {
-  _id: string;
-  title: string;
-};
-
-export type SubCategory = {
-  _id?: string;
-  title: string | null;
 };
 
 export type Tool = {
@@ -97,6 +92,11 @@ export type Project = {
   status?: "pending" | "approved" | "rejected" | "paused" | "deleted";
   views?: number;
   bookings?: number;
+  relatedCategory?: {
+    category: Category;
+    subCategories: SubCategory[];
+    tags: Tag[];
+  }[];
 };
 
 export type ProjectsResponse = {
@@ -111,9 +111,9 @@ export type ProjectsResponse = {
 
 export type ProjectFilters = {
   search?: string;
-  keyword?: string;
-  status?: string;
+  user?: string;
   category?: string;
+  subCategory?: string;
   startDate?: string;
   endDate?: string;
   page?: number;

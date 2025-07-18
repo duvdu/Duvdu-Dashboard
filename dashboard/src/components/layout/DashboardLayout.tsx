@@ -1,7 +1,7 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { PageLoader } from "../ui/page-loader";
+import { Loader } from "../ui/loader";
 import { DashboardHeader } from "./DashboardHeader";
 import DashboardSidebar from "./DashboardSidebar";
 
@@ -28,7 +28,9 @@ export default function DashboardLayout({
           )}
         >
           {loading ? (
-            <PageLoader />
+            <div className="flex justify-center items-center h-full">
+              <Loader className="size-10" />
+            </div>
           ) : (
             <motion.div
               initial={{ opacity: 0, y: -10 }}

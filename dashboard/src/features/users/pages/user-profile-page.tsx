@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { getUserById } from "../api/users.api";
 import ComplaintsPanel from "../components/panels/ComplaintsPanel";
 import PayoutMethodsPanel from "../components/panels/PayoutMethodsPanel";
+import ProjectsPanel from "../components/panels/ProjectsPanel";
 import SubscriptionsPanel from "../components/panels/SubscriptionsPanel";
 import TransactionsPanel from "../components/panels/TransactionsPanel";
 import UserProfileHeader from "../components/UserProfileHeader";
@@ -65,7 +66,7 @@ export default function UserProfilePage() {
               <TransactionsPanel userId={id} />
             </TabsContent>
             <TabsContent value="content-log">
-              <div>Content Log content goes here.</div>
+              <ProjectsPanel userId={id} />
             </TabsContent>
             <TabsContent value="contract-log">
               <ContractsPanel userId={id} />

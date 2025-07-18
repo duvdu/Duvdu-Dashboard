@@ -1,27 +1,29 @@
 import { DataTable } from "@/components/ui/data-table";
 import { type FilterDefinition } from "@/components/ui/filters";
+import { useUpdateQueryParam } from "@/hooks/useUpdateQueryParam";
+import { useQuery } from "@tanstack/react-query";
 import { getContracts } from "../api/contract.api";
 import { useContractColumns } from "../columns/contract-columns";
 import { type ContractRoot } from "../types/contract.types";
-import { useUpdateQueryParam } from "@/hooks/useUpdateQueryParam";
-import { useQuery } from "@tanstack/react-query";
 
 interface ContractsPanelProps {
   userId: string;
 }
 
 export default function ContractsPanel({ userId }: ContractsPanelProps) {
-  const contractColumns = useContractColumns();
+  const contractColumns = useContractColumns({
+    userId,
+  });
   const { getQueryParam } = useUpdateQueryParam("contracts");
-  const status = getQueryParam("status") || "";
+  const cycle = getQueryParam("cycle") || "";
   const type = getQueryParam("type") || "";
   const page = parseInt(getQueryParam("page") || "1");
-  const limit = parseInt(getQueryParam("limit") || "10");
+  const limit = parseInt(getQueryParam("limit") || "5");
   const from = getQueryParam("from") || "";
   const to = getQueryParam("to") || "";
 
   const filterValues = {
-    status: status,
+    cycle: cycle,
     type: type,
     from: from,
     to: to,
@@ -36,8 +38,8 @@ export default function ContractsPanel({ userId }: ContractsPanelProps) {
         user: userId,
         page: page || undefined,
         limit: limit || undefined,
-        status: status || undefined,
-        type: type || undefined,
+        cycle: cycle || undefined,
+        filter: type || undefined,
         from: from || undefined,
         to: to || undefined,
       }),
@@ -55,24 +57,25 @@ export default function ContractsPanel({ userId }: ContractsPanelProps) {
   // Filter definitions
   const filterDefinitions: FilterDefinition[] = [
     {
-      key: "status",
-      label: "Status",
+      key: "cycle",
+      label: "Cycle",
       type: "select",
       options: [
-        { label: "Pending", value: "pending" },
-        { label: "Ongoing", value: "ongoing" },
-        { label: "Accepted", value: "accepted" },
-        { label: "Canceled", value: "canceled" },
+        { label: "Producer", value: "producer" },
+        { label: "Team Project", value: "team-project" },
+        { label: "Copy Rights", value: "copy-rights" },
+        { label: "Rentals", value: "rentals" },
+        { label: "Project", value: "project" },
       ],
-      placeholder: "Select Status",
+      placeholder: "Select Cycle",
     },
     {
       key: "type",
       label: "Type",
       type: "select",
       options: [
-        { label: "Service Provider", value: "sp" },
-        { label: "Client", value: "customer" },
+        { label: "My Bookings", value: "i_created" },
+        { label: "My Clients", value: "i_received" },
       ],
       placeholder: "Select Type",
     },

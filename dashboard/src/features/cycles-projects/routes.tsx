@@ -2,6 +2,7 @@ import { lazy } from "react";
 
 const ProjectListPage = lazy(() => import("./pages/project-list-page"));
 const ProjectDetailsPage = lazy(() => import("./pages/project-details-page"));
+const ProjectUpdatePage = lazy(() => import("./pages/project-update-page"));
 
 export const projectRoutes = [
   {
@@ -11,5 +12,9 @@ export const projectRoutes = [
   {
     path: ":id",
     element: <ProjectDetailsPage />,
+  },
+  {
+    path: ":id/update",
+    element: <ProjectUpdatePage />,
   },
 ];

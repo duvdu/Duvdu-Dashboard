@@ -27,8 +27,54 @@ export const projectActionSchema = z.object({
   reason: z.string().optional(),
 });
 
+export const projectScaleSchema = z.object({
+  unit: z.enum(["seconds", "minutes", "hours", "episodes"]),
+  pricerPerUnit: z.number().min(0),
+  minimum: z.number().min(1),
+  current: z.number().min(1),
+  maximum: z.number().min(1),
+});
+
+export const toolSchema = z.object({
+  name: z.string(),
+  unitPrice: z.number().min(0),
+});
+
+export const functionSchema = z.object({
+  name: z.string(),
+  unitPrice: z.number().min(0),
+});
+
+export const locationSchema = z.object({
+  lat: z.number(),
+  lng: z.number(),
+});
+
+export const projectFormSchema = z.object({
+  name: z.string().min(1),
+  description: z.string().min(1),
+  duration: z.number().min(1),
+  address: z.string().min(1),
+  category: z.string().min(1),
+  subCategory: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  relatedCategory: z.string().optional(),
+  relatedSubCategory: z.string().optional(),
+  relatedTags: z.array(z.string()).optional(),
+  attachments: z.array(z.any()).min(1),
+  cover: z.any().optional(),
+  audioCover: z.array(z.any()).optional(),
+  location: locationSchema,
+  tools: z.array(toolSchema).optional(),
+  functions: z.array(functionSchema).optional(),
+  searchKeyWords: z.array(z.string()).optional(),
+  showOnHome: z.boolean().optional(),
+  projectScale: projectScaleSchema,
+});
+
 export type ProjectFilterSchema = z.infer<typeof projectFilterSchema>;
 export type ProjectStatusUpdateSchema = z.infer<
   typeof projectStatusUpdateSchema
 >;
 export type ProjectActionSchema = z.infer<typeof projectActionSchema>;
+export type ProjectFormSchema = z.infer<typeof projectFormSchema>;

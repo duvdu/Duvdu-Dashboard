@@ -16,7 +16,7 @@ export default function TransactionsPanel({ userId }: TransactionsPanelProps) {
   const status = getQueryParam("status") || "";
   const type = getQueryParam("type") || "";
   const page = parseInt(getQueryParam("page") || "1");
-  const limit = parseInt(getQueryParam("limit") || "10");
+  const limit = parseInt(getQueryParam("limit") || "5");
   const from = getQueryParam("from") || "";
   const to = getQueryParam("to") || "";
 
@@ -40,7 +40,7 @@ export default function TransactionsPanel({ userId }: TransactionsPanelProps) {
         type: type || undefined,
         from: from || undefined,
         to: to || undefined,
-        isSubscribed:false
+        isSubscribed: false,
       }),
   });
 

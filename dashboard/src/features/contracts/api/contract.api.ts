@@ -7,7 +7,8 @@ import type {
 // List contracts
 export const getContracts = async (filters: {
   user?: string;
-  status?: string;
+  cycle?: string;
+  filter?: string;
   type?: string;
   from?: string;
   to?: string;
@@ -15,13 +16,13 @@ export const getContracts = async (filters: {
   page?: number;
   limit?: number;
 }) => {
-  const { data } = await axios.get("/api/contracts", { params: filters });
+  const { data } = await axios.get("/api/contracts/crm", { params: filters });
   return data as ContractListResponse;
 };
 
 // Get contract by ID
 export const getContractById = async (id: string) => {
-  const { data } = await axios.get(`/api/contracts/${id}`);
+  const { data } = await axios.get(`/api/contracts/crm/${id}`);
   return data?.data as ContractRoot;
 };
 

@@ -15,14 +15,11 @@ import { useModal } from "@/store/modal-store";
 import { type ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import {
-  CheckIcon,
+  ExternalLink,
   Globe,
   MoreHorizontalIcon,
-  PauseIcon,
   PencilIcon,
-  PlayIcon,
   TrashIcon,
-  XIcon,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getProjectPublicUrl } from "../api/project.api";
@@ -106,20 +103,22 @@ export const useProjectColumns = (
       header: "Category",
       cell: ({ row }) => (
         <div>
-          <div className="font-medium">{row.original.category.title}</div>
+          <div className="font-medium">
+            {row.original.category.title as unknown as string}
+          </div>
           {row.original.subCategory?.title && (
             <div className="text-sm text-muted-foreground">
-              {row.original.subCategory.title}
+              {row.original.subCategory.title as unknown as string}
             </div>
           )}
         </div>
       ),
     },
-    {
-      accessorKey: "status",
-      header: "Status",
-      cell: ({ row }) => getStatusBadge(row.original.status || "pending"),
-    },
+    // {
+    //   accessorKey: "status",
+    //   header: "Status",
+    //   cell: ({ row }) => getStatusBadge(row.original.status || "pending"),
+    // },
     {
       accessorKey: "projectsView",
       header: "Views",
@@ -167,47 +166,9 @@ export const useProjectColumns = (
       header: "Actions",
       cell: ({ row }) => {
         const project = row.original;
-        const status = project.status || "pending";
 
         return (
           <div className="flex items-center gap-2">
-            {/* Quick Actions */}
-            {status === "pending" && (
-              <>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="h-8 text-green-600 hover:bg-green-50"
-                      onClick={() =>
-                        onOpen("approveProject", { id: project._id }, refetch)
-                      }
-                    >
-                      <CheckIcon className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Approve Project</TooltipContent>
-                </Tooltip>
-
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="h-8 text-red-600 hover:bg-red-50"
-                      onClick={() =>
-                        onOpen("rejectProject", { id: project._id }, refetch)
-                      }
-                    >
-                      <XIcon className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Reject Project</TooltipContent>
-                </Tooltip>
-              </>
-            )}
-
             {/* View Public Version */}
             <Tooltip>
               <TooltipTrigger asChild>
@@ -224,6 +185,12 @@ export const useProjectColumns = (
               <TooltipContent>View Public Version</TooltipContent>
             </Tooltip>
 
+            <Button variant="outline" asChild>
+              <Link to={`/dashboard/projects/${project._id}`}>
+                View <ExternalLink className="h-4 w-4 " />
+              </Link>
+            </Button>
+
             {/* More Actions */}
             <Popover>
               <PopoverTrigger asChild>
@@ -232,41 +199,15 @@ export const useProjectColumns = (
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-48 p-0" align="end">
-                <Link to={`/dashboard/projects/${project._id}`}>
+                <Link to={`/dashboard/projects/${project._id}/update`}>
                   <Button
                     variant="ghost"
                     className="w-full justify-start rounded-none px-3 py-2"
                   >
                     <PencilIcon className="w-4 h-4 mr-2" />
-                    View Details
+                    Edit
                   </Button>
                 </Link>
-
-                {status === "approved" && (
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start rounded-none px-3 py-2"
-                    onClick={() =>
-                      onOpen("pauseProject", { id: project._id }, refetch)
-                    }
-                  >
-                    <PauseIcon className="w-4 h-4 mr-2" />
-                    Pause
-                  </Button>
-                )}
-
-                {status === "paused" && (
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start rounded-none px-3 py-2"
-                    onClick={() =>
-                      onOpen("approveProject", { id: project._id }, refetch)
-                    }
-                  >
-                    <PlayIcon className="w-4 h-4 mr-2" />
-                    Resume
-                  </Button>
-                )}
 
                 <Button
                   variant="ghost"
