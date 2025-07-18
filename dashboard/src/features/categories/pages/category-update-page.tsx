@@ -3,11 +3,12 @@ import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Loader } from "@/components/ui/loader";
 import { PERMISSION_KEYS } from "@/config/permissions";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCategoryById, updateCategory } from "../api/category.api";
 import { CategoryForm } from "../components/category-form";
 import type { CategorySchema } from "../schemas/category.schema";
+import { toast } from "sonner";
 
 function CategoryUpdatePage() {
   const { id } = useParams();
@@ -20,6 +21,19 @@ function CategoryUpdatePage() {
     queryKey: ["category", id],
     queryFn: () => getCategoryById(id),
   });
+
+  const { mutateAsync: updateCategoryMutation, isPending: submitting } =
+    useMutation({
+      mutationFn: (formData: FormData) => updateCategory(id!, formData),
+      mutationKey: ["category", "update", id],
+      onSuccess: () => {
+        toast.success("Category updated successfully");
+        navigate("/dashboard/categories");
+      },
+      onError: (error) => {
+        toast.error(error.message);
+      },
+    });
 
   async function handleSubmit(values: CategorySchema, file: File | null) {
     if (!id) return;
@@ -42,6 +56,22 @@ function CategoryUpdatePage() {
         formData.append(`jobTitles[${i}][ar]`, jt.ar);
         formData.append(`jobTitles[${i}][en]`, jt.en);
       });
+
+      if (values.cycle === "project" && values.media_type) {
+        formData.append("media", values.media_type);
+      }
+
+      if (
+        (values as any).relatedCategories &&
+        (values as any).relatedCategories.length > 0 &&
+        !values.isRelated &&
+        values.cycle === "project"
+      ) {
+        (values as any).relatedCategories.forEach((rc: string, i: number) => {
+          formData.append(`relatedCategory[${i}]`, rc);
+        });
+      }
+
       // Subcategories & Tags
       values.subCategories.forEach((sc, i) => {
         formData.append(`subCategories[${i}][title][ar]`, sc.title.ar);
@@ -51,8 +81,7 @@ function CategoryUpdatePage() {
           formData.append(`subCategories[${i}][tags][${j}][en]`, tag.en);
         });
       });
-      await updateCategory(id, formData);
-      navigate("../categories");
+      await updateCategoryMutation(formData);
     } catch (e: unknown) {
       console.log(e);
     }
@@ -85,8 +114,13 @@ function CategoryUpdatePage() {
 
         {!loading && !error && category && (
           <CategoryForm
-            defaultValues={category}
+            defaultValues={{
+              media_type: category.media as "video" | "image" | "audio",
+              relatedCategory: category.relatedCategory,
+              ...category,
+            }}
             onSubmit={handleSubmit}
+            submitting={submitting}
             submitLabel="Update"
           />
         )}

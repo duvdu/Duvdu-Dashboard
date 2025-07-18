@@ -1,5 +1,4 @@
 import axios from "@/lib/axios";
-import type { DashboardFilterSchema } from "../schemas/category.schema";
 import type { Category } from "../types/category.types";
 
 declare global {
@@ -14,7 +13,7 @@ declare global {
 }
 
 // 1. Projects Uploaded
-export const fetchProjectsUploaded = async (filters: DashboardFilterSchema) => {
+export const fetchProjectsUploaded = async (filters: any) => {
   const { startDate, endDate } = filters;
   const { data } = await axios.get("/api/projects/analysis", {
     params: { startDate, endDate },
@@ -24,7 +23,7 @@ export const fetchProjectsUploaded = async (filters: DashboardFilterSchema) => {
 };
 
 // 2. Top Users (Ranking)
-export const fetchTopUsers = async (filters: DashboardFilterSchema) => {
+export const fetchTopUsers = async (filters: any) => {
   const { startDate, endDate, userType } = filters;
   const { data } = await axios.get("/api/analysis/rank", {
     params: {
@@ -37,7 +36,7 @@ export const fetchTopUsers = async (filters: DashboardFilterSchema) => {
 };
 
 // 3. New Users
-export const fetchNewUsers = async (filters: DashboardFilterSchema) => {
+export const fetchNewUsers = async (filters: any) => {
   const { startDate, endDate, userType } = filters;
   const { data } = await axios.get("/api/users/auth/find", {
     params: {
@@ -50,7 +49,7 @@ export const fetchNewUsers = async (filters: DashboardFilterSchema) => {
 };
 
 // 4. Contracts Count
-export const fetchContractsCount = async (filters: DashboardFilterSchema) => {
+export const fetchContractsCount = async (filters: any) => {
   const { startDate, endDate } = filters;
   const { data } = await axios.get("/api/contracts/analysis", {
     params: { startDate, endDate },
@@ -81,6 +80,7 @@ export const getCategories = async (filters: {
   status?: string;
   page?: number;
   limit?: number;
+  isRelated?: boolean;
 }) => {
   const { data } = await axios.get("/api/category/crm", {
     params: Object.fromEntries(

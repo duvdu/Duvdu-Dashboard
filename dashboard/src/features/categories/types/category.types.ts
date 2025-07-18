@@ -37,4 +37,6 @@ export type Category = {
   isRelated?: boolean;
   insurance?: boolean;
   creativesCounter?: number;
+  media?: string;
+  relatedCategory?: string[];
 };

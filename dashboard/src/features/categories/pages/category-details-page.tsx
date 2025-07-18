@@ -9,7 +9,7 @@ import { Loader } from "@/components/ui/loader";
 import { PERMISSION_KEYS } from "@/config/permissions";
 import { useModal } from "@/store/modal-store";
 import { useQuery } from "@tanstack/react-query";
-import { Briefcase, Tag as TagIcon, TrashIcon } from "lucide-react";
+import { Tag as TagIcon, TrashIcon } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getCategoryById } from "../api/category.api";
 
@@ -88,7 +88,9 @@ function CategoryDetailsPage() {
                 {category.title.en}
               </h1>
               <div className="flex justify-end mb-2 w-full gap-2">
-                <ProtectedComponent permissionKey={PERMISSION_KEYS.CATEGORIES.UPDATE}>
+                <ProtectedComponent
+                  permissionKey={PERMISSION_KEYS.CATEGORIES.UPDATE}
+                >
                   <Button
                     size="lg"
                     onClick={() =>
@@ -98,7 +100,9 @@ function CategoryDetailsPage() {
                     Edit
                   </Button>
                 </ProtectedComponent>
-                <ProtectedComponent permissionKey={PERMISSION_KEYS.CATEGORIES.DELETE}>
+                <ProtectedComponent
+                  permissionKey={PERMISSION_KEYS.CATEGORIES.DELETE}
+                >
                   <Button
                     className="text-destructive"
                     variant="outline"
@@ -120,7 +124,9 @@ function CategoryDetailsPage() {
               </Badge>
               {category.trend && <Badge variant="outline">Trend</Badge>}
               {category.insurance && <Badge variant="outline">Insurance</Badge>}
-              {category.isRelated && <Badge variant="outline">Is Related</Badge>}
+              {category.isRelated && (
+                <Badge variant="outline">Is Related</Badge>
+              )}
             </div>
             <div className="flex flex-wrap gap-4 text-muted-foreground text-base justify-center md:justify-start">
               <div>
@@ -136,7 +142,7 @@ function CategoryDetailsPage() {
           </div>
         </div>
         {/* Job Titles Section */}
-        <div className="mb-8">
+        {/* <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">
             <Briefcase className="w-6 h-6" />
             <h2 className="text-2xl font-bold">Job Titles</h2>
@@ -158,7 +164,7 @@ function CategoryDetailsPage() {
           ) : (
             <div className="text-muted-foreground">No job titles.</div>
           )}
-        </div>
+        </div> */}
         {/* Subcategories Section */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">
@@ -169,7 +175,9 @@ function CategoryDetailsPage() {
             <div className="flex flex-col gap-4">
               {category.subCategories.map((sc, idx) => (
                 <Card key={sc._id || idx} className="p-4 border rounded-xl">
-                  <div className="font-semibold text-lg mb-2">{sc.title.en}</div>
+                  <div className="font-semibold text-lg mb-2">
+                    {sc.title.en}
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {sc.tags && sc.tags.length > 0 ? (
                       sc.tags.map((tag, tIdx) => (

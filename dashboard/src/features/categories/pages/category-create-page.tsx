@@ -26,7 +26,7 @@ function CategoryCreatePage() {
     mutationFn: createCategory,
     onSuccess: () => {
       toast.success("Category created successfully");
-      navigate("../categories");
+      navigate("/dashboard/categories");
     },
     onError: (error) => {
       toast.error(
@@ -49,6 +49,20 @@ function CategoryCreatePage() {
     if (values.insurance !== undefined)
       formData.append("insurance", values.insurance ? "true" : "false");
     if (file) formData.append("cover", values.image);
+
+    if (values.cycle === "project" && values.media_type) {
+      formData.append("media", values.media_type);
+    }
+
+    if (
+      (values as any).relatedCategories &&
+      (values as any).relatedCategories.length > 0
+    ) {
+      (values as any).relatedCategories.forEach((rc: string, i: number) => {
+        formData.append(`relatedCategory[${i}]`, rc);
+      });
+    }
+
     // Job Titles
     values.jobTitles.forEach((jt, i) => {
       formData.append(`jobTitles[${i}][ar]`, jt.ar);

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { ImageUploader } from "@/components/ui/image-uploader";
 import { Input } from "@/components/ui/input";
+import { MultiSelect, type Option } from "@/components/ui/multi-select";
 import {
   Select,
   SelectContent,
@@ -23,17 +24,22 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { Image as ImageIcon, Layers, Plus, Settings, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { getCategories } from "../api/category.api";
 import {
   categorySchema,
   type CategorySchema,
 } from "../schemas/category.schema";
 
 export type CategoryFormProps = {
-  defaultValues?: Partial<CategorySchema>;
+  defaultValues?: Partial<CategorySchema> & {
+    _id?: string;
+    relatedCategory?: string[];
+  };
   onSubmit: (values: CategorySchema, file?: File) => void;
   isLoading?: boolean;
   submitLabel?: string;
@@ -42,7 +48,6 @@ export type CategoryFormProps = {
 
 const cycleOptions = [
   { value: "producer", label: "Producer" },
-  { value: "team-project", label: "Team Project" },
   { value: "copy-rights", label: "Copy Rights" },
   { value: "rentals", label: "Rentals" },
   { value: "project", label: "Project" },
@@ -66,6 +71,7 @@ export function CategoryForm({
       isRelated: false,
       cycle: "",
       insurance: false,
+      image: "",
       ...defaultValues,
     },
     mode: "onChange",
@@ -125,7 +131,28 @@ export function CategoryForm({
     | string
     | undefined;
 
-  console.log(formState.errors);
+  const cycle = watch("cycle");
+  const [projectType, setProjectType] = useState<"main" | "related">("main");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  const { data: categoriesData } = useQuery({
+    queryKey: ["categories", "all-for-multiselect"],
+    queryFn: () => getCategories({ limit: 1000, isRelated: true }),
+    enabled: cycle === "project",
+  });
+  const categoryOptions: Option[] = (categoriesData?.data || []).map(
+    (cat: any) => ({
+      value: cat._id,
+      label: cat.title.en,
+    })
+  );
+  // If editing, exclude current category from options
+  useEffect(() => {
+    if (defaultValues?._id) {
+      setSelectedCategories(defaultValues.relatedCategory || []);
+    }
+  }, [defaultValues?.relatedCategory.length]);
+
   return (
     <FormProvider {...methods}>
       <Form {...methods}>
@@ -133,6 +160,14 @@ export function CategoryForm({
           onSubmit={handleSubmit((values) => {
             const file =
               typeof values.image === "object" ? (values.image as File) : null;
+            // Attach selectedCategories if projectType is main and cycle is project
+            if (cycle === "project" && projectType === "main") {
+              (values as any).relatedCategories = selectedCategories;
+            }
+            // Attach insurance if cycle is rentals
+            if (cycle === "rentals") {
+              values.insurance = values.insurance ?? false;
+            }
             onSubmit(values, file);
           })}
           className="space-y-6"
@@ -253,6 +288,103 @@ export function CategoryForm({
                     )}
                   />
 
+                  {/* Business logic fields based on cycle */}
+                  {cycle === "project" && (
+                    <div className="space-y-4">
+                      <FormField
+                        name="media_type"
+                        control={control}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Media Type</FormLabel>
+                            <FormControl>
+                              <Select
+                                value={field.value}
+                                onValueChange={field.onChange}
+                              >
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select media type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {["video", "image", "audio"].map((type) => (
+                                    <SelectItem key={type} value={type}>
+                                      {type}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormLabel>Project Type</FormLabel>
+                      <div className="flex gap-4">
+                        <Button
+                          type="button"
+                          variant={
+                            projectType === "main" ? "default" : "outline"
+                          }
+                          onClick={() => {
+                            setProjectType("main");
+                            setValue("isRelated", false);
+                          }}
+                        >
+                          Main Category
+                        </Button>
+                        <Button
+                          type="button"
+                          variant={
+                            projectType === "related" ? "default" : "outline"
+                          }
+                          onClick={() => {
+                            setProjectType("related");
+                            setValue("isRelated", true);
+                          }}
+                        >
+                          Related Category
+                        </Button>
+                      </div>
+                      {projectType === "main" && (
+                        <div className="mt-2 space-y-2">
+                          <FormLabel>Select Related Categories</FormLabel>
+                          <MultiSelect
+                            options={categoryOptions.filter(
+                              (opt) =>
+                                !defaultValues?._id ||
+                                opt.value !== defaultValues._id
+                            )}
+                            value={selectedCategories}
+                            onChange={setSelectedCategories}
+                            className="w-fit"
+                            placeholder="Select categories"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {cycle === "rentals" && (
+                    <div className="space-y-4">
+                      <FormLabel>Insurance</FormLabel>
+                      <div className="flex gap-4">
+                        <Button
+                          type="button"
+                          variant={watch("insurance") ? "default" : "outline"}
+                          onClick={() => setValue("insurance", true)}
+                        >
+                          Have Insurance
+                        </Button>
+                        <Button
+                          type="button"
+                          variant={!watch("insurance") ? "default" : "outline"}
+                          onClick={() => setValue("insurance", false)}
+                        >
+                          Not Have Insurance
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
                   <Separator />
 
                   <div>
@@ -302,48 +434,6 @@ export function CategoryForm({
                           </FormItem>
                         )}
                       />
-                      <FormField
-                        name="isRelated"
-                        control={control}
-                        render={({ field }) => (
-                          <FormItem className="flex flex-col space-y-2">
-                            <FormLabel>Is Related</FormLabel>
-                            <FormControl>
-                              <div className="flex items-center space-x-2">
-                                <Switch
-                                  checked={!!field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                                <span className="text-sm text-muted-foreground">
-                                  {field.value ? "Yes" : "No"}
-                                </span>
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        name="insurance"
-                        control={control}
-                        render={({ field }) => (
-                          <FormItem className="flex flex-col space-y-2">
-                            <FormLabel>Insurance</FormLabel>
-                            <FormControl>
-                              <div className="flex items-center space-x-2">
-                                <Switch
-                                  checked={!!field.value}
-                                  onCheckedChange={field.onChange}
-                                />
-                                <span className="text-sm text-muted-foreground">
-                                  {field.value ? "Required" : "Optional"}
-                                </span>
-                              </div>
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
                     </div>
                   </div>
 
@@ -358,6 +448,13 @@ export function CategoryForm({
                       value={image}
                       onChange={(file) => setValue("image", file as File)}
                     />
+                    {formState.errors.image?.message && (
+                      <Alert variant="destructive" className="mt-2">
+                        <AlertTitle>
+                          {formState.errors.image?.message}
+                        </AlertTitle>
+                      </Alert>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -581,14 +678,7 @@ export function CategoryForm({
           </Tabs>
 
           <div className="flex items-center justify-between">
-            <div className="text-sm text-muted-foreground">
-              {Object.keys(formState.errors).length > 0 && (
-                <span className="text-destructive">
-                  Please fix {Object.keys(formState.errors).length} error(s)
-                  before saving
-                </span>
-              )}
-            </div>
+            <div className="text-sm text-muted-foreground"></div>
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
@@ -601,7 +691,7 @@ export function CategoryForm({
               <Button
                 type="submit"
                 loading={isLoading || submitting}
-                disabled={Object.keys(formState.errors).length > 0}
+                // disabled={Object.keys(formState.errors).length > 0}
                 className="min-w-[120px]"
               >
                 {submitLabel}
