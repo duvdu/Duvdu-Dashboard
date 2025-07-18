@@ -2,6 +2,7 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { DataTable } from "@/components/ui/data-table";
 import { type FilterDefinition } from "@/components/ui/filters";
+import { getCategories } from "@/features/categories/api/category.api";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { getProjects } from "../api/project.api";
@@ -11,10 +12,8 @@ import { type ProjectFilters } from "../types/project.types";
 function ProjectListPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search") || "";
-  const keyword = searchParams.get("keyword") || "";
   const page = +searchParams.get("page") || 1;
   const limit = +searchParams.get("limit") || 10;
-  const status = searchParams.get("status") || "";
   const category = searchParams.get("category") || "";
   const startDate = searchParams.get("startDate") || "";
   const endDate = searchParams.get("endDate") || "";
@@ -23,10 +22,8 @@ function ProjectListPage() {
 
   const filters: ProjectFilters = {
     search,
-    keyword,
     page,
     limit,
-    status: status || undefined,
     category: category || undefined,
     startDate: startDate || undefined,
     endDate: endDate || undefined,
@@ -48,33 +45,21 @@ function ProjectListPage() {
   const pagesCount = projectsData?.pagination.totalPages || 0;
   const projectColumns = useProjectColumns(refetch);
 
-  // Define filter options
+  const { data: categoriesData } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => getCategories({ limit: 1000 }),
+  });
+  const categories = categoriesData?.data || [];
+
   const filterDefinitions: FilterDefinition[] = [
-    {
-      key: "status",
-      label: "Status",
-      type: "select",
-      options: [
-        { label: "All", value: "all" },
-        { label: "Pending", value: "pending" },
-        { label: "Approved", value: "approved" },
-        { label: "Rejected", value: "rejected" },
-        { label: "Paused", value: "paused" },
-        { label: "Deleted", value: "deleted" },
-      ],
-      placeholder: "Select Status",
-    },
     {
       key: "category",
       label: "Category",
       type: "select",
-      options: [
-        { label: "All Categories", value: "all" },
-        { label: "Photography", value: "photography" },
-        { label: "Videography", value: "videography" },
-        { label: "Design", value: "design" },
-        { label: "Writing", value: "writing" },
-      ],
+      options: categories.map((category) => ({
+        label: category.title.en,
+        value: category._id,
+      })),
       placeholder: "Select Category",
     },
     {
@@ -90,17 +75,14 @@ function ProjectListPage() {
       placeholder: "Select end date",
     },
     {
-      key: "sortBy",
-      label: "Sort By",
+      key: "showOnHome",
+      label: "Show on Home",
       type: "select",
       options: [
-        { label: "Created Date", value: "createdAt" },
-        { label: "Updated Date", value: "updatedAt" },
-        { label: "Name", value: "name" },
-        { label: "Favorites", value: "favouriteCount" },
-        { label: "Duration", value: "duration" },
+        { label: "Yes", value: "true" },
+        { label: "No", value: "false" },
       ],
-      placeholder: "Sort by",
+      placeholder: "Show on Home",
     },
     {
       key: "sortOrder",
@@ -116,8 +98,6 @@ function ProjectListPage() {
 
   const filterValues = {
     search,
-    keyword,
-    status,
     category,
     startDate,
     endDate,
@@ -164,7 +144,6 @@ function ProjectListPage() {
         filters={filterDefinitions}
         filterValues={filterValues}
         onFiltersChange={handleFiltersChange}
-        // searchPlaceholder="Search projects by title, ID, or keyword..."
       />
     </DashboardLayout>
   );

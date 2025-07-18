@@ -4,26 +4,53 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Image } from "@/components/ui/image";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { Loader } from "@/components/ui/loader";
+import { MediaPreview } from "@/components/ui/media-preview";
+import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useModal } from "@/store/modal-store";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import {
+  ArrowLeftIcon,
   CalendarIcon,
-  CheckIcon,
-  ExternalLinkIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  CopyIcon,
+  DollarSignIcon,
+  Download,
+  GaugeIcon,
+  GlobeIcon,
   HeartIcon,
   MapPinIcon,
+  Maximize2Icon,
+  Minimize2Icon,
   PauseIcon,
   PlayIcon,
+  RulerIcon,
   TagIcon,
   TrashIcon,
-  XIcon,
+  TrendingUpIcon,
+  UserIcon,
+  XCircleIcon,
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 import {
   getProjectById,
   getProjectHistory,
@@ -39,7 +66,6 @@ function ProjectDetailsPage() {
     data: project,
     isLoading,
     error,
-    refetch,
   } = useQuery({
     queryKey: ["project", id],
     queryFn: () => getProjectById(id!),
@@ -55,7 +81,18 @@ function ProjectDetailsPage() {
   if (isLoading) {
     return (
       <DashboardLayout>
-        <Loader className="w-8 h-8 mx-auto mt-10" />
+        <div className="space-y-6">
+          <Skeleton className="h-8 w-1/3" />
+          <Skeleton className="h-4 w-2/3" />
+          <div className="flex gap-2">
+            <Skeleton className="h-10 w-24" />
+            <Skeleton className="h-10 w-24" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Skeleton className="h-64" />
+            <Skeleton className="h-64" />
+          </div>
+        </div>
       </DashboardLayout>
     );
   }
@@ -82,173 +119,129 @@ function ProjectDetailsPage() {
     );
   }
 
-  const status = project.status || "pending";
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "approved":
-        return (
-          <Badge variant="default" className="bg-green-500">
-            Approved
-          </Badge>
-        );
-      case "rejected":
-        return <Badge variant="destructive">Rejected</Badge>;
-      case "paused":
-        return <Badge variant="secondary">Paused</Badge>;
-      case "deleted":
-        return (
-          <Badge variant="outline" className="text-red-500">
-            Deleted
-          </Badge>
-        );
-      default:
-        return <Badge variant="outline">Pending</Badge>;
-    }
-  };
-
   return (
-    <DashboardLayout className="space-y-6">
+    <DashboardLayout className="space-y-6 ">
+      {/* Status Ribbon */}
+      <div className={`w-full h-2 rounded-t-lg mb-4 `} />
       {/* Header */}
-      <div className="flex justify-between items-start">
-        <div>
-          <h1 className="text-3xl font-bold">{project.name}</h1>
-          <p className="text-muted-foreground mt-1">{project.description}</p>
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 lg:gap-0">
+        <div className="flex-1">
+          <div className="flex items-center gap-2">
+            {/* back button */}
+            <Button variant="outline" onClick={() => navigate(-1)}>
+              <ArrowLeftIcon className="h-4 w-4" />
+              Back
+            </Button>
+            <h1 className="text-2xl lg:text-3xl font-extrabold tracking-tight flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4">
+              <span className="break-words">{project.name}</span>
+            </h1>
+          </div>
+
+          <p className="text-muted-foreground mt-2 text-base lg:text-lg max-w-4xl leading-relaxed">
+            {project.description}
+          </p>
         </div>
-        <div className="flex items-center gap-2">
-          {getStatusBadge(status)}
+        <div className="flex items-center gap-2 mt-4 lg:mt-0">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => {
+              navigator.clipboard.writeText(getProjectPublicUrl(project._id));
+              toast.success("Project link copied!");
+            }}
+            aria-label="Copy project link"
+          >
+            <CopyIcon className="h-4 w-4" />
+          </Button>
           <Button variant="outline" size="sm" asChild>
             <a
               href={getProjectPublicUrl(project._id)}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <ExternalLinkIcon className="h-4 w-4 mr-2" />
               View Public
+              <GlobeIcon className="h-4 w-4 " />
             </a>
           </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="text-destructive"
+                  onClick={() =>
+                    onOpen("deleteProject", { id: project._id }, () =>
+                      navigate("/dashboard/projects")
+                    )
+                  }
+                >
+                  <TrashIcon className="h-4 w-4 mr-2" />
+                  Delete
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Delete this project</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex flex-wrap gap-2">
-        {status === "pending" && (
-          <>
-            <Button
-              onClick={() =>
-                onOpen("approveProject", { id: project._id }, refetch)
-              }
-              className="bg-green-600 hover:bg-green-700"
-            >
-              <CheckIcon className="h-4 w-4 mr-2" />
-              Approve
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() =>
-                onOpen("rejectProject", { id: project._id }, refetch)
-              }
-            >
-              <XIcon className="h-4 w-4 mr-2" />
-              Reject
-            </Button>
-          </>
-        )}
-        {status === "approved" && (
-          <Button
-            variant="secondary"
-            onClick={() => onOpen("pauseProject", { id: project._id }, refetch)}
-          >
-            <PauseIcon className="h-4 w-4 mr-2" />
-            Pause
-          </Button>
-        )}
-        {status === "paused" && (
-          <Button
-            onClick={() =>
-              onOpen("approveProject", { id: project._id }, refetch)
-            }
-            className="bg-green-600 hover:bg-green-700"
-          >
-            <PlayIcon className="h-4 w-4 mr-2" />
-            Resume
-          </Button>
-        )}
-        <Button
-          variant="outline"
-          onClick={() =>
-            onOpen("deleteProject", { id: project._id }, () =>
-              navigate("/dashboard/projects")
-            )
-          }
-        >
-          <TrashIcon className="h-4 w-4 mr-2" />
-          Delete
-        </Button>
-      </div>
-
-      <Tabs defaultValue="details" className="w-full">
-        <TabsList>
+      <Tabs defaultValue="details" className="w-full mt-4">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="details">Project Details</TabsTrigger>
           <TabsTrigger value="media">Media</TabsTrigger>
           <TabsTrigger value="history">History Log</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="details" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <TabsContent value="details" className="space-y-8 mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Project Information */}
             <Card>
               <CardHeader>
                 <CardTitle>Project Information</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">
-                    Show on Home
+                <div className="flex items-center justify-between gap-2">
+                  <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <TrendingUpIcon className="h-4 w-4" /> Show on Home
                   </span>
                   <Badge variant={project.showOnHome ? "default" : "outline"}>
                     {project.showOnHome ? "Yes" : "No"}
                   </Badge>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">
-                    Duration
+                <div className="flex items-center justify-between gap-2">
+                  <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <GaugeIcon className="h-4 w-4" /> Duration
                   </span>
                   <span className="text-sm font-medium">
                     {project.duration} days
                   </span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">
-                    Favorites
+                <div className="flex items-center justify-between gap-2">
+                  <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <HeartIcon className="h-4 w-4 text-red-500" /> Favorites
+                  </span>
+                  <span className="text-sm font-medium">
+                    {project.favouriteCount}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <CalendarIcon className="h-4 w-4" /> Created
                   </span>
                   <div className="flex items-center gap-1">
-                    <HeartIcon className="h-4 w-4 text-red-500" />
-                    <span className="text-sm font-medium">
-                      {project.favouriteCount}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Created</span>
-                  <div className="flex items-center gap-1">
-                    <CalendarIcon className="h-4 w-4" />
                     <span className="text-sm font-medium">
                       {format(new Date(project.createdAt), "MMM dd, yyyy")}
                     </span>
                   </div>
                 </div>
                 {project.address && (
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">
-                      Location
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <MapPinIcon className="h-4 w-4" /> Location
                     </span>
-                    <div className="flex items-center gap-1">
-                      <MapPinIcon className="h-4 w-4" />
-                      <span className="text-sm font-medium">
-                        {project.address}
-                      </span>
-                    </div>
+                    <span className="text-sm font-medium">
+                      {project.address}
+                    </span>
                   </div>
                 )}
               </CardContent>
@@ -260,21 +253,38 @@ function ProjectDetailsPage() {
                 <CardTitle>Project Creator</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <Avatar className="h-16 w-16">
+                <div className="flex items-center gap-6">
+                  <Avatar className="h-20 w-20 shadow-lg border-2 border-primary">
                     <AvatarImage src={project.user.profileImage} />
                     <AvatarFallback>
                       {project.user.name.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  <div>
-                    <h3 className="font-semibold">{project.user.name}</h3>
-                    <p className="text-sm text-muted-foreground">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-bold text-lg flex items-center gap-2 flex-wrap">
+                      <span className="break-words">{project.user.name}</span>
+                      <Badge
+                        variant="outline"
+                        className="ml-2 px-2 py-1 text-xs"
+                      >
+                        {project.user.rank.title}
+                      </Badge>
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-3">
                       @{project.user.username}
                     </p>
-                    <Badge variant="outline" className="mt-1">
-                      {project.user.rank.title}
-                    </Badge>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() =>
+                          navigate(`/dashboard/users/${project.user._id}`)
+                        }
+                        className="flex items-center gap-1"
+                      >
+                        <UserIcon className="h-4 w-4" /> View Profile
+                      </Button>
+                    </div>
                   </div>
                 </div>
                 <Separator />
@@ -287,8 +297,11 @@ function ProjectDetailsPage() {
                   </div>
                   <div>
                     <span className="text-muted-foreground">Completed</span>
-                    <p className="font-medium">
+                    <p className="font-medium flex items-center gap-1">
                       {project.user.acceptedProjectsCounter}
+                      <Badge variant="secondary" className="text-xs">
+                        Completed
+                      </Badge>
                     </p>
                   </div>
                   <div>
@@ -314,30 +327,43 @@ function ProjectDetailsPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <span className="text-sm text-muted-foreground">
-                    Category
+                  <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <TagIcon className="h-4 w-4 text-primary" /> Category
                   </span>
-                  <p className="font-medium">{project.category.title}</p>
+                  <p className="font-medium mt-1">
+                    <Badge
+                      variant="default"
+                      className="text-xs px-2 py-1 bg-primary/90 text-white"
+                    >
+                      {project.category.title as unknown as string}
+                    </Badge>
+                  </p>
                 </div>
                 {project.subCategory?.title && (
                   <div>
-                    <span className="text-sm text-muted-foreground">
-                      Subcategory
+                    <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <TagIcon className="h-4 w-4 text-secondary" /> Subcategory
                     </span>
-                    <p className="font-medium">{project.subCategory.title}</p>
+                    <p className="font-medium mt-1">
+                      <Badge variant="secondary" className="text-xs px-2 py-1">
+                        {project.subCategory.title as unknown as string}
+                      </Badge>
+                    </p>
                   </div>
                 )}
                 {project.tags.length > 0 && (
                   <div>
-                    <span className="text-sm text-muted-foreground">Tags</span>
+                    <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <TagIcon className="h-4 w-4 text-blue-500" /> Tags
+                    </span>
                     <div className="flex flex-wrap gap-2 mt-2">
                       {project.tags.map((tag) => (
                         <Badge
                           key={tag._id}
-                          variant="secondary"
-                          className="text-xs"
+                          variant="outline"
+                          className="text-xs border-blue-400 text-blue-700 bg-blue-50 flex items-center gap-1 px-2 py-1"
                         >
-                          <TagIcon className="h-3 w-3 mr-1" />
+                          <TagIcon className="h-3 w-3 text-blue-400" />
                           {tag.title}
                         </Badge>
                       ))}
@@ -355,34 +381,54 @@ function ProjectDetailsPage() {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <span className="text-muted-foreground">Unit</span>
+                    <span className="flex items-center gap-1 text-muted-foreground">
+                      <RulerIcon className="h-4 w-4" /> Unit
+                    </span>
                     <p className="font-medium">{project.projectScale.unit}</p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">
-                      Price per Unit
+                    <span className="flex items-center gap-1 text-muted-foreground">
+                      <DollarSignIcon className="h-4 w-4" /> Price per Unit
                     </span>
                     <p className="font-medium">
                       ${project.projectScale.pricerPerUnit}
                     </p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Minimum</span>
+                    <span className="flex items-center gap-1 text-muted-foreground">
+                      <Minimize2Icon className="h-4 w-4" /> Minimum
+                    </span>
                     <p className="font-medium">
                       {project.projectScale.minimum}
                     </p>
                   </div>
                   <div>
-                    <span className="text-muted-foreground">Maximum</span>
+                    <span className="flex items-center gap-1 text-muted-foreground">
+                      <Maximize2Icon className="h-4 w-4" /> Maximum
+                    </span>
                     <p className="font-medium">
                       {project.projectScale.maximum}
                     </p>
                   </div>
-                  <div>
-                    <span className="text-muted-foreground">Current</span>
-                    <p className="font-medium">
-                      {project.projectScale.current}
-                    </p>
+                  <div className="col-span-2">
+                    <span className="flex items-center gap-1 text-muted-foreground">
+                      <GaugeIcon className="h-4 w-4" /> Current
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <Progress
+                        value={
+                          ((project.projectScale.current -
+                            project.projectScale.minimum) /
+                            (project.projectScale.maximum -
+                              project.projectScale.minimum)) *
+                          100
+                        }
+                        className="w-full max-w-xs"
+                      />
+                      <span className="font-medium">
+                        {project.projectScale.current}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -391,22 +437,27 @@ function ProjectDetailsPage() {
 
           {/* Tools and Functions */}
           {(project.tools.length > 0 || project.functions.length > 0) && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {project.tools.length > 0 && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>Tools</CardTitle>
+                    <CardTitle className="flex items-center gap-2">
+                      <TagIcon className="h-5 w-5 text-blue-500" />
+                      Tools
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       {project.tools.map((tool) => (
                         <div
                           key={tool._id}
-                          className="flex justify-between items-center"
+                          className="flex justify-between items-center p-3 bg-muted/30 rounded-lg"
                         >
-                          <span className="text-sm">{tool.name}</span>
                           <span className="text-sm font-medium">
-                            ${tool.unitPrice}
+                            {tool.name}
+                          </span>
+                          <span className="text-sm font-bold text-green-600">
+                            {tool.unitPrice}
                           </span>
                         </div>
                       ))}
@@ -418,18 +469,23 @@ function ProjectDetailsPage() {
               {project.functions.length > 0 && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>Functions</CardTitle>
+                    <CardTitle className="flex items-center gap-2">
+                      <TagIcon className="h-5 w-5 text-purple-500" />
+                      Functions
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       {project.functions.map((func) => (
                         <div
                           key={func._id}
-                          className="flex justify-between items-center"
+                          className="flex justify-between items-center p-3 bg-muted/30 rounded-lg"
                         >
-                          <span className="text-sm">{func.name}</span>
                           <span className="text-sm font-medium">
-                            ${func.unitPrice}
+                            {func.name}
+                          </span>
+                          <span className="text-sm font-bold text-purple-600">
+                            {func.unitPrice}
                           </span>
                         </div>
                       ))}
@@ -451,7 +507,7 @@ function ProjectDetailsPage() {
                 {/* Cover Image/Video */}
                 <div>
                   <h3 className="font-medium mb-2">Cover</h3>
-                  <Image
+                  <MediaPreview
                     src={project.cover}
                     alt={project.name}
                     className="w-full max-w-md rounded-md"
@@ -459,21 +515,44 @@ function ProjectDetailsPage() {
                   />
                 </div>
 
-                {/* Attachments */}
+                {/* Attachments Carousel */}
                 {project.attachments.length > 0 && (
-                  <div>
+                  <div className="w-full  relaative">
                     <h3 className="font-medium mb-2">Attachments</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {project.attachments.map((attachment, index) => (
-                        <Image
-                          key={index}
-                          src={attachment}
-                          alt={`Attachment ${index + 1}`}
-                          className="w-full h-48 rounded-md object-cover"
-                          preview
-                        />
-                      ))}
-                    </div>
+                    <Carousel className="w-full ">
+                      <CarouselContent>
+                        {project.attachments.map((attachment, index) => (
+                          <CarouselItem
+                            key={index}
+                            className="flex flex-col items-center gap-2"
+                          >
+                            <MediaPreview
+                              src={attachment}
+                              alt={`Attachment ${index + 1}`}
+                              className="w-full h-64 rounded-md object-cover"
+                              preview
+                            />
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="mt-2"
+                              onClick={() => {
+                                const link = document.createElement("a");
+                                link.href = attachment;
+                                link.download = `attachment-${index + 1}`;
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                              }}
+                            >
+                              <Download className="h-4 w-4 mr-1" /> Download
+                            </Button>
+                          </CarouselItem>
+                        ))}
+                        <CarouselPrevious />
+                        <CarouselNext />
+                      </CarouselContent>
+                    </Carousel>
                   </div>
                 )}
               </div>
@@ -492,43 +571,102 @@ function ProjectDetailsPage() {
               ) : (
                 <div className="space-y-4">
                   {projectHistory && projectHistory.length > 0 ? (
-                    projectHistory.map((entry: any, index: number) => (
-                      <div
-                        key={index}
-                        className="flex gap-4 p-4 border rounded-lg"
-                      >
-                        <div className="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                          <span className="text-xs font-medium">
-                            {index + 1}
-                          </span>
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h4 className="font-medium">{entry.action}</h4>
-                              <p className="text-sm text-muted-foreground mt-1">
-                                {entry.description}
-                              </p>
+                    <div className="relative">
+                      {/* Timeline line */}
+                      <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-muted" />
+
+                      {projectHistory.map((entry: any, index: number) => {
+                        const isLatest = index === 0;
+                        const getActionIcon = (action: string) => {
+                          switch (action.toLowerCase()) {
+                            case "approved":
+                              return (
+                                <CheckCircleIcon className="h-4 w-4 text-green-500" />
+                              );
+                            case "rejected":
+                              return (
+                                <XCircleIcon className="h-4 w-4 text-red-500" />
+                              );
+                            case "paused":
+                              return (
+                                <PauseIcon className="h-4 w-4 text-yellow-500" />
+                              );
+                            case "resumed":
+                              return (
+                                <PlayIcon className="h-4 w-4 text-green-500" />
+                              );
+                            case "deleted":
+                              return (
+                                <TrashIcon className="h-4 w-4 text-red-500" />
+                              );
+                            default:
+                              return (
+                                <ClockIcon className="h-4 w-4 text-blue-500" />
+                              );
+                          }
+                        };
+
+                        return (
+                          <div
+                            key={index}
+                            className={`relative flex gap-4 p-4 rounded-lg transition-all ${
+                              isLatest
+                                ? "bg-primary/5 border border-primary/20 shadow-sm"
+                                : "bg-muted/30 hover:bg-muted/50"
+                            }`}
+                          >
+                            {/* Timeline dot */}
+                            <div
+                              className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border-2 ${
+                                isLatest
+                                  ? "bg-primary border-primary text-primary-foreground"
+                                  : "bg-background border-muted-foreground"
+                              }`}
+                            >
+                              {getActionIcon(entry.action)}
                             </div>
-                            <time className="text-xs text-muted-foreground">
-                              {format(
-                                new Date(entry.timestamp),
-                                "MMM dd, yyyy HH:mm"
-                              )}
-                            </time>
+
+                            <div className="flex-1 min-w-0">
+                              <div className="flex justify-between items-start gap-2">
+                                <div>
+                                  <h4
+                                    className={`font-medium ${
+                                      isLatest ? "text-primary" : ""
+                                    }`}
+                                  >
+                                    {entry.action}
+                                  </h4>
+                                  <p className="text-sm text-muted-foreground mt-1">
+                                    {entry.description}
+                                  </p>
+                                  {entry.reason && (
+                                    <p className="text-sm text-muted-foreground mt-2 italic">
+                                      Reason: {entry.reason}
+                                    </p>
+                                  )}
+                                </div>
+                                <time
+                                  className={`text-xs text-muted-foreground flex items-center gap-1 ${
+                                    isLatest ? "text-primary" : ""
+                                  }`}
+                                >
+                                  <ClockIcon className="h-3 w-3" />
+                                  {format(
+                                    new Date(entry.timestamp),
+                                    "MMM dd, yyyy HH:mm"
+                                  )}
+                                </time>
+                              </div>
+                            </div>
                           </div>
-                          {entry.reason && (
-                            <p className="text-sm text-muted-foreground mt-2">
-                              Reason: {entry.reason}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                    ))
+                        );
+                      })}
+                    </div>
                   ) : (
-                    <p className="text-muted-foreground">
-                      No history available.
-                    </p>
+                    <div className="text-center py-8 text-muted-foreground">
+                      <ClockIcon className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                      <p>No history available.</p>
+                    </div>
                   )}
                 </div>
               )}

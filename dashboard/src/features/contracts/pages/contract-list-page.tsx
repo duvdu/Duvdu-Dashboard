@@ -1,13 +1,9 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import type { FilterDefinition } from "@/components/ui/filters";
-import { PERMISSION_KEYS } from "@/config/permissions";
 import { useUpdateQueryParam } from "@/hooks/useUpdateQueryParam";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { getContracts } from "../api/contract.api";
 import { useContractColumns } from "../columns/contract-columns";
 import type { ContractRoot } from "../types/contract.types";
@@ -42,8 +38,6 @@ const filterDefinitions: FilterDefinition[] = [
 ];
 
 export default function ContractListPage() {
-  const navigate = useNavigate();
-
   const { getQueryParam } = useUpdateQueryParam("contracts");
 
   const cycle = getQueryParam("cycle") || "";
@@ -87,11 +81,11 @@ export default function ContractListPage() {
     <DashboardLayout className="space-y-6">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Contracts</h1>
-        <ProtectedComponent permissionKey={PERMISSION_KEYS.CONTRACTS.CREATE}>
+        {/* <ProtectedComponent permissionKey={PERMISSION_KEYS.CONTRACTS.CREATE}>
           <Button onClick={() => navigate("../contracts/create")}>
             + New Contract
           </Button>
-        </ProtectedComponent>
+        </ProtectedComponent> */}
       </div>
       {error && (
         <Alert variant="destructive">

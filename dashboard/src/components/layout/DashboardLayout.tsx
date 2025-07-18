@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Loader } from "../ui/loader";
 import { DashboardHeader } from "./DashboardHeader";
 import DashboardSidebar from "./DashboardSidebar";
+import logo from "/logo.svg";
 
 export default function DashboardLayout({
   children,
@@ -28,8 +29,9 @@ export default function DashboardLayout({
           )}
         >
           {loading ? (
-            <div className="flex justify-center items-center h-full">
-              <Loader className="size-10" />
+            <div className="flex flex-col items-center justify-center gap-4 py-4 ">
+              <img src={logo} alt="logo" className="w-32 h-fit mx-auto " />
+              <Loader className="w-12 h-12 mx-auto " />
             </div>
           ) : (
             <motion.div

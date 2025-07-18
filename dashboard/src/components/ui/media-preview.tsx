@@ -62,7 +62,7 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
   fallback,
   preview = false,
   className,
-  imageClassName,
+  imageClassName = "object-cover",
   videoClassName,
   posterSrc,
   ...avatarProps

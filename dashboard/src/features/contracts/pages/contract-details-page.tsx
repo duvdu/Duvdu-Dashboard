@@ -1,29 +1,110 @@
-import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getContractById } from "../api/contract.api";
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+import DashboardLoader from "@/components/layout/DashboardLoader";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Loader } from "@/components/ui/loader";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Image } from "@/components/ui/image";
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { MediaPreview } from "@/components/ui/media-preview";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
+import { useQuery } from "@tanstack/react-query";
 import {
-  MapPin,
-  User,
+  Activity,
+  AlertCircle,
+  AlertTriangle,
   Briefcase,
+  Calculator,
   Calendar,
+  CheckCircle,
+  Clock,
+  CreditCard,
   DollarSign,
+  Eye,
+  File,
+  FileText,
+  Mail,
+  MapPin,
+  Paperclip,
+  Phone,
+  Receipt,
   ShieldCheck,
-  Link2,
+  Timer,
+  ToolCase,
+  User,
+  Wrench,
+  XCircle,
 } from "lucide-react";
-import { DeleteContractModal } from "../components/DeleteContractModal";
+import { useParams } from "react-router-dom";
+import { getContractById } from "../api/contract.api";
+
+const getStatusColor = (status: string) => {
+  switch (status?.toLowerCase()) {
+    case "completed":
+      return "bg-green-100 text-green-800 border-green-200";
+    case "in_progress":
+    case "active":
+      return "bg-blue-100 text-blue-800 border-blue-200";
+    case "pending":
+      return "bg-yellow-100 text-yellow-800 border-yellow-200";
+    case "canceled":
+    case "cancelled":
+      return "bg-red-100 text-red-800 border-red-200";
+    default:
+      return "bg-gray-100 text-gray-800 border-gray-200";
+  }
+};
+
+const getStatusIcon = (status: string) => {
+  switch (status?.toLowerCase()) {
+    case "completed":
+      return <CheckCircle className="w-4 h-4" />;
+    case "in_progress":
+    case "active":
+      return <Activity className="w-4 h-4" />;
+    case "pending":
+      return <Clock className="w-4 h-4" />;
+    case "canceled":
+    case "cancelled":
+      return <XCircle className="w-4 h-4" />;
+    default:
+      return <AlertCircle className="w-4 h-4" />;
+  }
+};
+
+const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(amount);
+};
+
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
+const formatDateTime = (dateString: string) => {
+  return new Date(dateString).toLocaleString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
+const calculateProgress = (startDate: string, deadline: string) => {
+  const start = new Date(startDate).getTime();
+  const end = new Date(deadline).getTime();
+  const now = Date.now();
+  const total = end - start;
+  const elapsed = now - start;
+  return Math.min(Math.max((elapsed / total) * 100, 0), 100);
+};
 
 export default function ContractDetailsPage() {
   const { id } = useParams();
@@ -32,20 +113,16 @@ export default function ContractDetailsPage() {
     queryFn: () => getContractById(id!),
     enabled: !!id,
   });
-  console.log(data);
 
   if (isLoading) {
-    return (
-      <DashboardLayout>
-        <Loader className="w-8 h-8 mx-auto mt-10" />
-      </DashboardLayout>
-    );
+    return <DashboardLoader />;
   }
 
   if (error) {
     return (
       <DashboardLayout>
         <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>{error.message}</AlertDescription>
         </Alert>
@@ -57,6 +134,7 @@ export default function ContractDetailsPage() {
     return (
       <DashboardLayout>
         <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
           <AlertTitle>Not Found</AlertTitle>
           <AlertDescription>Contract not found.</AlertDescription>
         </Alert>
@@ -75,179 +153,563 @@ export default function ContractDetailsPage() {
     insurance,
     projectScale,
     qrCodeVerification,
+    tools,
+    functions,
+    details,
+    firstPaymentAmount,
+    secondPaymentAmount,
+    duration,
+    equipmentPrice,
+    submitFiles,
+    attachments,
+    appointmentDate,
+    createdAt,
+    updatedAt,
   } = {
     ...data.contract,
     customer: data.customer,
     sp: data.sp,
   };
-  console.log(customer, sp, "customer");
+
+  const progress = calculateProgress(startDate, deadline);
+  const isOverdue = new Date(deadline) < new Date() && status !== "completed";
+  const daysRemaining = Math.ceil(
+    (new Date(deadline).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+  );
 
   return (
-    <DashboardLayout className="w-full mx-auto py-8 ">
-      <DeleteContractModal />
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 w-full relative">
-        {/* Customer Info */}
-        <Card className="w-full md:w-1/2">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <User className="w-5 h-5" /> Customer
-            </CardTitle>
-            <CardDescription>
-              {customer.username && `@${customer.username}`}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex items-center gap-4">
-            <Image
-              src={customer.profileImage}
-              alt={customer.name}
-              className="w-20 h-20 rounded-full border"
-              preview
-            />
-            <div>
-              <div className="font-bold text-lg">{customer.name}</div>
-              <div className="text-sm text-muted-foreground">
-                {customer.email}
-              </div>
-              <div className="text-sm text-muted-foreground">
-                {customer.phoneNumber?.number}
-              </div>
-              {customer.isOnline && <Badge variant="success">Online</Badge>}
-            </div>
-          </CardContent>
-        </Card>
-        {/* Service Provider Info */}
-        <Card className="w-full md:w-1/2">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Briefcase className="w-5 h-5" /> Service Provider
-            </CardTitle>
-            <CardDescription>
-              {sp.username && `@${sp.username}`}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="flex items-center gap-4">
-            <Image
-              src={sp.profileImage}
-              alt={sp.name}
-              className="w-20 h-20 rounded-full border"
-              preview
-            />
-            <div>
-              <div className="font-bold text-lg">{sp.name}</div>
-              <div className="text-sm text-muted-foreground">{sp.email}</div>
-              <div className="text-sm text-muted-foreground">
-                {sp.phoneNumber?.number}
-              </div>
-              {sp.isOnline && <Badge variant="success">Online</Badge>}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-      {/* Contract Summary */}
-      <Card className="mb-8">
-        <CardHeader className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <CardTitle className="flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5" /> Contract Summary
-          </CardTitle>
-          <div className="flex gap-2">
+    <DashboardLayout loading={isLoading} className="w-full mx-auto py-6 px-4">
+      {/* Header Section */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Contract Details
+            </h1>
+            <p className="text-gray-600 mt-1">
+              Contract #{data.contract._id.slice(-8)}
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
             <Badge
-              variant={
-                status === "completed"
-                  ? "success"
-                  : status === "canceled"
-                  ? "destructive"
-                  : "secondary"
-              }
+              variant="outline"
+              className={`${getStatusColor(status)} flex items-center gap-2`}
             >
-              {/* {status.charAt(0).toUpperCase() + status.slice(1)} */}
+              {getStatusIcon(status)}
+              {status?.charAt(0).toUpperCase() + status?.slice(1) || "Unknown"}
             </Badge>
-            {qrCodeVerification && <Badge variant="success">QR Verified</Badge>}
-            {insurance && (
-              <Badge variant="outline">Insurance: {insurance}</Badge>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent className="flex flex-col md:flex-row gap-8">
-          <div className="flex-1 space-y-2">
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <MapPin className="w-4 h-4" /> {address}
-            </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <DollarSign className="w-4 h-4" /> Total Price:{" "}
-              <span className="font-semibold">{totalPrice}</span>
-            </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Calendar className="w-4 h-4" /> Start:{" "}
-              {startDate ? new Date(startDate).toLocaleDateString() : "-"} |
-              Deadline:{" "}
-              {deadline ? new Date(deadline).toLocaleDateString() : "-"}
-            </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Briefcase className="w-4 h-4" /> Project Scale:{" "}
-              {projectScale?.numberOfUnits} {projectScale?.unit} @{" "}
-              {projectScale?.unitPrice} each
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 items-end">
-            {/* <ProtectedComponent
-              permissionKey={PERMISSION_KEYS.CONTRACTS.UPDATE}
-            >
-              <Button
+            {qrCodeVerification && (
+              <Badge
                 variant="outline"
-                onClick={() => navigate(`/dashboard/contracts/update/${id}`)}
+                className="bg-green-50 text-green-700 border-green-200"
               >
-                <Edit2Icon className="w-4 h-4 mr-1" /> Edit
-              </Button>
-            </ProtectedComponent> */}
-            {/* <ProtectedComponent
-              permissionKey={PERMISSION_KEYS.CONTRACTS.DELETE}
-            >
-              <Button
-                variant="destructive"
-                onClick={() =>
-                  onOpen("deleteContract", { id }, () =>
-                    navigate("/dashboard/contracts")
-                  )
-                }
-              >
-                <Trash2Icon className="w-4 h-4 mr-1" /> Delete
-              </Button>
-            </ProtectedComponent> */}
-            {data.contract?.paymentLink && (
-              <Button variant="link" asChild>
-                <a
-                  href={data.contract?.paymentLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Link2 className="w-4 h-4 mr-1" /> Payment Link
-                </a>
-              </Button>
+                <CheckCircle className="w-4 h-4 mr-1" />
+                QR Verified
+              </Badge>
             )}
           </div>
-        </CardContent>
-      </Card>
-      {/* Attachments Section */}
-      {data.contract?.attachments && data.contract?.attachments.length > 0 && (
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Attachments</CardTitle>
-          </CardHeader>
-          <CardContent className="flex gap-4 flex-wrap">
-            {data.contract?.attachments.map((att, idx) => (
-              <Image
-                key={idx}
-                src={att}
-                alt={`Attachment ${idx + 1}`}
-                className="w-32 h-32 rounded-lg border"
-                preview
-              />
-            ))}
-          </CardContent>
-        </Card>
-      )}
-      {/* Raw JSON for debugging (remove in production) */}
-      {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
+        </div>
+
+        {/* Progress Bar */}
+        {status !== "completed" && status !== "canceled" && (
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm font-medium text-gray-700">
+                Project Progress
+              </span>
+              <span className="text-sm text-gray-500">
+                {Math.round(progress)}%
+              </span>
+            </div>
+            <Progress value={progress} className="h-2" />
+            <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
+              <span>Started: {formatDate(startDate)}</span>
+              <span>Deadline: {formatDate(deadline)}</span>
+            </div>
+            {isOverdue && (
+              <div className="flex items-center gap-2 mt-2 text-red-600 text-sm">
+                <AlertTriangle className="w-4 h-4" />
+                <span>Project is overdue</span>
+              </div>
+            )}
+            {!isOverdue && daysRemaining > 0 && (
+              <div className="flex items-center gap-2 mt-2 text-blue-600 text-sm">
+                <Clock className="w-4 h-4" />
+                <span>{daysRemaining} days remaining</span>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Main Content */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Project Overview */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Briefcase className="w-5 h-5" />
+                Project Overview
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <MapPin className="w-4 h-4" />
+                    <span className="font-medium">Location</span>
+                  </div>
+                  <p className="text-gray-900">{address}</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <Calendar className="w-4 h-4" />
+                    <span className="font-medium">Appointment Date</span>
+                  </div>
+                  <p className="text-gray-900">{formatDate(appointmentDate)}</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <Timer className="w-4 h-4" />
+                    <span className="font-medium">Duration</span>
+                  </div>
+                  <p className="text-gray-900">{duration} days</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 text-sm text-gray-600">
+                    <Calculator className="w-4 h-4" />
+                    <span className="font-medium">Project Scale</span>
+                  </div>
+                  <p className="text-gray-900">
+                    {projectScale?.numberOfUnits} {projectScale?.unit} @{" "}
+                    {formatCurrency(projectScale?.unitPrice)} each
+                  </p>
+                </div>
+              </div>
+
+              {details && (
+                <div className="pt-4 border-t">
+                  <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                    <FileText className="w-4 h-4" />
+                    <span className="font-medium">Project Details</span>
+                  </div>
+                  <p className="text-gray-700 leading-relaxed">{details}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Financial Summary */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <DollarSign className="w-5 h-5" />
+                Financial Summary
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <div className="flex items-center gap-2 text-blue-600 mb-2">
+                    <CreditCard className="w-4 h-4" />
+                    <span className="text-sm font-medium">Total Price</span>
+                  </div>
+                  <p className="text-2xl font-bold text-blue-900">
+                    {formatCurrency(totalPrice)}
+                  </p>
+                </div>
+                <div className="bg-green-50 p-4 rounded-lg">
+                  <div className="flex items-center gap-2 text-green-600 mb-2">
+                    <Receipt className="w-4 h-4" />
+                    <span className="text-sm font-medium">First Payment</span>
+                  </div>
+                  <p className="text-xl font-bold text-green-900">
+                    {formatCurrency(firstPaymentAmount)}
+                  </p>
+                </div>
+                <div className="bg-purple-50 p-4 rounded-lg">
+                  <div className="flex items-center gap-2 text-purple-600 mb-2">
+                    <Receipt className="w-4 h-4" />
+                    <span className="text-sm font-medium">Second Payment</span>
+                  </div>
+                  <p className="text-xl font-bold text-purple-900">
+                    {formatCurrency(secondPaymentAmount)}
+                  </p>
+                </div>
+              </div>
+
+              {equipmentPrice > 0 && (
+                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                  <div className="flex items-center gap-2 text-gray-600 mb-2">
+                    <Wrench className="w-4 h-4" />
+                    <span className="text-sm font-medium">Equipment Cost</span>
+                  </div>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {formatCurrency(equipmentPrice)}
+                  </p>
+                </div>
+              )}
+
+              {insurance && (
+                <div className="mt-4 p-4 bg-yellow-50 rounded-lg">
+                  <div className="flex items-center gap-2 text-yellow-600 mb-2">
+                    <ShieldCheck className="w-4 h-4" />
+                    <span className="text-sm font-medium">
+                      Insurance Coverage
+                    </span>
+                  </div>
+                  <p className="text-lg font-semibold text-yellow-900">
+                    {formatCurrency(insurance)}
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Tools & Functions */}
+          {(tools?.length > 0 || functions?.length > 0) && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <ToolCase className="w-5 h-5" />
+                  Tools & Functions
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {tools?.length > 0 && (
+                    <div>
+                      <h4 className="font-medium text-gray-900 mb-3">Tools</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {tools.map((tool) => (
+                          <div
+                            key={tool._id}
+                            className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                          >
+                            <div>
+                              <p className="font-medium text-gray-900">
+                                {tool.name}
+                              </p>
+                              <p className="text-sm text-gray-600">
+                                {tool.units} units
+                              </p>
+                            </div>
+                            <p className="font-semibold text-gray-900">
+                              {formatCurrency(tool.unitPrice)}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {functions?.length > 0 && (
+                    <div>
+                      <h4 className="font-medium text-gray-900 mb-3">
+                        Functions
+                      </h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {functions.map((func) => (
+                          <div
+                            key={func._id}
+                            className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                          >
+                            <div>
+                              <p className="font-medium text-gray-900">
+                                {func.name}
+                              </p>
+                              <p className="text-sm text-gray-600">
+                                {func.units} units
+                              </p>
+                            </div>
+                            <p className="font-semibold text-gray-900">
+                              {formatCurrency(func.unitPrice)}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Submitted Files */}
+          {submitFiles?.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="w-5 h-5" />
+                  Submitted Files
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {submitFiles.map((file, index) => (
+                    <div
+                      key={file._id}
+                      className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                    >
+                      <div className="flex items-center gap-3">
+                        <File className="w-5 h-5 text-gray-500" />
+                        <div>
+                          <p className="font-medium text-gray-900">
+                            File {index + 1}
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            {formatDateTime(file.dateOfSubmission)}
+                          </p>
+                          {file.notes && (
+                            <p className="text-sm text-gray-600 mt-1">
+                              {file.notes}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge
+                          variant="outline"
+                          className={
+                            file.status === "approved"
+                              ? "bg-green-50 text-green-700 border-green-200"
+                              : file.status === "rejected"
+                              ? "bg-red-50 text-red-700 border-red-200"
+                              : "bg-yellow-50 text-yellow-700 border-yellow-200"
+                          }
+                        >
+                          {file.status}
+                        </Badge>
+                        <Button variant="outline" size="sm">
+                          <Eye className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Attachments */}
+          {attachments?.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Paperclip className="w-5 h-5" />
+                  Attachments
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {attachments.map((attachment, index) => (
+                    <MediaPreview
+                      key={index}
+                      src={attachment}
+                      alt={`Attachment ${index + 1}`}
+                      preview
+                      className="w-full h-32 object-cover rounded-lg border cursor-pointer transition-transform group-hover:scale-105"
+                    />
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+
+        {/* Sidebar */}
+        <div className="space-y-6">
+          {/* Customer Information */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <User className="w-5 h-5" />
+                Customer
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center gap-4">
+                <Image
+                  src={customer.profileImage}
+                  alt={customer.name}
+                  className="w-16 h-16 rounded-full border-2 border-gray-200"
+                  preview
+                />
+                <div className="flex-1">
+                  <h3 className="font-semibold text-gray-900">
+                    {customer.name}
+                  </h3>
+                  {customer.username && (
+                    <p className="text-sm text-gray-600">
+                      @{customer.username}
+                    </p>
+                  )}
+                  <div className="flex items-center gap-2 mt-2">
+                    {customer.isOnline ? (
+                      <Badge
+                        variant="outline"
+                        className="bg-green-50 text-green-700 border-green-200"
+                      >
+                        <div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
+                        Online
+                      </Badge>
+                    ) : (
+                      <Badge
+                        variant="outline"
+                        className="bg-gray-50 text-gray-600 border-gray-200"
+                      >
+                        <div className="w-2 h-2 bg-gray-400 rounded-full mr-1"></div>
+                        Offline
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <Mail className="w-4 h-4 text-gray-500" />
+                  <span className="text-sm text-gray-700">
+                    {customer.email}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Phone className="w-4 h-4 text-gray-500" />
+                  <span className="text-sm text-gray-700">
+                    {customer.phoneNumber?.number}
+                  </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Service Provider Information */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Briefcase className="w-5 h-5" />
+                Service Provider
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center gap-4">
+                <Image
+                  src={sp.profileImage}
+                  alt={sp.name}
+                  className="w-16 h-16 rounded-full border-2 border-gray-200"
+                  preview
+                />
+                <div className="flex-1">
+                  <h3 className="font-semibold text-gray-900">{sp.name}</h3>
+                  {sp.username && (
+                    <p className="text-sm text-gray-600">@{sp.username}</p>
+                  )}
+                  <div className="flex items-center gap-2 mt-2">
+                    {sp.isOnline ? (
+                      <Badge
+                        variant="outline"
+                        className="bg-green-50 text-green-700 border-green-200"
+                      >
+                        <div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
+                        Online
+                      </Badge>
+                    ) : (
+                      <Badge
+                        variant="outline"
+                        className="bg-gray-50 text-gray-600 border-gray-200"
+                      >
+                        <div className="w-2 h-2 bg-gray-400 rounded-full mr-1"></div>
+                        Offline
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <Separator />
+
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <Mail className="w-4 h-4 text-gray-500" />
+                  <span className="text-sm text-gray-700">{sp.email}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Phone className="w-4 h-4 text-gray-500" />
+                  <span className="text-sm text-gray-700">
+                    {sp.phoneNumber?.number}
+                  </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Contract Timeline */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Clock className="w-5 h-5" />
+                Timeline
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-gray-900">
+                      Contract Created
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {formatDateTime(createdAt)}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-gray-900">
+                      Project Started
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {formatDateTime(startDate)}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2"></div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-gray-900">
+                      Deadline
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {formatDateTime(deadline)}
+                    </p>
+                  </div>
+                </div>
+
+                {status === "completed" && (
+                  <div className="flex items-start gap-3">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-gray-900">
+                        Completed
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {formatDateTime(updatedAt)}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </DashboardLayout>
   );
 }
