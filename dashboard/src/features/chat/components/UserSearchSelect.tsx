@@ -139,9 +139,9 @@ export function UserSearchSelect({
                           </div>
                         )}
 
-                        {user.about && (
+                        {user.username && (
                           <div className="text-xs text-muted-foreground truncate max-w-[70%]">
-                            {user.about}
+                            @{user.username}
                           </div>
                         )}
                       </div>

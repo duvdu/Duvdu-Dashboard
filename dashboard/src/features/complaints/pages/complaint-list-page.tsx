@@ -11,11 +11,11 @@ import { type Complaint } from "../types/complaint.types";
 
 export default function ComplaintListPage() {
   const [searchParams] = useSearchParams();
-  const search = searchParams.get("search") || "";
-  const isClosed = searchParams.get("isClosed") || "";
-  const startDate = searchParams.get("startDate") || "";
-  const endDate = searchParams.get("endDate") || "";
-  const reporter = searchParams.get("reporter") || "";
+  const search = searchParams.get("complaints_search") || "";
+  const isClosed = searchParams.get("complaints_isClosed") || "";
+  const startDate = searchParams.get("complaints_startDate") || "";
+  const endDate = searchParams.get("complaints_endDate") || "";
+  const reporter = searchParams.get("complaints_reporter") || "";
 
   // For UserSearchSelect
   const {
