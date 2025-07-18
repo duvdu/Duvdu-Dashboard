@@ -27,6 +27,7 @@ export interface UseInfiniteQueryResult<T> {
   loadMore: () => void;
   reset: () => void;
   observerRef: React.RefObject<HTMLDivElement | null>;
+  setItems: (items: T[]) => void;
 }
 
 export function useInfiniteQuery<T, TQueryParams = any>(
@@ -64,8 +65,8 @@ export function useInfiniteQuery<T, TQueryParams = any>(
         } as TQueryParams);
 
         const newItems = result.data || [];
-        const total = result.pagination?.resultCount || 0;
-        const take = result.pagination?.totalPages || 0;
+        const currentPageFromApi = result.pagination?.currentPage || 1;
+        const totalPagesFromApi = result.pagination?.totalPages || 1;
 
         if (currentPage === 0) {
           actions.setItems(newItems);
@@ -73,10 +74,7 @@ export function useInfiniteQuery<T, TQueryParams = any>(
           actions.setItems([...items, ...newItems]);
         }
 
-        const totalLoaded =
-          currentPage === 0 ? newItems.length : items.length + newItems.length;
-
-        actions.setHasMore(newItems.length === take && totalLoaded < total);
+        actions.setHasMore(currentPageFromApi < totalPagesFromApi);
       } catch (error) {
         actions.setError(error as Error);
         actions.setHasMore(false);
@@ -98,5 +96,6 @@ export function useInfiniteQuery<T, TQueryParams = any>(
     loadMore: infiniteScroll.actions.loadMore,
     reset: infiniteScroll.actions.reset,
     observerRef: infiniteScroll.observerRef,
+    setItems: infiniteScroll.actions.setItems,
   };
 }

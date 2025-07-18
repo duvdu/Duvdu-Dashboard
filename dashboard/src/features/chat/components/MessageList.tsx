@@ -9,6 +9,7 @@ import { MediaPreview } from "@/components/ui/media-preview";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 
+import { Loader } from "@/components/ui/loader";
 import { format, isToday, isYesterday } from "date-fns";
 import {
   ArchiveIcon,
@@ -140,15 +141,19 @@ interface MessageListProps {
   onUpdateMessage?: (messageId: string, content: string) => void;
   onReplyToMessage?: (message: Message) => void;
   className?: string;
+  observerRef?: React.RefObject<HTMLDivElement>;
+  hasMore?: boolean;
+  isLoadingMore?: boolean;
 }
 
 export function MessageList({
   messages,
   currentUserId,
-  // onDeleteMessage,
   onUpdateMessage,
-  // onReplyToMessage,
   className,
+  observerRef,
+  hasMore,
+  isLoadingMore,
 }: MessageListProps) {
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
   const [editContent, setEditContent] = useState("");
@@ -525,6 +530,16 @@ export function MessageList({
   return (
     <ScrollArea className={cn("flex-1 px-4", className)}>
       <div className="space-y-4 py-4">
+        {hasMore && (
+          <>
+            {isLoadingMore && (
+              <div className="flex justify-center py-2">
+                <Loader className="size-10" />
+              </div>
+            )}
+            <div ref={observerRef} style={{ height: 10 }} />
+          </>
+        )}
         {messages.length === 0 ? (
           <div className="text-center text-muted-foreground py-8">
             No messages yet. Start a conversation!

@@ -38,8 +38,8 @@ function DashboardSidebar() {
   const filteredSidebarItems = filterSidebarItems(sidebarItems);
 
   return (
-    <Sidebar side={"left"} className="bg-background border-r-0">
-      <SidebarContent className="gap-8 bg-background border-none py-4">
+    <Sidebar side={"left"} className="bg-card border-r-0">
+      <SidebarContent className="gap-8 bg-card border-none py-4">
         <div className="p-4 px-8">
           <Link to={`/dashboard`} className="z-10">
             <img src="/logo.svg" alt="logo" />

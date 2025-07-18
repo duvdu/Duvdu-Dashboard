@@ -9,7 +9,8 @@ import { Separator } from "@/components/ui/separator";
 import { PERMISSION_KEYS } from "@/config/permissions";
 import { useSocket } from "@/contexts/SocketProvider";
 import { useAuthStore } from "@/features/auth/store";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@/hooks/useInfiniteQuery";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, MessageCircleIcon, User, UserIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useOutletContext, useParams } from "react-router-dom";
@@ -33,29 +34,35 @@ export function ChatMessagesView() {
   const [replyingTo, setReplyingTo] = useState<Message | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
-  const [localMessages, setLocalMessages] = useState<Message[]>([]);
-  // Fetch messages for selected user
+
   const {
-    data: messagesData,
+    data: messages,
     isLoading,
+    isLoadingMore,
     error,
-    refetch,
-  } = useQuery({
-    queryKey: ["messages", userId],
-    queryFn: () => getChatMessages(userId!, { limit: 100 }),
+    hasMore,
+    observerRef,
+    reset,
+    setItems,
+  } = useInfiniteQuery<Message>({
+    queryFn: ({ page, limit }) => getChatMessages(userId!, { page, limit }),
+    queryParams: {},
+    pageSize: 10,
+    resetTriggers: [userId],
     enabled: !!userId,
   });
 
-  const messages = messagesData?.data || [];
   const currentReceiver =
-    messages.length > 0 ? getOtherUser(user?._id, messages[0]) : null;
+    messages.length > 0
+      ? getOtherUser(user?._id, messages[messages.length - 1])
+      : null;
 
   // Delete message
   const deleteMessageMutation = useMutation({
     mutationFn: deleteMessage,
     onSuccess: () => {
       toast.success("Message deleted");
-      refetch();
+      reset();
     },
     onError: () => {
       toast.error("Failed to delete message");
@@ -73,52 +80,31 @@ export function ChatMessagesView() {
     }) => updateMessage(messageId, { content }),
     onSuccess: () => {
       toast.success("Message updated");
-      refetch();
+      reset();
     },
     onError: () => {
       toast.error("Failed to update message");
     },
   });
 
-  // Auto-scroll to bottom when new messages arrive
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messagesData?.data]);
-
-  // Sync localMessages with query data when userId or messagesData changes
-  useEffect(() => {
-    if (messagesData?.data) {
-      setLocalMessages(messagesData.data);
-    }
-  }, [messagesData?.data, userId]);
-
   // Listen for new_message events for this chat
   useEffect(() => {
     if (!socket || !userId || !currentUserId) return;
-
     const handleNewMessage = (res: { message: Message }) => {
       const message = res.message;
       const otherUser = getOtherUser(currentUserId, message);
       if (otherUser?._id === userId) {
-        setLocalMessages((prev) => {
-          if (prev.some((m) => m._id === message._id)) return prev;
-          return [...prev, message];
-        });
+        reset();
+        if (messagesEndRef.current) {
+          messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
       }
     };
     socket.on("new_message", handleNewMessage);
     return () => {
       socket.off("new_message", handleNewMessage);
     };
-  }, [socket, userId, currentUserId]);
-
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [localMessages.length]);
+  }, [socket, userId, currentUserId, reset]);
 
   const handleDeleteMessage = (messageId: string) => {
     deleteMessageMutation.mutate(messageId);
@@ -135,6 +121,10 @@ export function ChatMessagesView() {
   const handleMessageSent = () => {
     setReplyingTo(null);
     queryClient.invalidateQueries({ queryKey: ["chats"] });
+    reset();
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   if (!userId) {
@@ -216,7 +206,6 @@ export function ChatMessagesView() {
           </ProtectedComponent>
         </div>
       </CardHeader>
-
       {/* Messages Area */}
       <CardContent className="flex-1 p-0 flex flex-col  overflow-y-auto">
         <ScrollArea className="flex-1 overflow-y-auto">
@@ -228,11 +217,7 @@ export function ChatMessagesView() {
             ) : error ? (
               <div className="text-center py-8 text-red-500">
                 <p>Failed to load messages</p>
-                <Button
-                  variant="outline"
-                  onClick={() => refetch()}
-                  className="mt-2"
-                >
+                <Button variant="outline" onClick={reset} className="mt-2">
                   Retry
                 </Button>
               </div>
@@ -244,19 +229,20 @@ export function ChatMessagesView() {
               </div>
             ) : (
               <MessageList
-                messages={localMessages}
+                messages={messages}
                 currentUserId={currentUserId!}
                 onDeleteMessage={handleDeleteMessage}
                 onUpdateMessage={handleUpdateMessage}
                 onReplyToMessage={handleReplyToMessage}
+                observerRef={observerRef}
+                hasMore={hasMore}
+                isLoadingMore={isLoadingMore}
               />
             )}
             <div ref={messagesEndRef} />
           </div>
         </ScrollArea>
-
         <Separator />
-
         {/* Reply Banner */}
         {replyingTo && (
           <div className="px-4 py-2 bg-muted/50 border-b">
@@ -282,13 +268,14 @@ export function ChatMessagesView() {
             </div>
           </div>
         )}
-
         {/* Message Input */}
         <div className="p-4">
           <SendMessageForm
             receiverId={userId}
             onMessageSent={handleMessageSent}
             replyTo={replyingTo?._id}
+            previousMessages={messages}
+            setMessages={setItems}
           />
         </div>
       </CardContent>

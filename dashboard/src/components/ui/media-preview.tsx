@@ -22,7 +22,7 @@ export interface MediaPreviewProps extends React.ComponentProps<typeof Avatar> {
 
 const getMediaType = (src: string): "image" | "video" | "unknown" => {
   if (!src) return "unknown";
-  
+
   const videoExtensions = [
     ".mp4",
     ".webm",
@@ -145,7 +145,7 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
       <DialogTrigger className="cursor-pointer relative">
         {avatar}
       </DialogTrigger>
-      <DialogContent className="flex flex-col items-center justify-center max-w-md max-h-[70vh] overflow-y-auto p-0">
+      <DialogContent className="flex flex-col items-center justify-center max-w-md max-h-[98vh] overflow-y-auto p-0">
         <DialogTitle className="text-lg font-black justify-start pt-4">
           Preview {mediaType === "video" ? "Video" : "Image"}
         </DialogTitle>

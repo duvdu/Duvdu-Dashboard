@@ -41,7 +41,7 @@ function CategoryListPage() {
         { label: "Producer", value: "producer" },
         { label: "Copy-rights", value: "copy-rights" },
         { label: "Project", value: "project" },
-        { label: "Studio-booking", value: "studio-booking" },
+        { label: "Rentals", value: "rentals" },
       ],
       placeholder: "Select Cycle",
     },

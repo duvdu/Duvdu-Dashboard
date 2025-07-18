@@ -9,17 +9,17 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthStore } from "@/features/auth/store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { PaperclipIcon, SendIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { sendMessage } from "../api/chat.api";
 import {
-  type SendMessageForm,
   sendMessageSchema,
+  type SendMessageForm,
 } from "../schemas/chat.schema";
-import { type Message, type MessagesResponse } from "../types/chat.types";
+import type { Message } from "../types/chat.types";
 
 interface SendMessageFormProps {
   receiverId: string;
@@ -27,6 +27,8 @@ interface SendMessageFormProps {
   placeholder?: string;
   disabled?: boolean;
   replyTo?: string;
+  previousMessages?: Message[];
+  setMessages?: (messages: Message[]) => void;
 }
 
 export function SendMessageForm({
@@ -35,9 +37,10 @@ export function SendMessageForm({
   placeholder = "Type a message...",
   disabled = false,
   replyTo,
+  previousMessages,
+  setMessages,
 }: SendMessageFormProps) {
   const [attachments, setAttachments] = useState<File[]>([]);
-  const queryClient = useQueryClient();
   const { user: currentUser } = useAuthStore();
 
   const form = useForm<SendMessageForm>({
@@ -53,18 +56,9 @@ export function SendMessageForm({
   const sendMessageMutation = useMutation({
     mutationFn: sendMessage,
     onMutate: async (payload) => {
-      // Cancel any outgoing refetches
-      await queryClient.cancelQueries({ queryKey: ["messages", receiverId] });
-
-      // Snapshot the previous value
-      const previousMessages = queryClient.getQueryData<MessagesResponse>([
-        "messages",
-        receiverId,
-      ]);
-
       // Create optimistic message
       const receiver =
-        previousMessages?.data?.[0]?.receiver || previousMessages?.user;
+        previousMessages?.[0]?.receiver || previousMessages?.[0]?.sender;
 
       if (!receiver || !currentUser) {
         throw new Error("Missing receiver or current user");
@@ -95,10 +89,7 @@ export function SendMessageForm({
 
       // Optimistically update the messages cache
       if (previousMessages) {
-        queryClient.setQueryData<MessagesResponse>(["messages", receiverId], {
-          ...previousMessages,
-          data: [...previousMessages.data, optimisticMessage],
-        });
+        setMessages?.([...previousMessages, optimisticMessage]);
       }
 
       // Return context for potential rollback
@@ -110,33 +101,12 @@ export function SendMessageForm({
       onMessageSent?.();
 
       // Update the cache with the real message from server
-      queryClient.setQueryData<MessagesResponse>(
-        ["messages", receiverId],
-        (old) => {
-          if (!old) return old;
-
-          // Replace the optimistic message with the real one
-          const updatedData = old.data.map((msg) =>
-            msg._id.startsWith("temp-") && msg.content === newMessage.content
-              ? newMessage
-              : msg
-          );
-
-          return { ...old, data: updatedData };
-        }
-      );
+      setMessages?.([...previousMessages, newMessage]);
 
       // Invalidate chats to update the chat list
-      queryClient.invalidateQueries({ queryKey: ["chats"] });
+      // queryClient.invalidateQueries({ queryKey: ["chats"] });
     },
-    onError: (error: any, payload, context) => {
-      // Rollback on error
-      if (context?.previousMessages) {
-        queryClient.setQueryData(
-          ["messages", receiverId],
-          context.previousMessages
-        );
-      }
+    onError: (error: any) => {
       toast.error(error.response?.data?.message || "Failed to send message");
     },
   });
