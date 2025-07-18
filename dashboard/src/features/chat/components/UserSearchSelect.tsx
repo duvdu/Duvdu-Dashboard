@@ -62,6 +62,7 @@ export function UserSearchSelect({
   };
 
   const handleClear = () => {
+    handleUserSelect(null);
     setSearchQuery("");
     setIsOpen(false);
   };
@@ -77,7 +78,7 @@ export function UserSearchSelect({
           className="pl-10 pr-10"
           disabled={disabled}
         />
-        {searchQuery && !disabled && (
+        {(searchQuery || selectedUserId) && !disabled && (
           <Button
             type="button"
             variant="ghost"

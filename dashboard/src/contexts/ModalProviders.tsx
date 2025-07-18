@@ -3,6 +3,7 @@ import { SendNotificationModal } from "@/components/modals/SendNotificationModal
 import { CreateAdminModal } from "@/features/admins/components/CreateAdminModal";
 import { UpdateAdminModal } from "@/features/admins/components/UpdateAdminModal";
 import { DeleteCategoryModal } from "@/features/categories/components/DeleteCategoryModal";
+import { FeedbackModal } from "@/features/complaints/components/FeedbackModal";
 import { ApproveProjectModal } from "@/features/cycles-projects/components/ApproveProjectModal";
 import { DeleteProjectModal } from "@/features/cycles-projects/components/DeleteProjectModal";
 import { PauseProjectModal } from "@/features/cycles-projects/components/PauseProjectModal";
@@ -46,6 +47,7 @@ export const ModalProvider = () => {
     deleteChat: <div>Delete Chat Modal</div>,
     deleteUser: <DeleteUserModal />,
     activateDeactivatePayoutMethod: <ActivateDeactivatePayoutMethodModal />,
+    addComplaintFeedback: <FeedbackModal />,
   };
 
   return <>{type && modals[type]}</>;

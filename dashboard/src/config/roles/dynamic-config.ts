@@ -57,6 +57,12 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     requiredPermissions: [PERMISSION_KEYS.USERS.VIEW],
   },
   {
+    path: "/dashboard/complaints",
+    icon: MessageCircleMore,
+    label: "Complaints",
+    // requiredPermissions: [PERMISSION_KEYS.COMPLAINTS.VIEW],
+  },
+  {
     path: "/dashboard/chat/messages",
     icon: MessageCircleMore,
     label: "Messages",

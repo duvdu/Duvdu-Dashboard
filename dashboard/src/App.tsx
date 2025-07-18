@@ -5,7 +5,6 @@ import {
 } from "@tanstack/react-query";
 import { RouterProvider } from "react-router-dom";
 import { Toaster } from "sonner";
-import { ModalProvider } from "./contexts/ModalProviders";
 import { router } from "./routes";
 
 const queryClient = new QueryClient({
@@ -20,7 +19,6 @@ const queryClient = new QueryClient({
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ModalProvider />
       <RouterProvider router={router} />
       <Toaster />
     </QueryClientProvider>

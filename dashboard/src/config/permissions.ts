@@ -52,6 +52,11 @@ export const PERMISSION_KEYS = {
     UPDATE: "update-contract",
     DELETE: "remove-contract",
   },
+  COMPLAINTS: {
+    VIEW: "list-complaints",
+    UPDATE: "update-complaint",
+    CLOSE: "close-complaint",
+  },
   NOTIFICATIONS: {
     SEND: "send-notification-to-users",
   },

@@ -8,10 +8,11 @@ import { Outlet } from "react-router-dom";
 import { adminsRoutes } from "../admins/routes";
 import { categoryRoutes } from "../categories/routes";
 import { chatRoutes } from "../chat/routes";
+import { complaintRoutes } from "../complaints/routes";
+import { contractRoutes } from "../contracts/routes";
 import { projectRoutes } from "../cycles-projects/routes";
 import { rolesRoutes } from "../roles/routes";
 import { usersRoutes } from "../users/routes";
-import { contractRoutes } from "../contracts/routes";
 
 const DashboardPage = lazy(() => import("./pages/dashboard"));
 
@@ -74,6 +75,11 @@ export const dashboardRoutes = [
       </ProtectedRoute>
     ),
     children: rolesRoutes,
+  },
+  {
+    path: "complaints",
+    element: <Outlet />,
+    children: complaintRoutes,
   },
   {
     path: "admins",

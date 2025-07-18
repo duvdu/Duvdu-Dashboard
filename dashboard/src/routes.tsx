@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
+import { ModalProvider } from "./contexts/ModalProviders";
 import { RBACProvider } from "./contexts/RBACProvider";
 import { SocketProvider } from "./contexts/SocketProvider";
 import { authRoutes } from "./features/auth/routes";
@@ -14,6 +15,7 @@ export const router = createBrowserRouter([
     element: (
       <RBACProvider>
         <SocketProvider>
+          <ModalProvider />
           <Outlet />
         </SocketProvider>
       </RBACProvider>
