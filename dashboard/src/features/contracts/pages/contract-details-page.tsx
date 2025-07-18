@@ -13,6 +13,7 @@ import {
   Activity,
   AlertCircle,
   AlertTriangle,
+  ArrowLeftIcon,
   Briefcase,
   Calculator,
   Calendar,
@@ -35,7 +36,7 @@ import {
   Wrench,
   XCircle,
 } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getContractById } from "../api/contract.api";
 
 const getStatusColor = (status: string) => {
@@ -183,9 +184,16 @@ export default function ContractDetailsPage() {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              Contract Details
-            </h1>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" asChild>
+                <Link to="/dashboard/contracts">
+                  <ArrowLeftIcon className="w-4 h-4" />
+                </Link>
+              </Button>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Contract Details
+              </h1>
+            </div>
             <p className="text-gray-600 mt-1">
               Contract #{data.contract._id.slice(-8)}
             </p>

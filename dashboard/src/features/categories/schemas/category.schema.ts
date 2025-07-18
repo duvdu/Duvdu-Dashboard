@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-const cycleTypeSchema = z.enum(["video", "image", "audio"]);
-
 export const tagSchema = z.object({
   _id: z.string().optional(),
   ar: z.string().min(1, "Arabic tag is required"),
@@ -33,7 +31,7 @@ export const categorySchema = z
     }),
     jobTitles: z.array(jobTitleSchema).optional(),
     cycle: z.string().min(1, "Cycle is required"),
-    media_type: cycleTypeSchema,
+    media_type: z.string().optional(),
     subCategories: z
       .array(subCategorySchema)
       .min(1, "At least one subcategory is required"),

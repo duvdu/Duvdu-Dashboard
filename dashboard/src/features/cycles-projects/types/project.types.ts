@@ -116,8 +116,8 @@ export type ProjectFilters = {
   subCategory?: string;
   startDate?: string;
   endDate?: string;
+  showOnHome?: string;
   page?: number;
   limit?: number;
-  sortBy?: string;
   sortOrder?: "asc" | "desc";
 };

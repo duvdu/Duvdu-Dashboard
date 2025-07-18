@@ -1,9 +1,9 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import LogoutButton from "@/features/auth/components/logout-button";
-import { ThemeToggle } from "../ui/ThemeToggle";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { ThemeToggle } from "../ui/ThemeToggle";
 
 export function DashboardHeader({
   title = "Dashboard",

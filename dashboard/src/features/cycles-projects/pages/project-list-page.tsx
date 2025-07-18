@@ -17,8 +17,9 @@ function ProjectListPage() {
   const category = searchParams.get("category") || "";
   const startDate = searchParams.get("startDate") || "";
   const endDate = searchParams.get("endDate") || "";
-  const sortBy = searchParams.get("sortBy") || "";
   const sortOrder = searchParams.get("sortOrder") || "";
+  const showOnHome = searchParams.get("showOnHome") || "";
+
 
   const filters: ProjectFilters = {
     search,
@@ -27,7 +28,7 @@ function ProjectListPage() {
     category: category || undefined,
     startDate: startDate || undefined,
     endDate: endDate || undefined,
-    sortBy: (sortBy as ProjectFilters["sortBy"]) || undefined,
+    showOnHome: showOnHome || undefined,
     sortOrder: (sortOrder as ProjectFilters["sortOrder"]) || undefined,
   };
 
@@ -101,7 +102,7 @@ function ProjectListPage() {
     category,
     startDate,
     endDate,
-    sortBy,
+    showOnHome,
     sortOrder,
   };
 

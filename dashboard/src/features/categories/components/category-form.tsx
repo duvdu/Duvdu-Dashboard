@@ -153,6 +153,8 @@ export function CategoryForm({
     }
   }, [defaultValues?.relatedCategory.length]);
 
+  console.log(formState.errors);
+
   return (
     <FormProvider {...methods}>
       <Form {...methods}>
