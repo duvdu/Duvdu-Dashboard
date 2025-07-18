@@ -1,4 +1,5 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -7,6 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader } from "@/components/ui/loader";
 import { MediaPreview } from "@/components/ui/media-preview";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { PERMISSION_KEYS } from "@/config/permissions";
+import { useRBAC } from "@/contexts/RBACProvider";
 import { useModal } from "@/store/modal-store";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, MessageCircle, Paperclip } from "lucide-react";
@@ -22,6 +25,8 @@ export default function ComplaintDetailsPage() {
     enabled: !!id,
   });
   const { onOpen } = useModal();
+
+  useRBAC();
 
   if (isLoading) {
     return (
@@ -113,16 +118,20 @@ export default function ComplaintDetailsPage() {
               </Badge>
             )}
             {status}
-            <Button
-              variant="outline"
-              asChild
-              size="sm"
-              className="flex items-center gap-1 px-2 py-1 h-8"
+            <ProtectedComponent
+              permissionKeys={[PERMISSION_KEYS.CONTRACTS.VIEW]}
             >
-              <Link to={`/dashboard/contracts/${complaint.contract}`}>
-                <Paperclip className="w-4 h-4 mr-1" /> View Contract
-              </Link>
-            </Button>
+              <Button
+                variant="outline"
+                asChild
+                size="sm"
+                className="flex items-center gap-1 px-2 py-1 h-8"
+              >
+                <Link to={`/dashboard/contracts/${complaint.contract}`}>
+                  <Paperclip className="w-4 h-4 mr-1" /> View Contract
+                </Link>
+              </Button>
+            </ProtectedComponent>
           </div>
         </CardHeader>
         <CardContent className="w-full h-full py-6 px-4 flex flex-col gap-4">

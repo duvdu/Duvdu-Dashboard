@@ -12,13 +12,23 @@ import { UserSearchSelect } from "@/features/chat";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-function ComplaintsFilters() {
+function ComplaintsFilters({
+  hiddenFilters = [],
+}: {
+  hiddenFilters?: (
+    | "search"
+    | "isClosed"
+    | "startDate"
+    | "endDate"
+    | "reporter"
+  )[];
+}) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const search = searchParams.get("search") || "";
-  const isClosed = searchParams.get("isClosed") || "";
-  const startDate = searchParams.get("startDate") || "";
-  const endDate = searchParams.get("endDate") || "";
-  const reporter = searchParams.get("reporter") || "";
+  const search = searchParams.get("complaints_search") || "";
+  const isClosed = searchParams.get("complaints_isClosed") || "";
+  const startDate = searchParams.get("complaints_startDate") || "";
+  const endDate = searchParams.get("complaints_endDate") || "";
+  const reporter = searchParams.get("complaints_reporter") || "";
   const [selectedReporter, setSelectedReporter] = useState<string>(reporter);
 
   const filterValues = {
@@ -32,12 +42,14 @@ function ComplaintsFilters() {
   const handleFiltersChange = (vals: Record<string, unknown>) => {
     const newParams = new URLSearchParams(searchParams);
     Object.entries(vals).forEach(([key, value]) => {
-      if (value) newParams.set(key, value as string);
-      else newParams.delete(key);
+      if (value) newParams.set(`complaints_${key}`, value as string);
+      else newParams.delete(`complaints_${key}`);
     });
-    newParams.set("page", "1");
+    newParams.set("complaints_page", "1");
     setSearchParams(newParams);
   };
+
+  const isHidden = (filter: string) => hiddenFilters.includes(filter as any);
 
   return (
     <div className="mb-4">
@@ -55,70 +67,78 @@ function ComplaintsFilters() {
         </div>
         {/* Status */}
         <div className="flex flex-wrap items-end gap-4">
-          <div className="flex flex-col">
-            <Select
-              value={isClosed}
-              onValueChange={(value) =>
-                handleFiltersChange({ ...filterValues, isClosed: value })
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select status" />
-              </SelectTrigger>
-              <SelectContent>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  className="text-destructive text-xs w-full justify-start "
-                  onClick={() =>
-                    handleFiltersChange({ ...filterValues, isClosed: "" })
-                  }
-                >
-                  Clear
-                </Button>
+          {!isHidden("isClosed") && (
+            <div className="flex flex-col">
+              <Select
+                value={isClosed}
+                onValueChange={(value) =>
+                  handleFiltersChange({ ...filterValues, isClosed: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="text-destructive text-xs w-full justify-start "
+                    onClick={() =>
+                      handleFiltersChange({ ...filterValues, isClosed: "" })
+                    }
+                  >
+                    Clear
+                  </Button>
 
-                <SelectItem value="false">Open</SelectItem>
-                <SelectItem value="true">Closed</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+                  <SelectItem value="false">Open</SelectItem>
+                  <SelectItem value="true">Closed</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
           {/* Start Date */}
-          <div className="flex flex-col">
-            <DatePicker
-              date={startDate ? new Date(startDate) : undefined}
-              onSelect={(date) =>
-                handleFiltersChange({ ...filterValues, startDate: date })
-              }
-              placeholder="Start date"
-            />
-          </div>
+          {!isHidden("startDate") && (
+            <div className="flex flex-col">
+              <DatePicker
+                date={startDate ? new Date(startDate) : undefined}
+                onSelect={(date) =>
+                  handleFiltersChange({ ...filterValues, startDate: date })
+                }
+                placeholder="Start date"
+              />
+            </div>
+          )}
           {/* End Date */}
-          <div className="flex flex-col">
-            <DatePicker
-              date={endDate ? new Date(endDate) : undefined}
-              onSelect={(date) =>
-                handleFiltersChange({ ...filterValues, endDate: date })
-              }
-              placeholder="End date"
-            />
-          </div>
+          {!isHidden("endDate") && (
+            <div className="flex flex-col">
+              <DatePicker
+                date={endDate ? new Date(endDate) : undefined}
+                onSelect={(date) =>
+                  handleFiltersChange({ ...filterValues, endDate: date })
+                }
+                placeholder="End date"
+              />
+            </div>
+          )}
           {/* Reporter */}
-          <div className="flex flex-col min-w-[220px]">
-            <UserSearchSelect
-              onSelectUser={(user) => {
-                setSelectedReporter(user ? user._id : "");
-                handleFiltersChange({
-                  ...filterValues,
-                  reporter: user ? user._id : undefined,
-                });
-              }}
-              selectedUserId={selectedReporter}
-              placeholder={
-                selectedReporter ? "Select reporter" : "Search reporter..."
-              }
-            />
-          </div>
+          {!isHidden("reporter") && (
+            <div className="flex flex-col min-w-[220px]">
+              <UserSearchSelect
+                onSelectUser={(user) => {
+                  setSelectedReporter(user ? user._id : "");
+                  handleFiltersChange({
+                    ...filterValues,
+                    reporter: user ? user._id : undefined,
+                  });
+                }}
+                selectedUserId={selectedReporter}
+                placeholder={
+                  selectedReporter ? "Select reporter" : "Search reporter..."
+                }
+              />
+            </div>
+          )}
           {/* Clear Filters Button */}
           <Button
             type="button"

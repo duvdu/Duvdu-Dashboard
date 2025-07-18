@@ -51,6 +51,10 @@ export const PERMISSION_KEYS = {
     CREATE: "create-contract",
     UPDATE: "update-contract",
     DELETE: "remove-contract",
+    LIST_CONTRACTS_ANALYSIS: "list-contracts-analysis",
+    VIEW_CANCELED_CONTRACTS: "list-cancel-contracts",
+    ACCEPT_CANCEL_CONTRACT: "accept-cancel-contract",
+    DELETE_CANCEL_CONTRACT: "delete-cancel-contract",
   },
   COMPLAINTS: {
     VIEW: "list-complaints",

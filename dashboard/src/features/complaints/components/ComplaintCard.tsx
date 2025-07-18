@@ -1,7 +1,9 @@
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Image } from "@/components/ui/image";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { MessageCircle, Paperclip } from "lucide-react";
 import { Link } from "react-router-dom";
 import { type Complaint } from "../types/complaint.types";
@@ -72,18 +74,22 @@ function ComplaintCard({ complaint }: { complaint: Complaint }) {
               <MessageCircle className="w-4 h-4" />
               {feedbackCount} Feedback{feedbackCount !== 1 ? "s" : ""}
             </Badge>
-            <Badge
-              variant="outline"
-              className="flex items-center gap-1 text-xs px-2 py-1"
+            <ProtectedComponent
+              permissionKeys={[PERMISSION_KEYS.CONTRACTS.VIEW]}
             >
-              <Link
-                to={`/dashboard/contracts/${complaint.contract}`}
-                className="flex items-center gap-1"
+              <Badge
+                variant="outline"
+                className="flex items-center gap-1 text-xs px-2 py-1"
               >
-                <Paperclip className="w-4 h-4" />
-                View Contract
-              </Link>
-            </Badge>
+                <Link
+                  to={`/dashboard/contracts/${complaint.contract}`}
+                  className="flex items-center gap-1"
+                >
+                  <Paperclip className="w-4 h-4" />
+                  View Contract
+                </Link>
+              </Badge>
+            </ProtectedComponent>
             {hasAttachments && (
               <Badge
                 variant="outline"

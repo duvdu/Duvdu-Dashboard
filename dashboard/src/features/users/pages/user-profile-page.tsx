@@ -5,6 +5,7 @@ import ContractsPanel from "@/features/contracts/components/ContractsPanel";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { getUserById } from "../api/users.api";
+import ComplaintsPanel from "../components/panels/ComplaintsPanel";
 import PayoutMethodsPanel from "../components/panels/PayoutMethodsPanel";
 import SubscriptionsPanel from "../components/panels/SubscriptionsPanel";
 import TransactionsPanel from "../components/panels/TransactionsPanel";
@@ -55,7 +56,7 @@ export default function UserProfilePage() {
               <PayoutMethodsPanel userId={id} />
             </TabsContent>
             <TabsContent value="complaints">
-              <div>Complaints content goes here.</div>
+              <ComplaintsPanel userId={id} />
             </TabsContent>
             <TabsContent value="subscriptions">
               <SubscriptionsPanel userId={id} />
