@@ -20,7 +20,9 @@ export const subCategorySchema = z.object({
     ar: z.string().min(1, "Arabic subcategory title is required"),
     en: z.string().min(1, "English subcategory title is required"),
   }),
-  tags: z.array(tagSchema),
+  tags: z
+    .array(tagSchema)
+    .min(1, "At least one tag is required for each subcategory"),
 });
 
 export const jobTitleSchema = z.object({
@@ -36,9 +38,11 @@ export const categorySchema = z.object({
   }),
   jobTitles: z.array(jobTitleSchema).optional(),
   cycle: z.string().min(1, "Cycle is required"),
-  subCategories: z.array(subCategorySchema),
+  subCategories: z
+    .array(subCategorySchema)
+    .min(1, "At least one subcategory is required"),
   status: z.boolean(),
-  image: z.union([z.string(), z.instanceof(File)]),
+  image: z.union([z.string(), z.instanceof(File)]).optional(),
   trend: z.boolean().optional(),
   isRelated: z.boolean().optional(),
   insurance: z.boolean().optional(),

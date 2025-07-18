@@ -1,3 +1,4 @@
+import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,6 +24,7 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Image as ImageIcon, Layers, Plus, Settings, X } from "lucide-react";
+import { useState } from "react";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import {
@@ -118,6 +120,12 @@ export function CategoryForm({
     );
   }
 
+  const [activeTab, setActiveTab] = useState("details");
+  const subCategoriesError = formState.errors.subCategories?.message as
+    | string
+    | undefined;
+
+  console.log(formState.errors);
   return (
     <FormProvider {...methods}>
       <Form {...methods}>
@@ -129,7 +137,19 @@ export function CategoryForm({
           })}
           className="space-y-6"
         >
-          <Tabs defaultValue="details" className="w-full">
+          {/* Global error if subcategory error exists and not on subcategories tab */}
+          {subCategoriesError && activeTab !== "subcategories" && (
+            <Alert variant="destructive">
+              <AlertTitle>
+                {subCategoriesError} (see Subcategories tab)
+              </AlertTitle>
+            </Alert>
+          )}
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="w-full"
+          >
             <TabsList className="grid w-full grid-cols-1 md:grid-cols-2">
               <TabsTrigger value="details" className="flex items-center gap-2">
                 <Settings className="h-4 w-4" />
@@ -149,7 +169,9 @@ export function CategoryForm({
               </TabsTrigger> */}
               <TabsTrigger
                 value="subcategories"
-                className="flex items-center gap-2"
+                className={`flex items-center gap-2 ${
+                  subCategoriesError ? "text-destructive" : ""
+                }`}
               >
                 <Layers className="h-4 w-4" />
                 <span className="hidden sm:inline">Subcategories</span>
@@ -341,101 +363,13 @@ export function CategoryForm({
               </Card>
             </TabsContent>
 
-            {/* <TabsContent value="job-titles" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="flex items-center gap-2">
-                      <Briefcase className="h-5 w-5" />
-                      Job Titles
-                      {jobTitlesCount > 0 && (
-                        <Badge variant="secondary">{jobTitlesCount}</Badge>
-                      )}
-                    </CardTitle>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => appendJobTitle({ ar: "", en: "" })}
-                      className="flex items-center gap-2"
-                    >
-                      <Plus className="h-4 w-4" />
-                      Add Job Title
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  {jobTitles.length === 0 ? (
-                    <div className="text-center py-8 text-muted-foreground">
-                      <Briefcase className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                      <p>No job titles added yet</p>
-                      <p className="text-sm">
-                        Click "Add Job Title" to get started
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {jobTitles.map((job, idx) => (
-                        <div
-                          key={job.id}
-                          className="p-4 border rounded-lg bg-muted/50"
-                        >
-                          <div className="flex items-center justify-between mb-3">
-                            <h4 className="font-medium">Job Title {idx + 1}</h4>
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => removeJobTitle(idx)}
-                              className="text-destructive hover:text-destructive h-8 w-8 p-0"
-                            >
-                              <X className="h-4 w-4" />
-                            </Button>
-                          </div>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <FormField
-                              name={`jobTitles.${idx}.ar`}
-                              control={control}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Arabic</FormLabel>
-                                  <FormControl>
-                                    <Input
-                                      {...field}
-                                      placeholder="بالعربية"
-                                      className="text-right"
-                                    />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            <FormField
-                              name={`jobTitles.${idx}.en`}
-                              control={control}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>English</FormLabel>
-                                  <FormControl>
-                                    <Input
-                                      {...field}
-                                      placeholder="In English"
-                                    />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </TabsContent>
- */}
             <TabsContent value="subcategories" className="space-y-6">
+              {/* Show error inside subcategories tab */}
+              {subCategoriesError && (
+                <Alert variant="destructive">
+                  <AlertTitle>{subCategoriesError}</AlertTitle>
+                </Alert>
+              )}
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
@@ -538,6 +472,17 @@ export function CategoryForm({
                             </div>
 
                             <div className="space-y-3">
+                              {formState.errors.subCategories?.[subIdx]?.tags
+                                ?.message && (
+                                <Alert variant="destructive">
+                                  <AlertTitle>
+                                    {
+                                      formState.errors.subCategories?.[subIdx]
+                                        ?.tags?.message
+                                    }
+                                  </AlertTitle>
+                                </Alert>
+                              )}
                               <div className="flex items-center justify-between">
                                 <FormLabel>
                                   Tags {tags.length > 0 && `(${tags.length})`}
