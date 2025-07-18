@@ -1,7 +1,6 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Loader } from "@/components/ui/loader";
 import { PERMISSION_KEYS } from "@/config/permissions";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -85,10 +84,9 @@ function CategoryCreatePage() {
 
         <CategoryForm
           onSubmit={handleSubmit}
-          isLoading={isPending}
+          submitting={isPending}
           submitLabel="Create"
         />
-        {isPending && <Loader className="w-8 h-8 mt-4" />}
       </ProtectedComponent>
     </DashboardLayout>
   );

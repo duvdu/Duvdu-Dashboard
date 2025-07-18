@@ -78,7 +78,11 @@ export const dashboardRoutes = [
   },
   {
     path: "complaints",
-    element: <Outlet />,
+    element: (
+      <ProtectedRoute permissionKey={PERMISSION_KEYS.COMPLAINTS.VIEW}>
+        <Outlet />
+      </ProtectedRoute>
+    ),
     children: complaintRoutes,
   },
   {

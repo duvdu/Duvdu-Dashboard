@@ -31,9 +31,9 @@ interface UserProfileHeaderProps {
 const UserProfileHeader: FC<UserProfileHeaderProps> = ({ user, refetch }) => {
   const { onOpen } = useModal();
   return (
-    <div className="relative w-full rounded-lg shadow mb-4 overflow-hidden bg-white">
+    <div className="relative w-full rounded-lg shadow mb-4 overflow-hidden bg-card text-card-foreground">
       {user.coverImage ? (
-        <div className="h-36 w-full bg-gray-100 relative">
+        <div className="h-36 w-full bg-muted relative">
           <Image
             src={user.coverImage}
             alt="cover"
@@ -41,13 +41,13 @@ const UserProfileHeader: FC<UserProfileHeaderProps> = ({ user, refetch }) => {
           />
         </div>
       ) : (
-        <div className="h-36 w-full bg-gray-300  relative flex items-center justify-center">
-          <span className="text-gray-500 text-sm">No cover image</span>
+        <div className="h-36 w-full bg-muted relative flex items-center justify-center">
+          <span className="text-muted-foreground text-sm">No cover image</span>
         </div>
       )}
       <div className="flex flex-col md:flex-row items-center gap-6 px-6 pb-6 pt-0 md:pt-6">
         <div className="relative">
-          <div className="w-28 h-28 rounded-full bg-gray-200 flex items-center justify-center text-4xl font-bold text-gray-600 border-4 border-white shadow-lg overflow-hidden">
+          <div className="w-28 h-28 rounded-full bg-muted flex items-center justify-center text-4xl font-bold text-muted-foreground border-4 border-background shadow-lg overflow-hidden">
             {user.profileImage ? (
               <Image
                 src={user.profileImage}
@@ -63,10 +63,10 @@ const UserProfileHeader: FC<UserProfileHeaderProps> = ({ user, refetch }) => {
                 .toUpperCase()
             )}
             {user.isOnline && (
-              <span className="absolute bottom-2 right-2 w-4 h-4 bg-green-500 border-2 border-white rounded-full" />
+              <span className="absolute bottom-2 right-2 w-4 h-4 bg-primary border-2 border-background rounded-full" />
             )}
             {user.isBlocked?.value && (
-              <span className="absolute bottom-2 right-2 w-4 h-4 bg-red-500 border-2 border-white rounded-full flex items-center justify-center">
+              <span className="absolute bottom-2 right-2 w-4 h-4 bg-destructive border-2 border-background rounded-full flex items-center justify-center">
                 <Ban className="w-3 h-3 text-white" />
               </span>
             )}
@@ -75,13 +75,15 @@ const UserProfileHeader: FC<UserProfileHeaderProps> = ({ user, refetch }) => {
         <div className="flex-1 w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex flex-col gap-1 w-full">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+              <span className="text-2xl font-bold text-foreground flex items-center gap-2">
                 {user.name}
                 {user.isVerified && (
-                  <CheckCircle className="w-5 h-5 text-blue-500" />
+                  <CheckCircle className="w-5 h-5 text-primary" />
                 )}
               </span>
-              <span className="text-base text-gray-500">@{user.username}</span>
+              <span className="text-base text-muted-foreground">
+                @{user.username}
+              </span>
               {user.status && (
                 <Badge
                   variant={
@@ -110,46 +112,46 @@ const UserProfileHeader: FC<UserProfileHeaderProps> = ({ user, refetch }) => {
                 <span className="flex items-center gap-1 text-yellow-500 text-sm font-medium">
                   <Star className="w-4 h-4" />
                   {user.rate.totalRates.toFixed(1)}
-                  <span className="text-gray-400">
+                  <span className="text-muted-foreground">
                     ({user.rate.ratersCounter})
                   </span>
                 </span>
               )}
               {user.profileViews !== undefined && (
-                <span className="flex items-center gap-1 text-gray-500 text-sm">
+                <span className="flex items-center gap-1 text-muted-foreground text-sm">
                   <Eye className="w-4 h-4" /> {user.profileViews} views
                 </span>
               )}
               {user.followCount && (
-                <span className="flex items-center gap-1 text-gray-500 text-sm">
+                <span className="flex items-center gap-1 text-muted-foreground text-sm">
                   <Users className="w-4 h-4" /> {user.followCount.followers}{" "}
                   followers
                 </span>
               )}
               {user.projectsCount !== undefined && (
-                <span className="flex items-center gap-1 text-gray-500 text-sm">
+                <span className="flex items-center gap-1 text-muted-foreground text-sm">
                   <Briefcase className="w-4 h-4" /> {user.projectsCount}{" "}
                   projects
                 </span>
               )}
             </div>
             <div className="flex items-center gap-2 flex-wrap mt-2">
-              <span className="flex items-center gap-1 text-gray-600 text-sm">
+              <span className="flex items-center gap-1 text-muted-foreground text-sm">
                 <Mail className="w-4 h-4" /> {user.email}
               </span>
               {user.phoneNumber?.number && (
-                <span className="flex items-center gap-1 text-gray-600 text-sm">
+                <span className="flex items-center gap-1 text-muted-foreground text-sm">
                   <Phone className="w-4 h-4" /> {user.phoneNumber.number}
                 </span>
               )}
               {typeof user.address === "string" && user.address && (
-                <span className="flex items-center gap-1 text-gray-600 text-sm">
+                <span className="flex items-center gap-1 text-muted-foreground text-sm">
                   <MapPin className="w-4 h-4" /> {user.address}
                 </span>
               )}
             </div>
             {user.about && (
-              <div className="mt-2 text-gray-700 text-sm line-clamp-2 max-w-2xl">
+              <div className="mt-2 text-foreground text-sm line-clamp-2 max-w-2xl">
                 {user.about}
               </div>
             )}
@@ -158,7 +160,7 @@ const UserProfileHeader: FC<UserProfileHeaderProps> = ({ user, refetch }) => {
                 <span
                   className="text-xs font-semibold px-2 py-1 rounded"
                   style={{
-                    background: user.rank.color || "#eee",
+                    background: user.rank.color || "var(--primary)",
                     color: "#fff",
                   }}
                 >
@@ -166,15 +168,14 @@ const UserProfileHeader: FC<UserProfileHeaderProps> = ({ user, refetch }) => {
                 </span>
               )}
             </div>
-            <div className="text-xs text-gray-400 mt-2">
+            <div className="text-xs text-muted-foreground mt-2">
               Created:{" "}
               {user.createdAt ? new Date(user.createdAt).toLocaleString() : "-"}
             </div>
           </div>
         </div>
       </div>
-      {/* ACTION BAR */}
-      <div className="flex flex-wrap gap-2 px-6 pb-4 border-t pt-4 bg-gray-50 justify-end">
+      <div className="flex flex-wrap gap-2 px-6 pb-4 border-t pt-4 bg-card justify-end">
         <ProtectedComponent permissionKey={PERMISSION_KEYS.NOTIFICATIONS.SEND}>
           <Button
             variant="outline"
@@ -185,14 +186,12 @@ const UserProfileHeader: FC<UserProfileHeaderProps> = ({ user, refetch }) => {
             <BellIcon className="mr-2 h-4 w-4" /> Notify
           </Button>
         </ProtectedComponent>
-        {/* <ProtectedComponent permissionKey={PERMISSION_KEYS.MESSAGES.SEND}> */}
         <Button
           variant="outline"
           onClick={() => onOpen("sendMessage", { receiver: user._id }, refetch)}
         >
           <MessageCircleIcon className="mr-2 h-4 w-4" /> Message
         </Button>
-        {/* </ProtectedComponent> */}
         <ProtectedComponent
           permissionKeys={[
             PERMISSION_KEYS.USERS.BLOCK,

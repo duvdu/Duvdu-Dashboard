@@ -7,11 +7,14 @@ import {
 import {
   Calendar,
   FileText,
+  GitBranch,
   Home,
   MessageCircleMore,
-  Settings,
   Shield,
+  Tags,
+  Tickets,
   User,
+  UserRound,
   Users,
 } from "lucide-react";
 
@@ -26,13 +29,13 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
   },
   {
     path: "/dashboard/categories",
-    icon: Settings,
+    icon: Tags,
     label: "Categories",
     requiredPermissions: [PERMISSION_KEYS.CATEGORIES.VIEW],
   },
   {
     path: "/dashboard/projects",
-    icon: Calendar,
+    icon: GitBranch,
     label: "Cycles",
     requiredPermissions: [PERMISSION_KEYS.PROJECTS.VIEW],
     children: [
@@ -56,12 +59,7 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     label: "Users",
     requiredPermissions: [PERMISSION_KEYS.USERS.VIEW],
   },
-  {
-    path: "/dashboard/complaints",
-    icon: MessageCircleMore,
-    label: "Complaints",
-    // requiredPermissions: [PERMISSION_KEYS.COMPLAINTS.VIEW],
-  },
+
   {
     path: "/dashboard/chat/messages",
     icon: MessageCircleMore,
@@ -76,11 +74,18 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
       },
       {
         path: "/dashboard/chat/user-to-user",
-        icon: MessageCircleMore,
+        icon: UserRound,
         label: "User-to-User Chat",
         requiredPermissions: [PERMISSION_KEYS.MESSAGES.FROM_TO],
       },
     ],
+  },
+
+  {
+    path: "/dashboard/complaints",
+    icon: Tickets,
+    label: "Complaints",
+    requiredPermissions: [PERMISSION_KEYS.COMPLAINTS.VIEW],
   },
 
   {

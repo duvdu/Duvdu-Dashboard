@@ -200,18 +200,25 @@ export default function ComplaintDetailsPage() {
           </div>
 
           {/* Add Feedback Button */}
-          {!isClosed && (
-            <div className="sticky bottom-0  pt-2 pb-1 z-20 flex justify-end">
-              <Button
-                onClick={() =>
-                  onOpen("addComplaintFeedback", { id: complaint._id })
-                }
-                className="w-full md:w-auto"
-              >
-                Add Feedback
-              </Button>
-            </div>
-          )}
+          <ProtectedComponent
+            permissionKeys={[
+              PERMISSION_KEYS.COMPLAINTS.UPDATE,
+              PERMISSION_KEYS.COMPLAINTS.CLOSE,
+            ]}
+          >
+            {!isClosed && (
+              <div className="sticky bottom-0  pt-2 pb-1 z-20 flex justify-end">
+                <Button
+                  onClick={() =>
+                    onOpen("addComplaintFeedback", { id: complaint._id })
+                  }
+                  className="w-full md:w-auto"
+                >
+                  Add Feedback
+                </Button>
+              </div>
+            )}
+          </ProtectedComponent>
         </CardContent>
       </Card>
     </DashboardLayout>

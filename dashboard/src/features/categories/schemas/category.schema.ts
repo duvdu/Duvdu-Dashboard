@@ -34,7 +34,7 @@ export const categorySchema = z.object({
     ar: z.string().min(1, "Arabic title is required"),
     en: z.string().min(1, "English title is required"),
   }),
-  jobTitles: z.array(jobTitleSchema),
+  jobTitles: z.array(jobTitleSchema).optional(),
   cycle: z.string().min(1, "Cycle is required"),
   subCategories: z.array(subCategorySchema),
   status: z.boolean(),

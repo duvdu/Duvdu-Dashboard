@@ -37,6 +37,7 @@ export default function UserListPage() {
         isBlocked:
           status === "blocked" ? true : status === "active" ? false : undefined,
         isDeleted: status === "deleted" ? true : false,
+        isAdmin: false,
       }),
   });
   const users = usersData?.data || [];

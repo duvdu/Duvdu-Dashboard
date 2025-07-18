@@ -22,17 +22,13 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Briefcase,
-  Image as ImageIcon,
-  Layers,
-  Plus,
-  Settings,
-  X,
-} from "lucide-react";
+import { Image as ImageIcon, Layers, Plus, Settings, X } from "lucide-react";
 import { FormProvider, useFieldArray, useForm } from "react-hook-form";
-import type { CategorySchema } from "../schemas/category.schema";
-import { categorySchema } from "../schemas/category.schema";
+import { useNavigate } from "react-router-dom";
+import {
+  categorySchema,
+  type CategorySchema,
+} from "../schemas/category.schema";
 
 export type CategoryFormProps = {
   defaultValues?: Partial<CategorySchema>;
@@ -44,11 +40,10 @@ export type CategoryFormProps = {
 
 const cycleOptions = [
   { value: "producer", label: "Producer" },
+  { value: "team-project", label: "Team Project" },
   { value: "copy-rights", label: "Copy Rights" },
-  { value: "project", label: "Project" },
-  { value: "studio-booking", label: "Studio Booking" },
   { value: "rentals", label: "Rentals" },
-  { value: "portfolio-post", label: "Portfolio Post" },
+  { value: "project", label: "Project" },
 ];
 
 export function CategoryForm({
@@ -64,9 +59,10 @@ export function CategoryForm({
       title: { ar: "", en: "" },
       jobTitles: [],
       subCategories: [],
-      status: false,
+      status: true,
       trend: false,
       isRelated: false,
+      cycle: "",
       insurance: false,
       ...defaultValues,
     },
@@ -75,20 +71,22 @@ export function CategoryForm({
   const { handleSubmit, control, setValue, watch, getValues, formState } =
     methods;
 
+  const navigate = useNavigate();
+
   // For image upload
   const image = watch("image");
-  const jobTitlesCount = watch("jobTitles")?.length || 0;
+  // const jobTitlesCount = watch("jobTitles")?.length || 0;
   const subCategoriesCount = watch("subCategories")?.length || 0;
 
   // Job Titles
-  const {
-    fields: jobTitles,
-    append: appendJobTitle,
-    remove: removeJobTitle,
-  } = useFieldArray<CategorySchema>({
-    control,
-    name: "jobTitles",
-  });
+  // const {
+  //   fields: jobTitles,
+  //   append: appendJobTitle,
+  //   remove: removeJobTitle,
+  // } = useFieldArray<CategorySchema>({
+  //   control,
+  //   name: "jobTitles",
+  // });
 
   // Subcategories
   const {
@@ -132,12 +130,12 @@ export function CategoryForm({
           className="space-y-6"
         >
           <Tabs defaultValue="details" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-1 md:grid-cols-2">
               <TabsTrigger value="details" className="flex items-center gap-2">
                 <Settings className="h-4 w-4" />
                 <span className="hidden sm:inline">Details</span>
               </TabsTrigger>
-              <TabsTrigger
+              {/* <TabsTrigger
                 value="job-titles"
                 className="flex items-center gap-2"
               >
@@ -148,7 +146,7 @@ export function CategoryForm({
                     {jobTitlesCount}
                   </Badge>
                 )}
-              </TabsTrigger>
+              </TabsTrigger> */}
               <TabsTrigger
                 value="subcategories"
                 className="flex items-center gap-2"
@@ -343,7 +341,7 @@ export function CategoryForm({
               </Card>
             </TabsContent>
 
-            <TabsContent value="job-titles" className="space-y-6">
+            {/* <TabsContent value="job-titles" className="space-y-6">
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
@@ -436,7 +434,7 @@ export function CategoryForm({
                 </CardContent>
               </Card>
             </TabsContent>
-
+ */}
             <TabsContent value="subcategories" className="space-y-6">
               <Card>
                 <CardHeader>
@@ -637,16 +635,24 @@ export function CategoryForm({
             </TabsContent>
           </Tabs>
 
-          <div className="sticky bottom-0 bg-background border-t p-4 -mx-4">
-            <div className="flex items-center justify-between">
-              <div className="text-sm text-muted-foreground">
-                {Object.keys(formState.errors).length > 0 && (
-                  <span className="text-destructive">
-                    Please fix {Object.keys(formState.errors).length} error(s)
-                    before saving
-                  </span>
-                )}
-              </div>
+          <div className="flex items-center justify-between">
+            <div className="text-sm text-muted-foreground">
+              {Object.keys(formState.errors).length > 0 && (
+                <span className="text-destructive">
+                  Please fix {Object.keys(formState.errors).length} error(s)
+                  before saving
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                type="button"
+                className="min-w-[120px]"
+                onClick={() => navigate("/dashboard/categories")}
+              >
+                Cancel
+              </Button>
               <Button
                 type="submit"
                 loading={isLoading || submitting}

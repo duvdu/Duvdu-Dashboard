@@ -82,16 +82,25 @@ function DashboardSidebar() {
                         return canAccess(child.requiredPermissions);
                       })
                       .map((child, childIdx) => (
-                        <DropdownMenuItem asChild key={childIdx}>
+                        <DropdownMenuItem
+                          asChild
+                          key={childIdx}
+                          className="cursor-pointer"
+                        >
                           <Link
                             to={child.path}
                             className={`w-full ${
                               isActive(child.path)
-                                ? "bg-muted font-semibold"
+                                ? "bg-muted font-semibold "
                                 : ""
                             }`}
                           >
-                            {child.label}
+                            <div className="flex items-center  w-full">
+                              <div className="flex items-center justify-center w-8 h-8 mr-1">
+                                <child.icon className="h-6 w-6" />
+                              </div>
+                              <span className="text-base">{child.label}</span>
+                            </div>
                           </Link>
                         </DropdownMenuItem>
                       ))}
@@ -100,7 +109,7 @@ function DashboardSidebar() {
               ) : (
                 <SidebarMenuButton
                   asChild
-                  className={`selection:bg-black w-full text-left flex items-center justify-start ${
+                  className={` w-full text-left flex items-center justify-start ${
                     isActive(link.path)
                       ? `bg-secondary font-bold text-primary hover:bg-secondary`
                       : ``

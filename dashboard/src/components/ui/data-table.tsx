@@ -14,6 +14,7 @@ import * as React from "react";
 import { useUpdateQueryParam } from "@/hooks/useUpdateQueryParam";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 import { Button } from "./button";
 import { Checkbox } from "./checkbox";
 import { DebouncedInput } from "./debounced-input";
@@ -178,6 +179,9 @@ export function DataTable<TData, TValue>({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [disableSearch, limit, pagesCount, page, updateQueryParam]);
 
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get("keyword") || "";
+
   return (
     <div className=" w-full">
       <div className="rounded-lg w-full overflow-hidden ">
@@ -193,7 +197,7 @@ export function DataTable<TData, TValue>({
                   />
                   <DebouncedInput
                     ref={searchInputRef}
-                    defaultValue={filterValues.search as string}
+                    defaultValue={search}
                     onChange={(e) => {
                       updateQueryParam("keyword", e.target.value);
                     }}
@@ -282,7 +286,7 @@ export function DataTable<TData, TValue>({
                           }
                         }}
                         className={cn(
-                          "text-gray-800 px-2 py-2 text-sm font-normal  last:border-r-0",
+                          " px-2 py-2 text-sm font-normal  last:border-r-0",
                           rowClicked && cell.column.getIndex() === 0
                             ? "hover:underline cursor-pointer text-[var(--primary)]"
                             : ""
