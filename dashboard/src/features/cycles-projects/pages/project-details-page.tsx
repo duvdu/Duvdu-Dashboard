@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/carousel";
 import { DataTable } from "@/components/ui/data-table";
 import { type FilterDefinition } from "@/components/ui/filters";
-import { Loader } from "@/components/ui/loader";
 import { MediaPreview } from "@/components/ui/media-preview";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
@@ -34,8 +33,6 @@ import { format } from "date-fns";
 import {
   ArrowLeftIcon,
   CalendarIcon,
-  CheckCircleIcon,
-  ClockIcon,
   CopyIcon,
   DollarSignIcon,
   Download,
@@ -45,22 +42,15 @@ import {
   MapPinIcon,
   Maximize2Icon,
   Minimize2Icon,
-  PauseIcon,
-  PlayIcon,
   RulerIcon,
   TagIcon,
   TrashIcon,
   TrendingUpIcon,
   UserIcon,
-  XCircleIcon,
 } from "lucide-react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
-import {
-  getProjectById,
-  getProjectHistory,
-  getProjectPublicUrl,
-} from "../api/project.api";
+import { getProjectById, getProjectPublicUrl } from "../api/project.api";
 
 function ProjectDetailsPage() {
   const { id } = useParams();
@@ -74,12 +64,6 @@ function ProjectDetailsPage() {
   } = useQuery({
     queryKey: ["project", id],
     queryFn: () => getProjectById(id!),
-    enabled: !!id,
-  });
-
-  const { data: projectHistory, isLoading: historyLoading } = useQuery({
-    queryKey: ["project-history", id],
-    queryFn: () => getProjectHistory(id!),
     enabled: !!id,
   });
 
@@ -250,7 +234,6 @@ function ProjectDetailsPage() {
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="details">Project Details</TabsTrigger>
           <TabsTrigger value="media">Media</TabsTrigger>
-          <TabsTrigger value="history">History Log</TabsTrigger>
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
         </TabsList>
 
@@ -621,121 +604,6 @@ function ProjectDetailsPage() {
             </CardContent>
           </Card>
         </TabsContent>
-
-        <TabsContent value="history" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Project History</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {historyLoading ? (
-                <Loader className="w-6 h-6 mx-auto" />
-              ) : (
-                <div className="space-y-4">
-                  {projectHistory && projectHistory.length > 0 ? (
-                    <div className="relative">
-                      {/* Timeline line */}
-                      <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-muted" />
-
-                      {projectHistory.map((entry: any, index: number) => {
-                        const isLatest = index === 0;
-                        const getActionIcon = (action: string) => {
-                          switch (action.toLowerCase()) {
-                            case "approved":
-                              return (
-                                <CheckCircleIcon className="h-4 w-4 text-green-500" />
-                              );
-                            case "rejected":
-                              return (
-                                <XCircleIcon className="h-4 w-4 text-red-500" />
-                              );
-                            case "paused":
-                              return (
-                                <PauseIcon className="h-4 w-4 text-yellow-500" />
-                              );
-                            case "resumed":
-                              return (
-                                <PlayIcon className="h-4 w-4 text-green-500" />
-                              );
-                            case "deleted":
-                              return (
-                                <TrashIcon className="h-4 w-4 text-red-500" />
-                              );
-                            default:
-                              return (
-                                <ClockIcon className="h-4 w-4 text-blue-500" />
-                              );
-                          }
-                        };
-
-                        return (
-                          <div
-                            key={index}
-                            className={`relative flex gap-4 p-4 rounded-lg transition-all ${
-                              isLatest
-                                ? "bg-primary/5 border border-primary/20 shadow-sm"
-                                : "bg-muted/30 hover:bg-muted/50"
-                            }`}
-                          >
-                            {/* Timeline dot */}
-                            <div
-                              className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border-2 ${
-                                isLatest
-                                  ? "bg-primary border-primary text-primary-foreground"
-                                  : "bg-background border-muted-foreground"
-                              }`}
-                            >
-                              {getActionIcon(entry.action)}
-                            </div>
-
-                            <div className="flex-1 min-w-0">
-                              <div className="flex justify-between items-start gap-2">
-                                <div>
-                                  <h4
-                                    className={`font-medium ${
-                                      isLatest ? "text-primary" : ""
-                                    }`}
-                                  >
-                                    {entry.action}
-                                  </h4>
-                                  <p className="text-sm text-muted-foreground mt-1">
-                                    {entry.description}
-                                  </p>
-                                  {entry.reason && (
-                                    <p className="text-sm text-muted-foreground mt-2 italic">
-                                      Reason: {entry.reason}
-                                    </p>
-                                  )}
-                                </div>
-                                <time
-                                  className={`text-xs text-muted-foreground flex items-center gap-1 ${
-                                    isLatest ? "text-primary" : ""
-                                  }`}
-                                >
-                                  <ClockIcon className="h-3 w-3" />
-                                  {format(
-                                    new Date(entry.timestamp),
-                                    "MMM dd, yyyy HH:mm"
-                                  )}
-                                </time>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <div className="text-center py-8 text-muted-foreground">
-                      <ClockIcon className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                      <p>No history available.</p>
-                    </div>
-                  )}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
         <TabsContent value="reviews" className="space-y-6">
           <Card>
             <CardHeader>
