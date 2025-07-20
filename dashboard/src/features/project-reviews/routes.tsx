@@ -5,7 +5,7 @@ const ProjectReviewCreatePage = lazy(() => import('./pages/project-review-create
 const ProjectReviewUpdatePage = lazy(() => import('./pages/project-review-update-page'));
 const ProjectReviewDetailsPage = lazy(() => import('./pages/project-review-details-page'));
 
-export const project-reviewRoutes = [
+export const projectReviewRoutes = [
   {
     index: true,
     element: <ProjectReviewListPage />

@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import { projectReviewRoutes } from "../project-reviews/routes";
 
 const ProjectListPage = lazy(() => import("./pages/project-list-page"));
 const ProjectDetailsPage = lazy(() => import("./pages/project-details-page"));
@@ -16,5 +17,9 @@ export const projectRoutes = [
   {
     path: ":id/update",
     element: <ProjectUpdatePage />,
+  },
+  {
+    path: "reviews",
+    children: projectReviewRoutes,
   },
 ];
