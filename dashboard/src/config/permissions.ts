@@ -61,6 +61,11 @@ export const PERMISSION_KEYS = {
     UPDATE: "update-complaint",
     CLOSE: "close-complaint",
   },
+  TICKETS: {
+    VIEW: "list-tickets",
+    UPDATE: "update-ticket",
+    DELETE: "remove-ticket",
+  },
   NOTIFICATIONS: {
     SEND: "send-notification-to-users",
   },

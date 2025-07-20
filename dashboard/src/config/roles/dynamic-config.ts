@@ -12,6 +12,7 @@ import {
   MessageCircleMore,
   Shield,
   Tags,
+  Ticket,
   Tickets,
   User,
   UserRound,
@@ -86,6 +87,13 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     icon: Tickets,
     label: "Complaints",
     requiredPermissions: [PERMISSION_KEYS.COMPLAINTS.VIEW],
+  },
+
+  {
+    path: "/dashboard/tickets",
+    icon: Ticket,
+    label: "Tickets",
+    // requiredPermissions: [PERMISSION_KEYS.TICKETS.VIEW],
   },
 
   {

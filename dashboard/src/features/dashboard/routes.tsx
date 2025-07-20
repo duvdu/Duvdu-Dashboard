@@ -12,6 +12,7 @@ import { complaintRoutes } from "../complaints/routes";
 import { contractRoutes } from "../contracts/routes";
 import { projectRoutes } from "../cycles-projects/routes";
 import { rolesRoutes } from "../roles/routes";
+import { ticketRoutes } from "../tickets/routes";
 import { usersRoutes } from "../users/routes";
 
 const DashboardPage = lazy(() => import("./pages/dashboard"));
@@ -93,6 +94,15 @@ export const dashboardRoutes = [
       </ProtectedRoute>
     ),
     children: adminsRoutes,
+  },
+  {
+    path: "tickets",
+    element: (
+      <ProtectedRoute permissionKey={PERMISSION_KEYS.TICKETS.VIEW}>
+        <Outlet />
+      </ProtectedRoute>
+    ),
+    children: ticketRoutes,
   },
   {
     path: "*",

@@ -11,6 +11,8 @@ import { RejectProjectModal } from "@/features/cycles-projects/components/Reject
 import { CreateRoleModal } from "@/features/roles/components/CreateRoleModal";
 import DeleteRoleModal from "@/features/roles/components/DeleteRoleModal";
 import { UpdateRoleModal } from "@/features/roles/components/UpdateRoleModal";
+import { DeleteTicketModal } from "@/features/tickets/components/DeleteTicketModal";
+import { FeedbackModal as TicketFeedbackModal } from "@/features/tickets/components/FeedbackModal";
 import { ActivateDeactivatePayoutMethodModal } from "@/features/users/components/ActivateDeactivatePayoutMethodModal";
 import { BlockUnblockUserModal } from "@/features/users/components/BlockUnblockUserModal";
 import { DeleteUserModal } from "@/features/users/components/DeleteUserModal";
@@ -48,6 +50,8 @@ export const ModalProvider = () => {
     deleteUser: <DeleteUserModal />,
     activateDeactivatePayoutMethod: <ActivateDeactivatePayoutMethodModal />,
     addComplaintFeedback: <FeedbackModal />,
+    addTicketFeedback: <TicketFeedbackModal />,
+    deleteTicket: <DeleteTicketModal />,
   };
 
   return <>{type && modals[type]}</>;

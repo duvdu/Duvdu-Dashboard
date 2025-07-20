@@ -14,6 +14,7 @@ import { useSearchParams } from "react-router-dom";
 
 function ComplaintsFilters({
   hiddenFilters = [],
+  id = "complaints",
 }: {
   hiddenFilters?: (
     | "search"
@@ -22,13 +23,14 @@ function ComplaintsFilters({
     | "endDate"
     | "reporter"
   )[];
+  id?: string;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const search = searchParams.get("complaints_search") || "";
-  const isClosed = searchParams.get("complaints_isClosed") || "";
-  const startDate = searchParams.get("complaints_startDate") || "";
-  const endDate = searchParams.get("complaints_endDate") || "";
-  const reporter = searchParams.get("complaints_reporter") || "";
+  const search = searchParams.get(`${id}_search`) || "";
+  const isClosed = searchParams.get(`${id}_isClosed`) || "";
+  const startDate = searchParams.get(`${id}_startDate`) || "";
+  const endDate = searchParams.get(`${id}_endDate`) || "";
+  const reporter = searchParams.get(`${id}_reporter`) || "";
   const [selectedReporter, setSelectedReporter] = useState<string>(reporter);
 
   const filterValues = {
@@ -42,10 +44,10 @@ function ComplaintsFilters({
   const handleFiltersChange = (vals: Record<string, unknown>) => {
     const newParams = new URLSearchParams(searchParams);
     Object.entries(vals).forEach(([key, value]) => {
-      if (value) newParams.set(`complaints_${key}`, value as string);
-      else newParams.delete(`complaints_${key}`);
+      if (value) newParams.set(`${id}_${key}`, value as string);
+      else newParams.delete(`${id}_${key}`);
     });
-    newParams.set("complaints_page", "1");
+    newParams.set(`${id}_page`, "1");
     setSearchParams(newParams);
   };
 
@@ -61,7 +63,7 @@ function ComplaintsFilters({
             onChange={(e) =>
               handleFiltersChange({ ...filterValues, search: e.target.value })
             }
-            placeholder="Search complaints..."
+            placeholder={`Search ${id}...`}
             className="w-48"
           />
         </div>
