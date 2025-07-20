@@ -1,13 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import * as React from "react";
-import { Separator } from "./separator";
 import { VideoPlayer } from "./video-player";
 
 export interface MediaPreviewProps extends React.ComponentProps<typeof Avatar> {
@@ -118,7 +112,7 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
       return (
         <VideoPlayer
           src={src}
-          className={`  rounded-lg border ${videoClassName || ""}`}
+          className={`  rounded-lg   ${videoClassName || ""}`}
           autoPlay={true}
           muted={true}
           loop={true}
@@ -132,7 +126,7 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
         src={src}
         alt={alt}
         className={cn(
-          "max-w-full max-h-[70vh] rounded-lg border object-cover",
+          "max-w-full max-h-[70vh] rounded-lg  object-cover",
           imageClassName
         )}
         onError={(e) => (e.currentTarget.style.display = "none")}
@@ -145,12 +139,14 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
       <DialogTrigger className="cursor-pointer relative">
         {avatar}
       </DialogTrigger>
-      <DialogContent className="flex flex-col items-center justify-center max-w-md max-h-[98vh] overflow-y-auto p-0">
-        <DialogTitle className="text-lg font-black justify-start pt-4">
+      <DialogContent className="flex flex-col w-fit min-w-0   items-center justify-center border-none max-w-md max-h-[98vh] overflow-y-auto p-0">
+        {/* <DialogTitle className="text-lg font-black justify-start pt-4">
           Preview {mediaType === "video" ? "Video" : "Image"}
         </DialogTitle>
-        <Separator className="w-full" />
-        <div className="p-4 w-full">{renderPreviewContent()}</div>
+        <Separator className="w-full" /> */}
+        <div className=" bg-transparent border-none w-fit">
+          {renderPreviewContent()}
+        </div>
       </DialogContent>
     </Dialog>
   );

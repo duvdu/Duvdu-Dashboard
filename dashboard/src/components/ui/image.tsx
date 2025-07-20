@@ -1,12 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import * as React from "react";
-import { Separator } from "./separator";
 
 export interface ImageProps extends React.ComponentProps<typeof Avatar> {
   src: string;
@@ -49,16 +43,12 @@ export const Image: React.FC<ImageProps> = ({
       <DialogTrigger className="cursor-pointer" asChild>
         {avatar}
       </DialogTrigger>
-      <DialogContent className="flex flex-col items-center justify-center max-w-md p-0">
-        <DialogTitle className="text-lg font-black justify-start pt-4">
-          Preview Image
-        </DialogTitle>
-        <Separator className="w-full" />
-        <div className="p-4 w-full flex items-center justify-center ">
+      <DialogContent className="flex flex-col border-none bg-transparent items-center justify-center w-fit max-w-md p-0">
+        <div className=" w-full flex items-center justify-center ">
           <img
             src={src}
             alt={alt}
-            className="max-w-full max-h-[70vh] rounded-lg border"
+            className="max-w-full max-h-[70vh] rounded-lg "
             onError={(e) => (e.currentTarget.style.display = "none")}
           />
         </div>

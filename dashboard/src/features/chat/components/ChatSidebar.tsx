@@ -78,7 +78,7 @@ export function ChatSidebar({
   };
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col min-w-0">
       {/* Header */}
       <CardHeader className="py-2 gap-4">
         <div className="flex items-center justify-between">
@@ -213,15 +213,15 @@ export function ChatSidebar({
                         </div>
 
                         <div className="flex items-center justify-between text-sm text-muted-foreground">
-                          <span className="truncate">
+                          <span className="truncate flex-1 min-w-0 ">
                             {chat.newestMessage?.content
-                              ? truncateMessage(chat.newestMessage.content)
+                              ? truncateMessage(chat.newestMessage.content, 35)
                               : "No messages"}
                           </span>
                           {chat.unreadMessageCount > 0 && (
                             <Badge
                               variant="destructive"
-                              className="text-xs ml-2"
+                              className="text-xs flex-shrink-0"
                             >
                               {chat.unreadMessageCount}
                             </Badge>

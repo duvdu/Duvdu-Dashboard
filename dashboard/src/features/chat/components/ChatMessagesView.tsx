@@ -47,7 +47,7 @@ export function ChatMessagesView() {
   } = useInfiniteQuery<Message>({
     queryFn: ({ page, limit }) => getChatMessages(userId!, { page, limit }),
     queryParams: {},
-    pageSize: 10,
+    pageSize: 20,
     resetTriggers: [userId],
     enabled: !!userId,
   });
@@ -86,6 +86,13 @@ export function ChatMessagesView() {
       toast.error("Failed to update message");
     },
   });
+
+  // Scroll to bottom on initial load
+  useEffect(() => {
+    if (!isLoading && messages.length > 0 && messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "instant" });
+    }
+  }, [isLoading, messages.length]);
 
   // Listen for new_message events for this chat
   useEffect(() => {

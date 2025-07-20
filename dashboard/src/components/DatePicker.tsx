@@ -1,4 +1,4 @@
-import { format, formatDate } from "date-fns";
+import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -54,9 +54,7 @@ export default function DatePicker({
           mode="single"
           selected={date}
           onSelect={(date) => {
-            const formattedDate = date
-              ? formatDate(date, "yyyy-MM-dd")
-              : undefined;
+            const formattedDate = date ? date.toISOString() : undefined;
             onSelect?.(formattedDate ? formattedDate : undefined);
           }}
           autoFocus

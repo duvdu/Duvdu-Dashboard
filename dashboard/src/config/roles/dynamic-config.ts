@@ -45,12 +45,6 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
         label: "Projects",
         requiredPermissions: [PERMISSION_KEYS.PROJECTS.VIEW],
       },
-      {
-        path: "/dashboard/contracts",
-        icon: FileText,
-        label: "Contracts",
-        // requiredPermissions: [PERMISSION_KEYS.CONTRACTS.VIEW],
-      },
     ],
   },
   {

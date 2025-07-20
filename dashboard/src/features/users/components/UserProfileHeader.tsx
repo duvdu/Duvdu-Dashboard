@@ -63,7 +63,7 @@ const UserProfileHeader: FC<UserProfileHeaderProps> = ({ user, refetch }) => {
                 .toUpperCase()
             )}
             {user.isOnline && (
-              <span className="absolute bottom-2 right-2 w-4 h-4 bg-primary border-2 border-background rounded-full" />
+              <span className="absolute bottom-2 right-2 w-4 h-4 bg-green-500 border-2 border-background rounded-full" />
             )}
             {user.isBlocked?.value && (
               <span className="absolute bottom-2 right-2 w-4 h-4 bg-destructive border-2 border-background rounded-full flex items-center justify-center">

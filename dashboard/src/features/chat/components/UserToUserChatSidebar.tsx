@@ -4,7 +4,6 @@ import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Image } from "@/components/ui/image";
 import { MediaPreview } from "@/components/ui/media-preview";
 import { Separator } from "@/components/ui/separator";
-import { useAuthStore } from "@/features/auth/store";
 import { useQuery } from "@tanstack/react-query";
 import { CheckCircle, UsersIcon, X } from "lucide-react";
 import { getUserChats } from "../api/chat.api";
@@ -27,7 +26,6 @@ export function UserToUserChatSidebar({
   selectedChat,
   onChatSelect,
 }: UserToUserChatSidebarProps) {
-
   const { data: chatsData, isLoading: isChatsLoading } = useQuery({
     queryKey: ["user-chats", selectedUser?._id],
     queryFn: () =>
@@ -39,7 +37,7 @@ export function UserToUserChatSidebar({
   const chats: Chat[] = chatsData?.data || [];
 
   return (
-    <div className="h-full flex flex-col bg-background">
+    <div className="h-full flex flex-col bg-background min-w-0">
       <CardHeader className="py-4">
         <CardTitle className="flex items-center gap-2">
           <UsersIcon className="w-5 h-5" />
@@ -157,12 +155,12 @@ export function UserToUserChatSidebar({
                           </span>
                         </div>
                         <div className="flex items-center justify-between text-sm text-muted-foreground">
-                          <span className="truncate">
+                          <span className="truncate flex-1 min-w-0 mr-2">
                             {chat.newestMessage?.content
-                              ? chat.newestMessage.content.length > 40
+                              ? chat.newestMessage.content.length > 35
                                 ? `${chat.newestMessage.content.substring(
                                     0,
-                                    40
+                                    35
                                   )}...`
                                 : chat.newestMessage.content
                               : "No messages"}
@@ -170,7 +168,7 @@ export function UserToUserChatSidebar({
                           {chat.unreadMessageCount > 0 && (
                             <Badge
                               variant="destructive"
-                              className="text-xs ml-2"
+                              className="text-xs flex-shrink-0"
                             >
                               {chat.unreadMessageCount}
                             </Badge>

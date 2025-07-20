@@ -20,7 +20,6 @@ function ProjectListPage() {
   const sortOrder = searchParams.get("sortOrder") || "";
   const showOnHome = searchParams.get("showOnHome") || "";
 
-
   const filters: ProjectFilters = {
     search,
     page,
@@ -48,7 +47,7 @@ function ProjectListPage() {
 
   const { data: categoriesData } = useQuery({
     queryKey: ["categories"],
-    queryFn: () => getCategories({ limit: 1000 }),
+    queryFn: () => getCategories({ limit: 1000, cycle: "project" }),
   });
   const categories = categoriesData?.data || [];
 

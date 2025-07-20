@@ -61,7 +61,7 @@ export default function ProjectsPanel({ userId }: ProjectsPanelProps) {
 
   const { data: categories } = useQuery({
     queryKey: ["categories"],
-    queryFn: () => getCategories({ limit: 1000 }),
+    queryFn: () => getCategories({ limit: 1000, cycle: "project" }),
   });
 
   const subCategories = categories?.data
