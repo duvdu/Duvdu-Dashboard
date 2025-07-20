@@ -231,7 +231,7 @@ function ProjectDetailsPage() {
       </div>
 
       <Tabs defaultValue="details" className="w-full mt-4">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
           <TabsTrigger value="details">Project Details</TabsTrigger>
           <TabsTrigger value="media">Media</TabsTrigger>
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
