@@ -12,6 +12,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { DataTable } from "@/components/ui/data-table";
+import { type FilterDefinition } from "@/components/ui/filters";
 import { Loader } from "@/components/ui/loader";
 import { MediaPreview } from "@/components/ui/media-preview";
 import { Progress } from "@/components/ui/progress";
@@ -23,6 +25,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { UserSearchSelect } from "@/features/chat";
+import { getProjectReviews } from "@/features/project-reviews/api/project-review.api";
+import { useProjectReviewColumns } from "@/features/project-reviews/columns/project-review-columns";
 import { useModal } from "@/store/modal-store";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
@@ -49,7 +54,7 @@ import {
   UserIcon,
   XCircleIcon,
 } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import {
   getProjectById,
@@ -77,6 +82,77 @@ function ProjectDetailsPage() {
     queryFn: () => getProjectHistory(id!),
     enabled: !!id,
   });
+
+  const [reviewSearchParams, setReviewSearchParams] = useSearchParams();
+  const reviewPage = +reviewSearchParams.get("reviewPage") || 1;
+  const reviewLimit = +reviewSearchParams.get("reviewLimit") || 10;
+  const user = reviewSearchParams.get("user") || "";
+  const cycle = reviewSearchParams.get("cycle") || "";
+  const rate = reviewSearchParams.get("rate") || "";
+  const startDate = reviewSearchParams.get("startDate") || "";
+  const endDate = reviewSearchParams.get("endDate") || "";
+
+  const reviewFilters = {
+    page: reviewPage,
+    limit: reviewLimit,
+    user: user || undefined,
+    cycle: cycle || undefined,
+    rate: rate || undefined,
+    startDate: startDate || undefined,
+    endDate: endDate || undefined,
+    project: id,
+  };
+
+  const {
+    data: reviewsData,
+    isLoading: reviewsLoading,
+    error: reviewsError,
+    refetch: refetchReviews,
+  } = useQuery({
+    queryKey: ["project-reviews", reviewFilters],
+    queryFn: () => getProjectReviews(reviewFilters),
+    enabled: !!id,
+  });
+
+  const reviewColumns = useProjectReviewColumns(refetchReviews);
+  const reviewPagesCount = reviewsData?.pagination.totalPages || 0;
+  const reviewTotalCount = reviewsData?.pagination.resultCount || 0;
+
+  // Only user, project, and search filters
+  const reviewsFilterDefinitions: FilterDefinition[] = [
+    {
+      key: "user",
+      label: "User",
+      type: "custom",
+      customComponent: (
+        <UserSearchSelect
+          onSelectUser={(user) => {
+            setReviewSearchParams({ user: user._id });
+          }}
+        />
+      ),
+    },
+  ];
+  const reviewFilterValues = {
+    user,
+    cycle,
+    rate,
+    startDate,
+    endDate,
+  };
+
+  const handleReviewFiltersChange = (vals: Record<string, unknown>) => {
+    const newParams = new URLSearchParams(reviewSearchParams);
+    Object.entries(vals).forEach(([key, value]) => {
+      if (value && value !== "") {
+        newParams.set(key, value as string);
+      } else {
+        newParams.delete(key);
+      }
+    });
+    newParams.set("reviewPage", "1");
+    setReviewSearchParams(newParams);
+  };
 
   if (isLoading) {
     return <DashboardLoader />;
@@ -171,10 +247,11 @@ function ProjectDetailsPage() {
       </div>
 
       <Tabs defaultValue="details" className="w-full mt-4">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="details">Project Details</TabsTrigger>
           <TabsTrigger value="media">Media</TabsTrigger>
           <TabsTrigger value="history">History Log</TabsTrigger>
+          <TabsTrigger value="reviews">Reviews</TabsTrigger>
         </TabsList>
 
         <TabsContent value="details" className="space-y-8 mt-6">
@@ -655,6 +732,36 @@ function ProjectDetailsPage() {
                   )}
                 </div>
               )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="reviews" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Project Reviews</CardTitle>
+              <div className="text-sm text-muted-foreground">
+                Total: {reviewTotalCount} reviews
+              </div>
+            </CardHeader>
+            <CardContent>
+              {reviewsError && (
+                <Alert variant="destructive">
+                  <AlertTitle>Error</AlertTitle>
+                  <AlertDescription>{reviewsError.message}</AlertDescription>
+                </Alert>
+              )}
+              <DataTable
+                columns={reviewColumns}
+                data={reviewsData?.data || []}
+                loading={reviewsLoading}
+                pagesCount={reviewPagesCount}
+                page={reviewPage}
+                limit={reviewLimit}
+                filters={reviewsFilterDefinitions}
+                filterValues={reviewFilterValues}
+                onFiltersChange={handleReviewFiltersChange}
+              />
             </CardContent>
           </Card>
         </TabsContent>

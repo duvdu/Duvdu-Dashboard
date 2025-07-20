@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "./select";
 
-export type FilterType = "select" | "multi-select" | "date";
+export type FilterType = "select" | "multi-select" | "date" | 'custom'
 
 export interface FilterOption {
   label: string;
@@ -24,6 +24,7 @@ export interface FilterDefinition {
   options?: FilterOption[]; // for select/multi-select
   placeholder?: string;
   className?: string;
+  customComponent?: React.ReactNode;
 }
 
 export interface FiltersProps {
@@ -93,6 +94,7 @@ export const Filters: React.FC<FiltersProps> = ({
               </SelectContent>
             </Select>
           )}
+          {filter.type === "custom" && filter.customComponent}
         </div>
       ))}
       <Button

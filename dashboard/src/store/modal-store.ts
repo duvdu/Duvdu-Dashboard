@@ -22,7 +22,8 @@ export type ModalType =
   | "activateDeactivatePayoutMethod"
   | "addComplaintFeedback"
   | "addTicketFeedback"
-  | "deleteTicket";
+  | "deleteTicket"
+  | "deleteProjectReview";
 
 export interface ModalData {
   id?: string;

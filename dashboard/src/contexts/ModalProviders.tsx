@@ -8,6 +8,7 @@ import { ApproveProjectModal } from "@/features/cycles-projects/components/Appro
 import { DeleteProjectModal } from "@/features/cycles-projects/components/DeleteProjectModal";
 import { PauseProjectModal } from "@/features/cycles-projects/components/PauseProjectModal";
 import { RejectProjectModal } from "@/features/cycles-projects/components/RejectProjectModal";
+import { DeleteProjectReviewModal } from "@/features/project-reviews/components/DeleteProjectReviewModal";
 import { CreateRoleModal } from "@/features/roles/components/CreateRoleModal";
 import DeleteRoleModal from "@/features/roles/components/DeleteRoleModal";
 import { UpdateRoleModal } from "@/features/roles/components/UpdateRoleModal";
@@ -52,6 +53,7 @@ export const ModalProvider = () => {
     addComplaintFeedback: <FeedbackModal />,
     addTicketFeedback: <TicketFeedbackModal />,
     deleteTicket: <DeleteTicketModal />,
+    deleteProjectReview: <DeleteProjectReviewModal />,
   };
 
   return <>{type && modals[type]}</>;

@@ -11,6 +11,7 @@ import {
   Home,
   MessageCircleMore,
   Shield,
+  Star,
   Tags,
   Ticket,
   Tickets,
@@ -45,6 +46,13 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
         icon: Calendar,
         label: "Projects",
         requiredPermissions: [PERMISSION_KEYS.PROJECTS.VIEW],
+        children: [
+          {
+            path: "/dashboard/projects/reviews",
+            icon: Star,
+            label: "Reviews",
+          },
+        ],
       },
     ],
   },
