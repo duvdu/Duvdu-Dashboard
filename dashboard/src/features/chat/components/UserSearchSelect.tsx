@@ -92,7 +92,7 @@ export function UserSearchSelect({
       </div>
 
       {isOpen && !disabled && (
-        <Card className="absolute top-full left-0 right-0 mt-1 z-50 shadow-lg">
+        <Card className="absolute top-full left-0  py-0 overflow-hidden right-0 mt-1 z-50 shadow-lg">
           <CardContent className="p-0  ">
             <ScrollArea className="max-h-64 overflow-y-auto">
               {isLoading ? (
@@ -122,14 +122,14 @@ export function UserSearchSelect({
                         <MediaPreview
                           src={user.profileImage}
                           alt={user.name}
-                          className="w-10 h-10 rounded-full object-cover"
+                          className="w-8 h-8 rounded-full object-cover"
                         />
                         {user.isOnline && (
                           <div className="absolute top-0 right-0 w-2 h-2 bg-green-500 rounded-full" />
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="font-medium truncate flex-1 min-w-0 max-w-[70%]">
+                        <h4 className="font-medium text-sm truncate flex-1 min-w-0 max-w-[90%]">
                           {user.name}
                         </h4>
 

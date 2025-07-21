@@ -23,7 +23,8 @@ export type ModalType =
   | "addComplaintFeedback"
   | "addTicketFeedback"
   | "deleteTicket"
-  | "deleteProjectReview";
+  | "deleteProjectReview"
+  | "deleteProjectReport";
 
 export interface ModalData {
   id?: string;

@@ -91,6 +91,7 @@ export type Project = {
   // Additional fields for project status management
   status?: "pending" | "approved" | "rejected" | "paused" | "deleted";
   views?: number;
+  canEdit: boolean;
   bookings?: number;
   relatedCategory?: {
     category: Category;

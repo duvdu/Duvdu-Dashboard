@@ -1,4 +1,5 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ArrowLeftIcon } from "lucide-react";
@@ -122,8 +123,8 @@ export default function ProjectUpdatePage() {
         });
       }
       if (values.cover) formData.append("cover", values.cover);
-      if (values.audioCover)
-        formData.append("audioCover", values.audioCover.join(","));
+      // if (values.audioCover)
+      //   formData.append("audioCover", values.audioCover.join(","));
       if (values.location.lat)
         formData.append("location[lat]", values.location.lat.toString());
       if (values.location.lng)
@@ -177,6 +178,19 @@ export default function ProjectUpdatePage() {
   );
 
   if (error) return <div className="text-red-500 p-4">{error.message}</div>;
+
+  if (data && !data?.canEdit) {
+    return (
+      <DashboardLayout>
+        <Alert className="justify-center" variant="destructive">
+          <AlertTitle>Project is not editable</AlertTitle>
+          <AlertDescription>
+            This Project has an active contract.
+          </AlertDescription>
+        </Alert>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout loading={loading}>
