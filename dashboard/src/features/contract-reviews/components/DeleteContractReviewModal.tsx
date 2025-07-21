@@ -7,17 +7,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { deleteProjectReview } from "@/features/project-reviews/api/project-review.api";
 import { useModal } from "@/store/modal-store";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { deleteContractReview } from "../api/contract-review.api";
 
-export function DeleteProjectReviewModal() {
+export function DeleteContractReviewModal() {
   const { data, isOpen, type, onClose, refetch } = useModal();
-  const isModalOpen = isOpen && type === "deleteProjectReview";
-  const { mutateAsync: deleteProjectReviewMutation, isPending } = useMutation({
-    mutationFn: deleteProjectReview,
-    mutationKey: ["project-reviews", data?.id],
+  const isModalOpen = isOpen && type === "deleteContractReview";
+  const { mutateAsync: deleteContractReviewMutation, isPending } = useMutation({
+    mutationFn: deleteContractReview,
+    mutationKey: ["contract-reviews", data?.id],
     onSuccess: () => {
       if (refetch) refetch();
       onClose();
@@ -30,16 +30,16 @@ export function DeleteProjectReviewModal() {
   });
   const handleDelete = async () => {
     if (!data?.id) return;
-    await deleteProjectReviewMutation(data.id);
+    await deleteContractReviewMutation(data.id);
   };
   if (!isModalOpen) return null;
   return (
     <Dialog open={isModalOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="min-w-[24vw] gap-8 rounded-3xl text-center">
         <DialogHeader>
-          <DialogTitle>Delete Project Review</DialogTitle>
+          <DialogTitle>Delete Contract Review</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete this project review? This action
+            Are you sure you want to delete this contract review? This action
             cannot be undone.
           </DialogDescription>
         </DialogHeader>

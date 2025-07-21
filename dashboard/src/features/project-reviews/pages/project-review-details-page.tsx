@@ -64,7 +64,7 @@ export default function ProjectReviewDetailsPage() {
                   @{review.user.username}
                 </div>
                 <div className="flex gap-2 mt-1 text-xs text-muted-foreground">
-                  <span>Projects: {review.user.acceptedProjectsCounter}</span>
+                  {/* <span>Projects: {review.user.acceptedProjectsCounter}</span> */}
                   <span>Views: {review.user.projectsView}</span>
                   <span>Online: {review.user.isOnline ? "Yes" : "No"}</span>
                 </div>

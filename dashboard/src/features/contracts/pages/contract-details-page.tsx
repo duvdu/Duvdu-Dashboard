@@ -8,6 +8,8 @@ import { Image } from "@/components/ui/image";
 import { MediaPreview } from "@/components/ui/media-preview";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ContractReviewsPanel from "@/features/contract-reviews/components/ContractReviewsPanel";
 import { useQuery } from "@tanstack/react-query";
 import {
   Activity,
@@ -250,474 +252,496 @@ export default function ContractDetailsPage() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Content */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Project Overview */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Briefcase className="w-5 h-5" />
-                Project Overview
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <MapPin className="w-4 h-4" />
-                    <span className="font-medium">Location</span>
-                  </div>
-                  <p className="text-gray-900">{address}</p>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Calendar className="w-4 h-4" />
-                    <span className="font-medium">Appointment Date</span>
-                  </div>
-                  <p className="text-gray-900">{formatDate(appointmentDate)}</p>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Timer className="w-4 h-4" />
-                    <span className="font-medium">Duration</span>
-                  </div>
-                  <p className="text-gray-900">{duration} days</p>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Calculator className="w-4 h-4" />
-                    <span className="font-medium">Project Scale</span>
-                  </div>
-                  <p className="text-gray-900">
-                    {projectScale?.numberOfUnits} {projectScale?.unit} @{" "}
-                    {formatCurrency(projectScale?.unitPrice)} each
-                  </p>
-                </div>
-              </div>
-
-              {details && (
-                <div className="pt-4 border-t">
-                  <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
-                    <FileText className="w-4 h-4" />
-                    <span className="font-medium">Project Details</span>
-                  </div>
-                  <p className="text-gray-700 leading-relaxed">{details}</p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Financial Summary */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <DollarSign className="w-5 h-5" />
-                Financial Summary
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <div className="flex items-center gap-2 text-blue-600 mb-2">
-                    <CreditCard className="w-4 h-4" />
-                    <span className="text-sm font-medium">Total Price</span>
-                  </div>
-                  <p className="text-2xl font-bold text-blue-900">
-                    {formatCurrency(totalPrice)}
-                  </p>
-                </div>
-                <div className="bg-green-50 p-4 rounded-lg">
-                  <div className="flex items-center gap-2 text-green-600 mb-2">
-                    <Receipt className="w-4 h-4" />
-                    <span className="text-sm font-medium">First Payment</span>
-                  </div>
-                  <p className="text-xl font-bold text-green-900">
-                    {formatCurrency(firstPaymentAmount)}
-                  </p>
-                </div>
-                <div className="bg-purple-50 p-4 rounded-lg">
-                  <div className="flex items-center gap-2 text-purple-600 mb-2">
-                    <Receipt className="w-4 h-4" />
-                    <span className="text-sm font-medium">Second Payment</span>
-                  </div>
-                  <p className="text-xl font-bold text-purple-900">
-                    {formatCurrency(secondPaymentAmount)}
-                  </p>
-                </div>
-              </div>
-
-              {equipmentPrice > 0 && (
-                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                  <div className="flex items-center gap-2 text-gray-600 mb-2">
-                    <Wrench className="w-4 h-4" />
-                    <span className="text-sm font-medium">Equipment Cost</span>
-                  </div>
-                  <p className="text-lg font-semibold text-gray-900">
-                    {formatCurrency(equipmentPrice)}
-                  </p>
-                </div>
-              )}
-
-              {insurance && (
-                <div className="mt-4 p-4 bg-yellow-50 rounded-lg">
-                  <div className="flex items-center gap-2 text-yellow-600 mb-2">
-                    <ShieldCheck className="w-4 h-4" />
-                    <span className="text-sm font-medium">
-                      Insurance Coverage
-                    </span>
-                  </div>
-                  <p className="text-lg font-semibold text-yellow-900">
-                    {formatCurrency(insurance)}
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Tools & Functions */}
-          {(tools?.length > 0 || functions?.length > 0) && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <ToolCase className="w-5 h-5" />
-                  Tools & Functions
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {tools?.length > 0 && (
-                    <div>
-                      <h4 className="font-medium text-gray-900 mb-3">Tools</h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {tools.map((tool) => (
-                          <div
-                            key={tool._id}
-                            className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-                          >
-                            <div>
-                              <p className="font-medium text-gray-900">
-                                {tool.name}
-                              </p>
-                              <p className="text-sm text-gray-600">
-                                {tool.units} units
-                              </p>
-                            </div>
-                            <p className="font-semibold text-gray-900">
-                              {formatCurrency(tool.unitPrice)}
-                            </p>
-                          </div>
-                        ))}
+      <Tabs defaultValue="overview" className="w-full mt-4">
+        <TabsList className="grid w-full grid-cols-2 mb-6">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="reviews">Reviews</TabsTrigger>
+        </TabsList>
+        <TabsContent value="overview">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Main Content */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Project Overview */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Briefcase className="w-5 h-5" />
+                    Project Overview
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <MapPin className="w-4 h-4" />
+                        <span className="font-medium">Location</span>
                       </div>
+                      <p className="text-gray-900">{address}</p>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <Calendar className="w-4 h-4" />
+                        <span className="font-medium">Appointment Date</span>
+                      </div>
+                      <p className="text-gray-900">
+                        {formatDate(appointmentDate)}
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <Timer className="w-4 h-4" />
+                        <span className="font-medium">Duration</span>
+                      </div>
+                      <p className="text-gray-900">{duration} days</p>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2 text-sm text-gray-600">
+                        <Calculator className="w-5 h-5" />
+                        <span className="font-medium">Project Scale</span>
+                      </div>
+                      <p className="text-gray-900">
+                        {projectScale?.numberOfUnits} {projectScale?.unit} @{" "}
+                        {formatCurrency(projectScale?.unitPrice)} each
+                      </p>
+                    </div>
+                  </div>
+
+                  {details && (
+                    <div className="pt-4 border-t">
+                      <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                        <FileText className="w-5 h-5" />
+                        <span className="font-medium">Project Details</span>
+                      </div>
+                      <p className="text-gray-700 leading-relaxed">{details}</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Financial Summary */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <DollarSign className="w-5 h-5" />
+                    Financial Summary
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-blue-50 p-4 rounded-lg">
+                      <div className="flex items-center gap-2 text-blue-600 mb-2">
+                        <CreditCard className="w-4 h-4" />
+                        <span className="text-sm font-medium">Total Price</span>
+                      </div>
+                      <p className="text-2xl font-bold text-blue-900">
+                        {formatCurrency(totalPrice)}
+                      </p>
+                    </div>
+                    <div className="bg-green-50 p-4 rounded-lg">
+                      <div className="flex items-center gap-2 text-green-600 mb-2">
+                        <Receipt className="w-4 h-4" />
+                        <span className="text-sm font-medium">
+                          First Payment
+                        </span>
+                      </div>
+                      <p className="text-xl font-bold text-green-900">
+                        {formatCurrency(firstPaymentAmount)}
+                      </p>
+                    </div>
+                    <div className="bg-purple-50 p-4 rounded-lg">
+                      <div className="flex items-center gap-2 text-purple-600 mb-2">
+                        <Receipt className="w-4 h-4" />
+                        <span className="text-sm font-medium">
+                          Second Payment
+                        </span>
+                      </div>
+                      <p className="text-xl font-bold text-purple-900">
+                        {formatCurrency(secondPaymentAmount)}
+                      </p>
+                    </div>
+                  </div>
+
+                  {equipmentPrice > 0 && (
+                    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                      <div className="flex items-center gap-2 text-gray-600 mb-2">
+                        <Wrench className="w-4 h-4" />
+                        <span className="text-sm font-medium">
+                          Equipment Cost
+                        </span>
+                      </div>
+                      <p className="text-lg font-semibold text-gray-900">
+                        {formatCurrency(equipmentPrice)}
+                      </p>
                     </div>
                   )}
 
-                  {functions?.length > 0 && (
-                    <div>
-                      <h4 className="font-medium text-gray-900 mb-3">
-                        Functions
-                      </h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {functions.map((func) => (
-                          <div
-                            key={func._id}
-                            className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-                          >
-                            <div>
-                              <p className="font-medium text-gray-900">
-                                {func.name}
-                              </p>
-                              <p className="text-sm text-gray-600">
-                                {func.units} units
-                              </p>
-                            </div>
-                            <p className="font-semibold text-gray-900">
-                              {formatCurrency(func.unitPrice)}
-                            </p>
-                          </div>
-                        ))}
+                  {insurance && (
+                    <div className="mt-4 p-4 bg-yellow-50 rounded-lg">
+                      <div className="flex items-center gap-2 text-yellow-600 mb-2">
+                        <ShieldCheck className="w-4 h-4" />
+                        <span className="text-sm font-medium">
+                          Insurance Coverage
+                        </span>
                       </div>
+                      <p className="text-lg font-semibold text-yellow-900">
+                        {formatCurrency(insurance)}
+                      </p>
                     </div>
                   )}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+                </CardContent>
+              </Card>
 
-          {/* Submitted Files */}
-          {submitFiles?.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <FileText className="w-5 h-5" />
-                  Submitted Files
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {submitFiles.map((file, index) => (
-                    <div
-                      key={file._id}
-                      className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
-                    >
-                      <div className="flex items-center gap-3">
-                        <File className="w-5 h-5 text-gray-500" />
+              {/* Tools & Functions */}
+              {(tools?.length > 0 || functions?.length > 0) && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <ToolCase className="w-5 h-5" />
+                      Tools & Functions
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {tools?.length > 0 && (
                         <div>
-                          <p className="font-medium text-gray-900">
-                            File {index + 1}
+                          <h4 className="font-medium text-gray-900 mb-3">
+                            Tools
+                          </h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            {tools.map((tool) => (
+                              <div
+                                key={tool._id}
+                                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                              >
+                                <div>
+                                  <p className="font-medium text-gray-900">
+                                    {tool.name}
+                                  </p>
+                                  <p className="text-sm text-gray-600">
+                                    {tool.units} units
+                                  </p>
+                                </div>
+                                <p className="font-semibold text-gray-900">
+                                  {formatCurrency(tool.unitPrice)}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {functions?.length > 0 && (
+                        <div>
+                          <h4 className="font-medium text-gray-900 mb-3">
+                            Functions
+                          </h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            {functions.map((func) => (
+                              <div
+                                key={func._id}
+                                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                              >
+                                <div>
+                                  <p className="font-medium text-gray-900">
+                                    {func.name}
+                                  </p>
+                                  <p className="text-sm text-gray-600">
+                                    {func.units} units
+                                  </p>
+                                </div>
+                                <p className="font-semibold text-gray-900">
+                                  {formatCurrency(func.unitPrice)}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Submitted Files */}
+              {submitFiles?.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <FileText className="w-5 h-5" />
+                      Submitted Files
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {submitFiles.map((file, index) => (
+                        <div
+                          key={file._id}
+                          className="flex items-center justify-between p-4 bg-gray-50 rounded-lg"
+                        >
+                          <div className="flex items-center gap-3">
+                            <File className="w-5 h-5 text-gray-500" />
+                            <div>
+                              <p className="font-medium text-gray-900">
+                                File {index + 1}
+                              </p>
+                              <p className="text-sm text-gray-600">
+                                {formatDateTime(file.dateOfSubmission)}
+                              </p>
+                              {file.notes && (
+                                <p className="text-sm text-gray-600 mt-1">
+                                  {file.notes}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Badge
+                              variant="outline"
+                              className={
+                                file.status === "approved"
+                                  ? "bg-green-50 text-green-700 border-green-200"
+                                  : file.status === "rejected"
+                                  ? "bg-red-50 text-red-700 border-red-200"
+                                  : "bg-yellow-50 text-yellow-700 border-yellow-200"
+                              }
+                            >
+                              {file.status}
+                            </Badge>
+                            <Button variant="outline" size="sm">
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Attachments */}
+              {attachments?.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Paperclip className="w-5 h-5" />
+                      Attachments
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {attachments.map((attachment, index) => (
+                        <MediaPreview
+                          key={index}
+                          src={attachment}
+                          alt={`Attachment ${index + 1}`}
+                          preview
+                          className="w-full h-32 object-cover rounded-lg border cursor-pointer transition-transform group-hover:scale-105"
+                        />
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+            {/* Sidebar */}
+            <div className="space-y-6">
+              {/* Customer Information */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <User className="w-5 h-5" />
+                    Customer
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <Image
+                      src={customer.profileImage}
+                      alt={customer.name}
+                      className="w-16 h-16 rounded-full border-2 border-gray-200"
+                      preview
+                    />
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-900">
+                        {customer.name}
+                      </h3>
+                      {customer.username && (
+                        <p className="text-sm text-gray-600">
+                          @{customer.username}
+                        </p>
+                      )}
+                      <div className="flex items-center gap-2 mt-2">
+                        {customer.isOnline ? (
+                          <Badge
+                            variant="outline"
+                            className="bg-green-50 text-green-700 border-green-200"
+                          >
+                            <div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
+                            Online
+                          </Badge>
+                        ) : (
+                          <Badge
+                            variant="outline"
+                            className="bg-gray-50 text-gray-600 border-gray-200"
+                          >
+                            <div className="w-2 h-2 bg-gray-400 rounded-full mr-1"></div>
+                            Offline
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <Mail className="w-4 h-4 text-gray-500" />
+                      <span className="text-sm text-gray-700">
+                        {customer.email}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Phone className="w-4 h-4 text-gray-500" />
+                      <span className="text-sm text-gray-700">
+                        {customer.phoneNumber?.number}
+                      </span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Service Provider Information */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Briefcase className="w-5 h-5" />
+                    Service Provider
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <Image
+                      src={sp.profileImage}
+                      alt={sp.name}
+                      className="w-16 h-16 rounded-full border-2 border-gray-200"
+                      preview
+                    />
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-900">{sp.name}</h3>
+                      {sp.username && (
+                        <p className="text-sm text-gray-600">@{sp.username}</p>
+                      )}
+                      <div className="flex items-center gap-2 mt-2">
+                        {sp.isOnline ? (
+                          <Badge
+                            variant="outline"
+                            className="bg-green-50 text-green-700 border-green-200"
+                          >
+                            <div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
+                            Online
+                          </Badge>
+                        ) : (
+                          <Badge
+                            variant="outline"
+                            className="bg-gray-50 text-gray-600 border-gray-200"
+                          >
+                            <div className="w-2 h-2 bg-gray-400 rounded-full mr-1"></div>
+                            Offline
+                          </Badge>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <Mail className="w-4 h-4 text-gray-500" />
+                      <span className="text-sm text-gray-700">{sp.email}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Phone className="w-4 h-4 text-gray-500" />
+                      <span className="text-sm text-gray-700">
+                        {sp.phoneNumber?.number}
+                      </span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Contract Timeline */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Clock className="w-5 h-5" />
+                    Timeline
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-gray-900">
+                          Contract Created
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {formatDateTime(createdAt)}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-gray-900">
+                          Project Started
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {formatDateTime(startDate)}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2"></div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-gray-900">
+                          Deadline
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {formatDateTime(deadline)}
+                        </p>
+                      </div>
+                    </div>
+
+                    {status === "completed" && (
+                      <div className="flex items-start gap-3">
+                        <div className="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-gray-900">
+                            Completed
                           </p>
-                          <p className="text-sm text-gray-600">
-                            {formatDateTime(file.dateOfSubmission)}
+                          <p className="text-xs text-gray-500">
+                            {formatDateTime(updatedAt)}
                           </p>
-                          {file.notes && (
-                            <p className="text-sm text-gray-600 mt-1">
-                              {file.notes}
-                            </p>
-                          )}
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Badge
-                          variant="outline"
-                          className={
-                            file.status === "approved"
-                              ? "bg-green-50 text-green-700 border-green-200"
-                              : file.status === "rejected"
-                              ? "bg-red-50 text-red-700 border-red-200"
-                              : "bg-yellow-50 text-yellow-700 border-yellow-200"
-                          }
-                        >
-                          {file.status}
-                        </Badge>
-                        <Button variant="outline" size="sm">
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Attachments */}
-          {attachments?.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Paperclip className="w-5 h-5" />
-                  Attachments
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {attachments.map((attachment, index) => (
-                    <MediaPreview
-                      key={index}
-                      src={attachment}
-                      alt={`Attachment ${index + 1}`}
-                      preview
-                      className="w-full h-32 object-cover rounded-lg border cursor-pointer transition-transform group-hover:scale-105"
-                    />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </div>
-
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Customer Information */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <User className="w-5 h-5" />
-                Customer
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-4">
-                <Image
-                  src={customer.profileImage}
-                  alt={customer.name}
-                  className="w-16 h-16 rounded-full border-2 border-gray-200"
-                  preview
-                />
-                <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900">
-                    {customer.name}
-                  </h3>
-                  {customer.username && (
-                    <p className="text-sm text-gray-600">
-                      @{customer.username}
-                    </p>
-                  )}
-                  <div className="flex items-center gap-2 mt-2">
-                    {customer.isOnline ? (
-                      <Badge
-                        variant="outline"
-                        className="bg-green-50 text-green-700 border-green-200"
-                      >
-                        <div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
-                        Online
-                      </Badge>
-                    ) : (
-                      <Badge
-                        variant="outline"
-                        className="bg-gray-50 text-gray-600 border-gray-200"
-                      >
-                        <div className="w-2 h-2 bg-gray-400 rounded-full mr-1"></div>
-                        Offline
-                      </Badge>
                     )}
                   </div>
-                </div>
-              </div>
-
-              <Separator />
-
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm text-gray-700">
-                    {customer.email}
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm text-gray-700">
-                    {customer.phoneNumber?.number}
-                  </span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Service Provider Information */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Briefcase className="w-5 h-5" />
-                Service Provider
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-4">
-                <Image
-                  src={sp.profileImage}
-                  alt={sp.name}
-                  className="w-16 h-16 rounded-full border-2 border-gray-200"
-                  preview
-                />
-                <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900">{sp.name}</h3>
-                  {sp.username && (
-                    <p className="text-sm text-gray-600">@{sp.username}</p>
-                  )}
-                  <div className="flex items-center gap-2 mt-2">
-                    {sp.isOnline ? (
-                      <Badge
-                        variant="outline"
-                        className="bg-green-50 text-green-700 border-green-200"
-                      >
-                        <div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
-                        Online
-                      </Badge>
-                    ) : (
-                      <Badge
-                        variant="outline"
-                        className="bg-gray-50 text-gray-600 border-gray-200"
-                      >
-                        <div className="w-2 h-2 bg-gray-400 rounded-full mr-1"></div>
-                        Offline
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <Separator />
-
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <Mail className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm text-gray-700">{sp.email}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm text-gray-700">
-                    {sp.phoneNumber?.number}
-                  </span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Contract Timeline */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="w-5 h-5" />
-                Timeline
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">
-                      Contract Created
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {formatDateTime(createdAt)}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">
-                      Project Started
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {formatDateTime(startDate)}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2"></div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-900">
-                      Deadline
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {formatDateTime(deadline)}
-                    </p>
-                  </div>
-                </div>
-
-                {status === "completed" && (
-                  <div className="flex items-start gap-3">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900">
-                        Completed
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {formatDateTime(updatedAt)}
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </TabsContent>
+        <TabsContent value="reviews">
+          <div className="py-4">
+            <ContractReviewsPanel id={data.contract._id} />
+          </div>
+        </TabsContent>
+      </Tabs>
     </DashboardLayout>
   );
 }
