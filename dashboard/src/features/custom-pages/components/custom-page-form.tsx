@@ -1,6 +1,6 @@
-import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import {
@@ -49,7 +49,13 @@ export function CustomPageForm({
           name="content"
           control={control}
           render={({ field }) => (
-            <SimpleEditor value={field.value} onChange={field.onChange} />
+            <RichTextEditor
+              value={field.value}
+              onChange={field.onChange}
+              placeholder="Enter page content..."
+              disabled={isLoading}
+              height={"50vh"}
+            />
           )}
         />
         {formState.errors.content && (
@@ -58,9 +64,20 @@ export function CustomPageForm({
           </div>
         )}
       </div>
-      <Button type="submit" disabled={isLoading} className="w-full">
-        {submitLabel}
-      </Button>
+      <div className="flex items-center justify-end gap-4">
+        <Button
+          size="lg"
+          variant="outline"
+          className="w-fit"
+          disabled={isLoading}
+        >
+          Cancel
+        </Button>
+
+        <Button size="lg" type="submit" loading={isLoading} className="w-fit">
+          {submitLabel}
+        </Button>
+      </div>
     </form>
   );
 }

@@ -14,6 +14,7 @@ import { projectRoutes } from "../cycles-projects/routes";
 import { rolesRoutes } from "../roles/routes";
 import { ticketRoutes } from "../tickets/routes";
 import { usersRoutes } from "../users/routes";
+import { customPageRoutes } from "../custom-pages/routes";
 
 const DashboardPage = lazy(() => import("./pages/dashboard"));
 
@@ -103,6 +104,11 @@ export const dashboardRoutes = [
       </ProtectedRoute>
     ),
     children: ticketRoutes,
+  },
+  {
+    path: "custom-pages",
+    element: <Outlet />,
+    children: customPageRoutes,
   },
   {
     path: "*",

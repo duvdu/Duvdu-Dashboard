@@ -1,10 +1,11 @@
-import { deleteCustomPage } from '../api/custom-page.api';
-import { useModal } from '@/store/modal-store';
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
+import { useModal } from "@/store/modal-store";
+import { deleteCustomPage } from "../api/custom-page.api";
 
 export function DeleteCustomPageModal() {
-  const { data, isOpen, type, onClose, refetch } = useModal();
-  const isModalOpen = isOpen && type === 'deleteCustomPage';
+  const { data, isOpen, onClose, refetch } = useModal();
+  const isModalOpen = isOpen;
+  // && type === 'deleteCustomPage';
   const handleDelete = async () => {
     if (!data?.id) return;
     await deleteCustomPage(data.id);

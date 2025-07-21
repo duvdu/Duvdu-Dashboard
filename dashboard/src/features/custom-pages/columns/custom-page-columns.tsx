@@ -1,22 +1,25 @@
-import { type ColumnDef } from '@tanstack/react-table';
-import { type CustomPage } from '../types/custom-page.types';
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
+import { type ColumnDef } from "@tanstack/react-table";
+import { Link } from "react-router-dom";
+import { type CustomPage } from "../types/custom-page.types";
 
-export const useCustomPageColumns = (refetch?: () => void): ColumnDef<CustomPage>[] => [
+export const useCustomPageColumns = (): ColumnDef<CustomPage>[] => [
   {
-    accessorKey: 'title',
-    header: 'Title',
-    cell: ({ row }) => row.original.title.en,
+    accessorKey: "title",
+    header: "Title",
+    cell: ({ row }) => row.original.title,
   },
   {
-    accessorKey: 'createdAt',
-    header: 'Created At',
-    cell: ({ row }) => row.original.createdAt ? new Date(row.original.createdAt).toLocaleDateString() : '-',
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: ({ row }) =>
+      row.original.createdAt
+        ? new Date(row.original.createdAt).toLocaleDateString()
+        : "-",
   },
   {
-    id: 'actions',
-    header: 'Actions',
+    id: "actions",
+    header: "Actions",
     cell: ({ row }) => (
       <div className="flex items-center gap-2">
         <Button variant="outline" asChild>
