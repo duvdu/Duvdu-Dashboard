@@ -46,6 +46,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { getProjectById, getProjectPublicUrl } from "../api/project.api";
+import ProjectContractsPanel from "../components/panels/ProjectContractsPanel";
 import ProjectReportsPanel from "../components/panels/ProjectReportsPanel";
 import ProjectReviewsPanel from "../components/panels/ProjectReviewsPanel";
 
@@ -98,9 +99,11 @@ function ProjectDetailsPage() {
         <div className="flex-1">
           <div className="flex items-center gap-2">
             {/* back button */}
-            <Button variant="outline" onClick={() => navigate(-1)}>
+            <Button
+              variant="outline"
+              onClick={() => navigate("/dashboard/projects")}
+            >
               <ArrowLeftIcon className="h-4 w-4" />
-              Back
             </Button>
             <h1 className="text-2xl lg:text-3xl font-extrabold tracking-tight flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4">
               <span className="break-words">{project.name}</span>
@@ -156,9 +159,10 @@ function ProjectDetailsPage() {
       </div>
 
       <Tabs defaultValue="details" className="w-full mt-4">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-5">
           <TabsTrigger value="details">Project Details</TabsTrigger>
           <TabsTrigger value="media">Media</TabsTrigger>
+          <TabsTrigger value="contracts">Contracts</TabsTrigger>
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
           <TabsTrigger value="reports">Reports</TabsTrigger>
         </TabsList>
@@ -535,6 +539,9 @@ function ProjectDetailsPage() {
         </TabsContent>
         <TabsContent value="reports" className="space-y-6">
           <ProjectReportsPanel id={id!} />
+        </TabsContent>
+        <TabsContent value="contracts" className="space-y-6">
+          <ProjectContractsPanel id={id!} />
         </TabsContent>
       </Tabs>
     </DashboardLayout>
