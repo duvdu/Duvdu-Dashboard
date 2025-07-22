@@ -1,8 +1,12 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import LogoutButton from "@/features/auth/components/logout-button";
+import NotificationsDropdown from "@/features/notifications/components/NotificationsDropdown";
+import { useNotificationsStore } from "@/features/notifications/store";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { Bell } from "lucide-react";
+import { useRef, useState } from "react";
 import { ThemeToggle } from "../ui/ThemeToggle";
 
 export function DashboardHeader({
@@ -14,6 +18,9 @@ export function DashboardHeader({
 }) {
   const { open, isMobile } = useSidebar();
   const isOpen = open && !isMobile;
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const { unreadCount } = useNotificationsStore();
 
   return (
     <motion.header
@@ -43,6 +50,24 @@ export function DashboardHeader({
             <h2 className="text-sm">Dark Mode</h2>
             <ThemeToggle />
           </div>
+          <button
+            ref={buttonRef}
+            className="relative p-2 rounded-full hover:bg-secondary focus:outline-none"
+            onClick={() => setDropdownOpen((v) => !v)}
+            aria-label="Notifications"
+          >
+            <Bell className="w-6 h-6" />
+            {unreadCount > 0 && (
+              <span className="absolute top-1 right-1 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                {unreadCount}
+              </span>
+            )}
+          </button>
+          <NotificationsDropdown
+            open={dropdownOpen}
+            onClose={() => setDropdownOpen(false)}
+            anchorRef={buttonRef}
+          />
           <LogoutButton />
         </div>
       </div>

@@ -16,3 +16,16 @@ export async function sendNotification({
   });
   return data;
 }
+
+export async function getNotifications({
+  page = 1,
+  pageSize = 10,
+}: {
+  page?: number;
+  pageSize?: number;
+}) {
+  const { data } = await api.get("/api/notification/crm", {
+    params: { page, pageSize },
+  });
+  return data;
+}
