@@ -1,6 +1,5 @@
 import { formatDistanceToNow } from "date-fns";
 import { Bell } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { type Notification } from "../store";
 
 export default function GenericNotification({
@@ -9,15 +8,8 @@ export default function GenericNotification({
   notification: Notification;
 }) {
   const isUnread = !notification.watched;
-  const navigate = useNavigate();
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    navigate(`/dashboard/users/${notification.targetUser._id}`);
-  };
   return (
-    <a
-      href="#"
-      onClick={handleClick}
+    <div
       className={`flex items-start gap-3 p-3 rounded-lg transition-colors group ${
         isUnread ? "bg-blue-50 hover:bg-blue-100" : "hover:bg-gray-50"
       }`}
@@ -50,6 +42,6 @@ export default function GenericNotification({
           })}
         </div>
       </div>
-    </a>
+    </div>
   );
 }

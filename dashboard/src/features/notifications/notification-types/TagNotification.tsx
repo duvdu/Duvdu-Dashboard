@@ -1,6 +1,5 @@
 import { formatDistanceToNow } from "date-fns";
 import { Tag } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { type Notification } from "../store";
 
 export default function TagNotification({
@@ -9,15 +8,9 @@ export default function TagNotification({
   notification: Notification;
 }) {
   const isUnread = !notification.watched;
-  const navigate = useNavigate();
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    navigate(`/dashboard/projects/${notification.target}`);
-  };
+
   return (
-    <a
-      href="#"
-      onClick={handleClick}
+    <div
       className={`flex items-start gap-3 p-3 rounded-lg transition-colors group ${
         isUnread ? "bg-blue-50 hover:bg-blue-100" : "hover:bg-gray-50"
       }`}
@@ -50,6 +43,6 @@ export default function TagNotification({
           })}
         </div>
       </div>
-    </a>
+    </div>
   );
 }

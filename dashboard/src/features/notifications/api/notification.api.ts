@@ -24,7 +24,7 @@ export async function getNotifications({
   page?: number;
   pageSize?: number;
 }) {
-  const { data } = await api.get("/api/notification/crm", {
+  const { data } = await api.get("/api/notification", {
     params: { page, pageSize },
   });
   return data;
