@@ -1,6 +1,8 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { useQuery } from "@tanstack/react-query";
 import { PlusIcon } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
@@ -22,12 +24,16 @@ export default function CustomPageListPage() {
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
           <h1>Custom Pages</h1>
-          <Link to="/dashboard/custom-pages/create">
-            <Button>
-              <PlusIcon className="w-4 h-4" />
-              Create Custom Page
-            </Button>
-          </Link>
+          <ProtectedComponent
+            permissionKeys={[PERMISSION_KEYS.CUSTOM_PAGES.CREATE]}
+          >
+            <Link to="/dashboard/custom-pages/create">
+              <Button>
+                <PlusIcon className="w-4 h-4" />
+                Create Custom Page
+              </Button>
+            </Link>
+          </ProtectedComponent>
         </div>
         <DataTable
           page={page}

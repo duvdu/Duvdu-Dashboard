@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import DatePicker from "../DatePicker";
 import { Button } from "./button";
+import { DebouncedInput } from "./debounced-input";
 import {
   Select,
   SelectContent,
@@ -10,7 +11,7 @@ import {
   SelectValue,
 } from "./select";
 
-export type FilterType = "select" | "multi-select" | "date" | 'custom'
+export type FilterType = "select" | "multi-select" | "date" | "custom" | "text";
 
 export interface FilterOption {
   label: string;
@@ -93,6 +94,15 @@ export const Filters: React.FC<FiltersProps> = ({
                 ))}
               </SelectContent>
             </Select>
+          )}
+          {filter.type === "text" && (
+            <DebouncedInput
+              type="text"
+              className=" text-sm bg-background/60 rounded-sm px-3 "
+              placeholder={filter.placeholder || "Search"}
+              value={values[filter.key] || ""}
+              onChange={(e) => handleChange(filter.key, e.target.value)}
+            />
           )}
           {filter.type === "custom" && filter.customComponent}
         </div>

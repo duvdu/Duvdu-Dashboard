@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   useInfiniteScroll,
   type InfiniteScrollOptions,
@@ -28,6 +28,7 @@ export interface UseInfiniteQueryResult<T> {
   reset: () => void;
   observerRef: React.RefObject<HTMLDivElement | null>;
   setItems: (items: T[]) => void;
+  latestData: any;
 }
 
 export function useInfiniteQuery<T, TQueryParams = any>(
@@ -50,6 +51,7 @@ export function useInfiniteQuery<T, TQueryParams = any>(
   });
 
   const { items, currentPage, actions } = infiniteScroll;
+  const [latestData, setLatestData] = useState<any>();
 
   useEffect(() => {
     if (!enabled || currentPage < 0) return;
@@ -63,6 +65,7 @@ export function useInfiniteQuery<T, TQueryParams = any>(
           page: currentPage + 1,
           limit: pageSize,
         } as TQueryParams);
+        setLatestData(result);
 
         const newItems = result.data || [];
         const currentPageFromApi = result.pagination?.currentPage || 1;
@@ -97,5 +100,6 @@ export function useInfiniteQuery<T, TQueryParams = any>(
     reset: infiniteScroll.actions.reset,
     observerRef: infiniteScroll.observerRef,
     setItems: infiniteScroll.actions.setItems,
+    latestData,
   };
 }

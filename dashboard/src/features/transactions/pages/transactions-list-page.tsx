@@ -19,6 +19,7 @@ export default function TransactionsListPage() {
   const from = getQueryParam("from") || "";
   const to = getQueryParam("to") || "";
   const user = getQueryParam("user") || "";
+  const isSubscription = getQueryParam("isSubscription") || "";
 
   const filterValues = {
     status: status,
@@ -28,6 +29,7 @@ export default function TransactionsListPage() {
     page: page,
     limit: limit,
     user: user,
+    isSubscription: isSubscription,
   };
 
   const {
@@ -45,7 +47,12 @@ export default function TransactionsListPage() {
         from: from || undefined,
         to: to || undefined,
         user: user || undefined,
-        isSubscribed: false,
+        isSubscribed:
+          isSubscription === "true"
+            ? true
+            : isSubscription === "false"
+            ? false
+            : undefined,
       }),
   });
   const transactions = transactionsData?.data || [];
@@ -86,6 +93,16 @@ export default function TransactionsListPage() {
         { label: "Withdraw", value: "withdraw" },
       ],
       placeholder: "Select Type",
+    },
+    {
+      key: "isSubscription",
+      label: "Is Subscription",
+      type: "select",
+      options: [
+        { label: "Yes", value: "true" },
+        { label: "No", value: "false" },
+      ],
+      placeholder: "Select Is Subscription",
     },
     {
       key: "from",

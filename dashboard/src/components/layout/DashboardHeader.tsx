@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Bell } from "lucide-react";
 import { useRef, useState } from "react";
-import { ThemeToggle } from "../ui/ThemeToggle";
 
 export function DashboardHeader({
   title = "Dashboard",
@@ -46,10 +45,10 @@ export function DashboardHeader({
         />
         <h1 className="text-3xl font-bold">{title}</h1>
         <div className="ml-auto flex items-center gap-2">
-          <div className="flex items-center gap-2 hover:bg-secondary rounded-md p-2">
+          {/* <div className="flex items-center gap-2 hover:bg-secondary rounded-md p-2">
             <h2 className="text-sm">Dark Mode</h2>
             <ThemeToggle />
-          </div>
+          </div> */}
           <button
             ref={buttonRef}
             className="relative p-2 rounded-full hover:bg-secondary focus:outline-none"

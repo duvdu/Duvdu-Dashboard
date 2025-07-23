@@ -114,14 +114,18 @@ export const useUserColumns = (
         cell: ({ row }) => (
           <div className="flex items-center gap-2">
             <ProtectedComponent permissionKey={PERMISSION_KEYS.USERS.VIEW}>
-              {!isAdmin && (
-                <Button variant="outline" asChild>
-                  <Link to={`../users/${row.original._id}`}>
-                    View Profile
-                    <SquareArrowOutUpRightIcon className="h-4 w-4" />
-                  </Link>
-                </Button>
-              )}
+              <Button variant="outline" asChild>
+                <Link
+                  to={
+                    isAdmin
+                      ? `/dashboard/admins/${row.original._id}`
+                      : `/dashboard/users/${row.original._id}`
+                  }
+                >
+                  View Profile
+                  <SquareArrowOutUpRightIcon className="h-4 w-4" />
+                </Link>
+              </Button>
             </ProtectedComponent>
 
             <Popover>

@@ -16,6 +16,7 @@ export const getContracts = async (filters: {
   page?: number;
   limit?: number;
   project?: string;
+  ticketNumber?: string;
 }) => {
   const { data } = await axios.get("/api/contracts/crm", { params: filters });
   return data as ContractListResponse;

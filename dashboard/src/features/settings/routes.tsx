@@ -1,10 +1,10 @@
 import { lazy } from "react";
 
-const SettingsDetailsPage = lazy(() => import("./pages/setting-details-page"));
+const SettingsUpdatePage = lazy(() => import("./pages/setting-update-page"));
 
 export const settingsRoutes = [
   {
     index: true,
-    element: <SettingsDetailsPage />,
+    element: <SettingsUpdatePage />,
   },
 ];

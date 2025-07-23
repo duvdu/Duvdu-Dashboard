@@ -1,3 +1,5 @@
+import type { Role } from "@/features/roles/types/role.types";
+
 export type User = {
   _id: string;
   name: string;
@@ -14,7 +16,7 @@ export type User = {
   isBlocked: {
     value: boolean;
   };
-  role: string;
+  role: string | Role;
   isOnline: boolean;
   isAvaliableToInstantProjects: boolean;
   pricePerHour: number;

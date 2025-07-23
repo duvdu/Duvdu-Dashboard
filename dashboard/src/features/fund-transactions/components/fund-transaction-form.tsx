@@ -48,7 +48,7 @@ export function FundTransactionForm({
 
   const { data: payoutMethodsData } = useQuery({
     queryKey: ["payout-methods"],
-    queryFn: () => getAllPayoutMethods({ user }),
+    queryFn: () => getAllPayoutMethods({ user, isDeleted: false }),
     enabled: !!user,
   });
   const payoutMethods = payoutMethodsData?.data || [];

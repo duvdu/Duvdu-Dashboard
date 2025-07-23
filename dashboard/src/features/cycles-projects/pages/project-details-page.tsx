@@ -485,7 +485,7 @@ function ProjectDetailsPage() {
                   <MediaPreview
                     src={project.cover}
                     alt={project.name}
-                    className="w-full max-w-md rounded-md"
+                    className="h-64 rounded-md w-full"
                     preview
                   />
                 </div>

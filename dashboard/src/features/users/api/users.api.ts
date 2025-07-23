@@ -10,6 +10,19 @@ export async function getUsers({
   isBlocked,
   isAdmin = false,
   isDeleted,
+  from,
+  to,
+}: {
+  search?: string;
+  page?: number;
+  limit?: number;
+  status?: string;
+  userType?: string;
+  isBlocked?: boolean;
+  isAdmin?: boolean;
+  isDeleted?: boolean;
+  from?: string;
+  to?: string;
 }) {
   const params = {
     search,
@@ -20,6 +33,8 @@ export async function getUsers({
     isBlocked,
     isAdmin,
     isDeleted,
+    from,
+    to,
   };
   const { data } = await api.get("api/users/auth/crm", { params });
   return data as PaginatedResponse<User>;

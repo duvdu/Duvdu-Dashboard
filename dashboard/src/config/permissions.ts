@@ -69,11 +69,32 @@ export const PERMISSION_KEYS = {
   NOTIFICATIONS: {
     SEND: "send-notification-to-users",
   },
+  TRANSACTIONS: {
+    VIEW: "list-fund-transactions",
+    CREATE: "create-fund-transactions",
+    FUND: "fund-transactions",
+  },
   FUND_TRANSACTIONS: {
     VIEW: "list-fund-transactions",
-    CREATE: "create-fund-transaction",
-    UPDATE: "update-fund-transaction",
-    DELETE: "remove-fund-transaction",
+    CREATE: "create-fund-transactions",
+  },
+  CUSTOM_PAGES: {
+    VIEW: "list-pages",
+    CREATE: "create-page",
+    UPDATE: "update-page",
+    DELETE: "delete-page",
+  },
+  RANKS: {
+    VIEW: "list-ranks",
+    CREATE: "create-rank",
+    UPDATE: "update-rank",
+    DELETE: "delete-rank",
+  },
+  SETTINGS: {
+    VIEW: "list-settings",
+    UPDATE: "update-setting",
+    CREATE: "create-setting",
+    DELETE: "delete-setting",
   },
 } as const;
 

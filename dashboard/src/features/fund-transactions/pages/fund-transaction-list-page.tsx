@@ -1,8 +1,10 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import type { FilterDefinition } from "@/components/ui/filters";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { useUpdateQueryParam } from "@/hooks/useUpdateQueryParam";
 import { useModal } from "@/store/modal-store";
 import { useQuery } from "@tanstack/react-query";
@@ -93,14 +95,14 @@ export default function FundTransactionListPage() {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Users</h1>
         <div className="flex gap-2">
-          {/* <ProtectedComponent
-          permissionKeys={[PERMISSION_KEYS.FUND_TRANSACTIONS.CREATE]}
-        > */}
-          <Button onClick={() => onOpen("createFundTransaction")}>
-            <PlusIcon className="w-4 h-4" />
-            Create Fund Transaction
-          </Button>
-          {/* </ProtectedComponent> */}
+          <ProtectedComponent
+            permissionKeys={[PERMISSION_KEYS.FUND_TRANSACTIONS.CREATE]}
+          >
+            <Button onClick={() => onOpen("createFundTransaction")}>
+              <PlusIcon className="w-4 h-4" />
+              Create Fund Transaction
+            </Button>
+          </ProtectedComponent>
         </div>
       </div>
       <DataTable

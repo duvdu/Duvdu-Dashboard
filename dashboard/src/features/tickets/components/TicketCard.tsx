@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Image } from "@/components/ui/image";
 import { Link } from "react-router-dom";
 
 function TicketCard({ ticket }: { ticket: any }) {
@@ -13,18 +14,24 @@ function TicketCard({ ticket }: { ticket: any }) {
       className="flex flex-col h-full transition-shadow hover:shadow-lg relative"
     >
       <CardHeader className="flex flex-row items-center gap-4 pb-2 border-b">
-        <img
+        <Image
           src={ticket.userId?.profileImage || undefined}
-          alt={ticket.userId?.name}
+          alt={ticket.userId?.name || ticket.name}
           className="w-12 h-12 rounded-full border"
         />
         <div className="flex-1 min-w-0">
-          <CardTitle className="text-base font-semibold truncate flex items-center gap-2">
-            {ticket.userId?.name}
-            <span className="text-muted-foreground font-normal ml-1 truncate">
-              (@{ticket.userId?.username})
-            </span>
-          </CardTitle>
+          {ticket.userId ? (
+            <CardTitle className="text-base font-semibold truncate flex items-center gap-2">
+              {ticket.userId?.name}
+              <span className="text-muted-foreground font-normal ml-1 truncate">
+                (@{ticket.userId?.username})
+              </span>
+            </CardTitle>
+          ) : (
+            <CardTitle className="text-base font-semibold truncate">
+              {ticket.name}
+            </CardTitle>
+          )}
           <div className="text-xs text-muted-foreground mt-0.5">
             {new Date(ticket.createdAt).toLocaleString()}
           </div>

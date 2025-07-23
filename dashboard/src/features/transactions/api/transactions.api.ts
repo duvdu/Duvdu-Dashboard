@@ -31,7 +31,7 @@ export const getTransactions = async ({
         status,
         from,
         to,
-        isSubscribed,
+        isSubscription: isSubscribed,
       },
     }
   );

@@ -24,7 +24,7 @@ function CategoryListPage() {
     error,
     refetch,
   } = useQuery({
-    queryKey: ["categories", keyword, page, limit, cycle, status],
+    queryKey: ["categories", keyword, page, limit, cycle, status, isRelated],
     queryFn: () =>
       getCategories({
         search: keyword,
@@ -72,6 +72,7 @@ function CategoryListPage() {
       key: "isRelated",
       label: "Type",
       type: "select",
+      placeholder: "Select Type",
       options: [
         { label: "Related Category", value: "true" },
         { label: "Main Category", value: "false" },

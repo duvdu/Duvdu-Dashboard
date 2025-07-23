@@ -91,7 +91,7 @@ export function UpdateAdminModal() {
               phoneNumber: user?.phoneNumber?.number || "",
               // profileImage: user?.profileImage || undefined,
               // coverImage: user?.coverImage || undefined,
-              role: user?.role || "",
+              role: (user?.role as string) || "",
               // password: "",
               email: user?.email || "",
             }}

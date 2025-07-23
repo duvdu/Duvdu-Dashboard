@@ -1,5 +1,7 @@
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { PERMISSION_KEYS } from "@/config/permissions";
 import { useModal } from "@/store/modal-store";
 import { type ColumnDef } from "@tanstack/react-table";
 import { ExternalLinkIcon } from "lucide-react";
@@ -103,18 +105,23 @@ export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
         const status = row.original.status;
         if (status !== "success") return "--";
         return (
-          <Button
-            variant="default"
-            size="sm"
-            onClick={() =>
-              onOpen("fundTransaction", {
-                id: row.original._id,
-                amount: row.original.amount,
-              })
-            }
+          <ProtectedComponent
+            permissionKeys={[PERMISSION_KEYS.TRANSACTIONS.FUND]}
+            fallback={"--"}
           >
-            Fund
-          </Button>
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() =>
+                onOpen("fundTransaction", {
+                  id: row.original._id,
+                  amount: row.original.amount,
+                })
+              }
+            >
+              Fund
+            </Button>
+          </ProtectedComponent>
         );
       },
     },

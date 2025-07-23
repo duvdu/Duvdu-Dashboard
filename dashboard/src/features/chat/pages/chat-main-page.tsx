@@ -12,7 +12,9 @@ export default function ChatMainPage() {
 
   const navigate = useNavigate();
   const handleUserSelect = (user: User) => {
-    navigate(`/dashboard/chat/messages/${user._id}`);
+    navigate(`/dashboard/chat/messages/${user._id}`, {
+      replace: true,
+    });
     // Hide sidebar on mobile after selecting a user
     setShowSidebar(false);
   };

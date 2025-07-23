@@ -117,7 +117,12 @@ export const dashboardRoutes = [
   },
   {
     path: "transactions",
-    element: <Outlet />,
+
+    element: (
+      <ProtectedRoute permissionKey={PERMISSION_KEYS.FUND_TRANSACTIONS.VIEW}>
+        <Outlet />
+      </ProtectedRoute>
+    ),
     children: transactionsRoutes,
   },
   {

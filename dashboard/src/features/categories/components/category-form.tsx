@@ -182,7 +182,7 @@ export function CategoryForm({
                 <Settings className="h-4 w-4" />
                 <span className="hidden sm:inline">Details</span>
               </TabsTrigger>
-              
+
               <TabsTrigger
                 value="subcategories"
                 className={`flex items-center gap-2 ${
@@ -303,6 +303,7 @@ export function CategoryForm({
                       <div className="flex gap-4">
                         <Button
                           type="button"
+                          disabled={!!defaultValues}
                           variant={
                             projectType === "main" ? "default" : "outline"
                           }
@@ -315,6 +316,7 @@ export function CategoryForm({
                         </Button>
                         <Button
                           type="button"
+                          disabled={!!defaultValues}
                           variant={
                             projectType === "related" ? "default" : "outline"
                           }

@@ -12,7 +12,7 @@ export const useContractReviewColumns = (
     {
       accessorKey: "title",
       header: "Title",
-      cell: ({ row }) => row.original.title.en,
+      cell: ({ row }) => row.original.comment,
     },
     {
       accessorKey: "createdAt",

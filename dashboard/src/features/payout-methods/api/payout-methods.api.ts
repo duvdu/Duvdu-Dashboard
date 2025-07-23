@@ -10,10 +10,11 @@ export async function updatePayoutMethodStatus(payoutMethodId, status) {
   return data;
 }
 
-export async function getAllPayoutMethods({ user }) {
+export async function getAllPayoutMethods({ user, isDeleted }) {
   const { data } = await api.get("/api/users/withdraw/crm", {
     params: {
       user,
+      isDeleted,
     },
   });
   return data;

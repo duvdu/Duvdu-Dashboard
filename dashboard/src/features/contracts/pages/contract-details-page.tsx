@@ -24,7 +24,7 @@ import {
   Clock,
   CreditCard,
   DollarSign,
-  Eye,
+  ExternalLink,
   File,
   FileText,
   Mail,
@@ -516,8 +516,16 @@ export default function ContractDetailsPage() {
                             >
                               {file.status}
                             </Badge>
-                            <Button variant="outline" size="sm">
-                              <Eye className="w-4 h-4" />
+                            <Button variant="outline" size="sm" asChild>
+                              <a
+                                href={file.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-1"
+                              >
+                                <ExternalLink className="w-4 h-4" />
+                                View
+                              </a>
                             </Button>
                           </div>
                         </div>

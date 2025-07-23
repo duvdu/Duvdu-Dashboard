@@ -17,18 +17,20 @@ import { type User } from "../types/user.types";
 import { fetchUsersForCSV } from "../utils/user-csv-export";
 
 export default function UserListPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const keyword = searchParams.get("keyword") || "";
   const page = +searchParams.get("page") || 1;
   const limit = +searchParams.get("limit") || 10;
   const status = searchParams.get("status") || "";
+  const from = searchParams.get("from") || "";
+  const to = searchParams.get("to") || "";
   const {
     data: usersData,
     isLoading: loading,
     error,
     refetch,
   } = useQuery({
-    queryKey: ["users", keyword, page, limit, status],
+    queryKey: ["users", keyword, page, limit, status, from, to],
     queryFn: () =>
       getUsers({
         search: keyword,
@@ -38,6 +40,8 @@ export default function UserListPage() {
           status === "blocked" ? true : status === "active" ? false : undefined,
         isDeleted: status === "deleted" ? true : false,
         isAdmin: false,
+        from: from || undefined,
+        to: to || undefined,
       }),
   });
   const users = usersData?.data || [];
@@ -59,17 +63,20 @@ export default function UserListPage() {
       ],
       placeholder: "Select Status",
     },
+    {
+      key: "from",
+      label: "From Date",
+      placeholder: "Select From Date",
+      type: "date",
+    },
+    {
+      key: "to",
+      label: "To Date",
+      placeholder: "Select To Date",
+      type: "date",
+    },
   ];
-  const filterValues = { status, keyword };
-  const handleFiltersChange = (vals: Record<string, unknown>) => {
-    const newParams = new URLSearchParams(searchParams);
-    Object.entries(vals).forEach(([key, value]) => {
-      if (value) newParams.set(key, value as string);
-      else newParams.delete(key);
-    });
-    newParams.set("page", "1");
-    setSearchParams(newParams);
-  };
+  const filterValues = { status, keyword, from, to };
 
   const handleNotifyUsers = () => {
     const userIds = selectedUsers.map((user) => user._id);
@@ -129,7 +136,6 @@ export default function UserListPage() {
         limit={limit}
         filters={filters}
         filterValues={filterValues}
-        onFiltersChange={handleFiltersChange}
         onRowSelectionChange={setSelectedUsers}
       />
     </DashboardLayout>

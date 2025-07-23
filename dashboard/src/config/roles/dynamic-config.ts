@@ -110,50 +110,58 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
   },
 
   {
-    path: "/dashboard/complaints",
+    path: "/dashboard/support",
     icon: Tickets,
-    label: "Complaints",
-    requiredPermissions: [PERMISSION_KEYS.COMPLAINTS.VIEW],
-  },
-
-  {
-    path: "/dashboard/tickets",
-    icon: Ticket,
-    label: "Tickets",
-    // requiredPermissions: [PERMISSION_KEYS.TICKETS.VIEW],
+    label: "Support",
+    children: [
+      {
+        path: "/dashboard/complaints",
+        icon: Tickets,
+        label: "Complaints",
+        requiredPermissions: [PERMISSION_KEYS.COMPLAINTS.VIEW],
+      },
+      {
+        path: "/dashboard/tickets",
+        icon: Ticket,
+        label: "Tickets",
+        requiredPermissions: [PERMISSION_KEYS.TICKETS.VIEW],
+      },
+    ],
   },
   {
     path: "/dashboard/transactions",
     icon: Landmark,
     label: "Financial",
+    requiredPermissions: [
+      PERMISSION_KEYS.TRANSACTIONS.VIEW,
+      PERMISSION_KEYS.FUND_TRANSACTIONS.VIEW,
+    ],
     children: [
       {
         path: "/dashboard/transactions",
         icon: CreditCard,
         label: "Transactions",
-        // requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
+        requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
       },
       {
         path: "/dashboard/fund-transactions",
         icon: BadgeCent,
         label: "Fund Transactions",
-        // requiredPermissions: [PERMISSION_KEYS.FUND_TRANSACTIONS.VIEW],
+        requiredPermissions: [PERMISSION_KEYS.FUND_TRANSACTIONS.VIEW],
       },
     ],
-
-    // requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
   },
   {
     path: "/dashboard/ranks",
     icon: Medal,
     label: "Ranks",
-    // requiredPermissions: [PERMISSION_KEYS.RANKS.VIEW],
+    requiredPermissions: [PERMISSION_KEYS.RANKS.VIEW],
   },
   {
     path: "/dashboard/custom-pages",
     icon: StickyNote,
     label: "Custom Pages",
-    // requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
+    requiredPermissions: [PERMISSION_KEYS.CUSTOM_PAGES.VIEW],
   },
   {
     path: "/dashboard/roles",
@@ -171,7 +179,12 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     path: "/dashboard/settings",
     icon: Settings,
     label: "Settings",
-    // requiredPermissions: [PERMISSION_KEYS.SETTINGS.VIEW],
+    requiredPermissions: [
+      PERMISSION_KEYS.SETTINGS.VIEW,
+      PERMISSION_KEYS.SETTINGS.UPDATE,
+      PERMISSION_KEYS.SETTINGS.CREATE,
+      PERMISSION_KEYS.SETTINGS.DELETE,
+    ],
   },
 ];
 

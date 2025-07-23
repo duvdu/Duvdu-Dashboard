@@ -19,6 +19,7 @@ export default function ContractListPage() {
   const to = getQueryParam("to") || "";
   const user = getQueryParam("user") || "";
   const search = getQueryParam("search") || "";
+  const ticketNumber = getQueryParam("ticketNumber") || "";
 
   const filterValues = {
     cycle: cycle,
@@ -28,6 +29,7 @@ export default function ContractListPage() {
     limit: limit,
     user: user,
     search: search,
+    ticketNumber: ticketNumber,
   };
 
   const columns = useContractColumns({});
@@ -43,6 +45,7 @@ export default function ContractListPage() {
         to: to || undefined,
         user: user || undefined,
         search: search || undefined,
+        ticketNumber: ticketNumber || undefined,
       }),
   });
 
@@ -75,6 +78,12 @@ export default function ContractListPage() {
       placeholder: "Select Cycle",
     },
 
+    {
+      key: "ticketNumber",
+      label: "Ticket Number",
+      type: "text",
+      placeholder: "Search by Ticket Number",
+    },
     {
       key: "from",
       label: "From",

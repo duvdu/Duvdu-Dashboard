@@ -13,4 +13,5 @@ export type Complaint = {
   }>;
   closedBy: null | User;
   ticketNumber: string;
+  desc: string;
 };
