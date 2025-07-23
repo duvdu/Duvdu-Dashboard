@@ -18,6 +18,7 @@ import { rolesRoutes } from "../roles/routes";
 import { ticketRoutes } from "../tickets/routes";
 import { transactionsRoutes } from "../transactions/routes";
 import { usersRoutes } from "../users/routes";
+import { rankRoutes } from "../ranks/routes";
 
 const DashboardPage = lazy(() => import("./pages/dashboard"));
 
@@ -127,6 +128,11 @@ export const dashboardRoutes = [
     path: "cancelled-contracts",
     element: <Outlet />,
     children: cancelledContractRoutes,
+  },
+  {
+    path: "ranks",
+    element: <Outlet />,
+    children: rankRoutes,
   },
   {
     path: "*",

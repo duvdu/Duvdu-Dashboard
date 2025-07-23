@@ -14,6 +14,7 @@ import { RejectProjectModal } from "@/features/cycles-projects/components/Reject
 import { CreateFundTransactionModal } from "@/features/fund-transactions/components/CreateFundTransactionModal";
 import { DeleteProjectReportModal } from "@/features/project-reports/components/DeleteProjectReportModal";
 import { DeleteProjectReviewModal } from "@/features/project-reviews/components/DeleteProjectReviewModal";
+import DeleteRankModal from "@/features/ranks/components/DeleteRankModal";
 import { CreateRoleModal } from "@/features/roles/components/CreateRoleModal";
 import DeleteRoleModal from "@/features/roles/components/DeleteRoleModal";
 import { UpdateRoleModal } from "@/features/roles/components/UpdateRoleModal";
@@ -66,6 +67,7 @@ export const ModalProvider = () => {
     createFundTransaction: <CreateFundTransactionModal />,
     rejectCancelledContract: <RejectCancelledContractModal />,
     approveCancelledContract: <ApproveCancelledContractModal />,
+    deleteRank: <DeleteRankModal />,
   };
 
   return <>{type && modals[type]}</>;

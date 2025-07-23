@@ -13,6 +13,7 @@ import {
   GitBranch,
   Home,
   Landmark,
+  Medal,
   MessageCircleMore,
   Shield,
   Star,
@@ -138,9 +139,15 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
         // requiredPermissions: [PERMISSION_KEYS.FUND_TRANSACTIONS.VIEW],
       },
     ],
+
     // requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
   },
-
+  {
+    path: "/dashboard/ranks",
+    icon: Medal,
+    label: "Ranks",
+    // requiredPermissions: [PERMISSION_KEYS.RANKS.VIEW],
+  },
   {
     path: "/dashboard/custom-pages",
     icon: StickyNote,

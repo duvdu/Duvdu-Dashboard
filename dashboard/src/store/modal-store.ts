@@ -29,7 +29,8 @@ export type ModalType =
   | "fundTransaction"
   | "createFundTransaction"
   | "approveCancelledContract"
-  | "rejectCancelledContract";
+  | "rejectCancelledContract"
+  | "deleteRank";
 
 export interface ModalData {
   id?: string;
