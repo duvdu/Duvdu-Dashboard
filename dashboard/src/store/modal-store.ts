@@ -27,7 +27,9 @@ export type ModalType =
   | "deleteProjectReport"
   | "deleteContractReview"
   | "fundTransaction"
-  | "createFundTransaction";
+  | "createFundTransaction"
+  | "approveCancelledContract"
+  | "rejectCancelledContract";
 
 export interface ModalData {
   id?: string;

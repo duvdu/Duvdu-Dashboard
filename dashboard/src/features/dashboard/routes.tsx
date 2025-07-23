@@ -6,6 +6,7 @@ import { ServerCrashIcon } from "lucide-react";
 import { lazy } from "react";
 import { Outlet } from "react-router-dom";
 import { adminsRoutes } from "../admins/routes";
+import { cancelledContractRoutes } from "../cancelled-contracts/routes";
 import { categoryRoutes } from "../categories/routes";
 import { chatRoutes } from "../chat/routes";
 import { complaintRoutes } from "../complaints/routes";
@@ -121,6 +122,11 @@ export const dashboardRoutes = [
     path: "fund-transactions",
     element: <Outlet />,
     children: fundTransactionRoutes,
+  },
+  {
+    path: "cancelled-contracts",
+    element: <Outlet />,
+    children: cancelledContractRoutes,
   },
   {
     path: "*",

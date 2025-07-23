@@ -2,6 +2,8 @@ import { SendMessageModal } from "@/components/modals/SendMessageModal";
 import { SendNotificationModal } from "@/components/modals/SendNotificationModal";
 import { CreateAdminModal } from "@/features/admins/components/CreateAdminModal";
 import { UpdateAdminModal } from "@/features/admins/components/UpdateAdminModal";
+import ApproveCancelledContractModal from "@/features/cancelled-contracts/components/ApproveCancelledContractModal";
+import { RejectCancelledContractModal } from "@/features/cancelled-contracts/components/RejectCancelledContractModal";
 import { DeleteCategoryModal } from "@/features/categories/components/DeleteCategoryModal";
 import { FeedbackModal } from "@/features/complaints/components/FeedbackModal";
 import { DeleteContractReviewModal } from "@/features/contract-reviews/components/DeleteContractReviewModal";
@@ -62,6 +64,8 @@ export const ModalProvider = () => {
     deleteContractReview: <DeleteContractReviewModal />,
     fundTransaction: <FundTransactionModal />,
     createFundTransaction: <CreateFundTransactionModal />,
+    rejectCancelledContract: <RejectCancelledContractModal />,
+    approveCancelledContract: <ApproveCancelledContractModal />,
   };
 
   return <>{type && modals[type]}</>;

@@ -6,6 +6,7 @@ import {
 } from "@/types/rbac";
 import {
   BadgeCent,
+  BookmarkX,
   Calendar,
   CreditCard,
   FileText,
@@ -64,6 +65,18 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     path: "/dashboard/contracts",
     icon: FileText,
     label: "Contracts",
+    children: [
+      {
+        path: "/dashboard/contracts",
+        icon: FileText,
+        label: "Contracts",
+      },
+      {
+        path: "/dashboard/cancelled-contracts",
+        icon: BookmarkX,
+        label: "Cancelled Contracts",
+      },
+    ],
     // requiredPermissions: [PERMISSION_KEYS.CONTRACTS.VIEW],
   },
   {
