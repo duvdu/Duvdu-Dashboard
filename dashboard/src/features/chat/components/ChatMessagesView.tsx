@@ -50,6 +50,7 @@ export function ChatMessagesView() {
     pageSize: 20,
     resetTriggers: [userId],
     enabled: !!userId,
+    reversed: true,
   });
 
   const currentReceiver =

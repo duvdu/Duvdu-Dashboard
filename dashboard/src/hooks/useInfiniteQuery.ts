@@ -16,6 +16,7 @@ export interface UseInfiniteQueryOptions<T, TQueryParams = any>
   }>;
   queryParams: TQueryParams;
   enabled?: boolean;
+  reversed?: boolean;
 }
 
 export interface UseInfiniteQueryResult<T> {
@@ -39,6 +40,7 @@ export function useInfiniteQuery<T, TQueryParams = any>(
     queryParams,
     pageSize = 10,
     enabled = true,
+    reversed = false,
     resetTriggers = [],
     ...infiniteScrollOptions
   } = options;
@@ -74,7 +76,11 @@ export function useInfiniteQuery<T, TQueryParams = any>(
         if (currentPage === 0) {
           actions.setItems(newItems);
         } else {
-          actions.setItems([...items, ...newItems]);
+          if (reversed) {
+            actions.setItems([...newItems, ...items]);
+          } else {
+            actions.setItems([...items, ...newItems]);
+          }
         }
 
         actions.setHasMore(currentPageFromApi < totalPagesFromApi);
