@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import {
   customPageSchema,
   type CustomPageSchema,
@@ -25,6 +26,7 @@ export function CustomPageForm({
     resolver: zodResolver(customPageSchema),
     defaultValues,
   });
+  const navigate = useNavigate();
   const { handleSubmit, control, formState } = methods;
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -68,8 +70,10 @@ export function CustomPageForm({
         <Button
           size="lg"
           variant="outline"
+          type="button"
           className="w-fit"
           disabled={isLoading}
+          onClick={() => navigate(-1)}
         >
           Cancel
         </Button>
