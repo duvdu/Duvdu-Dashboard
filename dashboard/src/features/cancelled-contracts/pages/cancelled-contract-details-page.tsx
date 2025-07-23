@@ -9,12 +9,13 @@ import { Separator } from "@/components/ui/separator";
 import { useModal } from "@/store/modal-store";
 import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, ArrowLeftIcon, Briefcase, User } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getCancelledContractById } from "../api/cancelled-contract.api";
 
 export default function CancelledContractDetailsPage() {
   const { id } = useParams();
-  const { onOpen, refetch } = useModal();
+  const { onOpen } = useModal();
+  const navigate = useNavigate();
   const { data, isLoading, error } = useQuery({
     queryKey: ["cancelled-contract", id],
     queryFn: () => getCancelledContractById(id!),
@@ -49,6 +50,10 @@ export default function CancelledContractDetailsPage() {
   const { customer, sp, contract: contractData } = contract;
   const status = contractData.status;
 
+  const refetch = () => {
+    navigate("/dashboard/cancelled-contracts");
+  };
+
   return (
     <DashboardLayout className="w-full mx-auto py-6 px-4">
       <div className="mb-8">
@@ -63,23 +68,25 @@ export default function CancelledContractDetailsPage() {
               Cancelled Contract Details
             </h1>
           </div>
-          <div className="flex items-center gap-3">
-            <Button
-              onClick={() =>
-                onOpen("approveCancelledContract", { id: data._id }, refetch)
-              }
-            >
-              Approve
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() =>
-                onOpen("rejectCancelledContract", { id: data._id }, refetch)
-              }
-            >
-              Reject
-            </Button>
-          </div>
+          {status !== "canceled" && (
+            <div className="flex items-center gap-3">
+              <Button
+                onClick={() =>
+                  onOpen("approveCancelledContract", { id: data._id }, refetch)
+                }
+              >
+                Approve
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() =>
+                  onOpen("rejectCancelledContract", { id: data._id }, refetch)
+                }
+              >
+                Reject
+              </Button>
+            </div>
+          )}
         </div>
         <div className="text-gray-600 mt-1">
           {/* Cancelled Contract #{data._id.slice(-8)} */}
