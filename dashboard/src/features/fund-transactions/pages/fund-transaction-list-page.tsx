@@ -3,7 +3,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import type { FilterDefinition } from "@/components/ui/filters";
-import { Slider } from "@/components/ui/slider";
 import { useUpdateQueryParam } from "@/hooks/useUpdateQueryParam";
 import { useModal } from "@/store/modal-store";
 import { useQuery } from "@tanstack/react-query";
@@ -13,8 +12,7 @@ import { useFundTransactionColumns } from "../columns/fund-transaction-columns";
 
 export default function FundTransactionListPage() {
   const { onOpen } = useModal();
-  const { getQueryParam, updateQueryParam } =
-    useUpdateQueryParam("fund-transactions");
+  const { getQueryParam } = useUpdateQueryParam("fund-transactions");
   const status = getQueryParam("status") || "";
   const page = parseInt(getQueryParam("page") || "1");
   const limit = parseInt(getQueryParam("limit") || "10");
@@ -54,32 +52,14 @@ export default function FundTransactionListPage() {
       label: "Status",
       key: "status",
       type: "select",
+      placeholder: "Select Status",
       options: [
         { label: "Pending", value: "pending" },
         { label: "Success", value: "success" },
         { label: "Failed", value: "failed" },
       ],
     },
-    {
-      label: "Fund Amount",
-      key: "fundAmount",
-      type: "custom",
-      customComponent: (
-        <Slider
-          min={0}
-          max={1000000}
-          step={1000}
-          value={[
-            fundAmountFrom ? parseFloat(fundAmountFrom) : 0,
-            fundAmountTo ? parseFloat(fundAmountTo) : 1000000,
-          ]}
-          onValueChange={(value) => {
-            updateQueryParam("fundAmountFrom", value[0].toString());
-            updateQueryParam("fundAmountTo", value[1].toString());
-          }}
-        />
-      ),
-    },
+
     {
       label: "Created At From",
       placeholder: "Select from",

@@ -7,7 +7,12 @@ export const useCustomPageColumns = (): ColumnDef<CustomPage>[] => [
   {
     accessorKey: "title",
     header: "Title",
-    cell: ({ row }) => row.original.title,
+    cell: ({ row }) => (
+      <div className="flex  gap-2">
+        <p className="text-sm font-medium">{row.original.title?.en}</p>-
+        <p className="text-sm font-medium">{row.original.title?.ar}</p>
+      </div>
+    ),
   },
   {
     accessorKey: "createdAt",

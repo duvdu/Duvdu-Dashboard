@@ -28,6 +28,7 @@ import {
 export type FundTransactionFormProps = {
   defaultValues?: Partial<FundTransactionSchema>;
   onSubmit: (values: FundTransactionSchema, file?: File) => void;
+  onCancel?: () => void;
   isLoading?: boolean;
   submitLabel?: string;
 };
@@ -35,6 +36,7 @@ export type FundTransactionFormProps = {
 export function FundTransactionForm({
   defaultValues,
   onSubmit,
+  onCancel,
   isLoading,
   submitLabel = "Save",
 }: FundTransactionFormProps) {
@@ -145,7 +147,7 @@ export function FundTransactionForm({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Attachment (optional)</FormLabel>
+              <FormLabel>Attachment </FormLabel>
               <FormControl>
                 <Input
                   type="file"
@@ -159,8 +161,11 @@ export function FundTransactionForm({
         />
 
         <div className="flex justify-end gap-2">
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? "Saving..." : submitLabel}
+          <Button onClick={onCancel} variant="outline" type="button">
+            Cancel
+          </Button>
+          <Button type="submit" loading={isLoading}>
+            {submitLabel}
           </Button>
         </div>
       </form>

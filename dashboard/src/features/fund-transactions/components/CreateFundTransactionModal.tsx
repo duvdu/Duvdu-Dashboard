@@ -58,6 +58,7 @@ export function CreateFundTransactionModal() {
         <FundTransactionForm
           onSubmit={handleSubmit}
           isLoading={isPending}
+          onCancel={onClose}
           submitLabel="Create"
         />
       </DialogContent>

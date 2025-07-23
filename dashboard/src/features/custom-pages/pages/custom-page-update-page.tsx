@@ -6,6 +6,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { getCustomPageById, updateCustomPage } from "../api/custom-page.api";
 import { CustomPageForm } from "../components/custom-page-form";
+import type { CustomPageSchema } from "../schemas/custom-page.schema";
 
 export default function CustomPageUpdatePage() {
   const { id } = useParams();
@@ -25,8 +26,17 @@ export default function CustomPageUpdatePage() {
     },
   });
 
-  async function handleSubmit(values: any) {
-    await mutateAsync(values);
+  async function handleSubmit(values: CustomPageSchema) {
+    await mutateAsync({
+      title: {
+        en: values.titleEn,
+        ar: values.titleAr,
+      },
+      content: {
+        en: values.contentEn,
+        ar: values.contentAr,
+      },
+    });
   }
   if (isLoading) return <div>Loading...</div>;
   return (
@@ -42,7 +52,12 @@ export default function CustomPageUpdatePage() {
           <h1 className="text-2xl font-bold">Update Custom Page</h1>
         </div>
         <CustomPageForm
-          defaultValues={data}
+          defaultValues={{
+            titleEn: data?.title?.en,
+            titleAr: data?.title?.ar,
+            contentEn: data?.content?.en,
+            contentAr: data?.content?.ar,
+          }}
           onSubmit={handleSubmit}
           isLoading={isPending}
           submitLabel="Update"

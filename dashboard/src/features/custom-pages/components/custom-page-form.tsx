@@ -31,24 +31,39 @@ export function CustomPageForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div>
-        <label className="block mb-1">Title</label>
+        <label className="block mb-1">Title (English)</label>
         <Controller
-          name="title"
+          name="titleEn"
           control={control}
           render={({ field }) => (
             <Input placeholder="Page title" {...field} disabled={isLoading} />
           )}
         />
-        {formState.errors.title && (
+        {formState.errors.titleEn && (
           <div className="text-red-500 text-xs mt-1">
-            {formState.errors.title.message}
+            {formState.errors.titleEn.message}
           </div>
         )}
       </div>
       <div>
-        <label className="block mb-1">Content</label>
+        <label className="block mb-1">Title (Arabic)</label>
         <Controller
-          name="content"
+          name="titleAr"
+          control={control}
+          render={({ field }) => (
+            <Input placeholder="Page title" {...field} disabled={isLoading} />
+          )}
+        />
+        {formState.errors.titleAr && (
+          <div className="text-red-500 text-xs mt-1">
+            {formState.errors.titleAr.message}
+          </div>
+        )}
+      </div>
+      <div>
+        <label className="block mb-1">Content (English)</label>
+        <Controller
+          name="contentEn"
           control={control}
           render={({ field }) => (
             <RichTextEditor
@@ -60,9 +75,30 @@ export function CustomPageForm({
             />
           )}
         />
-        {formState.errors.content && (
+        {formState.errors.contentEn && (
           <div className="text-red-500 text-xs mt-1">
-            {formState.errors.content.message}
+            {formState.errors.contentEn.message}
+          </div>
+        )}
+      </div>
+      <div>
+        <label className="block mb-1">Content (Arabic)</label>
+        <Controller
+          name="contentAr"
+          control={control}
+          render={({ field }) => (
+            <RichTextEditor
+              value={field.value}
+              onChange={field.onChange}
+              placeholder="Enter page content..."
+              disabled={isLoading}
+              height={"50vh"}
+            />
+          )}
+        />
+        {formState.errors.contentAr && (
+          <div className="text-red-500 text-xs mt-1">
+            {formState.errors.contentAr.message}
           </div>
         )}
       </div>

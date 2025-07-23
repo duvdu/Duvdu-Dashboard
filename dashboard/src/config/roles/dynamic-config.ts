@@ -5,14 +5,17 @@ import {
   type SidebarItem,
 } from "@/types/rbac";
 import {
+  BadgeCent,
   Calendar,
   CreditCard,
   FileText,
   GitBranch,
   Home,
+  Landmark,
   MessageCircleMore,
   Shield,
   Star,
+  StickyNote,
   Tags,
   Ticket,
   Tickets,
@@ -104,7 +107,33 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     label: "Tickets",
     // requiredPermissions: [PERMISSION_KEYS.TICKETS.VIEW],
   },
+  {
+    path: "/dashboard/transactions",
+    icon: Landmark,
+    label: "Financial",
+    children: [
+      {
+        path: "/dashboard/transactions",
+        icon: CreditCard,
+        label: "Transactions",
+        // requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
+      },
+      {
+        path: "/dashboard/fund-transactions",
+        icon: BadgeCent,
+        label: "Fund Transactions",
+        // requiredPermissions: [PERMISSION_KEYS.FUND_TRANSACTIONS.VIEW],
+      },
+    ],
+    // requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
+  },
 
+  {
+    path: "/dashboard/custom-pages",
+    icon: StickyNote,
+    label: "Custom Pages",
+    // requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
+  },
   {
     path: "/dashboard/roles",
     icon: Shield,
@@ -116,24 +145,6 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     icon: Users,
     label: "Admins",
     requiredPermissions: [PERMISSION_KEYS.ADMINS.VIEW],
-  },
-  {
-    path: "/dashboard/transactions",
-    icon: CreditCard,
-    label: "Transactions",
-    // requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
-  },
-  {
-    path: "/dashboard/fund-transactions",
-    icon: CreditCard,
-    label: "Fund Transactions",
-    // requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
-  },
-  {
-    path: "/dashboard/custom-pages",
-    icon: FileText,
-    label: "Custom Pages",
-    // requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
   },
 ];
 

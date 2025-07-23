@@ -19,7 +19,10 @@ export const getCustomPageById = async (id: string) => {
 };
 
 // Create custom-page
-export const createCustomPage = async (values: CustomPageSchema) => {
+export const createCustomPage = async (values: {
+  title: { en: string; ar: string };
+  content: { en: string; ar: string };
+}) => {
   const { data } = await axios.post("/api/users/pages/crm", values);
   return data;
 };
