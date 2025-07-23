@@ -10,11 +10,12 @@ import { categoryRoutes } from "../categories/routes";
 import { chatRoutes } from "../chat/routes";
 import { complaintRoutes } from "../complaints/routes";
 import { contractRoutes } from "../contracts/routes";
+import { customPageRoutes } from "../custom-pages/routes";
 import { projectRoutes } from "../cycles-projects/routes";
 import { rolesRoutes } from "../roles/routes";
 import { ticketRoutes } from "../tickets/routes";
+import { transactionsRoutes } from "../transactions/routes";
 import { usersRoutes } from "../users/routes";
-import { customPageRoutes } from "../custom-pages/routes";
 
 const DashboardPage = lazy(() => import("./pages/dashboard"));
 
@@ -109,6 +110,11 @@ export const dashboardRoutes = [
     path: "custom-pages",
     element: <Outlet />,
     children: customPageRoutes,
+  },
+  {
+    path: "transactions",
+    element: <Outlet />,
+    children: transactionsRoutes,
   },
   {
     path: "*",

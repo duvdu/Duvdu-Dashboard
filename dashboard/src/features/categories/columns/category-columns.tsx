@@ -7,7 +7,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Switch } from "@/components/ui/switch";
 import { PERMISSION_KEYS } from "@/config/permissions";
 import { useModal } from "@/store/modal-store";
 import { type ColumnDef } from "@tanstack/react-table";
@@ -61,22 +60,18 @@ export const useCategoryColumns = (
       accessorKey: "trend",
       header: "Trend",
       cell: ({ row }) => (
-        <Switch
-          className="cursor-default pointer-events-none"
-          checked={!!row.original.trend}
-          disabled
-        />
+        <Badge variant={row.original.trend ? "default" : "outline"}>
+          {row.original.trend ? "Yes" : "No"}
+        </Badge>
       ),
     },
     {
       accessorKey: "isRelated",
-      header: "Related",
+      header: "Type",
       cell: ({ row }) => (
-        <Switch
-          className="cursor-default pointer-events-none"
-          checked={!!row.original.isRelated}
-          disabled
-        />
+        <Badge variant={row.original.isRelated ? "default" : "outline"}>
+          {row.original.isRelated ? "Related Category" : "Main Category"}
+        </Badge>
       ),
     },
     {

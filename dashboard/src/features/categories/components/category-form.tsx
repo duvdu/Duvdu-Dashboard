@@ -86,16 +86,6 @@ export function CategoryForm({
   // const jobTitlesCount = watch("jobTitles")?.length || 0;
   const subCategoriesCount = watch("subCategories")?.length || 0;
 
-  // Job Titles
-  // const {
-  //   fields: jobTitles,
-  //   append: appendJobTitle,
-  //   remove: removeJobTitle,
-  // } = useFieldArray<CategorySchema>({
-  //   control,
-  //   name: "jobTitles",
-  // });
-
   // Subcategories
   const {
     fields: subCategories,
@@ -192,18 +182,7 @@ export function CategoryForm({
                 <Settings className="h-4 w-4" />
                 <span className="hidden sm:inline">Details</span>
               </TabsTrigger>
-              {/* <TabsTrigger
-                value="job-titles"
-                className="flex items-center gap-2"
-              >
-                <Briefcase className="h-4 w-4" />
-                <span className="hidden sm:inline">Job Titles</span>
-                {jobTitlesCount > 0 && (
-                  <Badge variant="secondary" className="ml-1">
-                    {jobTitlesCount}
-                  </Badge>
-                )}
-              </TabsTrigger> */}
+              
               <TabsTrigger
                 value="subcategories"
                 className={`flex items-center gap-2 ${

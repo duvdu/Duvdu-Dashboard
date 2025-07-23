@@ -6,6 +6,7 @@ import {
 } from "@/types/rbac";
 import {
   Calendar,
+  CreditCard,
   FileText,
   GitBranch,
   Home,
@@ -115,6 +116,12 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     icon: Users,
     label: "Admins",
     requiredPermissions: [PERMISSION_KEYS.ADMINS.VIEW],
+  },
+  {
+    path: "/dashboard/transactions",
+    icon: CreditCard,
+    label: "Transactions",
+    // requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
   },
 ];
 

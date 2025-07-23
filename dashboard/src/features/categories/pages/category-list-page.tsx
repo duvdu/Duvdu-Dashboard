@@ -11,12 +11,13 @@ import { getCategories } from "../api/category.api";
 import { useCategoryColumns } from "../columns/category-columns";
 
 function CategoryListPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const keyword = searchParams.get("keyword") || "";
   const page = +searchParams.get("page") || 1;
   const limit = +searchParams.get("limit") || 10;
   const cycle = searchParams.get("cycle") || "";
   const status = searchParams.get("status") || "";
+  const isRelated = searchParams.get("isRelated") || "";
   const {
     data: categoriesData,
     isLoading: loading,
@@ -25,7 +26,19 @@ function CategoryListPage() {
   } = useQuery({
     queryKey: ["categories", keyword, page, limit, cycle, status],
     queryFn: () =>
-      getCategories({ search: keyword, page, limit, cycle, status }),
+      getCategories({
+        search: keyword,
+        page,
+        limit,
+        cycle,
+        status,
+        isRelated:
+          isRelated === "true"
+            ? true
+            : isRelated === "false"
+            ? false
+            : undefined,
+      }),
   });
   const categories = categoriesData?.data || [];
   const pagesCount = categoriesData?.pagination.totalPages || 0;
@@ -55,17 +68,17 @@ function CategoryListPage() {
       ],
       placeholder: "Select Status",
     },
+    {
+      key: "isRelated",
+      label: "Type",
+      type: "select",
+      options: [
+        { label: "Related Category", value: "true" },
+        { label: "Main Category", value: "false" },
+      ],
+    },
   ];
-  const filterValues = { cycle, status, keyword };
-  const handleFiltersChange = (vals: Record<string, unknown>) => {
-    const newParams = new URLSearchParams(searchParams);
-    Object.entries(vals).forEach(([key, value]) => {
-      if (value) newParams.set(key, value as string);
-      else newParams.delete(key);
-    });
-    newParams.set("page", "1");
-    setSearchParams(newParams);
-  };
+  const filterValues = { cycle, status, keyword, isRelated };
 
   return (
     <DashboardLayout className="space-y-6">
@@ -94,7 +107,6 @@ function CategoryListPage() {
           limit={limit}
           filters={filters}
           filterValues={filterValues}
-          onFiltersChange={handleFiltersChange}
         />
       </ProtectedComponent>
     </DashboardLayout>

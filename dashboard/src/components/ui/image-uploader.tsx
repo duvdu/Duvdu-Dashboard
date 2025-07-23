@@ -127,8 +127,8 @@ export function ImageUploader({
         {preview ? (
           <div className="relative">
             <MediaPreview
-              className="h-32 w-full rounded-md object-cover"
-              imageClassName="object-cover w-full"
+              className="h-32 aspect-square rounded-md object-cover"
+              imageClassName="object-cover aspect-square"
               src={preview}
             />
 
