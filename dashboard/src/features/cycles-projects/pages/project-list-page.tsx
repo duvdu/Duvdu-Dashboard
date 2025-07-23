@@ -3,6 +3,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { DataTable } from "@/components/ui/data-table";
 import { type FilterDefinition } from "@/components/ui/filters";
 import { getCategories } from "@/features/categories/api/category.api";
+import { UserSearchSelect } from "@/features/chat/components/UserSearchSelect";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { getProjects } from "../api/project.api";
@@ -19,6 +20,7 @@ function ProjectListPage() {
   const endDate = searchParams.get("endDate") || "";
   const sortOrder = searchParams.get("sortOrder") || "";
   const showOnHome = searchParams.get("showOnHome") || "";
+  const user = searchParams.get("user") || "";
 
   const filters: ProjectFilters = {
     search,
@@ -29,6 +31,7 @@ function ProjectListPage() {
     endDate: endDate || undefined,
     showOnHome: showOnHome || undefined,
     sortOrder: (sortOrder as ProjectFilters["sortOrder"]) || undefined,
+    user: user || undefined,
   };
 
   const {
@@ -53,6 +56,19 @@ function ProjectListPage() {
 
   const filterDefinitions: FilterDefinition[] = [
     {
+      key: "user",
+      label: "User",
+      type: "custom",
+      customComponent: (
+        <UserSearchSelect
+          selectedUserId={user}
+          onSelectUser={(user) => {
+            setSearchParams({ user: user?._id || "" });
+          }}
+        />
+      ),
+    },
+    {
       key: "category",
       label: "Category",
       type: "select",
@@ -62,6 +78,7 @@ function ProjectListPage() {
       })),
       placeholder: "Select Category",
     },
+
     {
       key: "startDate",
       label: "Start Date",

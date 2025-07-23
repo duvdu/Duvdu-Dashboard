@@ -101,7 +101,7 @@ export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
       header: "Actions",
       cell: ({ row }) => {
         const status = row.original.status;
-        if (status !== "success") return null;
+        if (status !== "success") return "--";
         return (
           <Button
             variant="default"

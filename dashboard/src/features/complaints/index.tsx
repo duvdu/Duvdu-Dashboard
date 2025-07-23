@@ -1,1 +1,2 @@
-// Dashboard feature entry point (empty for now)
+// Complaints feature entry point
+export { default as ContractComplaintsPanel } from "./components/ContractComplaintsPanel";

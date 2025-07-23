@@ -9,6 +9,7 @@ import { ApproveProjectModal } from "@/features/cycles-projects/components/Appro
 import { DeleteProjectModal } from "@/features/cycles-projects/components/DeleteProjectModal";
 import { PauseProjectModal } from "@/features/cycles-projects/components/PauseProjectModal";
 import { RejectProjectModal } from "@/features/cycles-projects/components/RejectProjectModal";
+import { CreateFundTransactionModal } from "@/features/fund-transactions/components/CreateFundTransactionModal";
 import { DeleteProjectReportModal } from "@/features/project-reports/components/DeleteProjectReportModal";
 import { DeleteProjectReviewModal } from "@/features/project-reviews/components/DeleteProjectReviewModal";
 import { CreateRoleModal } from "@/features/roles/components/CreateRoleModal";
@@ -60,6 +61,7 @@ export const ModalProvider = () => {
     deleteProjectReport: <DeleteProjectReportModal />,
     deleteContractReview: <DeleteContractReviewModal />,
     fundTransaction: <FundTransactionModal />,
+    createFundTransaction: <CreateFundTransactionModal />,
   };
 
   return <>{type && modals[type]}</>;

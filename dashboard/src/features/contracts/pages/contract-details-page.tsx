@@ -9,6 +9,7 @@ import { MediaPreview } from "@/components/ui/media-preview";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ContractComplaintsPanel from "@/features/complaints/components/ContractComplaintsPanel";
 import ContractReviewsPanel from "@/features/contract-reviews/components/ContractReviewsPanel";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -253,9 +254,10 @@ export default function ContractDetailsPage() {
       </div>
 
       <Tabs defaultValue="overview" className="w-full mt-4">
-        <TabsList className="grid w-full grid-cols-2 mb-6">
+        <TabsList className="grid w-full grid-cols-3 mb-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
+          <TabsTrigger value="complaints">Complaints</TabsTrigger>
         </TabsList>
         <TabsContent value="overview">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -264,9 +266,16 @@ export default function ContractDetailsPage() {
               {/* Project Overview */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Briefcase className="w-5 h-5" />
-                    Project Overview
+                  <CardTitle className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <Briefcase className="w-5 h-5" />
+                      Project Overview
+                    </div>
+                    <Button variant="link" size="sm" asChild>
+                      <Link to={`/dashboard/projects/${data.contract.project}`}>
+                        View Project Details
+                      </Link>
+                    </Button>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -739,6 +748,11 @@ export default function ContractDetailsPage() {
         <TabsContent value="reviews">
           <div className="py-4">
             <ContractReviewsPanel id={data.contract._id} />
+          </div>
+        </TabsContent>
+        <TabsContent value="complaints">
+          <div className="py-4">
+            <ContractComplaintsPanel id={data.contract._id} />
           </div>
         </TabsContent>
       </Tabs>

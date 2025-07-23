@@ -53,6 +53,7 @@ export type ContractDetails = {
   location: { lat: number; lng: number };
   address: string;
   attachments: string[];
+  ticketNumber: string;
   projectScale: ProjectScale;
   appointmentDate: string;
   totalPrice: number;

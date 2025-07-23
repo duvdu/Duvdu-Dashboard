@@ -10,6 +10,7 @@ export const getComplaints = async (filters: {
   startDate?: string;
   endDate?: string;
   reporter?: string;
+  contract?: string;
 }) => {
   const { data } = await axios.get("/api/contracts/complaints/crm", {
     params: filters,

@@ -15,7 +15,7 @@ export default function TransactionsListPage() {
   const status = getQueryParam("status") || "";
   const type = getQueryParam("type") || "";
   const page = parseInt(getQueryParam("page") || "1");
-  const limit = parseInt(getQueryParam("limit") || "5");
+  const limit = parseInt(getQueryParam("limit") || "10");
   const from = getQueryParam("from") || "";
   const to = getQueryParam("to") || "";
   const user = getQueryParam("user") || "";
@@ -122,6 +122,7 @@ export default function TransactionsListPage() {
         limit={limit}
         filters={filterDefinitions}
         filterValues={filterValues}
+        tableId="transactions"
       />
     </DashboardLayout>
   );

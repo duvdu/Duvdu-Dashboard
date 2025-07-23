@@ -46,6 +46,7 @@ export const fundTransaction = async (
   const formData = new FormData();
   formData.append("fundingAmount", fundingAmount.toString());
   if (attachment) {
+    console.log("attachment", attachment);
     formData.append("fundAttachment", attachment);
   }
   const { data } = await axios.patch(

@@ -9,3 +9,12 @@ export async function updatePayoutMethodStatus(payoutMethodId, status) {
   );
   return data;
 }
+
+export async function getAllPayoutMethods({ user }) {
+  const { data } = await api.get("/api/users/withdraw/crm", {
+    params: {
+      user,
+    },
+  });
+  return data;
+}

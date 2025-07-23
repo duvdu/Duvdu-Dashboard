@@ -69,6 +69,12 @@ export const PERMISSION_KEYS = {
   NOTIFICATIONS: {
     SEND: "send-notification-to-users",
   },
+  FUND_TRANSACTIONS: {
+    VIEW: "list-fund-transactions",
+    CREATE: "create-fund-transaction",
+    UPDATE: "update-fund-transaction",
+    DELETE: "remove-fund-transaction",
+  },
 } as const;
 
 export function hasPermission(

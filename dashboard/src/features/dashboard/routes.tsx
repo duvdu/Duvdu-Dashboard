@@ -12,6 +12,7 @@ import { complaintRoutes } from "../complaints/routes";
 import { contractRoutes } from "../contracts/routes";
 import { customPageRoutes } from "../custom-pages/routes";
 import { projectRoutes } from "../cycles-projects/routes";
+import { fundTransactionRoutes } from "../fund-transactions/routes";
 import { rolesRoutes } from "../roles/routes";
 import { ticketRoutes } from "../tickets/routes";
 import { transactionsRoutes } from "../transactions/routes";
@@ -115,6 +116,11 @@ export const dashboardRoutes = [
     path: "transactions",
     element: <Outlet />,
     children: transactionsRoutes,
+  },
+  {
+    path: "fund-transactions",
+    element: <Outlet />,
+    children: fundTransactionRoutes,
   },
   {
     path: "*",

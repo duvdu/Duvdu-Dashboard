@@ -123,6 +123,18 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     label: "Transactions",
     // requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
   },
+  {
+    path: "/dashboard/fund-transactions",
+    icon: CreditCard,
+    label: "Fund Transactions",
+    // requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
+  },
+  {
+    path: "/dashboard/custom-pages",
+    icon: FileText,
+    label: "Custom Pages",
+    // requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
+  },
 ];
 
 // Default theme for dynamic roles

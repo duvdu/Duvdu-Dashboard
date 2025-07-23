@@ -104,12 +104,9 @@ export const useContractColumns = ({
         : "-",
   },
   {
-    accessorKey: "contract.appointmentDate",
-    header: "Appointment Date",
-    cell: ({ row }) =>
-      row.original.contract.appointmentDate
-        ? new Date(row.original.contract.appointmentDate).toLocaleDateString()
-        : "-",
+    accessorKey: "contract.ticketNumber",
+    header: "Contract Number",
+    cell: ({ row }) => row.original.contract.ticketNumber || "--",
   },
   {
     accessorKey: "contract.deadline",

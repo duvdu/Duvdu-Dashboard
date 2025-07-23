@@ -25,7 +25,7 @@ const fundTransactionSchema = (maxAmount: number) =>
         maxAmount,
         `Amount cannot exceed the transaction amount (${maxAmount})`
       ),
-    attachment: z.any().optional(),
+    fundAttachment: z.any().optional(),
   });
 
 type FundTransactionForm = z.infer<ReturnType<typeof fundTransactionSchema>>;
@@ -37,13 +37,17 @@ export function FundTransactionModal() {
 
   const form = useForm<FundTransactionForm>({
     resolver: zodResolver(fundTransactionSchema(maxAmount)),
-    defaultValues: { fundingAmount: 0, attachment: undefined },
+    defaultValues: { fundingAmount: 0, fundAttachment: undefined },
   });
 
   const { mutateAsync: fundTransactionMutation, isPending } = useMutation({
     mutationFn: async (values: FundTransactionForm) => {
       if (!data?.id) throw new Error("No transaction ID");
-      return fundTransaction(data.id, values.fundingAmount, values.attachment);
+      return fundTransaction(
+        data.id,
+        values.fundingAmount,
+        values.fundAttachment?.[0]
+      );
     },
     onSuccess: () => {
       toast.success("Transaction funded successfully");
@@ -89,12 +93,12 @@ export function FundTransactionModal() {
           <Input
             type="file"
             accept="*"
-            {...form.register("attachment")}
+            {...form.register("fundAttachment")}
             disabled={isPending}
           />
-          {form.formState.errors.attachment && (
+          {form.formState.errors.fundAttachment && (
             <span className="text-destructive text-xs">
-              {form.formState.errors.attachment?.message as string}
+              {form.formState.errors.fundAttachment?.message as string}
             </span>
           )}
           <DialogFooter className="flex gap-2 justify-center">
