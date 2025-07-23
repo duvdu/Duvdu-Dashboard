@@ -37,3 +37,25 @@ export const getTransactions = async ({
   );
   return data;
 };
+
+export const fundTransaction = async (
+  transactionId: string,
+  fundingAmount: number,
+  attachment?: File
+) => {
+  const formData = new FormData();
+  formData.append("fundingAmount", fundingAmount.toString());
+  if (attachment) {
+    formData.append("fundAttachment", attachment);
+  }
+  const { data } = await axios.patch(
+    `/api/payment/transactions/crm/${transactionId}`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  return data;
+};

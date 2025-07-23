@@ -4,11 +4,11 @@ import { CreateAdminModal } from "@/features/admins/components/CreateAdminModal"
 import { UpdateAdminModal } from "@/features/admins/components/UpdateAdminModal";
 import { DeleteCategoryModal } from "@/features/categories/components/DeleteCategoryModal";
 import { FeedbackModal } from "@/features/complaints/components/FeedbackModal";
+import { DeleteContractReviewModal } from "@/features/contract-reviews/components/DeleteContractReviewModal";
 import { ApproveProjectModal } from "@/features/cycles-projects/components/ApproveProjectModal";
 import { DeleteProjectModal } from "@/features/cycles-projects/components/DeleteProjectModal";
 import { PauseProjectModal } from "@/features/cycles-projects/components/PauseProjectModal";
 import { RejectProjectModal } from "@/features/cycles-projects/components/RejectProjectModal";
-import { DeleteContractReviewModal } from "@/features/contract-reviews/components/DeleteContractReviewModal";
 import { DeleteProjectReportModal } from "@/features/project-reports/components/DeleteProjectReportModal";
 import { DeleteProjectReviewModal } from "@/features/project-reviews/components/DeleteProjectReviewModal";
 import { CreateRoleModal } from "@/features/roles/components/CreateRoleModal";
@@ -16,6 +16,7 @@ import DeleteRoleModal from "@/features/roles/components/DeleteRoleModal";
 import { UpdateRoleModal } from "@/features/roles/components/UpdateRoleModal";
 import { DeleteTicketModal } from "@/features/tickets/components/DeleteTicketModal";
 import { FeedbackModal as TicketFeedbackModal } from "@/features/tickets/components/FeedbackModal";
+import { FundTransactionModal } from "@/features/transactions/components/FundTransactionModal";
 import { ActivateDeactivatePayoutMethodModal } from "@/features/users/components/ActivateDeactivatePayoutMethodModal";
 import { BlockUnblockUserModal } from "@/features/users/components/BlockUnblockUserModal";
 import { DeleteUserModal } from "@/features/users/components/DeleteUserModal";
@@ -58,6 +59,7 @@ export const ModalProvider = () => {
     deleteProjectReview: <DeleteProjectReviewModal />,
     deleteProjectReport: <DeleteProjectReportModal />,
     deleteContractReview: <DeleteContractReviewModal />,
+    fundTransaction: <FundTransactionModal />,
   };
 
   return <>{type && modals[type]}</>;

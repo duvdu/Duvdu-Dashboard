@@ -1,11 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useModal } from "@/store/modal-store";
 import { type ColumnDef } from "@tanstack/react-table";
 import { ExternalLinkIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { type Transaction } from "../types/transaction.types";
 
 export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
+  const { onOpen } = useModal();
   return [
     {
       accessorKey: "type",
@@ -46,6 +48,19 @@ export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
       },
     },
     {
+      accessorKey: "fundingAmount",
+      header: "Funded Amount",
+      cell: ({ row }) => {
+        const fundingAmount = row.original.fundingAmount;
+        const currency = row.original.currency;
+        return (
+          <span className="truncate block max-w-xs">
+            {fundingAmount} {currency}
+          </span>
+        );
+      },
+    },
+    {
       accessorKey: "contract",
       header: "Contract",
       cell: ({ row }) => (
@@ -69,6 +84,8 @@ export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
         const variant =
           status === "success"
             ? "success"
+            : status === "funded"
+            ? "default"
             : status === "failed"
             ? "destructive"
             : "secondary";
@@ -79,10 +96,27 @@ export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
         );
       },
     },
-    // {
-    //   accessorKey: "model",
-    //   header: "Model",
-    //   cell: ({ row }) => row.original.model || "-",
-    // },
+    {
+      id: "actions",
+      header: "Actions",
+      cell: ({ row }) => {
+        const status = row.original.status;
+        if (status !== "success") return null;
+        return (
+          <Button
+            variant="default"
+            size="sm"
+            onClick={() =>
+              onOpen("fundTransaction", {
+                id: row.original._id,
+                amount: row.original.amount,
+              })
+            }
+          >
+            Fund
+          </Button>
+        );
+      },
+    },
   ];
 };

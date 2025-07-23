@@ -8,9 +8,10 @@ export interface Transaction {
   amount: number;
   user: User;
   contract: string;
-  status: "pending" | "success" | "failed";
+  status: "pending" | "success" | "failed" | "funded";
   model: string;
   timeStamp: string;
+  fundingAmount?: number;
 }
 
 export interface Pagination {

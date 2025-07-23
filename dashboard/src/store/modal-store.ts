@@ -25,7 +25,8 @@ export type ModalType =
   | "deleteTicket"
   | "deleteProjectReview"
   | "deleteProjectReport"
-  | "deleteContractReview";
+  | "deleteContractReview"
+  | "fundTransaction";
 
 export interface ModalData {
   id?: string;
