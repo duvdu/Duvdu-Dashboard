@@ -21,7 +21,7 @@ export default function CustomPageListPage() {
     <DashboardLayout loading={isLoading}>
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          <h1>CustomPages</h1>
+          <h1>Custom Pages</h1>
           <Link to="/dashboard/custom-pages/create">
             <Button>
               <PlusIcon className="w-4 h-4" />
