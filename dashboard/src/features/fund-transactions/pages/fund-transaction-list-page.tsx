@@ -22,6 +22,7 @@ export default function FundTransactionListPage() {
   const fundAmountTo = getQueryParam("fundAmountTo") || "";
   const createdAtFrom = getQueryParam("createdAtFrom") || "";
   const createdAtTo = getQueryParam("createdAtTo") || "";
+  const contract = getQueryParam("contract") || "";
 
   const filterValues = {
     status: status,
@@ -31,6 +32,7 @@ export default function FundTransactionListPage() {
     fundAmountTo: fundAmountTo,
     createdAtFrom: createdAtFrom,
     createdAtTo: createdAtTo,
+    contract: contract,
   };
 
   const { data, isLoading, error } = useQuery({
@@ -44,9 +46,9 @@ export default function FundTransactionListPage() {
         fundAmountTo: fundAmountTo ? parseFloat(fundAmountTo) : undefined,
         createdAtFrom: createdAtFrom || undefined,
         createdAtTo: createdAtTo || undefined,
+        ticketNumber: contract || undefined,
       }),
   });
-
   const columns = useFundTransactionColumns();
 
   const filterDefinition: FilterDefinition[] = [
@@ -74,6 +76,12 @@ export default function FundTransactionListPage() {
       key: "createdAtTo",
       type: "date",
     },
+    {
+      label: "Contract",
+      placeholder: "Select by Contract ID",
+      key: "contract",
+      type: "text",
+    },
   ];
 
   if (error) {
@@ -83,7 +91,7 @@ export default function FundTransactionListPage() {
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
             {error.response?.data?.errors?.[0]?.message ||
-              "An error occurred while fetching the fund transactions"}
+              "An error occurred while fetching the payout"}
           </AlertDescription>
         </Alert>
       </DashboardLayout>
@@ -93,14 +101,14 @@ export default function FundTransactionListPage() {
   return (
     <DashboardLayout className="space-y-4">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Users</h1>
+        <h1 className="text-2xl font-bold">Payouts</h1>
         <div className="flex gap-2">
           <ProtectedComponent
             permissionKeys={[PERMISSION_KEYS.FUND_TRANSACTIONS.CREATE]}
           >
             <Button onClick={() => onOpen("createFundTransaction")}>
               <PlusIcon className="w-4 h-4" />
-              Create Fund Transaction
+              Create Payout
             </Button>
           </ProtectedComponent>
         </div>
@@ -111,6 +119,7 @@ export default function FundTransactionListPage() {
         loading={isLoading}
         filters={filterDefinition}
         filterValues={filterValues}
+        disableSearch
         tableId="fund-transactions"
         limit={limit}
         page={page}

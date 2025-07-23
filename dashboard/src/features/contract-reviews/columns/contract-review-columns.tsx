@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/store/modal-store";
 import { type ColumnDef } from "@tanstack/react-table";
@@ -10,9 +11,24 @@ export const useContractReviewColumns = (
   const { onOpen } = useModal();
   return [
     {
-      accessorKey: "title",
-      header: "Title",
-      cell: ({ row }) => row.original.comment,
+      accessorKey: "comment",
+      header: "Comment",
+      cell: ({ row }) => row.original.comment?.slice(0, 100) || "-",
+    },
+
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => (
+        <Badge variant={row.original.status ? "default" : "destructive"}>
+          {row.original.status ? "Approved" : "Rejected"}
+        </Badge>
+      ),
+    },
+    {
+      accessorKey: "rate",
+      header: "Rate",
+      cell: ({ row }) => row.original.rate || "-",
     },
     {
       accessorKey: "createdAt",

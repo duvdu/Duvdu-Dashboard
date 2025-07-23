@@ -11,6 +11,8 @@ export const getFundTransactions = async (filters: {
   fundAmountTo?: number;
   createdAtFrom?: string;
   createdAtTo?: string;
+  ticketNumber?: string;
+  contract?: string;
 }) => {
   const { data } = await axios.get("/api/payment/funding-transactions/crm", {
     params: filters,

@@ -1,3 +1,5 @@
+import type { User } from "@/features/chat";
+
 export type FundTransaction = {
   _id?: string;
   fundAmount: number;
@@ -5,5 +7,6 @@ export type FundTransaction = {
   fundAttachment?: string;
   status: "pending" | "success" | "failed";
   createdAt?: string;
-  user?: string;
+  user?: User;
+  ticketNumber?: string;
 };

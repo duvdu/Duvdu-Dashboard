@@ -146,7 +146,7 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
       {
         path: "/dashboard/fund-transactions",
         icon: BadgeCent,
-        label: "Fund Transactions",
+        label: "Payouts",
         requiredPermissions: [PERMISSION_KEYS.FUND_TRANSACTIONS.VIEW],
       },
     ],

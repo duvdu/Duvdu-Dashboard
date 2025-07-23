@@ -56,8 +56,7 @@ export function FundTransactionModal() {
     },
     onError: (error) => {
       toast.error(
-        error?.response?.data?.errors?.[0]?.message ||
-          "Failed to fund transaction"
+        error?.response?.data?.errors?.[0]?.message || "Failed to payout"
       );
     },
   });
@@ -72,7 +71,7 @@ export function FundTransactionModal() {
     <Dialog open={isModalOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="min-w-[24vw] gap-8 rounded-3xl text-center">
         <DialogHeader>
-          <DialogTitle>Fund Transaction</DialogTitle>
+          <DialogTitle>Payout</DialogTitle>
           <DialogDescription>
             Enter the amount to fund this transaction.
           </DialogDescription>

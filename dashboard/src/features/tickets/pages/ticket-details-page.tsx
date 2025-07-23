@@ -122,9 +122,7 @@ export default function TicketDetailsPage() {
             {!isClosed && !hasFeedback && (
               <div className="sticky bottom-0 pt-2 pb-1 z-20 flex justify-end">
                 <Button
-                  onClick={() =>
-                    onOpen("addTicketFeedback", { id: ticket._id })
-                  }
+                  onClick={() => onOpen("addTicketFeedback", { id: ticket.id })}
                   className="w-full md:w-auto"
                 >
                   Add Feedback

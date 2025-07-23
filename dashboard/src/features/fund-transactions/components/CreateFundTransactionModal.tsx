@@ -20,13 +20,13 @@ export function CreateFundTransactionModal() {
       mutationFn: (formData: FormData) => createFundTransaction(formData),
       mutationKey: ["fund-transactions", "create"],
       onSuccess: () => {
-        toast.success("Fund Transaction created successfully");
+        toast.success("Payout created successfully");
         handleClose();
       },
       onError: (error) => {
         toast.error(
           error?.response?.data?.errors?.[0]?.message ||
-            "Failed to create fund transaction"
+            "Failed to create payout"
         );
       },
     }
@@ -52,7 +52,7 @@ export function CreateFundTransactionModal() {
     <Dialog open={isModalOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="min-w-[24vw] gap-8 rounded-3xl text-center">
         <DialogHeader>
-          <DialogTitle>Create Fund Transaction</DialogTitle>
+          <DialogTitle>Create Payout</DialogTitle>
         </DialogHeader>
 
         <FundTransactionForm

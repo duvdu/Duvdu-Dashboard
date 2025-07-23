@@ -12,6 +12,11 @@ export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
   const { onOpen } = useModal();
   return [
     {
+      accessorKey: "ticketNumber",
+      header: "Transaction Number",
+      cell: ({ row }) => row.original?.ticketNumber || "-",
+    },
+    {
       accessorKey: "type",
       header: "Type",
       cell: ({ row }) => {

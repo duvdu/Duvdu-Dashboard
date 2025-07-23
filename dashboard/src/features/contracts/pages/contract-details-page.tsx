@@ -41,6 +41,7 @@ import {
 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { getContractById } from "../api/contract.api";
+import ContractsFundTransactionsPanel from "../components/ContractsFundTransactionsPanel";
 
 const getStatusColor = (status: string) => {
   switch (status?.toLowerCase()) {
@@ -254,8 +255,9 @@ export default function ContractDetailsPage() {
       </div>
 
       <Tabs defaultValue="overview" className="w-full mt-4">
-        <TabsList className="grid w-full grid-cols-3 mb-6">
+        <TabsList className="grid w-full grid-cols-4 mb-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="fund-transactions">Payouts</TabsTrigger>
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
           <TabsTrigger value="complaints">Complaints</TabsTrigger>
         </TabsList>
@@ -751,6 +753,11 @@ export default function ContractDetailsPage() {
                 </CardContent>
               </Card>
             </div>
+          </div>
+        </TabsContent>
+        <TabsContent value="fund-transactions">
+          <div className="py-4">
+            <ContractsFundTransactionsPanel contractId={data.contract._id} />
           </div>
         </TabsContent>
         <TabsContent value="reviews">

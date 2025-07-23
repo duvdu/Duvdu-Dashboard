@@ -32,6 +32,7 @@ type FeedbackSchema = z.infer<typeof feedbackSchema>;
 export function FeedbackModal() {
   const { isOpen, type, onClose, data, refetch } = useModal();
   const isModalOpen = isOpen && type === "addTicketFeedback";
+  console.log("data", data);
   const ticketId = data?.id;
 
   const form = useForm<FeedbackSchema>({

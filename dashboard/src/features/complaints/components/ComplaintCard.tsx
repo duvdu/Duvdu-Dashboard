@@ -46,26 +46,14 @@ function ComplaintCard({ complaint }: { complaint: Complaint }) {
       </CardHeader>
       <CardContent className="flex-1 flex flex-col gap-3 justify-between px-4 py-1">
         <div className="flex flex-col gap-2">
-          {complaint.state
-            .filter((s) => s.feedback)
-            .slice(0, 2)
-            .map((s) => (
-              <Badge
-                key={s.feedback}
-                variant="secondary"
-                className="flex items-center gap-1 text-xs px-2 py-1"
-              >
-                {s.feedback}
-              </Badge>
-            ))}
-          {complaint.state.length > 2 && (
-            <Link
-              to={`/dashboard/complaints/${complaint._id}`}
-              className="text-xs text-muted-foreground"
-            >
-              + {complaint.state.length - 2} more
-            </Link>
-          )}
+          <Badge
+            key={complaint.desc}
+            variant="secondary"
+            className="flex items-center gap-1 text-xs px-2 py-1"
+          >
+            {complaint.desc}
+          </Badge>
+
           <div className="flex items-center gap-3 flex-wrap">
             <Badge
               variant="secondary"

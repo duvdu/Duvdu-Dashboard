@@ -12,6 +12,7 @@ export interface Transaction {
   model: string;
   timeStamp: string;
   fundingAmount?: number;
+  ticketNumber?: string;
 }
 
 export interface Pagination {

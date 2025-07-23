@@ -17,7 +17,7 @@ export default function FundTransactionDetailsPage() {
       <div>Withdraw Method: {data.withdrawMethod}</div>
       <div>Status: {data.status}</div>
       <div>Created At: {data.createdAt}</div>
-      <div>User: {data.user}</div>
+      <div>User: {data.user.name}</div>
       {data.fundAttachment && (
         <div>
           Attachment:{" "}
