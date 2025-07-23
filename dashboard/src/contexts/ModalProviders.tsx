@@ -7,6 +7,7 @@ import { RejectCancelledContractModal } from "@/features/cancelled-contracts/com
 import { DeleteCategoryModal } from "@/features/categories/components/DeleteCategoryModal";
 import { FeedbackModal } from "@/features/complaints/components/FeedbackModal";
 import { DeleteContractReviewModal } from "@/features/contract-reviews/components/DeleteContractReviewModal";
+import { DeleteCustomPageModal } from "@/features/custom-pages/components/DeleteCustomPageModal";
 import { ApproveProjectModal } from "@/features/cycles-projects/components/ApproveProjectModal";
 import { DeleteProjectModal } from "@/features/cycles-projects/components/DeleteProjectModal";
 import { PauseProjectModal } from "@/features/cycles-projects/components/PauseProjectModal";
@@ -68,6 +69,7 @@ export const ModalProvider = () => {
     rejectCancelledContract: <RejectCancelledContractModal />,
     approveCancelledContract: <ApproveCancelledContractModal />,
     deleteRank: <DeleteRankModal />,
+    deleteCustomPage: <DeleteCustomPageModal />,
   };
 
   return <>{type && modals[type]}</>;

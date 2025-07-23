@@ -9,17 +9,35 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useModal } from "@/store/modal-store";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeftIcon, PencilIcon } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { ArrowLeftIcon, PencilIcon, TrashIcon } from "lucide-react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getCustomPageById } from "../api/custom-page.api";
 
 export default function CustomPageDetailsPage() {
   const { id } = useParams();
-  const { data, isLoading } = useQuery({
+  const navigate = useNavigate();
+  const { onOpen } = useModal();
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["custom-page", id],
     queryFn: () => getCustomPageById(id),
   });
+
+  const handleDelete = () => {
+    onOpen(
+      "deleteCustomPage",
+      {
+        id,
+        title: data?.title,
+        name: data?.title?.en,
+      },
+      () => {
+        refetch();
+        navigate("/dashboard/custom-pages");
+      }
+    );
+  };
 
   if (isLoading) return <DashboardLoader />;
 
@@ -57,16 +75,32 @@ export default function CustomPageDetailsPage() {
               {data.title?.en} - {data.title?.ar}
             </CardTitle>
 
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link to={`/dashboard/custom-pages/update/${id}`}>
-                  <Button variant="outline" size="sm" className="gap-1">
-                    <PencilIcon className="w-4 h-4" /> Edit
+            <div className="flex gap-2">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link to={`/dashboard/custom-pages/update/${id}`}>
+                    <Button variant="outline" size="sm" className="gap-1">
+                      <PencilIcon className="w-4 h-4" /> Edit
+                    </Button>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>Edit this page</TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="gap-1 text-destructive hover:text-destructive"
+                    onClick={handleDelete}
+                  >
+                    <TrashIcon className="w-4 h-4" /> Delete
                   </Button>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent>Edit this page</TooltipContent>
-            </Tooltip>
+                </TooltipTrigger>
+                <TooltipContent>Delete this page</TooltipContent>
+              </Tooltip>
+            </div>
           </CardHeader>
           <CardContent className="prose max-w-none min-h-[120px] bg-muted/40 rounded-lg p-4 mt-2">
             <div className="flex flex-col md:flex-row gap-4">
