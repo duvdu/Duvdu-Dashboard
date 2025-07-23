@@ -98,7 +98,7 @@ export function ImageUploader({
   }
 
   return (
-    <div className={cn("space-y-2", className)}>
+    <div className={cn("space-y-2 w-fit", className)}>
       {label && (
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           {label}
@@ -127,7 +127,7 @@ export function ImageUploader({
         {preview ? (
           <div className="relative">
             <MediaPreview
-              className="h-32 aspect-square rounded-md object-cover"
+              className="h-32 w-32 rounded-md object-cover"
               imageClassName="object-cover aspect-square"
               src={preview}
             />

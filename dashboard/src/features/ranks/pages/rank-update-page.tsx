@@ -1,4 +1,5 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import DashboardLoader from "@/components/layout/DashboardLoader";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -27,7 +28,7 @@ export default function RankUpdatePage() {
   async function handleSubmit(values: RankSchema) {
     await mutateAsync(values);
   }
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <DashboardLoader />;
   return (
     <DashboardLayout>
       <div className="flex items-center justify-between mb-4">

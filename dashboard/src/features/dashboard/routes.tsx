@@ -14,11 +14,12 @@ import { contractRoutes } from "../contracts/routes";
 import { customPageRoutes } from "../custom-pages/routes";
 import { projectRoutes } from "../cycles-projects/routes";
 import { fundTransactionRoutes } from "../fund-transactions/routes";
+import { rankRoutes } from "../ranks/routes";
 import { rolesRoutes } from "../roles/routes";
+import { settingsRoutes } from "../settings/routes";
 import { ticketRoutes } from "../tickets/routes";
 import { transactionsRoutes } from "../transactions/routes";
 import { usersRoutes } from "../users/routes";
-import { rankRoutes } from "../ranks/routes";
 
 const DashboardPage = lazy(() => import("./pages/dashboard"));
 
@@ -128,6 +129,11 @@ export const dashboardRoutes = [
     path: "cancelled-contracts",
     element: <Outlet />,
     children: cancelledContractRoutes,
+  },
+  {
+    path: "settings",
+    element: <Outlet />,
+    children: settingsRoutes,
   },
   {
     path: "ranks",

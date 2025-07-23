@@ -1,9 +1,9 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import DashboardLoader from "@/components/layout/DashboardLoader";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader } from "@/components/ui/loader";
 import {
   Tooltip,
   TooltipContent,
@@ -21,15 +21,7 @@ export default function CustomPageDetailsPage() {
     queryFn: () => getCustomPageById(id),
   });
 
-  if (isLoading)
-    return (
-      <DashboardLayout>
-        <div className="flex flex-col items-center justify-center min-h-[60vh]">
-          <Loader className="w-10 h-10 mb-4" />
-          <span className="text-muted-foreground">Loading page details...</span>
-        </div>
-      </DashboardLayout>
-    );
+  if (isLoading) return <DashboardLoader />;
 
   if (!data)
     return (

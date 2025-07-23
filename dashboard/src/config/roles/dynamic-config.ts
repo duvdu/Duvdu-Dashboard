@@ -15,6 +15,7 @@ import {
   Landmark,
   Medal,
   MessageCircleMore,
+  Settings,
   Shield,
   Star,
   StickyNote,
@@ -165,6 +166,12 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     icon: Users,
     label: "Admins",
     requiredPermissions: [PERMISSION_KEYS.ADMINS.VIEW],
+  },
+  {
+    path: "/dashboard/settings",
+    icon: Settings,
+    label: "Settings",
+    // requiredPermissions: [PERMISSION_KEYS.SETTINGS.VIEW],
   },
 ];
 
