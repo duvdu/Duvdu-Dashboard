@@ -20,6 +20,7 @@ export default function TransactionsListPage() {
   const to = getQueryParam("to") || "";
   const user = getQueryParam("user") || "";
   const isSubscription = getQueryParam("isSubscription") || "";
+  const ticketNumber = getQueryParam("ticketNumber") || "";
 
   const filterValues = {
     status: status,
@@ -30,6 +31,7 @@ export default function TransactionsListPage() {
     limit: limit,
     user: user,
     isSubscription: isSubscription,
+    ticketNumber: ticketNumber,
   };
 
   const {
@@ -47,6 +49,7 @@ export default function TransactionsListPage() {
         from: from || undefined,
         to: to || undefined,
         user: user || undefined,
+        ticketNumber: ticketNumber || undefined,
         isSubscribed:
           isSubscription === "true"
             ? true
@@ -60,6 +63,12 @@ export default function TransactionsListPage() {
 
   // Filter definitions
   const filterDefinitions: FilterDefinition[] = [
+    {
+      key: "ticketNumber",
+      placeholder: "Search by Ticket Number",
+      label: "Ticket Number",
+      type: "text",
+    },
     {
       key: "user",
       label: "User",
@@ -138,6 +147,7 @@ export default function TransactionsListPage() {
         page={page}
         limit={limit}
         filters={filterDefinitions}
+        disableSearch
         filterValues={filterValues}
         tableId="transactions"
       />

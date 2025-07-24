@@ -37,7 +37,7 @@ export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
       header: "User",
       cell: ({ row }) => (
         <span className="truncate block max-w-xs">
-          {row.original.user.name || "-"}
+          {row.original.user?.name || "-"}
         </span>
       ),
     },
