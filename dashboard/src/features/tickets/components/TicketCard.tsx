@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 function TicketCard({ ticket }: { ticket: any }) {
   const isClosed = ticket.state?.isClosed;
-  const hasFeedback = Boolean(ticket.state?.feedback);
 
   return (
     <Card
@@ -45,15 +44,14 @@ function TicketCard({ ticket }: { ticket: any }) {
       </CardHeader>
       <CardContent className="flex-1 flex flex-col gap-3 justify-between px-4 py-1">
         <div className="flex flex-col gap-2">
-          {hasFeedback && (
-            <Badge
-              variant="secondary"
-              className="flex items-center gap-1 text-xs px-2 py-1"
-            >
-              {ticket.state.feedback}
-            </Badge>
-          )}
-          <div className="text-sm mt-2 break-words">{ticket.message}</div>
+          <Badge
+            variant="secondary"
+            className="flex items-center gap-1 text-xs px-2 py-1"
+          >
+            {ticket?.message}
+          </Badge>
+
+          {/* <div className="text-sm mt-2 break-words">{ticket.message}</div> */}
           {ticket.ticketNumber && (
             <Badge variant="default" className="text-xs px-2 py-1 mt-2">
               Ticket Number: {ticket.ticketNumber}
