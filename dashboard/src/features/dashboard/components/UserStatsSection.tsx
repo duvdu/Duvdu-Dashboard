@@ -29,6 +29,7 @@ export const UserStatsSection: React.FC<{
   userStats: UserStats;
   topUsers: any;
 }> = ({ userStats, topUsers }) => {
+  // Use the color property (now mapped to theme variables)
   const chartData = userStats.usersByRank.map((item) => ({
     name: item.rank,
     value: item.count,

@@ -43,6 +43,8 @@ import { Link, useParams } from "react-router-dom";
 import { getContractById } from "../api/contract.api";
 import ContractsFundTransactionsPanel from "../components/ContractsFundTransactionsPanel";
 import ContractsTransactionsPanel from "../components/ContractsTransactionsPanel";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
+import { PERMISSION_KEYS } from "@/config/permissions";
 
 const getStatusColor = (status: string) => {
   switch (status?.toLowerCase()) {
@@ -258,10 +260,26 @@ export default function ContractDetailsPage() {
       <Tabs defaultValue="overview" className="w-full mt-4">
         <TabsList className="grid w-full grid-cols-5 mb-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="transactions">Transactions</TabsTrigger>
-          <TabsTrigger value="fund-transactions">Payouts</TabsTrigger>
-          <TabsTrigger value="reviews">Reviews</TabsTrigger>
-          <TabsTrigger value="complaints">Complaints</TabsTrigger>
+          <ProtectedComponent
+            permissionKeys={[PERMISSION_KEYS.TRANSACTIONS.VIEW]}
+          >
+            <TabsTrigger value="transactions">Transactions</TabsTrigger>
+          </ProtectedComponent>
+          <ProtectedComponent
+            permissionKeys={[PERMISSION_KEYS.FUND_TRANSACTIONS.VIEW]}
+          >
+            <TabsTrigger value="fund-transactions">Payouts</TabsTrigger>
+          </ProtectedComponent>
+          <ProtectedComponent
+            permissionKeys={[PERMISSION_KEYS.CONTRACTS_REVIEWS.VIEW]}
+          >
+            <TabsTrigger value="reviews">Reviews</TabsTrigger>
+          </ProtectedComponent>
+          <ProtectedComponent
+            permissionKeys={[PERMISSION_KEYS.COMPLAINTS.VIEW]}
+          >
+            <TabsTrigger value="complaints">Complaints</TabsTrigger>
+          </ProtectedComponent>
         </TabsList>
         <TabsContent value="overview">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -611,6 +629,17 @@ export default function ContractDetailsPage() {
                         )}
                       </div>
                     </div>
+                    <MediaPreview
+                      src={customer.faceRecognition}
+                      alt={`${customer.name} Verification`}
+                      trigger={
+                        <Button variant="outline" size="sm" className="mt-2">
+                          Show Verification Image
+                        </Button>
+                      }
+                      preview
+                      className="w-48 h-48 rounded-lg object-cover"
+                    />
                   </div>
 
                   <Separator />
@@ -673,6 +702,17 @@ export default function ContractDetailsPage() {
                         )}
                       </div>
                     </div>
+                    <MediaPreview
+                      src={sp.faceRecognition}
+                      alt={`${sp.name} Verification`}
+                      preview
+                      trigger={
+                        <Button variant="outline" size="sm" className="mt-2">
+                          Show Verification Image
+                        </Button>
+                      }
+                      className="w-48 h-48 rounded-lg object-cover"
+                    />
                   </div>
 
                   <Separator />

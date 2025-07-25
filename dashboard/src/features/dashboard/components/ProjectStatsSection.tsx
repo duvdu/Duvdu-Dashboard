@@ -29,19 +29,14 @@ export const ProjectStatsSection: React.FC<{ projectStats: ProjectStats }> = ({
       color: "var(--chart-1)",
     },
   };
-  // Dummy trend for now
-  const trend = "up";
-  const trendValue = "+5.2%";
   return (
     <section className="mb-10">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-1">
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+        <div className="md:col-span-3">
           <StatCard
             title="Total Projects"
             value={projectStats.totalProjects}
             icon={<BarChart3 className="w-6 h-6" />}
-            trend={trend as any}
-            trendValue={trendValue}
             description="All projects created in the system."
           />
         </div>
@@ -61,7 +56,15 @@ export const ProjectStatsSection: React.FC<{ projectStats: ProjectStats }> = ({
                 />
                 <ChartTooltip
                   content={
-                    <ChartTooltipContent labelKey="count" nameKey="date" />
+                    <ChartTooltipContent
+                      labelKey="count"
+                      nameKey="date"
+                      formatter={(value: any, name: string, props: any) => {
+                        return `${new Date(
+                          props.payload.date
+                        ).toLocaleDateString()} - count: ${value}`;
+                      }}
+                    />
                   }
                 />
                 <ChartLegend content={<ChartLegendContent nameKey="date" />} />

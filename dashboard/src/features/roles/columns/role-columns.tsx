@@ -7,6 +7,8 @@ import {
 import { type ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontalIcon, PencilIcon, TrashIcon } from "lucide-react";
 import { type Role } from "../types/role.types";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
+import { PERMISSION_KEYS } from "@/config/permissions";
 
 export const useRoleColumns = (
   onEdit: (role: Role) => void,
@@ -39,22 +41,24 @@ export const useRoleColumns = (
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-40 p-0" align="end">
-            <Button
-              variant="ghost"
-              className="w-full justify-start rounded-none px-3 py-2"
-              onClick={() => onEdit(row.original)}
-            >
-              <PencilIcon className="w-4 h-4" />
-              Edit
-            </Button>
-            <Button
-              variant="ghost"
-              className="w-full justify-start rounded-none px-3 py-2 text-destructive"
-              onClick={() => onDelete(row.original)}
-            >
-              <TrashIcon className="w-4 h-4" />
-              Delete
-            </Button>
+            <ProtectedComponent permissionKey={PERMISSION_KEYS.ROLES.UPDATE}>
+              <Button
+                variant="ghost"
+                className="w-full justify-start rounded-none px-3 py-2"
+                onClick={() => onEdit(row.original)}
+              >
+                <PencilIcon className="w-4 h-4" />
+                Edit
+              </Button>
+              <Button
+                variant="ghost"
+                className="w-full justify-start rounded-none px-3 py-2 text-destructive"
+                onClick={() => onDelete(row.original)}
+              >
+                <TrashIcon className="w-4 h-4" />
+                Delete
+              </Button>
+            </ProtectedComponent>
           </PopoverContent>
         </Popover>
       ),

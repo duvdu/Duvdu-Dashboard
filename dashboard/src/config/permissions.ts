@@ -1,9 +1,9 @@
 import { type Permission, type PermissionResource } from "@/types/rbac";
 
 export const PERMISSION_KEYS = {
-  // DASHBOARD: {
-  //   VIEW: "view-dashboard",
-  // },
+  DASHBOARD: {
+    VIEW: "list-user-analysis",
+  },
   USERS: {
     VIEW: "list-users",
     CREATE: "create-user",
@@ -77,12 +77,27 @@ export const PERMISSION_KEYS = {
   FUND_TRANSACTIONS: {
     VIEW: "list-fund-transactions",
     CREATE: "create-fund-transactions",
+    UPDATE: "update-fund-transactions",
   },
   CUSTOM_PAGES: {
     VIEW: "list-pages",
     CREATE: "create-page",
     UPDATE: "update-page",
     DELETE: "delete-page",
+  },
+  PROJECT_REVIEWS: {
+    VIEW: "list-project-reviews",
+    DELETE: "delete-project-reviews",
+  },
+  CONTRACTS_REVIEWS: {
+    VIEW: "list-contracts-reviews",
+    DELETE: "delete-contracts-reviews",
+  },
+  REPORTS: {
+    VIEW: "list-reports",
+    GET: "get-report",
+    UPDATE: "update-report",
+    DELETE: "delete-report",
   },
   RANKS: {
     VIEW: "list-ranks",

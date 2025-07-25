@@ -49,6 +49,8 @@ import { getProjectById, getProjectPublicUrl } from "../api/project.api";
 import ProjectContractsPanel from "../components/panels/ProjectContractsPanel";
 import ProjectReportsPanel from "../components/panels/ProjectReportsPanel";
 import ProjectReviewsPanel from "../components/panels/ProjectReviewsPanel";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
+import { PERMISSION_KEYS } from "@/config/permissions";
 
 function ProjectDetailsPage() {
   const { id } = useParams();
@@ -136,25 +138,29 @@ function ProjectDetailsPage() {
               <GlobeIcon className="h-4 w-4 " />
             </a>
           </Button>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="outline"
-                  className="text-destructive"
-                  onClick={() =>
-                    onOpen("deleteProject", { id: project._id }, () =>
-                      navigate("/dashboard/projects")
-                    )
-                  }
-                >
-                  <TrashIcon className="h-4 w-4 mr-2" />
-                  Delete
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Delete this project</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <ProtectedComponent
+            permissionKeys={[PERMISSION_KEYS.PROJECTS.DELETE]}
+          >
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="text-destructive"
+                    onClick={() =>
+                      onOpen("deleteProject", { id: project._id }, () =>
+                        navigate("/dashboard/projects")
+                      )
+                    }
+                  >
+                    <TrashIcon className="h-4 w-4 mr-2" />
+                    Delete
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Delete this project</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </ProtectedComponent>
         </div>
       </div>
 
@@ -162,9 +168,17 @@ function ProjectDetailsPage() {
         <TabsList className="grid w-full grid-cols-2 md:grid-cols-5">
           <TabsTrigger value="details">Project Details</TabsTrigger>
           <TabsTrigger value="media">Media</TabsTrigger>
-          <TabsTrigger value="contracts">Contracts</TabsTrigger>
-          <TabsTrigger value="reviews">Reviews</TabsTrigger>
-          <TabsTrigger value="reports">Reports</TabsTrigger>
+          <ProtectedComponent permissionKeys={[PERMISSION_KEYS.CONTRACTS.VIEW]}>
+            <TabsTrigger value="contracts">Contracts</TabsTrigger>
+          </ProtectedComponent>
+          <ProtectedComponent
+            permissionKeys={[PERMISSION_KEYS.PROJECT_REVIEWS.VIEW]}
+          >
+            <TabsTrigger value="reviews">Reviews</TabsTrigger>
+          </ProtectedComponent>
+          <ProtectedComponent permissionKeys={[PERMISSION_KEYS.REPORTS.VIEW]}>
+            <TabsTrigger value="reports">Reports</TabsTrigger>
+          </ProtectedComponent>
         </TabsList>
 
         <TabsContent value="details" className="space-y-8 mt-6">

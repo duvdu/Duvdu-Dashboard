@@ -8,6 +8,8 @@ import React from "react";
 import { getRoles } from "../api/roles.api";
 import { useRoleColumns } from "../columns/role-columns";
 import type { Role } from "../types/role.types";
+import { PERMISSION_KEYS } from "@/config/permissions";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 
 const RoleListPage: React.FC = () => {
   const { onOpen } = useModal();
@@ -39,10 +41,12 @@ const RoleListPage: React.FC = () => {
     <DashboardLayout>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Roles</h1>
-        <Button onClick={handleCreate}>
-          <PlusIcon className="w-4 h-4" />
-          Create Role
-        </Button>
+        <ProtectedComponent permissionKey={PERMISSION_KEYS.ROLES.CREATE}>
+          <Button onClick={handleCreate}>
+            <PlusIcon className="w-4 h-4" />
+            Create Role
+          </Button>
+        </ProtectedComponent>
       </div>
       <DataTable
         columns={roleColumns}

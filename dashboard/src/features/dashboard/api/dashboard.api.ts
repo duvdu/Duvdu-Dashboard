@@ -61,7 +61,13 @@ export const fetchLiveUsersOnline = async () => {
   return { clients: 0, serviceProviders: 0 };
 };
 
-export const getUserCrmAnalysis = async () => {
-  const { data } = await axios.get("/api/analysis/user/crm");
+export const getUserCrmAnalysis = async (filters: {
+  from?: string;
+  to?: string;
+  interval?: string;
+}) => {
+  const { data } = await axios.get("/api/analysis/user/crm", {
+    params: filters,
+  });
   return data.data;
 };

@@ -1,15 +1,11 @@
-import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { PERMISSION_KEYS } from "@/config/permissions";
-import { useModal } from "@/store/modal-store";
+import type { Transaction } from "@/features/transactions/types/transaction.types";
 import { type ColumnDef } from "@tanstack/react-table";
 import { ExternalLinkIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import { type Transaction } from "../types/transaction.types";
 
-export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
-  const { onOpen } = useModal();
+export const useSubscriptionColumns = (): ColumnDef<Transaction>[] => {
   return [
     {
       accessorKey: "ticketNumber",
@@ -85,33 +81,6 @@ export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
           <Badge className="truncate block max-w-xs" variant={variant}>
             {status}
           </Badge>
-        );
-      },
-    },
-    {
-      id: "actions",
-      header: "Actions",
-      cell: ({ row }) => {
-        const status = row.original.status;
-        if (status !== "success") return "--";
-        return (
-          <ProtectedComponent
-            permissionKeys={[PERMISSION_KEYS.TRANSACTIONS.FUND]}
-            fallback={"--"}
-          >
-            <Button
-              variant="default"
-              size="sm"
-              onClick={() =>
-                onOpen("fundTransaction", {
-                  id: row.original._id,
-                  amount: row.original.amount,
-                })
-              }
-            >
-              Fund
-            </Button>
-          </ProtectedComponent>
         );
       },
     },

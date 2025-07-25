@@ -9,6 +9,8 @@ import { type ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontalIcon, PencilIcon, TrashIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { type Rank } from "../types/rank.types";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
+import { PERMISSION_KEYS } from "@/config/permissions";
 
 export const useRankColumns = (): ColumnDef<Rank>[] => {
   const { onOpen } = useModal();
@@ -66,26 +68,30 @@ export const useRankColumns = (): ColumnDef<Rank>[] => {
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-40 p-0" align="end">
-            <Button
-              variant="ghost"
-              className="w-full justify-start rounded-none px-3 py-2"
-            >
-              <Link
-                to={`/dashboard/ranks/update/${row.original._id}`}
-                className="flex items-center gap-2"
+            <ProtectedComponent permissionKey={PERMISSION_KEYS.RANKS.UPDATE}>
+              <Button
+                variant="ghost"
+                className="w-full justify-start rounded-none px-3 py-2"
               >
-                <PencilIcon className="w-4 h-4" />
-                Edit
-              </Link>
-            </Button>
-            <Button
-              variant="ghost"
-              className="w-full justify-start rounded-none px-3 py-2 text-destructive"
-              onClick={() => onOpen("deleteRank", { id: row.original._id })}
-            >
-              <TrashIcon className="w-4 h-4" />
-              Delete
-            </Button>
+                <Link
+                  to={`/dashboard/ranks/update/${row.original._id}`}
+                  className="flex items-center gap-2"
+                >
+                  <PencilIcon className="w-4 h-4" />
+                  Edit
+                </Link>
+              </Button>
+            </ProtectedComponent>
+            <ProtectedComponent permissionKey={PERMISSION_KEYS.RANKS.DELETE}>
+              <Button
+                variant="ghost"
+                className="w-full justify-start rounded-none px-3 py-2 text-destructive"
+                onClick={() => onOpen("deleteRank", { id: row.original._id })}
+              >
+                <TrashIcon className="w-4 h-4" />
+                Delete
+              </Button>
+            </ProtectedComponent>
           </PopoverContent>
         </Popover>
       ),

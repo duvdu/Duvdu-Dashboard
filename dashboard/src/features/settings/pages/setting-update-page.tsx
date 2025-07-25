@@ -9,6 +9,7 @@ import {
   updateSettings,
 } from "../api/setting.api";
 import { SettingsForm } from "../components/setting-form";
+import { canAccess, PERMISSION_KEYS } from "@/config/permissions";
 
 export default function SettingsPage() {
   const [settingsId, setSettingsId] = useState<string | undefined>(undefined);
@@ -169,6 +170,12 @@ export default function SettingsPage() {
         submitLabel={settingsId ? "Update" : "Create"}
         settingsId={settingsId}
         expirationTimes={settingsData?.expirationTime || []}
+        disabled={
+          !canAccess([
+            PERMISSION_KEYS.SETTINGS.UPDATE,
+            PERMISSION_KEYS.SETTINGS.CREATE,
+          ])
+        }
       />
     </DashboardLayout>
   );

@@ -15,6 +15,7 @@ import {
   Landmark,
   Medal,
   MessageCircleMore,
+  Rss,
   Settings,
   Shield,
   Star,
@@ -33,7 +34,7 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     path: "/dashboard",
     icon: Home,
     label: "Home",
-    // requiredPermissions: [PERMISSION_KEYS.DASHBOARD.VIEW],
+    requiredPermissions: [PERMISSION_KEYS.DASHBOARD.VIEW],
     exactMatch: true,
   },
   {
@@ -67,16 +68,24 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     path: "/dashboard/contracts",
     icon: FileText,
     label: "Contracts",
+    requiredPermissions: [
+      PERMISSION_KEYS.CONTRACTS.VIEW,
+      PERMISSION_KEYS.CONTRACTS.VIEW_CANCELED_CONTRACTS,
+    ],
     children: [
       {
         path: "/dashboard/contracts",
         icon: FileText,
         label: "Contracts",
+        requiredPermissions: [PERMISSION_KEYS.CONTRACTS.VIEW],
       },
       {
         path: "/dashboard/cancelled-contracts",
         icon: BookmarkX,
         label: "Cancelled Contracts",
+        requiredPermissions: [
+          PERMISSION_KEYS.CONTRACTS.VIEW_CANCELED_CONTRACTS,
+        ],
       },
     ],
     // requiredPermissions: [PERMISSION_KEYS.CONTRACTS.VIEW],
@@ -113,6 +122,10 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     path: "/dashboard/support",
     icon: Tickets,
     label: "Support",
+    requiredPermissions: [
+      PERMISSION_KEYS.COMPLAINTS.VIEW,
+      PERMISSION_KEYS.TICKETS.VIEW,
+    ],
     children: [
       {
         path: "/dashboard/complaints",
@@ -141,6 +154,12 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
         path: "/dashboard/transactions",
         icon: CreditCard,
         label: "Transactions",
+        requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
+      },
+      {
+        path: "/dashboard/subscriptions",
+        icon: Rss,
+        label: "Subscriptions",
         requiredPermissions: [PERMISSION_KEYS.TRANSACTIONS.VIEW],
       },
       {
@@ -179,12 +198,7 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     path: "/dashboard/settings",
     icon: Settings,
     label: "Settings",
-    requiredPermissions: [
-      PERMISSION_KEYS.SETTINGS.VIEW,
-      PERMISSION_KEYS.SETTINGS.UPDATE,
-      PERMISSION_KEYS.SETTINGS.CREATE,
-      PERMISSION_KEYS.SETTINGS.DELETE,
-    ],
+    requiredPermissions: [PERMISSION_KEYS.SETTINGS.VIEW],
   },
 ];
 

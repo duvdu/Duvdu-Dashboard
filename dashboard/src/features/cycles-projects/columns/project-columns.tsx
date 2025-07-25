@@ -24,6 +24,8 @@ import {
 import { Link } from "react-router-dom";
 import { getProjectPublicUrl } from "../api/project.api";
 import { type Project } from "../types/project.types";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
+import { PERMISSION_KEYS } from "@/config/permissions";
 
 export const useProjectColumns = (
   refetch?: () => void
@@ -176,26 +178,34 @@ export const useProjectColumns = (
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-48 p-0" align="end">
-                <Link to={`/dashboard/projects/${project._id}/update`}>
+                <ProtectedComponent
+                  permissionKeys={[PERMISSION_KEYS.PROJECTS.UPDATE]}
+                >
+                  <Link to={`/dashboard/projects/${project._id}/update`}>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start rounded-none px-3 py-2"
+                    >
+                      <PencilIcon className="w-4 h-4 mr-2" />
+                      Edit
+                    </Button>
+                  </Link>
+                </ProtectedComponent>
+
+                <ProtectedComponent
+                  permissionKeys={[PERMISSION_KEYS.PROJECTS.DELETE]}
+                >
                   <Button
                     variant="ghost"
-                    className="w-full justify-start rounded-none px-3 py-2"
+                    className="w-full justify-start rounded-none px-3 py-2 text-destructive"
+                    onClick={() =>
+                      onOpen("deleteProject", { id: project._id }, refetch)
+                    }
                   >
-                    <PencilIcon className="w-4 h-4 mr-2" />
-                    Edit
+                    <TrashIcon className="w-4 h-4 mr-2" />
+                    Delete
                   </Button>
-                </Link>
-
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start rounded-none px-3 py-2 text-destructive"
-                  onClick={() =>
-                    onOpen("deleteProject", { id: project._id }, refetch)
-                  }
-                >
-                  <TrashIcon className="w-4 h-4 mr-2" />
-                  Delete
-                </Button>
+                </ProtectedComponent>
               </PopoverContent>
             </Popover>
           </div>

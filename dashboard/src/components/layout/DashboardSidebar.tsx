@@ -58,7 +58,7 @@ function DashboardSidebar() {
                           : ``
                       }`}
                     >
-                      <div className="flex items-center h-12 w-full">
+                      <div className="flex items-center gap-2 h-12 w-full">
                         <div
                           className={`flex items-center justify-center w-8 h-8 mr-1 ${
                             isActive(link.path) ? "bg-secondary" : ""

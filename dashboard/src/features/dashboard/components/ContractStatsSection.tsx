@@ -66,19 +66,14 @@ export const ContractStatsSection: React.FC<{
       { label: status, color: statusColors[idx % statusColors.length] },
     ])
   );
-  // Dummy trend for now
-  const trend = "down";
-  const trendValue = "-1.2%";
   return (
     <section className="mb-10">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
         <div className="md:col-span-1">
           <StatCard
             title="Total Contracts"
             value={contractStats.totalContracts}
             icon={<Briefcase className="w-6 h-6" />}
-            trend={trend as any}
-            trendValue={trendValue}
             description="All contracts managed in the system."
           />
         </div>

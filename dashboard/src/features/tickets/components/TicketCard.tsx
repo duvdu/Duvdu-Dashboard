@@ -46,7 +46,7 @@ function TicketCard({ ticket }: { ticket: any }) {
         <div className="flex flex-col gap-2">
           <Badge
             variant="secondary"
-            className="flex items-center gap-1 text-xs px-2 py-1"
+            className="flex items-center gap-1 max-w-[90%] truncate text-xs px-2 py-1"
           >
             {ticket?.message}
           </Badge>

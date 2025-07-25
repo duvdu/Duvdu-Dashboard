@@ -14,6 +14,7 @@ export interface MediaPreviewProps extends React.ComponentProps<typeof Avatar> {
   imageClassName?: string;
   videoClassName?: string;
   posterSrc?: string;
+  trigger?: React.ReactNode;
 }
 
 const getMediaType = (src: string): "image" | "video" | "audio" | "unknown" => {
@@ -66,6 +67,7 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
   imageClassName = "object-cover aspect-square",
   videoClassName,
   posterSrc,
+  trigger,
   ...avatarProps
 }) => {
   const [open, setOpen] = React.useState(false);
@@ -168,7 +170,7 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
       <DialogTrigger
         className={cn("cursor-pointer relative group transition-all")}
       >
-        {avatar}
+        {trigger || avatar}
       </DialogTrigger>
       <DialogContent className="flex flex-col w-fit min-w-0   items-center justify-center border-none max-w-md max-h-[98vh] overflow-y-auto p-0">
         {/* <DialogTitle className="text-lg font-black justify-start pt-4">

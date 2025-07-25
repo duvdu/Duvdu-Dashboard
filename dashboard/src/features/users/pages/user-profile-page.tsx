@@ -11,6 +11,8 @@ import ProjectsPanel from "../components/panels/ProjectsPanel";
 import SubscriptionsPanel from "../components/panels/SubscriptionsPanel";
 import TransactionsPanel from "../components/panels/TransactionsPanel";
 import UserProfileHeader from "../components/UserProfileHeader";
+import { PERMISSION_KEYS } from "@/config/permissions";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 
 export default function UserProfilePage() {
   const { id } = useParams();
@@ -46,12 +48,31 @@ export default function UserProfilePage() {
           <UserProfileHeader user={user} refetch={refetch} />
           <Tabs defaultValue="payout-methods" className="mt-8 flex-wrap">
             <TabsList className="mb-4">
-              <TabsTrigger value="payout-methods">Payout Methods</TabsTrigger>
-              <TabsTrigger value="complaints">Complaints</TabsTrigger>
-              <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
-              <TabsTrigger value="financial-log">Financial Log</TabsTrigger>
-              <TabsTrigger value="content-log">Content Log</TabsTrigger>
-              <TabsTrigger value="contract-log">Contract Log</TabsTrigger>
+              <ProtectedComponent
+                permissionKeys={[PERMISSION_KEYS.WITHDRAW_METHODS.VIEW]}
+              >
+                <TabsTrigger value="payout-methods">Payout Methods</TabsTrigger>
+              </ProtectedComponent>
+              <ProtectedComponent
+                permissionKeys={[PERMISSION_KEYS.COMPLAINTS.VIEW]}
+              >
+                <TabsTrigger value="complaints">Complaints</TabsTrigger>
+              </ProtectedComponent>
+              <ProtectedComponent
+                permissionKeys={[PERMISSION_KEYS.TRANSACTIONS.VIEW]}
+              >
+                <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
+              </ProtectedComponent>
+              <ProtectedComponent
+                permissionKeys={[PERMISSION_KEYS.TRANSACTIONS.VIEW]}
+              >
+                <TabsTrigger value="financial-log">Financial Log</TabsTrigger>
+              </ProtectedComponent>
+              <ProtectedComponent
+                permissionKeys={[PERMISSION_KEYS.PROJECTS.VIEW]}
+              >
+                <TabsTrigger value="content-log">Content Log</TabsTrigger>
+              </ProtectedComponent>
             </TabsList>
             <TabsContent value="payout-methods">
               <PayoutMethodsPanel userId={id} />

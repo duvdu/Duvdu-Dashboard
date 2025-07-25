@@ -14,6 +14,8 @@ import { useQuery } from "@tanstack/react-query";
 import { ArrowLeftIcon, PencilIcon, TrashIcon } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getCustomPageById } from "../api/custom-page.api";
+import { PERMISSION_KEYS } from "@/config/permissions";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 
 export default function CustomPageDetailsPage() {
   const { id } = useParams();
@@ -76,30 +78,37 @@ export default function CustomPageDetailsPage() {
             </CardTitle>
 
             <div className="flex gap-2">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link to={`/dashboard/custom-pages/update/${id}`}>
-                    <Button variant="outline" size="sm" className="gap-1">
-                      <PencilIcon className="w-4 h-4" /> Edit
+              <ProtectedComponent
+                permissionKey={PERMISSION_KEYS.CUSTOM_PAGES.UPDATE}
+              >
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link to={`/dashboard/custom-pages/update/${id}`}>
+                      <Button variant="outline" size="sm" className="gap-1">
+                        <PencilIcon className="w-4 h-4" /> Edit
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>Edit this page</TooltipContent>
+                </Tooltip>
+              </ProtectedComponent>
+              <ProtectedComponent
+                permissionKey={PERMISSION_KEYS.CUSTOM_PAGES.DELETE}
+              >
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-1 text-destructive hover:text-destructive"
+                      onClick={handleDelete}
+                    >
+                      <TrashIcon className="w-4 h-4" /> Delete
                     </Button>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>Edit this page</TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="gap-1 text-destructive hover:text-destructive"
-                    onClick={handleDelete}
-                  >
-                    <TrashIcon className="w-4 h-4" /> Delete
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Delete this page</TooltipContent>
-              </Tooltip>
+                  </TooltipTrigger>
+                  <TooltipContent>Delete this page</TooltipContent>
+                </Tooltip>
+              </ProtectedComponent>
             </div>
           </CardHeader>
           <CardContent className="prose max-w-none min-h-[120px] bg-muted/40 rounded-lg p-4 mt-2">

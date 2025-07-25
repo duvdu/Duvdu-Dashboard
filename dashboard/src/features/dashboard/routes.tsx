@@ -20,6 +20,7 @@ import { settingsRoutes } from "../settings/routes";
 import { ticketRoutes } from "../tickets/routes";
 import { transactionsRoutes } from "../transactions/routes";
 import { usersRoutes } from "../users/routes";
+import { subscriptionsRoutes } from "../subscriptions/routes";
 
 const DashboardPage = lazy(() => import("./pages/dashboard"));
 
@@ -27,9 +28,9 @@ export const dashboardRoutes = [
   {
     index: true,
     element: (
-      // <ProtectedRoute permissionKey={PERMISSION_KEYS.DASHBOARD.VIEW}>
-      <DashboardPage />
-      // </ProtectedRoute>
+      <ProtectedRoute permissionKey={PERMISSION_KEYS.DASHBOARD.VIEW}>
+        <DashboardPage />
+      </ProtectedRoute>
     ),
   },
   {
@@ -62,7 +63,11 @@ export const dashboardRoutes = [
   },
   {
     path: "contracts",
-    element: <Outlet />,
+    element: (
+      <ProtectedRoute permissionKey={PERMISSION_KEYS.CONTRACTS.VIEW}>
+        <Outlet />
+      </ProtectedRoute>
+    ),
     children: contractRoutes,
   },
   {
@@ -112,7 +117,11 @@ export const dashboardRoutes = [
   },
   {
     path: "custom-pages",
-    element: <Outlet />,
+    element: (
+      <ProtectedRoute permissionKey={PERMISSION_KEYS.CUSTOM_PAGES.VIEW}>
+        <Outlet />
+      </ProtectedRoute>
+    ),
     children: customPageRoutes,
   },
   {
@@ -126,23 +135,50 @@ export const dashboardRoutes = [
     children: transactionsRoutes,
   },
   {
+    path: "subscriptions",
+    element: (
+      <ProtectedRoute permissionKey={PERMISSION_KEYS.TRANSACTIONS.VIEW}>
+        <Outlet />
+      </ProtectedRoute>
+    ),
+    children: subscriptionsRoutes,
+  },
+  {
     path: "fund-transactions",
-    element: <Outlet />,
+    element: (
+      <ProtectedRoute permissionKey={PERMISSION_KEYS.FUND_TRANSACTIONS.VIEW}>
+        <Outlet />
+      </ProtectedRoute>
+    ),
     children: fundTransactionRoutes,
   },
   {
     path: "cancelled-contracts",
-    element: <Outlet />,
+    element: (
+      <ProtectedRoute
+        permissionKey={PERMISSION_KEYS.CONTRACTS.VIEW_CANCELED_CONTRACTS}
+      >
+        <Outlet />
+      </ProtectedRoute>
+    ),
     children: cancelledContractRoutes,
   },
   {
     path: "settings",
-    element: <Outlet />,
+    element: (
+      <ProtectedRoute permissionKey={PERMISSION_KEYS.SETTINGS.VIEW}>
+        <Outlet />
+      </ProtectedRoute>
+    ),
     children: settingsRoutes,
   },
   {
     path: "ranks",
-    element: <Outlet />,
+    element: (
+      <ProtectedRoute permissionKey={PERMISSION_KEYS.RANKS.VIEW}>
+        <Outlet />
+      </ProtectedRoute>
+    ),
     children: rankRoutes,
   },
   {

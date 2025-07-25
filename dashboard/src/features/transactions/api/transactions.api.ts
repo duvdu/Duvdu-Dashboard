@@ -1,5 +1,6 @@
 import axios from "../../../lib/axios";
 import type { TransactionsListResponse } from "../types/transaction.types";
+import type { TransactionsAnalysisResponse } from "../types/transaction.types";
 
 export const getTransactions = async ({
   user,
@@ -63,6 +64,19 @@ export const fundTransaction = async (
         "Content-Type": "multipart/form-data",
       },
     }
+  );
+  return data;
+};
+
+export const getTransactionsAnalysis = async (params: {
+  interval?: "today" | "week" | "month" | "custom";
+  from?: string;
+  to?: string;
+  currency?: string;
+}): Promise<TransactionsAnalysisResponse> => {
+  const { data } = await axios.get<TransactionsAnalysisResponse>(
+    "/api/analysis/payment/transactions-analysis",
+    { params }
   );
   return data;
 };

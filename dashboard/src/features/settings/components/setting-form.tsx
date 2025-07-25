@@ -36,6 +36,7 @@ export type SettingsFormProps = {
   submitLabel?: string;
   settingsId?: string;
   expirationTimes?: { time: number; _id: string }[];
+  disabled?: boolean;
 };
 
 export function SettingsForm({
@@ -45,6 +46,7 @@ export function SettingsForm({
   submitLabel = "Save",
   settingsId,
   expirationTimes = [],
+  disabled,
 }: SettingsFormProps) {
   const methods = useForm<SettingsSchema>({
     resolver: zodResolver(settingSchema),
@@ -116,6 +118,7 @@ export function SettingsForm({
               <FormControl>
                 <Input
                   type="number"
+                  readOnly={disabled}
                   min={0}
                   className="w-full"
                   {...field}
@@ -125,7 +128,7 @@ export function SettingsForm({
                       parseInt(e.target.value)
                     );
                   }}
-                  disabled={isLoading}
+                  disabled={isLoading || disabled}
                 />
               </FormControl>
               <FormMessage />
@@ -159,6 +162,7 @@ export function SettingsForm({
                       <Input
                         type="number"
                         min={0}
+                        readOnly={disabled}
                         value={editValue}
                         onChange={(e) => setEditValue(Number(e.target.value))}
                         disabled={isUpdating && loadingId === exp._id}
@@ -168,6 +172,7 @@ export function SettingsForm({
                       <Button
                         type="button"
                         loading={isUpdating && loadingId === exp._id}
+                        disabled={disabled}
                         onClick={async () => {
                           setLoadingId(exp._id);
                           await updateExp({ id: exp._id, time: editValue });
@@ -180,6 +185,7 @@ export function SettingsForm({
                       <Button
                         type="button"
                         variant="outline"
+                        disabled={disabled}
                         onClick={() => setEditIdx(null)}
                         aria-label="Cancel"
                       >
@@ -192,6 +198,7 @@ export function SettingsForm({
                       <div className="flex gap-1">
                         <Button
                           type="button"
+                          disabled={disabled}
                           size="icon"
                           variant="ghost"
                           onClick={() => {
@@ -204,6 +211,7 @@ export function SettingsForm({
                         </Button>
                         <Button
                           type="button"
+                          disabled={disabled}
                           size="icon"
                           variant="ghost"
                           loading={isDeleting && loadingId === exp._id}
@@ -230,10 +238,11 @@ export function SettingsForm({
                     onChange={(e) => setAddValue(e.target.value)}
                     placeholder="Add new time"
                     className="w-24"
-                    disabled={isAdding}
+                    disabled={isAdding || disabled}
                   />
                   <Button
                     type="button"
+                    disabled={disabled}
                     size="sm"
                     loading={isAdding}
                     onClick={async () => {
@@ -261,7 +270,7 @@ export function SettingsForm({
                   label=""
                   value={field.value}
                   onChange={(file) => setValue("default_profile", file)}
-                  disabled={isLoading}
+                  disabled={isLoading || disabled}
                 />
               </FormControl>
               <FormMessage />
@@ -279,7 +288,7 @@ export function SettingsForm({
                   label=""
                   value={field.value}
                   onChange={(file) => setValue("default_cover", file)}
-                  disabled={isLoading}
+                  disabled={isLoading || disabled}
                 />
               </FormControl>
               <FormMessage />
@@ -287,7 +296,13 @@ export function SettingsForm({
           )}
         />
         <div className="flex justify-end">
-          <Button type="submit" loading={isLoading} size="lg" className="w-fit">
+          <Button
+            type="submit"
+            loading={isLoading}
+            size="lg"
+            className="w-fit"
+            disabled={disabled}
+          >
             {submitLabel}
           </Button>
         </div>

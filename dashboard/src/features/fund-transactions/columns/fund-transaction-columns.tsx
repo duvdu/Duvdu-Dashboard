@@ -4,6 +4,8 @@ import { type FundTransaction } from "../types/fund-transaction.types";
 import { useModal } from "@/store/modal-store";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { PERMISSION_KEYS } from "@/config/permissions";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 
 export const useFundTransactionColumns = (): ColumnDef<FundTransaction>[] => {
   const { onOpen } = useModal();
@@ -85,10 +87,13 @@ export const useFundTransactionColumns = (): ColumnDef<FundTransaction>[] => {
       header: "Actions",
       cell: ({ row }) =>
         row.original.status === "pending" ? (
-          <Button
-            size="sm"
-            variant="default"
-            onClick={() =>
+          <ProtectedComponent
+            permissionKeys={[PERMISSION_KEYS.FUND_TRANSACTIONS.UPDATE]}
+          >
+            <Button
+              size="sm"
+              variant="default"
+              onClick={() =>
               onOpen("closeFundTransaction", {
                 id: row.original._id,
                 userId: row.original.user._id,
@@ -97,8 +102,9 @@ export const useFundTransactionColumns = (): ColumnDef<FundTransaction>[] => {
               })
             }
           >
-            Close
-          </Button>
+              Close
+            </Button>
+          </ProtectedComponent>
         ) : null,
     },
   ];
