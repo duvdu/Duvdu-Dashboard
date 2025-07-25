@@ -12,18 +12,6 @@ import { Loader } from "@/components/ui/loader";
 
 const filterDefinitions: FilterDefinition[] = [
   {
-    key: "interval",
-    label: "Interval",
-    type: "select",
-    options: [
-      { label: "Today", value: "today" },
-      { label: "This Week", value: "week" },
-      { label: "This Month", value: "month" },
-      { label: "Custom", value: "custom" },
-    ],
-    placeholder: "Select interval",
-  },
-  {
     key: "from",
     label: "From",
     type: "date",
@@ -38,9 +26,7 @@ const filterDefinitions: FilterDefinition[] = [
 ];
 
 const DashboardPage = () => {
-  const [filters, setFilters] = useState<Partial<DashboardFilterSchema>>({
-    interval: "month",
-  });
+  const [filters, setFilters] = useState<Partial<DashboardFilterSchema>>({});
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["user-crm-analysis", filters],
@@ -48,7 +34,6 @@ const DashboardPage = () => {
       getUserCrmAnalysis({
         from: filters.from || undefined,
         to: filters.to || undefined,
-        interval: filters.interval || undefined,
       }),
   });
 
