@@ -28,6 +28,9 @@ export type ProjectReport = {
   createdAt?: string;
   updatedAt?: string;
   __v?: number;
+  ticketNumber?: string;
+  desc?: string;
+  attachments?: string[];
 };
 
 export type ProjectReportsResponse = {

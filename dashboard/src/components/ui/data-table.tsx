@@ -53,6 +53,7 @@ interface DataTableProps<TData, TValue> {
   onRowSelectionChange?: (selectedRows: TData[]) => void; // <-- new prop
   selectedRows?: TData[];
   disableSearch?: boolean;
+  searchPlaceholder?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -71,6 +72,7 @@ export function DataTable<TData, TValue>({
   onFiltersChange,
   onRowSelectionChange, // <-- new prop
   disableSearch = false,
+  searchPlaceholder = "Search or press Ctrl+F",
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
@@ -201,7 +203,7 @@ export function DataTable<TData, TValue>({
                     onChange={(e) => {
                       updateQueryParam("keyword", e.target.value);
                     }}
-                    placeholder="Search or press Ctrl+F"
+                    placeholder={searchPlaceholder}
                     className="h-8 pl-8 pr-3 w-full sm:w-[300px] bg-transparent rounded-sm text-sm border-gray-300 "
                   />
                 </div>

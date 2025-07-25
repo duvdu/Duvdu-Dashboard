@@ -42,6 +42,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { getContractById } from "../api/contract.api";
 import ContractsFundTransactionsPanel from "../components/ContractsFundTransactionsPanel";
+import ContractsTransactionsPanel from "../components/ContractsTransactionsPanel";
 
 const getStatusColor = (status: string) => {
   switch (status?.toLowerCase()) {
@@ -199,7 +200,7 @@ export default function ContractDetailsPage() {
               </h1>
             </div>
             <p className="text-gray-600 mt-1">
-              Contract #{data.contract._id.slice(-8)}
+              Contract #{data.contract?.ticketNumber}
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -255,8 +256,9 @@ export default function ContractDetailsPage() {
       </div>
 
       <Tabs defaultValue="overview" className="w-full mt-4">
-        <TabsList className="grid w-full grid-cols-4 mb-6">
+        <TabsList className="grid w-full grid-cols-5 mb-6">
           <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="transactions">Transactions</TabsTrigger>
           <TabsTrigger value="fund-transactions">Payouts</TabsTrigger>
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
           <TabsTrigger value="complaints">Complaints</TabsTrigger>
@@ -769,6 +771,9 @@ export default function ContractDetailsPage() {
           <div className="py-4">
             <ContractComplaintsPanel id={data.contract._id} />
           </div>
+        </TabsContent>
+        <TabsContent value="transactions">
+          <ContractsTransactionsPanel contractId={data.contract._id} />
         </TabsContent>
       </Tabs>
     </DashboardLayout>

@@ -6,10 +6,11 @@ import { DataTable } from "@/components/ui/data-table";
 import { type FilterDefinition } from "@/components/ui/filters";
 import { PERMISSION_KEYS } from "@/config/permissions";
 import { getUsers } from "@/features/users/api/users.api";
-import { useUserColumns } from "@/features/users/columns/user-columns";
 import { useModal } from "@/store/modal-store";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
+import { useAdminColumns } from "../columns/admin-columns";
+import { getRoles } from "@/features/roles/api/roles.api";
 
 export default function UserListPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,6 +18,7 @@ export default function UserListPage() {
   const page = +searchParams.get("page") || 1;
   const limit = +searchParams.get("limit") || 10;
   const status = searchParams.get("status") || "";
+  const role = searchParams.get("role") || "";
   const { onOpen } = useModal();
 
   const {
@@ -25,7 +27,7 @@ export default function UserListPage() {
     error,
     refetch,
   } = useQuery({
-    queryKey: ["admins", keyword, page, limit, status],
+    queryKey: ["admins", keyword, page, limit, status, role],
     queryFn: () =>
       getUsers({
         search: keyword,
@@ -35,11 +37,18 @@ export default function UserListPage() {
           status === "blocked" ? true : status === "active" ? false : undefined,
         isAdmin: true,
         isDeleted: status === "deleted" ? true : false,
+        role: role || undefined,
       }),
   });
   const users = usersData?.data || [];
   const pagesCount = usersData?.pagination?.totalPages || 0;
-  const userColumns = useUserColumns(refetch, { isAdmin: true });
+  const userColumns = useAdminColumns(refetch, { isAdmin: true });
+
+  const { data: rolesData } = useQuery({
+    queryKey: ["roles"],
+    queryFn: () => getRoles(),
+  });
+  const roles = rolesData || [];
 
   const filters: FilterDefinition[] = [
     {
@@ -53,8 +62,18 @@ export default function UserListPage() {
       ],
       placeholder: "Select Status",
     },
+    {
+      key: "role",
+      label: "Role",
+      type: "select",
+      placeholder: "Select Role",
+      options: roles.map((role) => ({
+        label: role.key,
+        value: role._id,
+      })),
+    },
   ];
-  const filterValues = { status, keyword };
+  const filterValues = { status, keyword, role };
   const handleFiltersChange = (vals: Record<string, unknown>) => {
     const newParams = new URLSearchParams(searchParams);
     Object.entries(vals).forEach(([key, value]) => {

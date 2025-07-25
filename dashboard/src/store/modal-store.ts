@@ -28,10 +28,12 @@ export type ModalType =
   | "deleteContractReview"
   | "fundTransaction"
   | "createFundTransaction"
+  | "closeFundTransaction"
   | "approveCancelledContract"
   | "rejectCancelledContract"
   | "deleteRank"
-  | "deleteCustomPage";
+  | "deleteCustomPage"
+  | "quickSearch";
 
 export interface ModalData {
   id?: string;

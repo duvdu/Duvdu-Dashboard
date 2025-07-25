@@ -1,93 +1,46 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
-// import { useEffect, useState } from "react";
-// import {
-// fetchActiveUsersSplit,
-// fetchComplaints,
-// fetchContractsCount,
-// fetchLiveUsersOnline,
-// fetchNewUsers,
-// fetchProjectsUploaded,
-// fetchTopUsers,
-// } from "../api/dashboard.api";
-// import type { DashboardFilterSchema } from "../schemas/filter.schema";
-// import type { DashboardKPIResponse } from "../types/kpi.types";
+import { getUserCrmAnalysis } from "../api/dashboard.api";
+import { ProjectStatsSection } from "../components/ProjectStatsSection";
+import { UserStatsSection } from "../components/UserStatsSection";
+import { ContractStatsSection } from "../components/ContractStatsSection";
+import { useQuery } from "@tanstack/react-query";
+import DashboardLoader from "@/components/layout/DashboardLoader";
 
 const DashboardPage = () => {
-  // const [filters, setFilters] = useState<DashboardFilterSchema>({
-  //   userType: "all",
-  // });
-  // const [data, setData] = useState<DashboardKPIResponse | null>(null);
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState<string | null>(null);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["user-crm-analysis"],
+    queryFn: getUserCrmAnalysis,
+  });
 
-  // const loadKPIs = async (f: DashboardFilterSchema) => {
-  //   setLoading(true);
-  //   setError(null);
-  //   try {
-  //     const [
-  //       projectsUploaded,
-  //       topUsers,
-  //       newUsers,
-  //       contractsCount,
-  //       openDisputesComplaints,
-  //       activeUsersSplit,
-  //       liveUsersOnline,
-  //     ] = await Promise.all([
-  //       fetchProjectsUploaded(f),
-  //       fetchTopUsers(f),
-  //       fetchNewUsers(f),
-  //       fetchContractsCount(f),
-  //       fetchComplaints(),
-  //       fetchActiveUsersSplit(),
-  //       fetchLiveUsersOnline(),
-  //     ]);
-  //     // Compose the DashboardKPIResponse object
-  //     setData({
-  //       projectsUploaded: { count: projectsUploaded.totalCount ?? 0 },
-  //       topUsers: Array.isArray(topUsers) ? topUsers : [],
-  //       activeUsersSplit,
-  //       liveUsersOnline,
-  //       newUsers: { count: Array.isArray(newUsers) ? newUsers.length : 0 },
-  //       openDisputesComplaints: {
-  //         disputes: Array.isArray(openDisputesComplaints)
-  //           ? (openDisputesComplaints as { type: string }[]).filter(
-  //               (c) => c.type === "dispute"
-  //             ).length
-  //           : 0,
-  //         complaints: Array.isArray(openDisputesComplaints)
-  //           ? (openDisputesComplaints as { type: string }[]).filter(
-  //               (c) => c.type === "complaint"
-  //             ).length
-  //           : 0,
-  //       },
-  //       contractsCount: {
-  //         closed: contractsCount?.closed ?? 0,
-  //         pending: contractsCount?.pending ?? 0,
-  //         cancelled: contractsCount?.cancelled ?? 0,
-  //       },
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //     setError("Failed to load dashboard KPIs");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   loadKPIs(filters);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [filters]);
-
+  if (isLoading) return <DashboardLoader />;
   return (
     <DashboardLayout>
-      Dashboard
-      {/* <div className="mb-6">
-        <FilterBar onFilter={setFilters} defaultValues={filters} />
+      <div className="space-y-8">
+        {error && <div className="text-red-500">Failed to load dashboard</div>}
+        {data && (
+          <>
+            {" "}
+            <h2 className="text-xl font-semibold mb-2 mt-4 text-foreground">
+              User Stats
+            </h2>
+            <UserStatsSection
+              userStats={data.userStats}
+              topUsers={data.topUsers}
+            />
+            <h2 className="text-xl font-semibold mb-2 mt-4 text-foreground">
+              Top Users
+            </h2>
+            <h2 className="text-xl font-semibold mb-2 mt-4 text-foreground">
+              Key Metrics
+            </h2>
+            <ProjectStatsSection projectStats={data.projectStats} />
+            <h2 className="text-xl font-semibold mb-2 mt-4 text-foreground">
+              Contract Stats
+            </h2>
+            <ContractStatsSection contractStats={data.contractStats} />
+          </>
+        )}
       </div>
-      {loading && <div>Loading...</div>}
-      {error && <div className="text-red-500">{error}</div>}
-      {data && <KPIGroup data={data} />} */}
     </DashboardLayout>
   );
 };

@@ -18,7 +18,7 @@ export function CreateFundTransactionModal() {
   const { mutateAsync: createFundTransactionMutation, isPending } = useMutation(
     {
       mutationFn: (formData: FormData) => createFundTransaction(formData),
-      mutationKey: ["fund-transactions", "create"],
+      mutationKey: ["fund-transactions"],
       onSuccess: () => {
         toast.success("Payout created successfully");
         handleClose();

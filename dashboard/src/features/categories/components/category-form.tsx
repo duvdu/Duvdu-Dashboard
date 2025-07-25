@@ -143,6 +143,12 @@ export function CategoryForm({
     }
   }, [defaultValues?.relatedCategory.length]);
 
+  useEffect(() => {
+    if (defaultValues?.isRelated) {
+      setProjectType("related");
+    }
+  }, [defaultValues?.isRelated]);
+
   console.log(formState.errors);
 
   return (

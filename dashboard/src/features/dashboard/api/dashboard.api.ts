@@ -60,3 +60,8 @@ export const fetchActiveUsersSplit = async () => {
 export const fetchLiveUsersOnline = async () => {
   return { clients: 0, serviceProviders: 0 };
 };
+
+export const getUserCrmAnalysis = async () => {
+  const { data } = await axios.get("/api/analysis/user/crm");
+  return data.data;
+};

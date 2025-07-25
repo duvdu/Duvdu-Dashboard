@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { getFundTransactionById } from "../api/fund-transaction.api";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 
 export default function FundTransactionDetailsPage() {
   const { id } = useParams();
@@ -11,10 +12,10 @@ export default function FundTransactionDetailsPage() {
   if (isLoading) return <div>Loading...</div>;
   if (!data) return <div>Not found</div>;
   return (
-    <div>
+    <DashboardLayout className="grid grid-cols-1 md:grid-cols-4 gap-4">
       <h1>FundTransaction Details</h1>
       <div>Fund Amount: {data.fundAmount}</div>
-      <div>Withdraw Method: {data.withdrawMethod}</div>
+      <div>Withdraw Method: {data.withdrawMethod.name}</div>
       <div>Status: {data.status}</div>
       <div>Created At: {data.createdAt}</div>
       <div>User: {data.user.name}</div>
@@ -30,6 +31,6 @@ export default function FundTransactionDetailsPage() {
           </a>
         </div>
       )}
-    </div>
+    </DashboardLayout>
   );
 }

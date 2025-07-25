@@ -98,6 +98,9 @@ export type Project = {
     subCategories: SubCategory[];
     tags: Tag[];
   }[];
+  ticketNumber?: string;
+  minBudget?: number;
+  maxBudget?: number;
 };
 
 export type ProjectsResponse = {

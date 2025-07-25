@@ -13,6 +13,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { type UpdateAdminSchema } from "../schemas/admin.schema";
 import { AdminForm } from "./admin-form";
+import type { Role } from "@/features/roles/types/role.types";
 
 export function UpdateAdminModal() {
   const { isOpen, type, onClose, refetch, data } = useModal();
@@ -91,7 +92,7 @@ export function UpdateAdminModal() {
               phoneNumber: user?.phoneNumber?.number || "",
               // profileImage: user?.profileImage || undefined,
               // coverImage: user?.coverImage || undefined,
-              role: (user?.role as string) || "",
+              role: (user?.role as Role)?._id || "",
               // password: "",
               email: user?.email || "",
             }}

@@ -17,7 +17,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 
 export function SendMessageModal() {
@@ -43,7 +42,6 @@ export function SendMessageModal() {
     defaultValues: {
       content: data?.content || "",
       receiver: data?.receiver || "",
-      attachments: undefined,
     },
   });
 
@@ -51,7 +49,6 @@ export function SendMessageModal() {
     sendMessageMutation({
       content: values.content,
       receiver: values.receiver || data?.receiver,
-      attachments: values.attachments,
     });
   };
 
@@ -87,18 +84,7 @@ export function SendMessageModal() {
               {form.formState.errors.content.message}
             </span>
           )}
-          <Input
-            type="file"
-            multiple
-            accept="image/*,video/*,audio/*,application/pdf"
-            {...form.register("attachments")}
-            disabled={loading}
-          />
-          {form.formState.errors.attachments && (
-            <span className="text-red-500 text-xs text-start">
-              {form.formState.errors.attachments?.message as string}
-            </span>
-          )}
+
           <DialogFooter className="flex gap-2 justify-center">
             <Button
               type="button"

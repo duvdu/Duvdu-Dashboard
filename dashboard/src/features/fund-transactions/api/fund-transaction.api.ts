@@ -39,3 +39,15 @@ export const createFundTransaction = async (formData: FormData) => {
   );
   return data;
 };
+
+// Close (finalize) fund-transaction
+export const closeFundTransaction = async (id: string, formData: FormData) => {
+  const { data } = await axios.patch(
+    `/api/payment/funding-transactions/crm/${id}`,
+    formData,
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+    }
+  );
+  return data;
+};

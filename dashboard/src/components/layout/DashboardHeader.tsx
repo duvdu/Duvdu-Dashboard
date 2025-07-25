@@ -6,7 +6,9 @@ import { useNotificationsStore } from "@/features/notifications/store";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Bell } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useModal } from "@/store/modal-store";
+import { Input } from "../ui/input";
 
 export function DashboardHeader({
   title = "Dashboard",
@@ -20,6 +22,21 @@ export function DashboardHeader({
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { unreadCount } = useNotificationsStore();
+  const { onOpen } = useModal();
+
+  useEffect(() => {
+    // disable default behavior of ctrl+o
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "k" && e.ctrlKey) {
+        e.preventDefault();
+        onOpen("quickSearch");
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onOpen]);
 
   return (
     <motion.header
@@ -49,6 +66,22 @@ export function DashboardHeader({
             <h2 className="text-sm">Dark Mode</h2>
             <ThemeToggle />
           </div> */}
+          {/* Quick Search */}
+          <div className="relative">
+            <Input
+              type="text"
+              placeholder="Quick Search... "
+              className="relative  rounded-md bg-secondary hover:bg-secondary focus:outline-none cursor-pointer border-none min-w-[200px] py-1"
+              onClick={() => onOpen("quickSearch")}
+              aria-label="Quick Search"
+            />
+            <span className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground">
+              <kbd className="rounded-md bg-muted px-1 py-0.5 text-xs font-semibold text-muted-foreground">
+                Ctrl+K
+              </kbd>
+            </span>
+          </div>
+
           <button
             ref={buttonRef}
             className="relative p-2 rounded-full hover:bg-secondary focus:outline-none"

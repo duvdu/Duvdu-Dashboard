@@ -18,8 +18,7 @@ export default function ContractListPage() {
   const from = getQueryParam("from") || "";
   const to = getQueryParam("to") || "";
   const user = getQueryParam("user") || "";
-  const search = getQueryParam("search") || "";
-  const ticketNumber = getQueryParam("ticketNumber") || "";
+  const ticketNumber = getQueryParam("keyword") || "";
 
   const filterValues = {
     cycle: cycle,
@@ -28,7 +27,6 @@ export default function ContractListPage() {
     page: page,
     limit: limit,
     user: user,
-    search: search,
     ticketNumber: ticketNumber,
   };
 
@@ -44,7 +42,6 @@ export default function ContractListPage() {
         from: from || undefined,
         to: to || undefined,
         user: user || undefined,
-        search: search || undefined,
         ticketNumber: ticketNumber || undefined,
       }),
   });
@@ -70,7 +67,6 @@ export default function ContractListPage() {
       type: "select",
       options: [
         { label: "Producer", value: "producer" },
-        { label: "Team Project", value: "team-project" },
         { label: "Copy Rights", value: "copy-rights" },
         { label: "Rentals", value: "rentals" },
         { label: "Project", value: "project" },
@@ -78,12 +74,12 @@ export default function ContractListPage() {
       placeholder: "Select Cycle",
     },
 
-    {
-      key: "ticketNumber",
-      label: "Ticket Number",
-      type: "text",
-      placeholder: "Search by Ticket Number",
-    },
+    // {
+    //   key: "ticketNumber",
+    //   label: "Ticket Number",
+    //   type: "text",
+    //   placeholder: "Search by Ticket Number",
+    // },
     {
       key: "from",
       label: "From",
@@ -100,11 +96,13 @@ export default function ContractListPage() {
 
   if (error) {
     return (
-      <DashboardLayout >
+      <DashboardLayout>
         <Alert variant="destructive">
           <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{error.response?.data?.errors?.[0]?.message}</AlertDescription>  
-          </Alert>
+          <AlertDescription>
+            {error.response?.data?.errors?.[0]?.message}
+          </AlertDescription>
+        </Alert>
       </DashboardLayout>
     );
   }
@@ -135,6 +133,7 @@ export default function ContractListPage() {
         filters={filterDefinitions}
         page={Number(page)}
         tableId="contracts"
+        searchPlaceholder="Search by Contract Number"
         limit={Number(limit)}
       />
     </DashboardLayout>

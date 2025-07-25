@@ -22,11 +22,13 @@ import { UpdateRoleModal } from "@/features/roles/components/UpdateRoleModal";
 import { DeleteTicketModal } from "@/features/tickets/components/DeleteTicketModal";
 import { FeedbackModal as TicketFeedbackModal } from "@/features/tickets/components/FeedbackModal";
 import { FundTransactionModal } from "@/features/transactions/components/FundTransactionModal";
+import { CloseFundTransactionModal } from "@/features/fund-transactions/components/CloseFundTransactionModal";
 import { ActivateDeactivatePayoutMethodModal } from "@/features/users/components/ActivateDeactivatePayoutMethodModal";
 import { BlockUnblockUserModal } from "@/features/users/components/BlockUnblockUserModal";
 import { DeleteUserModal } from "@/features/users/components/DeleteUserModal";
 import { useModal, type ModalType } from "@/store/modal-store";
 import { useEffect, useState, type JSX } from "react";
+import { QuickSearchModal } from "@/features/quick-search/components/QuickSearchModal";
 
 export const ModalProvider = () => {
   const { type } = useModal();
@@ -66,10 +68,12 @@ export const ModalProvider = () => {
     deleteContractReview: <DeleteContractReviewModal />,
     fundTransaction: <FundTransactionModal />,
     createFundTransaction: <CreateFundTransactionModal />,
+    closeFundTransaction: <CloseFundTransactionModal />,
     rejectCancelledContract: <RejectCancelledContractModal />,
     approveCancelledContract: <ApproveCancelledContractModal />,
     deleteRank: <DeleteRankModal />,
     deleteCustomPage: <DeleteCustomPageModal />,
+    quickSearch: <QuickSearchModal />,
   };
 
   return <>{type && modals[type]}</>;

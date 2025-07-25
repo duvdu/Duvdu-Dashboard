@@ -30,29 +30,6 @@ export const useProjectColumns = (
 ): ColumnDef<Project>[] => {
   const { onOpen } = useModal();
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "approved":
-        return (
-          <Badge variant="default" className="bg-green-500">
-            Approved
-          </Badge>
-        );
-      case "rejected":
-        return <Badge variant="destructive">Rejected</Badge>;
-      case "paused":
-        return <Badge variant="secondary">Paused</Badge>;
-      case "deleted":
-        return (
-          <Badge variant="outline" className="text-red-500">
-            Deleted
-          </Badge>
-        );
-      default:
-        return <Badge variant="outline">Pending</Badge>;
-    }
-  };
-
   return [
     {
       accessorKey: "cover",
