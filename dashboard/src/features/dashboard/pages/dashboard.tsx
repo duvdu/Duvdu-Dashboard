@@ -10,21 +10,6 @@ import { type DashboardFilterSchema } from "../schemas/filter.schema";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Loader } from "@/components/ui/loader";
 
-const filterDefinitions: FilterDefinition[] = [
-  {
-    key: "from",
-    label: "From",
-    type: "date",
-    placeholder: "From date",
-  },
-  {
-    key: "to",
-    label: "To",
-    type: "date",
-    placeholder: "To date",
-  },
-];
-
 const DashboardPage = () => {
   const [filters, setFilters] = useState<Partial<DashboardFilterSchema>>({});
 
@@ -36,6 +21,24 @@ const DashboardPage = () => {
         to: filters.to || undefined,
       }),
   });
+
+  const filterDefinitions: FilterDefinition[] = [
+    {
+      key: "from",
+      label: "From",
+      type: "date",
+      placeholder: "From date",
+    },
+    {
+      key: "to",
+      label: "To",
+      type: "date",
+      placeholder: "To date",
+      componentProps: {
+        startMonth: filters.from || undefined,
+      },
+    },
+  ];
 
   // Map user rank colors to theme variables for charts
   const rankColorMap = {

@@ -26,6 +26,7 @@ export interface FilterDefinition {
   placeholder?: string;
   className?: string;
   customComponent?: React.ReactNode;
+  componentProps?: any;
 }
 
 export interface FiltersProps {
@@ -67,6 +68,7 @@ export const Filters: React.FC<FiltersProps> = ({
               date={values[filter.key] || undefined}
               placeholder={filter.placeholder || "Pick Date"}
               onSelect={(date) => handleChange(filter.key, date)}
+              {...filter.componentProps}
             />
           )}
           {filter.type === "select" && filter.options && (
