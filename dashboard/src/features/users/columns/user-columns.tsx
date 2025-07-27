@@ -135,60 +135,52 @@ export const useUserColumns = (
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-40 p-0" align="end">
-                {isAdmin ? (
+                <>
                   <ProtectedComponent
-                    permissionKey={PERMISSION_KEYS.ADMINS.UPDATE}
+                    permissionKey={PERMISSION_KEYS.USERS.UPDATE}
                   >
                     <Button
                       variant="ghost"
                       className="w-full justify-start rounded-none px-3 py-2"
                       onClick={() => {
-                        onOpen(
-                          "updateAdmin",
-                          { id: row.original._id },
-                          refetch
-                        );
+                        onOpen("updateUser", { id: row.original._id }, refetch);
                       }}
                     >
                       <PencilIcon className="mr-2 h-4 w-4" />
                       Edit
                     </Button>
                   </ProtectedComponent>
-                ) : (
-                  <>
-                    <ProtectedComponent
-                      permissionKey={PERMISSION_KEYS.NOTIFICATIONS.SEND}
-                    >
-                      <Button
-                        variant="ghost"
-                        className="w-full justify-start rounded-none px-3 py-2"
-                        onClick={() => {
-                          onOpen("sendNotification", {
-                            users: [row.original._id],
-                          });
-                        }}
-                      >
-                        <BellIcon className="mr-2 h-4 w-4" />
-                        Notify
-                      </Button>
-                    </ProtectedComponent>
-                    {/* <ProtectedComponent
-                      permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
-                    > */}
+                  <ProtectedComponent
+                    permissionKey={PERMISSION_KEYS.NOTIFICATIONS.SEND}
+                  >
                     <Button
                       variant="ghost"
                       className="w-full justify-start rounded-none px-3 py-2"
                       onClick={() => {
-                        onOpen("sendMessage", { receiver: row.original._id });
+                        onOpen("sendNotification", {
+                          users: [row.original._id],
+                        });
                       }}
                     >
-                      <MessageCircleIcon className="mr-2 h-4 w-4" />
-                      Message
+                      <BellIcon className="mr-2 h-4 w-4" />
+                      Notify
                     </Button>
-                    {/* </ProtectedComponent> */}
-                  </>
-                )}
-
+                  </ProtectedComponent>
+                  {/* <ProtectedComponent
+                      permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
+                    > */}
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start rounded-none px-3 py-2"
+                    onClick={() => {
+                      onOpen("sendMessage", { receiver: row.original._id });
+                    }}
+                  >
+                    <MessageCircleIcon className="mr-2 h-4 w-4" />
+                    Message
+                  </Button>
+                  {/* </ProtectedComponent> */}
+                </>
                 <ProtectedComponent
                   permissionKeys={[
                     PERMISSION_KEYS.USERS.BLOCK,

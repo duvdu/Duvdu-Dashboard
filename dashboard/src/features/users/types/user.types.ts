@@ -10,6 +10,7 @@ export type User = {
   phoneNumber: {
     number: string;
   };
+  availableContracts: number;
   type: string;
   status: string;
   createdAt?: string;

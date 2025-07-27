@@ -26,6 +26,7 @@ import { CloseFundTransactionModal } from "@/features/fund-transactions/componen
 import { ActivateDeactivatePayoutMethodModal } from "@/features/users/components/ActivateDeactivatePayoutMethodModal";
 import { BlockUnblockUserModal } from "@/features/users/components/BlockUnblockUserModal";
 import { DeleteUserModal } from "@/features/users/components/DeleteUserModal";
+import { UpdateUserModal } from "@/features/users/components/UpdateUserModal";
 import { useModal, type ModalType } from "@/store/modal-store";
 import { useEffect, useState, type JSX } from "react";
 import { QuickSearchModal } from "@/features/quick-search/components/QuickSearchModal";
@@ -50,6 +51,7 @@ export const ModalProvider = () => {
     blockUnblockUser: <BlockUnblockUserModal />,
     createAdmin: <CreateAdminModal />,
     updateAdmin: <UpdateAdminModal />,
+    updateUser: <UpdateUserModal />,
     deleteProject: <DeleteProjectModal />,
     approveProject: <ApproveProjectModal />,
     rejectProject: <RejectProjectModal />,

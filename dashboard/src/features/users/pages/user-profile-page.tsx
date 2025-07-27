@@ -73,6 +73,11 @@ export default function UserProfilePage() {
               >
                 <TabsTrigger value="content-log">Content Log</TabsTrigger>
               </ProtectedComponent>
+              <ProtectedComponent
+                permissionKeys={[PERMISSION_KEYS.CONTRACTS.VIEW]}
+              >
+                <TabsTrigger value="contract-log">Contract Log</TabsTrigger>
+              </ProtectedComponent>
             </TabsList>
             <TabsContent value="payout-methods">
               <PayoutMethodsPanel userId={id} />

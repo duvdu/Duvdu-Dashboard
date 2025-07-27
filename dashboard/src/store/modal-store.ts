@@ -10,6 +10,7 @@ export type ModalType =
   | "blockUnblockUser"
   | "createAdmin"
   | "updateAdmin"
+  | "updateUser"
   | "deleteProject"
   | "approveProject"
   | "rejectProject"

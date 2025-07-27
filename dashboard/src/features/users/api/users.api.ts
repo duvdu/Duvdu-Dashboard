@@ -50,7 +50,7 @@ export async function getUserById(id: string) {
   return data?.data as User;
 }
 
-export async function updateUser(id, user) {
+export async function updateUser(id: string, user: FormData) {
   const { data } = await api.patch(`/api/users/auth/crm/${id}`, user);
   return data;
 }
