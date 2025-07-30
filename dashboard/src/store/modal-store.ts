@@ -20,6 +20,7 @@ export type ModalType =
   | "muteChat"
   | "deleteChat"
   | "deleteUser"
+  | "unholdUser"
   | "activateDeactivatePayoutMethod"
   | "addComplaintFeedback"
   | "addTicketFeedback"

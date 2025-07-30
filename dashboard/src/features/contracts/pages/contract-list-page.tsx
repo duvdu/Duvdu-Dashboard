@@ -5,7 +5,9 @@ import type { FilterDefinition } from "@/components/ui/filters";
 import { UserSearchSelect } from "@/features/chat";
 import { useUpdateQueryParam } from "@/hooks/useUpdateQueryParam";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { getContracts } from "../api/contract.api";
+import { StatusSelect } from "../components/StatusSelect";
 import { useContractColumns } from "../columns/contract-columns";
 import type { ContractRoot } from "../types/contract.types";
 
@@ -19,6 +21,63 @@ export default function ContractListPage() {
   const to = getQueryParam("to") || "";
   const user = getQueryParam("user") || "";
   const ticketNumber = getQueryParam("keyword") || "";
+  const status = getQueryParam("status") || "";
+
+  // Clear status filter when cycle changes
+  useEffect(() => {
+    if (status && cycle) {
+      const cycleStatuses = {
+        "copy-rights": {
+          canceled: "canceled",
+          pending: "pending",
+          "waiting-for-pay-10": "waiting-for-pay-10",
+          "update-after-first-Payment": "update-after-first-Payment",
+          "waiting-for-total-payment": "waiting-for-total-payment",
+          ongoing: "ongoing",
+          completed: "completed",
+          rejected: "rejected",
+          complaint: "complaint",
+        },
+        project: {
+          canceled: "canceled",
+          pending: "pending",
+          "waiting-for-pay-10": "waiting-for-pay-10",
+          "update-after-first-Payment": "update-after-first-Payment",
+          "waiting-for-total-payment": "waiting-for-total-payment",
+          ongoing: "ongoing",
+          completed: "completed",
+          rejected: "rejected",
+          complaint: "complaint",
+        },
+        rentals: {
+          canceled: "canceled",
+          pending: "pending",
+          "waiting-for-payment": "waiting-for-payment",
+          ongoing: "ongoing",
+          completed: "completed",
+          rejected: "rejected",
+          complaint: "complaint",
+        },
+        producer: {
+          canceled: "canceled",
+          pending: "pending",
+          accepted: "accepted",
+          rejected: "rejected",
+          complaint: "complaint",
+          "accepted with update": "accepted with update",
+        },
+      };
+
+      const cycleStatusesForCycle =
+        cycleStatuses[cycle as keyof typeof cycleStatuses];
+      if (
+        cycleStatusesForCycle &&
+        !Object.values(cycleStatusesForCycle).includes(status)
+      ) {
+        updateQueryParam("status", "");
+      }
+    }
+  }, [cycle, status, updateQueryParam]);
 
   const filterValues = {
     cycle: cycle,
@@ -28,6 +87,7 @@ export default function ContractListPage() {
     limit: limit,
     user: user,
     ticketNumber: ticketNumber,
+    status: status,
   };
 
   const columns = useContractColumns({});
@@ -43,6 +103,7 @@ export default function ContractListPage() {
         to: to || undefined,
         user: user || undefined,
         ticketNumber: ticketNumber || undefined,
+        status: status || undefined,
       }),
   });
 
@@ -73,13 +134,20 @@ export default function ContractListPage() {
       ],
       placeholder: "Select Cycle",
     },
-
-    // {
-    //   key: "ticketNumber",
-    //   label: "Ticket Number",
-    //   type: "text",
-    //   placeholder: "Search by Ticket Number",
-    // },
+    {
+      key: "status",
+      label: "Status",
+      type: "custom",
+      customComponent: (
+        <StatusSelect
+          value={status}
+          onValueChange={(value) => updateQueryParam("status", value)}
+          selectedCycle={cycle}
+          placeholder="Select Status"
+        />
+      ),
+      placeholder: "Select Status",
+    },
     {
       key: "from",
       label: "From",

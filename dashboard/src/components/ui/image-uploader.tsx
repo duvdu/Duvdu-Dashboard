@@ -17,7 +17,7 @@ export function ImageUploader({
   value,
   onChange,
   label = "Image",
-  accept = "image/*",
+  accept = "image/jpeg,image/png,image/gif,image/webp,image/jpg",
   className = "",
   disabled = false,
   placeholder = "Drop an image here or click to browse",

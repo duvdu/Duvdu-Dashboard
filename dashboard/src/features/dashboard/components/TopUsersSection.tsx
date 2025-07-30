@@ -13,6 +13,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import { ExternalLink } from "lucide-react";
 
 // Types for each user metric
 interface TopUsers {
@@ -234,6 +235,7 @@ function UserTable<T extends { _id: string }>(props: {
               <TableHead key={col}>{col}</TableHead>
             ))}
           </TableRow>
+          <TableHead>Actions</TableHead>
         </TableHeader>
         <TableBody>
           {props.users.map((user) => (
@@ -241,6 +243,14 @@ function UserTable<T extends { _id: string }>(props: {
               {props.getRow(user).map((cell, idx) => (
                 <TableCell key={idx}>{cell}</TableCell>
               ))}
+              <TableCell>
+                <Button variant="outline" asChild>
+                  <Link to={`/dashboard/users/${user._id}`}>
+                    View
+                    <ExternalLink className="w-4 h-4" />
+                  </Link>
+                </Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -122,19 +122,6 @@ function ProjectListPage() {
     sortOrder,
   };
 
-  const handleFiltersChange = (vals: Record<string, unknown>) => {
-    const newParams = new URLSearchParams(searchParams);
-    Object.entries(vals).forEach(([key, value]) => {
-      if (value && value !== "") {
-        newParams.set(key, value as string);
-      } else {
-        newParams.delete(key);
-      }
-    });
-    newParams.set("page", "1");
-    setSearchParams(newParams);
-  };
-
   return (
     <DashboardLayout className="space-y-6">
       <div className="flex justify-between items-center mb-4">
@@ -160,7 +147,6 @@ function ProjectListPage() {
         limit={limit}
         filters={filterDefinitions}
         filterValues={filterValues}
-        onFiltersChange={handleFiltersChange}
       />
     </DashboardLayout>
   );

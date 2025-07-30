@@ -83,6 +83,7 @@ export type Project = {
   createdAt: string;
   updatedAt: string;
   favouriteCount: number;
+  isDeleted: boolean;
   tags: Tag[];
   cover: string;
   audioCover: string | null;

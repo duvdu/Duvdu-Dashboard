@@ -126,6 +126,15 @@ export const useProjectColumns = (
       ),
     },
     {
+      accessorKey: "isDeleted",
+      header: "Deleted",
+      cell: ({ row }) => (
+        <Badge variant={row.original.isDeleted ? "destructive" : "outline"}>
+          {row.original.isDeleted ? "Deleted" : "Active"}
+        </Badge>
+      ),
+    },
+    {
       accessorKey: "showOnHome",
       header: "Show on Home",
       cell: ({ row }) => (

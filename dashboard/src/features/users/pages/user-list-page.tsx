@@ -38,7 +38,7 @@ export default function UserListPage() {
         limit,
         isBlocked:
           status === "blocked" ? true : status === "active" ? false : undefined,
-        isDeleted: status === "deleted" ? true : false,
+        isDeleted: status === "deleted" ? true : undefined,
         isAdmin: false,
         from: from || undefined,
         to: to || undefined,

@@ -5,7 +5,7 @@ export async function getUsers({
   search = "",
   page = 1,
   limit = 10,
-  status = "",
+  status,
   isBlocked,
   isAdmin = false,
   isDeleted,

@@ -19,6 +19,7 @@ import {
   PencilIcon,
   SquareArrowOutUpRightIcon,
   Trash2Icon,
+  CircleCheck,
 } from "lucide-react";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
@@ -88,11 +89,7 @@ export const useUserColumns = (
           return (
             <Badge
               variant={
-                isDeleted
-                  ? "destructive"
-                  : isBlocked
-                  ? "destructive"
-                  : "default"
+                isDeleted ? "destructive" : isBlocked ? "warning" : "default"
               }
             >
               {status}
@@ -107,6 +104,11 @@ export const useUserColumns = (
           row.original.createdAt
             ? new Date(row.original.createdAt).toLocaleDateString()
             : "-",
+      },
+      {
+        accessorKey: "projectsCount",
+        header: "Projects Count",
+        cell: ({ row }) => row.original.projectsCount || 0,
       },
       {
         id: "actions",
@@ -204,12 +206,12 @@ export const useUserColumns = (
                     {row.original.isBlocked.value ? (
                       <>
                         <CircleOff className="mr-2 h-4 w-4" />
-                        Unblock
+                        Unsuspend
                       </>
                     ) : (
                       <>
                         <Ban className="mr-2 h-4 w-4" />
-                        Block
+                        Suspend
                       </>
                     )}
                   </Button>
@@ -222,7 +224,18 @@ export const useUserColumns = (
                       : PERMISSION_KEYS.USERS.DELETE
                   }
                 >
-                  {!row.original.isDeleted && (
+                  {row.original.isDeleted ? (
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start rounded-none px-3 py-2 text-green-600"
+                      onClick={() => {
+                        onOpen("unholdUser", { id: row.original._id }, refetch);
+                      }}
+                    >
+                      <CircleCheck className="mr-2 h-4 w-4" />
+                      Unhold
+                    </Button>
+                  ) : (
                     <Button
                       variant="ghost"
                       className="w-full justify-start rounded-none px-3 py-2 text-destructive"
@@ -231,7 +244,7 @@ export const useUserColumns = (
                       }}
                     >
                       <Trash2Icon className="mr-2 h-4 w-4" />
-                      Delete
+                      Hold
                     </Button>
                   )}
                 </ProtectedComponent>

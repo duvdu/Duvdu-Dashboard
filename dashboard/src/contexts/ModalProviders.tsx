@@ -26,6 +26,7 @@ import { CloseFundTransactionModal } from "@/features/fund-transactions/componen
 import { ActivateDeactivatePayoutMethodModal } from "@/features/users/components/ActivateDeactivatePayoutMethodModal";
 import { BlockUnblockUserModal } from "@/features/users/components/BlockUnblockUserModal";
 import { DeleteUserModal } from "@/features/users/components/DeleteUserModal";
+import { UnholdUserModal } from "@/features/users/components/UnholdUserModal";
 import { UpdateUserModal } from "@/features/users/components/UpdateUserModal";
 import { useModal, type ModalType } from "@/store/modal-store";
 import { useEffect, useState, type JSX } from "react";
@@ -61,6 +62,7 @@ export const ModalProvider = () => {
     muteChat: <div>Mute Chat Modal</div>,
     deleteChat: <div>Delete Chat Modal</div>,
     deleteUser: <DeleteUserModal />,
+    unholdUser: <UnholdUserModal />,
     activateDeactivatePayoutMethod: <ActivateDeactivatePayoutMethodModal />,
     addComplaintFeedback: <FeedbackModal />,
     addTicketFeedback: <TicketFeedbackModal />,

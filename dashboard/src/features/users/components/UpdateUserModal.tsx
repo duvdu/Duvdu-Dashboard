@@ -38,7 +38,7 @@ export function UpdateUserModal() {
       formData.append("username", values.username);
       formData.append("email", values.email);
       formData.append(
-        "availableContracts",
+        "avaliableContracts",
         values.availableContracts.toString()
       );
 
@@ -104,7 +104,7 @@ export function UpdateUserModal() {
               username: user?.username || "",
               phoneNumber: user?.phoneNumber?.number || "",
               email: user?.email || "",
-              availableContracts: user?.availableContracts || 0,
+              availableContracts: user?.avaliableContracts || 0,
               profileImage: user?.profileImage || null,
               coverImage: user?.coverImage || null,
             }}

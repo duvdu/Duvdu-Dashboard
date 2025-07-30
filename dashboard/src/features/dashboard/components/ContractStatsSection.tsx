@@ -19,6 +19,7 @@ type ContractStats = {
     count: number;
     statusBreakdown: { status: string; count: number }[];
   }[];
+  contractsByDate: { date: string; count: number }[];
 };
 
 const statusColors = [
@@ -66,6 +67,18 @@ export const ContractStatsSection: React.FC<{
       { label: status, color: statusColors[idx % statusColors.length] },
     ])
   );
+
+  const chartData = contractStats.contractsByDate.map((item) => ({
+    date: item.date,
+    count: item.count,
+  }));
+  const chartConfig = {
+    count: {
+      label: "Contracts",
+      color: "var(--chart-1)",
+    },
+  };
+
   return (
     <section className="mb-10">
       <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
@@ -76,6 +89,39 @@ export const ContractStatsSection: React.FC<{
             icon={<Briefcase className="w-6 h-6" />}
             description="All contracts managed in the system."
           />
+        </div>
+        <div className="md:col-span-2">
+          <ChartCard
+            title="Contracts Over Time"
+            description="Track the trend of contract creation by date."
+          >
+            <ChartContainer config={chartConfig} className="h-[260px] w-full">
+              <BarChart data={chartData} accessibilityLayer>
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="date"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                />
+                <ChartTooltip
+                  content={
+                    <ChartTooltipContent
+                      labelKey="count"
+                      nameKey="date"
+                      formatter={(value: any, name: string, props: any) => {
+                        return `${new Date(
+                          props.payload.date
+                        ).toLocaleDateString()} - count: ${value}`;
+                      }}
+                    />
+                  }
+                />
+                <ChartLegend content={<ChartLegendContent nameKey="date" />} />
+                <Bar dataKey="count" fill="var(--chart-1)" radius={4} />
+              </BarChart>
+            </ChartContainer>
+          </ChartCard>
         </div>
         <div className="md:col-span-2 flex flex-col gap-6">
           <ChartCard

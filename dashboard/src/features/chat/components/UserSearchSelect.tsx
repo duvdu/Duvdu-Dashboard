@@ -27,6 +27,7 @@ export function UserSearchSelect({
 }: UserSearchSelectProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
   // Debounce search query
@@ -50,6 +51,7 @@ export function UserSearchSelect({
 
   const handleUserSelect = (user: User) => {
     onSelectUser(user);
+    setSelectedUser(user);
     setSearchQuery("");
     setIsOpen(false);
   };
@@ -63,6 +65,7 @@ export function UserSearchSelect({
 
   const handleClear = () => {
     handleUserSelect(null);
+    setSelectedUser(null);
     setSearchQuery("");
     setIsOpen(false);
   };
@@ -74,7 +77,7 @@ export function UserSearchSelect({
         <Input
           value={searchQuery}
           onChange={handleInputChange}
-          placeholder={placeholder}
+          placeholder={selectedUser ? selectedUser.name : placeholder}
           className="pl-10 pr-10"
           disabled={disabled}
         />

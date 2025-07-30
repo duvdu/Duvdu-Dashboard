@@ -12,28 +12,28 @@ import {
   DialogTitle,
 } from "../../../components/ui/dialog";
 
-export function DeleteUserModal() {
+export function UnholdUserModal() {
   const { data, isOpen, type, onClose, refetch } = useModal();
-  const isModalOpen = isOpen && type === "deleteUser";
+  const isModalOpen = isOpen && type === "unholdUser";
 
-  const { mutateAsync: deleteUserMutation, isPending } = useMutation({
+  const { mutateAsync: unholdUserMutation, isPending } = useMutation({
     mutationFn: deleteUser,
-    mutationKey: ["users", "admins", "delete"],
+    mutationKey: ["users", "admins", "unhold"],
     onSuccess: () => {
-      toast.success("User deleted successfully");
+      toast.success("User unheld successfully");
       if (refetch) refetch();
       onClose();
     },
     onError: (error) => {
       toast.error(
-        error?.response?.data?.errors?.[0]?.message || "Failed to delete user"
+        error?.response?.data?.errors?.[0]?.message || "Failed to unhold user"
       );
     },
   });
 
-  const handleDelete = async () => {
+  const handleUnhold = async () => {
     if (!data?.id) return;
-    await deleteUserMutation(data.id);
+    await unholdUserMutation(data.id);
   };
 
   if (!isModalOpen) return null;
@@ -42,10 +42,10 @@ export function DeleteUserModal() {
     <Dialog open={isModalOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="min-w-[24vw] gap-8 rounded-3xl text-center">
         <DialogHeader>
-          <DialogTitle>Hold User</DialogTitle>
+          <DialogTitle>Unhold User</DialogTitle>
           <DialogDescription>
-            Are you sure you want to hold this user? This action will prevent
-            them from creating projects.
+            Are you sure you want to unhold this user? This action will allow
+            them to create projects again.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex gap-2 justify-center">
@@ -59,11 +59,11 @@ export function DeleteUserModal() {
           </Button>
           <Button
             type="button"
-            variant="destructive"
-            onClick={handleDelete}
+            variant="default"
+            onClick={handleUnhold}
             loading={isPending}
           >
-            Hold
+            Unhold
           </Button>
         </DialogFooter>
       </DialogContent>
