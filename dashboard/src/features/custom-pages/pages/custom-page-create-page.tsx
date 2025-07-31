@@ -15,6 +15,13 @@ export default function CustomPageCreatePage() {
       toast.success("Custom page created successfully");
       navigate("/dashboard/custom-pages");
     },
+    onError: (error) => {
+      toast.error(
+        error.response.data?.errors[0]?.message ||
+          error.message ||
+          "Something went wrong"
+      );
+    },
   });
   async function handleSubmit(values: CustomPageSchema) {
     await mutateAsync({
@@ -26,6 +33,7 @@ export default function CustomPageCreatePage() {
         en: values.contentEn,
         ar: values.contentAr,
       },
+      type: values.type,
     });
   }
   return (

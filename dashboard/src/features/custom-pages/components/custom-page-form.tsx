@@ -8,7 +8,13 @@ import {
   customPageSchema,
   type CustomPageSchema,
 } from "../schemas/custom-page.schema";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 export type CustomPageFormProps = {
   defaultValues?: Partial<CustomPageSchema>;
   onSubmit: (values: CustomPageSchema) => void;
@@ -52,6 +58,39 @@ export function CustomPageForm({
           control={control}
           render={({ field }) => (
             <Input placeholder="Page title" {...field} disabled={isLoading} />
+          )}
+        />
+        {formState.errors.titleAr && (
+          <div className="text-red-500 text-xs mt-1">
+            {formState.errors.titleAr.message}
+          </div>
+        )}
+      </div>
+      <div>
+        <label className="block mb-1">
+          Type
+          <span className="text-xs ml-1 text-gray-500">(Optional)</span>
+        </label>
+        <Controller
+          name="type"
+          control={control}
+          render={({ field }) => (
+            <Select
+              {...field}
+              disabled={isLoading}
+              onValueChange={(value) => field.onChange(value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="terms-and-conditions">
+                  Terms and Conditions
+                </SelectItem>
+                <SelectItem value="privacy-policy">Privacy Policy</SelectItem>
+                <SelectItem value="refund-policy">Refund Policy</SelectItem>
+              </SelectContent>
+            </Select>
           )}
         />
         {formState.errors.titleAr && (

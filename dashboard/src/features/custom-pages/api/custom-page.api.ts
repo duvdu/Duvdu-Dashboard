@@ -22,6 +22,7 @@ export const getCustomPageById = async (id: string) => {
 export const createCustomPage = async (values: {
   title: { en: string; ar: string };
   content: { en: string; ar: string };
+  type: string;
 }) => {
   const { data } = await axios.post("/api/users/pages/crm", values);
   return data;

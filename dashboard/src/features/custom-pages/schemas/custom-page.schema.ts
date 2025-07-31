@@ -5,6 +5,6 @@ export const customPageSchema = z.object({
   titleAr: z.string().min(1, "Title (Arabic) is required"),
   contentEn: z.string().min(1, "Content (English) is required"),
   contentAr: z.string().min(1, "Content (Arabic) is required"),
+  type: z.string().optional().nullable(),
 });
-
 export type CustomPageSchema = z.infer<typeof customPageSchema>;

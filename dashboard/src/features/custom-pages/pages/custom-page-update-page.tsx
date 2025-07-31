@@ -24,6 +24,13 @@ export default function CustomPageUpdatePage() {
       toast.success("Custom page updated successfully");
       navigate(`/dashboard/custom-pages/${id}`);
     },
+    onError: (error) => {
+      toast.error(
+        error.response.data?.errors[0]?.message ||
+          error.message ||
+          "Something went wrong"
+      );
+    },
   });
 
   async function handleSubmit(values: CustomPageSchema) {
@@ -36,6 +43,7 @@ export default function CustomPageUpdatePage() {
         en: values.contentEn,
         ar: values.contentAr,
       },
+      type: values.type || undefined,
     });
   }
   if (isLoading) return <div>Loading...</div>;
@@ -57,6 +65,7 @@ export default function CustomPageUpdatePage() {
             titleAr: data?.title?.ar,
             contentEn: data?.content?.en,
             contentAr: data?.content?.ar,
+            type: data?.type || undefined,
           }}
           onSubmit={handleSubmit}
           isLoading={isPending}
