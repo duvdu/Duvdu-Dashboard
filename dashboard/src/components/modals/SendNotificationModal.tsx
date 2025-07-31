@@ -1,4 +1,7 @@
-import { sendNotification } from "@/features/notifications/api/notification.api";
+import {
+  sendNotification,
+  sendNotificationToAllUsers,
+} from "@/features/notifications/api/notification.api";
 import { useModal } from "@/store/modal-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -43,7 +46,12 @@ export function SendNotificationModal() {
     setLoading(true);
     setError(null);
     try {
-      await sendNotification({ users: data?.users || [], ...values });
+      // Check if this is for all users or specific users
+      if (data?.users && data.users.length > 0) {
+        await sendNotification({ users: data.users, ...values });
+      } else {
+        await sendNotificationToAllUsers(values);
+      }
       toast.success("Notification sent successfully");
       if (refetch) refetch();
       onClose();
@@ -63,13 +71,19 @@ export function SendNotificationModal() {
 
   if (!isModalOpen) return null;
 
+  const isForAllUsers = !data?.users || data.users.length === 0;
+
   return (
     <Dialog open={isModalOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="min-w-[30vw] gap-8 rounded-3xl text-center">
         <DialogHeader>
           <DialogTitle>Send Notification</DialogTitle>
           <DialogDescription>
-            Send a notification to selected users.
+            {isForAllUsers
+              ? "Send a notification to all users."
+              : `Send a notification to ${data.users.length} selected user${
+                  data.users.length > 1 ? "s" : ""
+                }.`}
           </DialogDescription>
         </DialogHeader>
         <form
@@ -111,7 +125,11 @@ export function SendNotificationModal() {
               className=" font-semibold text-lg"
               disabled={loading}
             >
-              {loading ? "Sending..." : "Send Notification"}
+              {loading
+                ? "Sending..."
+                : isForAllUsers
+                ? "Send to All Users"
+                : "Send Notification"}
             </Button>
           </DialogFooter>
         </form>

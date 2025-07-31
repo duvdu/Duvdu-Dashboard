@@ -120,7 +120,9 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
     <Avatar className={className} {...avatarProps}>
       {renderThumbnail()}
       {mediaType !== "video" && mediaType !== "audio" && (
-        <AvatarFallback>{fallback || (alt ? alt[0] : "?")}</AvatarFallback>
+        <AvatarFallback className="w-full">
+          {fallback || (alt ? alt[0] : "?")}
+        </AvatarFallback>
       )}
     </Avatar>
   );
@@ -160,7 +162,7 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
           "max-w-full max-h-[70vh] rounded-lg  object-cover",
           imageClassName
         )}
-        onError={(e) => (e.currentTarget.style.display = "none")}
+        onError={(e) => console.log(e, "error")}
       />
     );
   };

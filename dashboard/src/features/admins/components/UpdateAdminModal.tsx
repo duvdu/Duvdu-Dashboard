@@ -45,6 +45,10 @@ export function UpdateAdminModal() {
         formData.append("phoneNumber[number]", values.phoneNumber);
       }
 
+      if (values.password) {
+        formData.append("password", values.password);
+      }
+
       return updateUser(adminId, formData);
     },
     onSuccess: () => {

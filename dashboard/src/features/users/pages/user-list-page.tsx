@@ -24,13 +24,14 @@ export default function UserListPage() {
   const status = searchParams.get("status") || "";
   const from = searchParams.get("from") || "";
   const to = searchParams.get("to") || "";
+  const isOnline = searchParams.get("isOnline") || "";
   const {
     data: usersData,
     isLoading: loading,
     error,
     refetch,
   } = useQuery({
-    queryKey: ["users", keyword, page, limit, status, from, to],
+    queryKey: ["users", keyword, page, limit, status, from, to, isOnline],
     queryFn: () =>
       getUsers({
         search: keyword,
@@ -42,6 +43,7 @@ export default function UserListPage() {
         isAdmin: false,
         from: from || undefined,
         to: to || undefined,
+        isOnline: isOnline === "true" ? true : undefined,
       }),
   });
   const users = usersData?.data || [];
@@ -75,8 +77,18 @@ export default function UserListPage() {
       placeholder: "Select To Date",
       type: "date",
     },
+    {
+      key: "isOnline",
+      label: "Online Users",
+      type: "select",
+      options: [
+        { label: "Yes", value: "true" },
+        { label: "No", value: "false" },
+      ],
+      placeholder: "Show Online Users",
+    },
   ];
-  const filterValues = { status, keyword, from, to };
+  const filterValues = { status, keyword, from, to, isOnline };
 
   const handleNotifyUsers = () => {
     const userIds = selectedUsers.map((user) => user._id);
@@ -86,11 +98,29 @@ export default function UserListPage() {
     });
   };
 
+  const handleNotifyAllUsers = () => {
+    onOpen("sendNotification", {}, () => {
+      refetch();
+    });
+  };
+
   return (
     <DashboardLayout className="space-y-6">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Users</h1>
         <div className="flex gap-2">
+          <ProtectedComponent
+            permissionKey={PERMISSION_KEYS.NOTIFICATIONS.SEND}
+          >
+            <Button
+              variant="outline"
+              size="default"
+              onClick={handleNotifyAllUsers}
+            >
+              <BellIcon className="w-4 h-4 mr-2" />
+              Notify All Users
+            </Button>
+          </ProtectedComponent>
           <ProtectedComponent permissionKey={PERMISSION_KEYS.USERS.VIEW}>
             <CSVExportButton
               filename="users"

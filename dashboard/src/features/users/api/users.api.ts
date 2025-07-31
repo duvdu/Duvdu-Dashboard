@@ -12,6 +12,7 @@ export async function getUsers({
   from,
   to,
   role,
+  isOnline,
 }: {
   search?: string;
   page?: number;
@@ -23,6 +24,7 @@ export async function getUsers({
   from?: string;
   to?: string;
   role?: string;
+  isOnline?: boolean;
 }) {
   const params = {
     search,
@@ -35,6 +37,7 @@ export async function getUsers({
     from,
     to,
     role,
+    isOnline,
   };
   const { data } = await api.get("api/users/auth/crm", { params });
   return data as PaginatedResponse<User>;

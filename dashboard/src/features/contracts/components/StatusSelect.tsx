@@ -89,10 +89,69 @@ export function StatusSelect({
     }
   };
 
+  // Helper function to create unique status values
+  const createStatusValue = (cycleKey: string, statusValue: string) => {
+    return `${cycleKey}:${statusValue}`;
+  };
+
+  // Helper function to extract status value from combined value
+  const extractStatusValue = (combinedValue: string) => {
+    const parts = combinedValue.split(":");
+    return parts.length > 1 ? parts[1] : combinedValue;
+  };
+
+  // Helper function to get display value for the trigger
+  const getDisplayValue = (currentValue: string) => {
+    if (!currentValue) return "";
+
+    // If the value contains a cycle prefix, extract just the status
+    if (currentValue.includes(":")) {
+      return extractStatusValue(currentValue);
+    }
+
+    // If no cycle prefix, return as is (for backward compatibility)
+    return currentValue;
+  };
+
+  // Helper function to handle value change
+  const handleValueChange = (newValue: string) => {
+    if (!newValue) {
+      onValueChange("");
+      return;
+    }
+
+    // If the new value already has a cycle prefix, use it as is
+    if (newValue.includes(":")) {
+      onValueChange(newValue);
+      return;
+    }
+
+    // If no cycle is selected, we can't determine which cycle this status belongs to
+    if (!selectedCycle) {
+      // Find the first cycle that contains this status
+      for (const [cycleKey, statuses] of Object.entries(
+        CONTRACT_STATUS_OPTIONS
+      )) {
+        if (Object.values(statuses).includes(newValue)) {
+          onValueChange(createStatusValue(cycleKey, newValue));
+          return;
+        }
+      }
+      // If not found, use as is (fallback)
+      onValueChange(newValue);
+      return;
+    }
+
+    // If a cycle is selected, prefix the value with the cycle
+    onValueChange(createStatusValue(selectedCycle, newValue));
+  };
+
   return (
-    <Select value={value} onValueChange={onValueChange} disabled={disabled}>
+    <Select value={value} onValueChange={handleValueChange} disabled={disabled}>
       <SelectTrigger className={cn("h-8 text-sm bg-background/60", className)}>
-        <SelectValue placeholder={placeholder} />
+        <SelectValue placeholder={placeholder}>
+          {getDisplayValue(value)}
+        </SelectValue>
       </SelectTrigger>
       <SelectContent>
         <Button
@@ -106,33 +165,39 @@ export function StatusSelect({
         </Button>
 
         {selectedCycle ? (
-          // Show only status options for the selected cycle
           <SelectGroup>
-            <SelectLabel>{getCycleLabel(selectedCycle)}</SelectLabel>
+            <SelectLabel className="border-b border-border pb-2 font-bold">
+              {getCycleLabel(selectedCycle)}
+            </SelectLabel>
             {Object.entries(
               CONTRACT_STATUS_OPTIONS[
                 selectedCycle as keyof typeof CONTRACT_STATUS_OPTIONS
               ] || {}
-            ).map(([, statusValue]) => (
-              <SelectItem key={statusValue} value={statusValue}>
-                {statusValue}
-              </SelectItem>
-            ))}
+            ).map(([, statusValue]) => {
+              const uniqueValue = createStatusValue(selectedCycle, statusValue);
+              return (
+                <SelectItem key={uniqueValue} value={uniqueValue}>
+                  {statusValue}
+                </SelectItem>
+              );
+            })}
           </SelectGroup>
         ) : (
           // Show all status options grouped by cycle
           Object.entries(CONTRACT_STATUS_OPTIONS).map(
             ([cycleKey, statuses]) => (
               <SelectGroup key={cycleKey}>
-                <SelectLabel>{getCycleLabel(cycleKey)}</SelectLabel>
-                {Object.entries(statuses).map(([, statusValue]) => (
-                  <SelectItem
-                    key={`${cycleKey}-${statusValue}`}
-                    value={statusValue}
-                  >
-                    {statusValue}
-                  </SelectItem>
-                ))}
+                <SelectLabel className="border-b border-border pb-2 font-bold">
+                  {getCycleLabel(cycleKey)}
+                </SelectLabel>
+                {Object.entries(statuses).map(([, statusValue]) => {
+                  const uniqueValue = createStatusValue(cycleKey, statusValue);
+                  return (
+                    <SelectItem key={uniqueValue} value={uniqueValue}>
+                      {statusValue}
+                    </SelectItem>
+                  );
+                })}
               </SelectGroup>
             )
           )

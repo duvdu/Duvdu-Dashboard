@@ -17,6 +17,20 @@ export async function sendNotification({
   return data;
 }
 
+export async function sendNotificationToAllUsers({
+  title,
+  message,
+}: {
+  title: string;
+  message: string;
+}) {
+  const { data } = await api.post("/api/notification", {
+    title,
+    message,
+  });
+  return data;
+}
+
 export async function getNotifications({
   page = 1,
   pageSize = 10,

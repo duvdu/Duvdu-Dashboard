@@ -171,6 +171,7 @@ export function UserForm({
                   {...field}
                   placeholder="Eg. 0123456789"
                   label="Phone Number"
+                  disabled={!!defaultValues}
                   onChange={(value) => field.onChange(value)}
                   value={field.value || ""}
                 />

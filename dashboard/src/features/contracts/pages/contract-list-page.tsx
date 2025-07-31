@@ -68,16 +68,32 @@ export default function ContractListPage() {
         },
       };
 
+      // Extract the actual status value from the cycle-prefixed value
+      const extractStatusValue = (combinedValue: string) => {
+        if (!combinedValue) return "";
+        const parts = combinedValue.split(":");
+        return parts.length > 1 ? parts[1] : combinedValue;
+      };
+
+      const actualStatus = extractStatusValue(status);
       const cycleStatusesForCycle =
         cycleStatuses[cycle as keyof typeof cycleStatuses];
+
       if (
         cycleStatusesForCycle &&
-        !Object.values(cycleStatusesForCycle).includes(status)
+        !Object.values(cycleStatusesForCycle).includes(actualStatus)
       ) {
         updateQueryParam("status", "");
       }
     }
-  }, [cycle, status, updateQueryParam]);
+  }, [cycle, updateQueryParam]);
+
+  // Helper function to extract status value from cycle-prefixed value
+  const extractStatusValue = (combinedValue: string) => {
+    if (!combinedValue) return "";
+    const parts = combinedValue.split(":");
+    return parts.length > 1 ? parts[1] : combinedValue;
+  };
 
   const filterValues = {
     cycle: cycle,
@@ -87,7 +103,7 @@ export default function ContractListPage() {
     limit: limit,
     user: user,
     ticketNumber: ticketNumber,
-    status: status,
+    status: extractStatusValue(status),
   };
 
   const columns = useContractColumns({});
@@ -103,7 +119,7 @@ export default function ContractListPage() {
         to: to || undefined,
         user: user || undefined,
         ticketNumber: ticketNumber || undefined,
-        status: status || undefined,
+        status: extractStatusValue(status) || undefined,
       }),
   });
 

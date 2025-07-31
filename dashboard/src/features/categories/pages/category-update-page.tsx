@@ -25,7 +25,7 @@ function CategoryUpdatePage() {
   const { mutateAsync: updateCategoryMutation, isPending: submitting } =
     useMutation({
       mutationFn: (formData: FormData) => updateCategory(id!, formData),
-      mutationKey: ["category", "update", id],
+      mutationKey: ["category", id],
       onSuccess: () => {
         toast.success("Category updated successfully");
         navigate("/dashboard/categories");

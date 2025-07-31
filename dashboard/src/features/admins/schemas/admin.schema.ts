@@ -25,4 +25,4 @@ export const adminSchema = z.object({
 export const updateAdminSchema = adminSchema.omit({ password: true });
 
 export type CreateAdminSchema = z.infer<typeof adminSchema>;
-export type UpdateAdminSchema = z.infer<typeof updateAdminSchema>;
+export type UpdateAdminSchema = z.infer<typeof adminSchema>;

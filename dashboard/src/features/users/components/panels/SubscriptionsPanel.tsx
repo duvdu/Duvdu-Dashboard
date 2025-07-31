@@ -95,7 +95,9 @@ export default function SubscriptionsPanel({
 
   return (
     <DataTable
-      columns={transactionColumns}
+      columns={transactionColumns?.filter(
+        (column) => (column as any).accessorKey !== "contract"
+      )}
       data={transactions}
       loading={isLoading}
       pagesCount={data?.pagination?.totalPages}

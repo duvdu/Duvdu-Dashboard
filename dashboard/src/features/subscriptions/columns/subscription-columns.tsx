@@ -1,8 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Transaction } from "@/features/transactions/types/transaction.types";
-import { type ColumnDef } from "@tanstack/react-table";
 import { ExternalLinkIcon } from "lucide-react";
+import { type ColumnDef } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
 export const useSubscriptionColumns = (): ColumnDef<Transaction>[] => {
@@ -17,9 +17,15 @@ export const useSubscriptionColumns = (): ColumnDef<Transaction>[] => {
       accessorKey: "user",
       header: "User",
       cell: ({ row }) => (
-        <span className="truncate block max-w-xs">
-          {row.original.user?.name || "-"}
-        </span>
+        <Link
+          to={`/dashboard/users/${row.original.user?._id}`}
+          className="truncate  max-w-xs flex items-center gap-2"
+        >
+          <Button variant="link" size="sm" className="p-0">
+            {row.original.user?.name || "-"}
+            <ExternalLinkIcon className="w-4 h-4" />
+          </Button>
+        </Link>
       ),
     },
     {
@@ -47,22 +53,6 @@ export const useSubscriptionColumns = (): ColumnDef<Transaction>[] => {
           </span>
         );
       },
-    },
-    {
-      accessorKey: "contract",
-      header: "Contract",
-      cell: ({ row }) => (
-        <Link
-          to={`/dashboard/contracts/${row.original.contract}`}
-          className="truncate w-fit flex items-center gap-2 max-w-xs"
-          target="_blank"
-        >
-          <Button variant="link" size="sm" className="p-0">
-            View
-            <ExternalLinkIcon className="w-4 h-4" />
-          </Button>
-        </Link>
-      ),
     },
     {
       accessorKey: "status",

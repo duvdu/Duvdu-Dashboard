@@ -21,9 +21,15 @@ export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
       accessorKey: "user",
       header: "User",
       cell: ({ row }) => (
-        <span className="truncate block max-w-xs">
-          {row.original.user?.name || "-"}
-        </span>
+        <Link
+          to={`/dashboard/users/${row.original.user?._id}`}
+          className="truncate  max-w-xs flex items-center gap-2"
+        >
+          <Button variant="link" size="sm" className="p-0">
+            {row.original.user?.name || "-"}
+            <ExternalLinkIcon className="w-4 h-4" />
+          </Button>
+        </Link>
       ),
     },
     {

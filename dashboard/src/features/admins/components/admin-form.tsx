@@ -26,7 +26,6 @@ import {
   type CreateAdminSchema,
   type UpdateAdminSchema,
   adminSchema,
-  updateAdminSchema,
 } from "../schemas/admin.schema";
 
 export type AdminFormProps = {
@@ -44,15 +43,13 @@ export function AdminForm({
 }: AdminFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const methods = useForm<CreateAdminSchema | UpdateAdminSchema>({
-    resolver: zodResolver(defaultValues ? updateAdminSchema : adminSchema),
+    resolver: zodResolver(adminSchema),
     defaultValues: {
       name: "",
       username: "",
       phoneNumber: "",
       password: "",
       role: "",
-      // coverImage: undefined,
-      // profileImage: undefined,
       email: "",
       ...defaultValues,
     },
