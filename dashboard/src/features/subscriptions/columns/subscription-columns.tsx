@@ -41,19 +41,7 @@ export const useSubscriptionColumns = (): ColumnDef<Transaction>[] => {
         );
       },
     },
-    {
-      accessorKey: "fundingAmount",
-      header: "Funded Amount",
-      cell: ({ row }) => {
-        const fundingAmount = row.original.fundingAmount;
-        const currency = row.original.currency;
-        return (
-          <span className="truncate block max-w-xs">
-            {fundingAmount} {currency}
-          </span>
-        );
-      },
-    },
+
     {
       accessorKey: "status",
       header: "Status",
