@@ -11,10 +11,12 @@ import { useQuery } from "@tanstack/react-query";
 import { PlusIcon } from "lucide-react";
 import { getFundTransactions } from "../api/fund-transaction.api";
 import { useFundTransactionColumns } from "../columns/fund-transaction-columns";
+import { UserSearchSelect } from "@/features/chat/components/UserSearchSelect";
 
 export default function FundTransactionListPage() {
   const { onOpen } = useModal();
-  const { getQueryParam } = useUpdateQueryParam("fund-transactions");
+  const { getQueryParam, updateQueryParam } =
+    useUpdateQueryParam("fund-transactions");
   const status = getQueryParam("status") || "";
   const page = parseInt(getQueryParam("page") || "1");
   const limit = parseInt(getQueryParam("limit") || "10");
@@ -23,6 +25,7 @@ export default function FundTransactionListPage() {
   const createdAtFrom = getQueryParam("createdAtFrom") || "";
   const createdAtTo = getQueryParam("createdAtTo") || "";
   const contract = getQueryParam("contract") || "";
+  const user = getQueryParam("user") || "";
 
   const filterValues = {
     status: status,
@@ -33,6 +36,7 @@ export default function FundTransactionListPage() {
     createdAtFrom: createdAtFrom,
     createdAtTo: createdAtTo,
     contract: contract,
+    user: user,
   };
 
   const { data, isLoading, error } = useQuery({
@@ -47,11 +51,25 @@ export default function FundTransactionListPage() {
         createdAtFrom: createdAtFrom || undefined,
         createdAtTo: createdAtTo || undefined,
         ticketNumber: contract || undefined,
+        user: user || undefined,
       }),
   });
   const columns = useFundTransactionColumns();
 
   const filterDefinition: FilterDefinition[] = [
+    {
+      key: "user",
+      label: "User",
+      type: "custom",
+      customComponent: (
+        <UserSearchSelect
+          selectedUserId={user}
+          onSelectUser={(user) => {
+            updateQueryParam("user", user?._id || "");
+          }}
+        />
+      ),
+    },
     {
       label: "Status",
       key: "status",

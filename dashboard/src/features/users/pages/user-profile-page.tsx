@@ -13,6 +13,7 @@ import TransactionsPanel from "../components/panels/TransactionsPanel";
 import UserProfileHeader from "../components/UserProfileHeader";
 import { PERMISSION_KEYS } from "@/config/permissions";
 import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
+import ContractsFundTransactionsPanel from "@/features/contracts/components/ContractsFundTransactionsPanel";
 
 export default function UserProfilePage() {
   const { id } = useParams();
@@ -69,6 +70,11 @@ export default function UserProfilePage() {
                 <TabsTrigger value="financial-log">Financial Log</TabsTrigger>
               </ProtectedComponent>
               <ProtectedComponent
+                permissionKeys={[PERMISSION_KEYS.FUND_TRANSACTIONS.VIEW]}
+              >
+                <TabsTrigger value="payouts">Payouts</TabsTrigger>
+              </ProtectedComponent>
+              <ProtectedComponent
                 permissionKeys={[PERMISSION_KEYS.PROJECTS.VIEW]}
               >
                 <TabsTrigger value="content-log">Content Log</TabsTrigger>
@@ -90,6 +96,9 @@ export default function UserProfilePage() {
             </TabsContent>
             <TabsContent value="financial-log">
               <TransactionsPanel userId={id} />
+            </TabsContent>
+            <TabsContent value="payouts">
+              <ContractsFundTransactionsPanel userId={id} />
             </TabsContent>
             <TabsContent value="content-log">
               <ProjectsPanel userId={id} />

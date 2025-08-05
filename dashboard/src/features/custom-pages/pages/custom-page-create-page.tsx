@@ -33,7 +33,7 @@ export default function CustomPageCreatePage() {
         en: values.contentEn,
         ar: values.contentAr,
       },
-      type: values.type,
+      type: values.type || undefined,
     });
   }
   return (

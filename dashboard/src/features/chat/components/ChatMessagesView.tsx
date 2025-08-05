@@ -7,7 +7,7 @@ import { MediaPreview } from "@/components/ui/media-preview";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { PERMISSION_KEYS } from "@/config/permissions";
-import { useSocket } from "@/contexts/SocketProvider";
+import { useSocket } from "@/hooks/useSocket";
 import { useAuthStore } from "@/features/auth/store";
 import { useInfiniteQuery } from "@/hooks/useInfiniteQuery";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

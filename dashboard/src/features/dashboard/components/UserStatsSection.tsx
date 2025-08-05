@@ -15,8 +15,9 @@ import {
 import { PieChart, Pie, Cell } from "recharts";
 import React from "react";
 import { StatCard } from "./ui/StatCard";
-import { Users, UserCheck, UserPlus } from "lucide-react";
+import { Users, UserCheck, UserPlus, Eye } from "lucide-react";
 import { TopUsersSection } from "./TopUsersSection";
+import { useVisitorsStore } from "../store/visitors.store";
 
 type UserStats = {
   totalUsers: number;
@@ -29,6 +30,8 @@ export const UserStatsSection: React.FC<{
   userStats: UserStats;
   topUsers: any;
 }> = ({ userStats, topUsers }) => {
+  const { onlineVisitors } = useVisitorsStore();
+
   // Use the color property (now mapped to theme variables)
   const chartData = userStats.usersByRank.map((item) => ({
     name: item.rank,
@@ -43,7 +46,7 @@ export const UserStatsSection: React.FC<{
   );
   return (
     <section className="mb-10">
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-6">
         <StatCard
           title="Total Users"
           value={userStats.totalUsers}
@@ -55,12 +58,21 @@ export const UserStatsSection: React.FC<{
           value={userStats.onlineUsers}
           icon={<UserCheck className="w-6 h-6" />}
           description="Users currently online and active."
+          className="h-full"
         />
         <StatCard
           title="New Users"
           value={userStats.newUsers}
           icon={<UserPlus className="w-6 h-6" />}
           description="Number of users who joined recently."
+          className="h-full"
+        />
+        <StatCard
+          title="Online Visitors"
+          value={onlineVisitors}
+          className="h-full"
+          icon={<Eye className="w-6 h-6" />}
+          description="Number of visitors currently browsing the site."
         />
         <Card className="md:col-span-2">
           <CardHeader>
@@ -99,7 +111,7 @@ export const UserStatsSection: React.FC<{
           </CardContent>
         </Card>
 
-        <TopUsersSection className="md:col-span-5" topUsers={topUsers} />
+        <TopUsersSection className="md:col-span-6" topUsers={topUsers} />
       </div>
     </section>
   );

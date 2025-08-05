@@ -30,7 +30,14 @@ export function CustomPageForm({
 }: CustomPageFormProps) {
   const methods = useForm<CustomPageSchema>({
     resolver: zodResolver(customPageSchema),
-    defaultValues,
+    defaultValues: {
+      titleEn: "",
+      titleAr: "",
+      contentEn: "",
+      contentAr: "",
+      type: "",
+      ...defaultValues,
+    },
   });
   const navigate = useNavigate();
   const { handleSubmit, control, formState } = methods;
@@ -93,9 +100,9 @@ export function CustomPageForm({
             </Select>
           )}
         />
-        {formState.errors.titleAr && (
+        {formState.errors.type && (
           <div className="text-red-500 text-xs mt-1">
-            {formState.errors.titleAr.message}
+            {formState.errors.type.message}
           </div>
         )}
       </div>

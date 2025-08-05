@@ -7,11 +7,13 @@ import { useUpdateQueryParam } from "@/hooks/useUpdateQueryParam";
 import { useQuery } from "@tanstack/react-query";
 
 interface ContractsFundTransactionsPanelProps {
-  contractId: string;
+  contractId?: string;
+  userId?: string;
 }
 
 export default function ContractsFundTransactionsPanel({
   contractId,
+  userId,
 }: ContractsFundTransactionsPanelProps) {
   const fundTransactionColumns = useFundTransactionColumns();
   const { getQueryParam } = useUpdateQueryParam("fund-transactions");
@@ -29,11 +31,12 @@ export default function ContractsFundTransactionsPanel({
     createdAtFrom: createdAtFrom,
     createdAtTo: createdAtTo,
     contract: contractId,
+    user: userId,
     ticketNumber: ticketNumber,
   };
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["contract-fund-transactions", contractId, filterValues],
+    queryKey: ["fund-transactions", contractId, filterValues],
     queryFn: () =>
       getFundTransactions({
         ticketNumber: ticketNumber || undefined,
@@ -43,6 +46,7 @@ export default function ContractsFundTransactionsPanel({
         createdAtFrom: createdAtFrom || undefined,
         createdAtTo: createdAtTo || undefined,
         contract: contractId || undefined,
+        user: userId,
       }),
   });
 

@@ -1,14 +1,11 @@
 import ChatMessagePopup from "@/components/ChatMessagePopup";
 import { useAuthStore } from "@/features/auth/store";
 import { getOtherUser } from "@/features/chat/utils";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { SocketContext } from "./SocketProvider.types";
-
-export function useSocket() {
-  return useContext(SocketContext);
-}
+import { useVisitorsStore } from "@/features/dashboard/store/visitors.store";
 
 export function SocketProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuthStore();
@@ -16,6 +13,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
   const socketRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const { setOnlineVisitors } = useVisitorsStore();
   const [newMessagePopup, setNewMessagePopup] = useState<{
     senderName: string;
     messagePreview: string;
@@ -36,6 +34,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
       query: { userId: user._id },
       autoConnect: true,
       transports: ["websocket"],
+      withCredentials: true,
     });
     socketRef.current = s;
     setSocket(s);
@@ -71,6 +70,21 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
       socket.off("new_message", handleNewMessage);
     };
   }, [socket, user?._id, location.pathname, navigate]);
+
+  useEffect(() => {
+    if (!socket || !user?._id) return;
+    const handleVisitorsCounter = (data: { counter: number }) => {
+      setOnlineVisitors(data.counter);
+    };
+    socket.emitWithAck("getVisitorsCounter").then(handleVisitorsCounter);
+
+    socket.on("visitorsCounterUpdate", handleVisitorsCounter);
+    socket.on("response", handleVisitorsCounter);
+    return () => {
+      socket.off("visitorsCounterUpdate", handleVisitorsCounter);
+      socket.off("response", handleVisitorsCounter);
+    };
+  }, [socket, user?._id, setOnlineVisitors]);
 
   useEffect(() => {
     import("@/features/notifications/store").then((mod) => {
