@@ -5,14 +5,31 @@ import { UserStatsSection } from "../components/UserStatsSection";
 import { ContractStatsSection } from "../components/ContractStatsSection";
 import { useQuery } from "@tanstack/react-query";
 import Filters, { type FilterDefinition } from "@/components/ui/filters";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { type DashboardFilterSchema } from "../schemas/filter.schema";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Loader } from "@/components/ui/loader";
+import { useSocket } from "@/hooks/useSocket";
+import { useAuthStore } from "@/features/auth/store";
 
 const DashboardPage = () => {
   const [filters, setFilters] = useState<Partial<DashboardFilterSchema>>({});
+  const { socket } = useSocket();
+  const { user } = useAuthStore();
 
+  useEffect(() => {
+    if (!socket || !user?._id) return;
+    let count = 2;
+    const interval = setInterval(() => {
+      socket.emit("getVisitorsCounter");
+      count--;
+      if (count === 0) {
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [socket, user?._id]);
   const { data, isLoading, error } = useQuery({
     queryKey: ["user-crm-analysis", filters],
     queryFn: () =>

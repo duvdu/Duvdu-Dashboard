@@ -31,10 +31,10 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
     if (!user?._id) return;
     if (socketRef.current) return;
     const s = io(import.meta.env.VITE_API_URL, {
-      query: { userId: user._id },
+      // query: { userId: user._id },
       autoConnect: true,
-      transports: ["websocket"],
-      withCredentials: true,
+      // transports: ["websocket"],
+      // withCredentials: true,
     });
     socketRef.current = s;
     setSocket(s);
@@ -76,7 +76,6 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
     const handleVisitorsCounter = (data: { counter: number }) => {
       setOnlineVisitors(data.counter);
     };
-    socket.emitWithAck("getVisitorsCounter").then(handleVisitorsCounter);
 
     socket.on("visitorsCounterUpdate", handleVisitorsCounter);
     socket.on("response", handleVisitorsCounter);
