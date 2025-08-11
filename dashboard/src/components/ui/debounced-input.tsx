@@ -16,7 +16,7 @@ interface DebouncedInputProps
 }
 const DebouncedInput = React.forwardRef<HTMLInputElement, DebouncedInputProps>(
   (
-    { className, value, onChange, debounceTime = 500, type = "text", ...props },
+    { className, value, onChange, debounceTime = 600, type = "text", ...props },
     ref
   ) => {
     const [inputValue, setInputValue] =

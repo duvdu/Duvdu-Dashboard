@@ -18,6 +18,7 @@ function CategoryListPage() {
   const cycle = searchParams.get("cycle") || "";
   const status = searchParams.get("status") || "";
   const isRelated = searchParams.get("isRelated") || "";
+  console.log(isRelated === "false");
   const {
     data: categoriesData,
     isLoading: loading,

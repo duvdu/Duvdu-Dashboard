@@ -84,7 +84,9 @@ export const getCategories = async (filters: {
 }) => {
   const { data } = await axios.get("/api/category/crm", {
     params: Object.fromEntries(
-      Object.entries(filters).filter(([, value]) => !!value)
+      Object.entries(filters).filter(
+        ([, value]) => value !== undefined && value !== ""
+      )
     ),
   });
   return data as PaginatedResponse<Category>;
