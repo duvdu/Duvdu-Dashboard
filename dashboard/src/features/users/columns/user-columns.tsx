@@ -19,7 +19,6 @@ import {
   PencilIcon,
   SquareArrowOutUpRightIcon,
   Trash2Icon,
-  CircleCheck,
 } from "lucide-react";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
@@ -224,18 +223,7 @@ export const useUserColumns = (
                       : PERMISSION_KEYS.USERS.DELETE
                   }
                 >
-                  {row.original.isDeleted ? (
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start rounded-none px-3 py-2 text-green-600"
-                      onClick={() => {
-                        onOpen("unholdUser", { id: row.original._id }, refetch);
-                      }}
-                    >
-                      <CircleCheck className="mr-2 h-4 w-4" />
-                      Unhold
-                    </Button>
-                  ) : (
+                  {!row.original.isDeleted && (
                     <Button
                       variant="ghost"
                       className="w-full justify-start rounded-none px-3 py-2 text-destructive"
@@ -244,7 +232,7 @@ export const useUserColumns = (
                       }}
                     >
                       <Trash2Icon className="mr-2 h-4 w-4" />
-                      Hold
+                      Delete
                     </Button>
                   )}
                 </ProtectedComponent>

@@ -36,7 +36,7 @@ export default function UserListPage() {
         isBlocked:
           status === "blocked" ? true : status === "active" ? false : undefined,
         isAdmin: true,
-        isDeleted: status === "deleted" ? true : false,
+        isDeleted: status === "deleted" ? true : undefined,
         role: role || undefined,
       }),
   });

@@ -16,6 +16,7 @@ export type User = {
   createdAt?: string;
   isBlocked: {
     value: boolean;
+    reason?: string;
   };
   role: string | Role;
   isOnline: boolean;

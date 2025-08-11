@@ -154,7 +154,11 @@ export function UserForm({
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Email" />
+                <Input
+                  {...field}
+                  disabled={!!defaultValues}
+                  placeholder="Email"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

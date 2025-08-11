@@ -15,6 +15,7 @@ import {
   Mail,
   MapPin,
   MessageCircleIcon,
+  PencilIcon,
   Phone,
   Star,
   Trash2Icon,
@@ -107,6 +108,22 @@ const UserProfileHeader: FC<UserProfileHeaderProps> = ({ user, refetch }) => {
                 </Badge>
               )}
             </div>
+            {user.isBlocked?.value && user.isBlocked?.reason && (
+              <div className="mt-3 p-3 bg-destructive/5 border border-destructive/20 rounded-lg">
+                <div className="flex items-start gap-2">
+                  <Ban className="w-4 h-4 text-destructive mt-0.5 flex-shrink-0" />
+                  <div className="flex-1">
+                    <div className="text-destructive text-sm font-medium mb-1">
+                      Account Suspended
+                    </div>
+                    <div className="text-destructive/70 text-sm leading-relaxed">
+                      <span className="font-medium">Reason:</span>{" "}
+                      {user.isBlocked.reason}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="flex items-center gap-2 flex-wrap mt-1">
               {user.rate?.totalRates > 0 && (
                 <span className="flex items-center gap-1 text-yellow-500 text-sm font-medium">
@@ -176,6 +193,18 @@ const UserProfileHeader: FC<UserProfileHeaderProps> = ({ user, refetch }) => {
         </div>
       </div>
       <div className="flex flex-wrap gap-2 px-6 pb-4 border-t pt-4 bg-card justify-end">
+        <ProtectedComponent permissionKey={PERMISSION_KEYS.USERS.UPDATE}>
+          <Button
+            variant="outline"
+            // className="w-full justify-start rounded-none px-3 py-2"
+            onClick={() => {
+              onOpen("updateUser", { id: user._id }, refetch);
+            }}
+          >
+            <PencilIcon className="mr-2 h-4 w-4" />
+            Edit
+          </Button>
+        </ProtectedComponent>
         <ProtectedComponent permissionKey={PERMISSION_KEYS.NOTIFICATIONS.SEND}>
           <Button
             variant="outline"

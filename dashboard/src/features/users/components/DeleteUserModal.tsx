@@ -42,10 +42,10 @@ export function DeleteUserModal() {
     <Dialog open={isModalOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="min-w-[24vw] gap-8 rounded-3xl text-center">
         <DialogHeader>
-          <DialogTitle>Hold User</DialogTitle>
+          <DialogTitle>Delete User</DialogTitle>
           <DialogDescription>
-            Are you sure you want to hold this user? This action will prevent
-            them from creating projects.
+            Are you sure you want to delete this user? This action will remove
+            their account and all associated data.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex gap-2 justify-center">
@@ -63,7 +63,7 @@ export function DeleteUserModal() {
             onClick={handleDelete}
             loading={isPending}
           >
-            Hold
+            Delete
           </Button>
         </DialogFooter>
       </DialogContent>
