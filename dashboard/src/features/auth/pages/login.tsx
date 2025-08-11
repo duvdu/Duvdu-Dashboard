@@ -1,5 +1,4 @@
 import { type AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
 import logo from "../../../../public/logo.svg";
 import { useLoginMutation } from "../api/auth.api";
 import LoginForm from "../components/login-form";
@@ -22,11 +21,11 @@ function getErrorMessage(error: unknown): string | null {
 }
 
 export default function Login() {
-  const navigate = useNavigate();
+  const navigate = (href: string) => (window.location.href = href);
   const { mutateAsync, isPending, error } = useLoginMutation({
     onSuccess: () => {
       console.log("success");
-      navigate("/", { replace: true });
+      navigate("/");
     },
   });
   console.log(error, "is errorrr");
