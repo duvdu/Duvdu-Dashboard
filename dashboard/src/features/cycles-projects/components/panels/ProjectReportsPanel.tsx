@@ -27,7 +27,7 @@ function ProjectReportsPanel({ id }: { id: string }) {
     endDate: endDate || undefined,
     closedBy: closedBy || undefined,
     isClosed: isClosed || undefined,
-    // project: id,
+    project: id,
   };
 
   const {
