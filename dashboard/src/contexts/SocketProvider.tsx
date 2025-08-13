@@ -33,8 +33,8 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
     const s = io(import.meta.env.VITE_API_URL, {
       // query: { userId: user._id },
       autoConnect: true,
-      // transports: ["websocket"],
-      // withCredentials: true,
+      transports: ["websocket"],
+      withCredentials: true,
     });
     socketRef.current = s;
     setSocket(s);
