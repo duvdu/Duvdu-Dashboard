@@ -102,20 +102,14 @@ export const useProjectColumns = (
       accessorKey: "projectsView",
       header: "Views",
       cell: ({ row }) => (
-        <div className="text-center">
-          {row.original.views || row.original.user.projectsView || 0}
-        </div>
+        <div className="text-center">{row.original.views || 0}</div>
       ),
     },
     {
       accessorKey: "bookings",
       header: "Bookings",
       cell: ({ row }) => (
-        <div className="text-center">
-          {row.original.bookings ||
-            row.original.user.acceptedProjectsCounter ||
-            0}
-        </div>
+        <div className="text-center">{row.original.bookings || 0}</div>
       ),
     },
     {
@@ -127,7 +121,7 @@ export const useProjectColumns = (
     },
     {
       accessorKey: "isDeleted",
-      header: "Deleted",
+      header: "Status",
       cell: ({ row }) => (
         <Badge variant={row.original.isDeleted ? "destructive" : "outline"}>
           {row.original.isDeleted ? "Deleted" : "Active"}

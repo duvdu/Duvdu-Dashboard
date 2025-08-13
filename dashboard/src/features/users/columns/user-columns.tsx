@@ -58,19 +58,22 @@ export const useUserColumns = (
         accessorKey: "email",
         header: "Email",
         cell: ({ row }) => {
-          const email = row.original?.email || "--";
+          const email = row.original?.email?.slice(0, 35) || "--";
           return (
-            <span className="text-sm text-foreground truncate">{email}</span>
+            <div className="text-sm text-foreground max-w-[70%]  truncate">
+              {email}
+            </div>
           );
         },
       },
       {
         accessorKey: "phoneNumber",
         header: "Phone",
+
         cell: ({ row }) => {
-          const phone = row.original?.phoneNumber?.number || "--";
+          const phone = row.original?.phoneNumber?.number?.slice(0, 15) || "--";
           return (
-            <span className="text-sm text-foreground truncate">{phone}</span>
+            <div className="text-sm text-foreground  truncate">{phone}</div>
           );
         },
       },

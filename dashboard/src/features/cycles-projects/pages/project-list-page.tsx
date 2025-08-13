@@ -12,7 +12,7 @@ import { type ProjectFilters } from "../types/project.types";
 
 function ProjectListPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const search = searchParams.get("search") || "";
+  const search = searchParams.get("keyword") || "";
   const page = +searchParams.get("page") || 1;
   const limit = +searchParams.get("limit") || 10;
   const category = searchParams.get("category") || "";

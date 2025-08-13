@@ -27,10 +27,11 @@ import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import {
   ArrowLeftIcon,
+  BookCheckIcon,
   CalendarIcon,
   CopyIcon,
   DollarSignIcon,
-  Download,
+  Eye,
   GaugeIcon,
   GlobeIcon,
   HeartIcon,
@@ -208,6 +209,24 @@ function ProjectDetailsPage() {
                 <div className="flex items-center justify-between gap-2">
                   <span className="flex items-center gap-2 text-sm text-muted-foreground">
                     <HeartIcon className="h-4 w-4 text-red-500" /> Favorites
+                  </span>
+                  <span className="text-sm font-medium">
+                    {project.favouriteCount}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Eye className="h-4 w-4 text-blue-500" />
+                    Views Count
+                  </span>
+                  <span className="text-sm font-medium">
+                    {project.favouriteCount}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <BookCheckIcon className="h-4 w-4" />
+                    Bookings Count
                   </span>
                   <span className="text-sm font-medium">
                     {project.favouriteCount}
@@ -488,7 +507,7 @@ function ProjectDetailsPage() {
 
         <TabsContent value="media" className="space-y-6">
           <Card>
-            <CardHeader>
+            <CardHeader className="flex items-center justify-between">
               <CardTitle>Project Media</CardTitle>
             </CardHeader>
             <CardContent>
@@ -521,21 +540,6 @@ function ProjectDetailsPage() {
                               className="w-full h-64 rounded-md object-cover"
                               preview
                             />
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="mt-2"
-                              onClick={() => {
-                                const link = document.createElement("a");
-                                link.href = attachment;
-                                link.download = `attachment-${index + 1}`;
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                              }}
-                            >
-                              <Download className="h-4 w-4 mr-1" /> Download
-                            </Button>
                           </CarouselItem>
                         ))}
                         <CarouselPrevious />
