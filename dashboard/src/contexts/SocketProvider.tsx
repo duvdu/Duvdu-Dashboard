@@ -13,7 +13,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
   const socketRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const { setOnlineVisitors } = useVisitorsStore();
+  const { setOnlineVisitors, setLoggedInVisitors } = useVisitorsStore();
   const [newMessagePopup, setNewMessagePopup] = useState<{
     senderName: string;
     messagePreview: string;
@@ -77,13 +77,19 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
       setOnlineVisitors(data.counter);
     };
 
+    const handleLoggedInVisitorsUpdate = (data: { counter: number }) => {
+      setLoggedInVisitors(data.counter);
+    };
+
     socket.on("visitorsCounterUpdate", handleVisitorsCounter);
+    socket.on("loggedCounterUpdate", handleLoggedInVisitorsUpdate);
     socket.on("response", handleVisitorsCounter);
     return () => {
       socket.off("visitorsCounterUpdate", handleVisitorsCounter);
+      socket.off("loggedCounterUpdate", handleLoggedInVisitorsUpdate);
       socket.off("response", handleVisitorsCounter);
     };
-  }, [socket, user?._id, setOnlineVisitors]);
+  }, [socket, user?._id, setOnlineVisitors, setLoggedInVisitors]);
 
   useEffect(() => {
     import("@/features/notifications/store").then((mod) => {

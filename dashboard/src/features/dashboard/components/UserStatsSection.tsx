@@ -30,7 +30,7 @@ export const UserStatsSection: React.FC<{
   userStats: UserStats;
   topUsers: any;
 }> = ({ userStats, topUsers }) => {
-  const { onlineVisitors } = useVisitorsStore();
+  const { onlineVisitors, loggedInVisitors } = useVisitorsStore();
 
   // Use the color property (now mapped to theme variables)
   const chartData = userStats.usersByRank.map((item) => ({
@@ -55,7 +55,7 @@ export const UserStatsSection: React.FC<{
         />
         <StatCard
           title="Online Users"
-          value={userStats.onlineUsers}
+          value={loggedInVisitors}
           icon={<UserCheck className="w-6 h-6" />}
           description="Users currently online and active."
           className="h-full"

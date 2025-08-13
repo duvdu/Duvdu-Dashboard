@@ -22,6 +22,7 @@ const DashboardPage = () => {
     let count = 2;
     const interval = setInterval(() => {
       socket.emit("getVisitorsCounter");
+      socket.emit("getLoggedCounter");
       count--;
       if (count === 0) {
         clearInterval(interval);
