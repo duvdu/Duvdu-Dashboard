@@ -98,20 +98,20 @@ export const useProjectColumns = (
     //   header: "Status",
     //   cell: ({ row }) => getStatusBadge(row.original.status || "pending"),
     // },
-    {
-      accessorKey: "projectsView",
-      header: "Views",
-      cell: ({ row }) => (
-        <div className="text-center">{row.original.views || 0}</div>
-      ),
-    },
-    {
-      accessorKey: "bookings",
-      header: "Bookings",
-      cell: ({ row }) => (
-        <div className="text-center">{row.original.bookings || 0}</div>
-      ),
-    },
+    // {
+    //   accessorKey: "projectsView",
+    //   header: "Views",
+    //   cell: ({ row }) => (
+    //     <div className="text-center">{row.original.views || 0}</div>
+    //   ),
+    // },
+    // {
+    //   accessorKey: "bookings",
+    //   header: "Bookings",
+    //   cell: ({ row }) => (
+    //     <div className="text-center">{row.original.bookings || 0}</div>
+    //   ),
+    // },
     {
       accessorKey: "favouriteCount",
       header: "Likes",

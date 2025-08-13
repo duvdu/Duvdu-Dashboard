@@ -27,11 +27,9 @@ import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import {
   ArrowLeftIcon,
-  BookCheckIcon,
   CalendarIcon,
   CopyIcon,
   DollarSignIcon,
-  Eye,
   GaugeIcon,
   GlobeIcon,
   HeartIcon,
@@ -214,24 +212,7 @@ function ProjectDetailsPage() {
                     {project.favouriteCount}
                   </span>
                 </div>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Eye className="h-4 w-4 text-blue-500" />
-                    Views Count
-                  </span>
-                  <span className="text-sm font-medium">
-                    {project.favouriteCount}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <BookCheckIcon className="h-4 w-4" />
-                    Bookings Count
-                  </span>
-                  <span className="text-sm font-medium">
-                    {project.favouriteCount}
-                  </span>
-                </div>
+
                 <div className="flex items-center justify-between gap-2">
                   <span className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CalendarIcon className="h-4 w-4" /> Created
