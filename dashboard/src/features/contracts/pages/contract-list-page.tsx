@@ -23,9 +23,11 @@ export default function ContractListPage() {
   const ticketNumber = getQueryParam("keyword") || "";
   const status = getQueryParam("status") || "";
 
-  // Clear status filter when cycle changes
+  // Clear status filter when cycle changes or is cleared
   useEffect(() => {
-    if (status && cycle) {
+    if (!cycle && status) {
+      updateQueryParam("status", null);
+    } else if (status && cycle) {
       const cycleStatuses = {
         "copy-rights": {
           canceled: "canceled",
@@ -86,7 +88,7 @@ export default function ContractListPage() {
         updateQueryParam("status", "");
       }
     }
-  }, [cycle, updateQueryParam]);
+  }, [cycle, status, updateQueryParam]);
 
   // Helper function to extract status value from cycle-prefixed value
   const extractStatusValue = (combinedValue: string) => {
@@ -159,7 +161,8 @@ export default function ContractListPage() {
           value={status}
           onValueChange={(value) => updateQueryParam("status", value)}
           selectedCycle={cycle}
-          placeholder="Select Status"
+          placeholder={cycle ? "Select Status" : "Select Cycle First"}
+          disabled={!cycle}
         />
       ),
       placeholder: "Select Status",

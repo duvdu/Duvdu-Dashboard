@@ -86,6 +86,7 @@ export type ContractRoot = {
   customer: UserProfile;
   sp: UserProfile;
   cancelReason: string;
+  cycle: string;
   user: {
     _id: string;
     name: string;

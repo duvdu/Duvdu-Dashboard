@@ -45,6 +45,7 @@ import ContractsFundTransactionsPanel from "../components/ContractsFundTransacti
 import ContractsTransactionsPanel from "../components/ContractsTransactionsPanel";
 import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { PERMISSION_KEYS } from "@/config/permissions";
+import { CYCLES } from "@/constants/cycles.constants";
 
 const getStatusColor = (status: string) => {
   switch (status?.toLowerCase()) {
@@ -293,11 +294,15 @@ export default function ContractDetailsPage() {
                       <Briefcase className="w-5 h-5" />
                       Project Overview
                     </div>
-                    <Button variant="link" size="sm" asChild>
-                      <Link to={`/dashboard/projects/${data.contract.project}`}>
-                        View Project Details
-                      </Link>
-                    </Button>
+                    {data?.cycle === CYCLES.PROJECT && (
+                      <Button variant="link" size="sm" asChild>
+                        <Link
+                          to={`/dashboard/projects/${data.contract.project}`}
+                        >
+                          View Project Details
+                        </Link>
+                      </Button>
+                    )}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
