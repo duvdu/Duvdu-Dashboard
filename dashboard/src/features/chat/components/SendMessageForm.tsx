@@ -251,16 +251,10 @@ export function SendMessageForm({
     }
   };
 
-  const handleMicButtonPress = () => {
+  const handleMicButtonClick = () => {
     if (recordingState === "idle") {
       startRecording();
     } else if (recordingState === "recording") {
-      stopRecording();
-    }
-  };
-
-  const handleMicButtonRelease = () => {
-    if (recordingState === "recording") {
       stopRecording();
     }
   };
@@ -415,10 +409,7 @@ export function SendMessageForm({
                 size="sm"
                 className="w-10 h-10 p-0 bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200"
                 disabled={disabled || sendMessageMutation.isPending}
-                onMouseDown={handleMicButtonPress}
-                onMouseUp={handleMicButtonRelease}
-                onTouchStart={handleMicButtonPress}
-                onTouchEnd={handleMicButtonRelease}
+                onClick={handleMicButtonClick}
               >
                 <MicIcon className="h-4 w-4" />
               </Button>
@@ -428,10 +419,7 @@ export function SendMessageForm({
                 size="sm"
                 className="w-10 h-10 p-0 bg-red-500 hover:bg-red-600 text-white transition-all duration-200"
                 disabled={disabled || sendMessageMutation.isPending}
-                onMouseDown={handleMicButtonPress}
-                onMouseUp={handleMicButtonRelease}
-                onTouchStart={handleMicButtonPress}
-                onTouchEnd={handleMicButtonRelease}
+                onClick={handleMicButtonClick}
               >
                 <MicIcon className="h-4 w-4" />
               </Button>
