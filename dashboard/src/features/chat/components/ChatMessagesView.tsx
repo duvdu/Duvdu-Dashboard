@@ -21,6 +21,7 @@ import { MessageList } from "./MessageList";
 import { SendMessageForm } from "./SendMessageForm";
 
 import { useChatStore } from "../store";
+import { getOtherUser } from "../utils";
 
 interface ChatOutletContext {
   onBackToChats: () => void;
@@ -121,7 +122,7 @@ export function ChatMessagesView() {
     if (!socket || !userId || !currentUserId) return;
     const handleNewMessage = (res: { message: Message }) => {
       const message = res.message;
-      const otherUser = latestData?.user;
+      const otherUser = getOtherUser(currentUserId, message);
       if (otherUser?._id === userId) {
         addMessage(message);
         if (messagesEndRef.current) {
