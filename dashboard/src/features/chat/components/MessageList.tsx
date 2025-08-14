@@ -3,13 +3,14 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MediaPreview } from "@/components/ui/media-preview";
 import { AudioPlayer } from "@/components/ui/audio-player";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-
+import { Input } from "@/components/ui/input";
 import { Loader } from "@/components/ui/loader";
 import { format, isToday, isYesterday } from "date-fns";
 import {
@@ -23,6 +24,11 @@ import {
   MusicIcon,
   Presentation,
   VideoIcon,
+  EditIcon,
+  TrashIcon,
+  ReplyIcon,
+  CheckIcon,
+  XIcon,
 } from "lucide-react";
 import { useState } from "react";
 import { type Message } from "../types/chat.types";
@@ -43,7 +49,9 @@ interface MessageListProps {
 export function MessageList({
   messages,
   currentUserId,
+  onDeleteMessage,
   onUpdateMessage,
+  onReplyToMessage,
   className,
   observerRef,
   hasMore,
@@ -123,10 +131,10 @@ export function MessageList({
 
   const isCurrentUser = (senderId: string) => senderId === currentUserId;
 
-  // const handleStartEdit = (message: Message) => {
-  //   setEditingMessageId(message._id);
-  //   setEditContent(message.content);
-  // };
+  const handleStartEdit = (message: Message) => {
+    setEditingMessageId(message._id);
+    setEditContent(message.content);
+  };
 
   const handleSaveEdit = (messageId: string) => {
     if (editContent.trim() !== "") {
@@ -142,14 +150,16 @@ export function MessageList({
   };
 
   const renderMessage = (message: Message) => {
-    const isOwn = isCurrentUser(message.sender._id);
+    const isOwn = isCurrentUser(
+      message.sender._id || (message?.sender as unknown as string)
+    );
     const isEditing = editingMessageId === message._id;
 
     return (
       <div
         key={message._id}
         className={cn(
-          "flex gap-2 mb-4",
+          "flex gap-2 mb-4 group",
           isOwn ? "justify-end" : "justify-start"
         )}
       >
@@ -183,28 +193,37 @@ export function MessageList({
             {/* Message content */}
             {isEditing ? (
               <div className="space-y-2">
-                <textarea
+                <Input
                   value={editContent}
                   onChange={(e) => setEditContent(e.target.value)}
-                  className="w-full bg-transparent border-none resize-none focus:outline-none"
+                  className="bg-transparent border-none focus:outline-none p-0 text-sm"
                   autoFocus
-                  rows={2}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSaveEdit(message._id);
+                    }
+                    if (e.key === "Escape") {
+                      handleCancelEdit();
+                    }
+                  }}
                 />
-                <div className="flex gap-2">
+                <div className="flex gap-1">
                   <Button
                     size="sm"
                     onClick={() => handleSaveEdit(message._id)}
-                    className="h-6 px-2 text-xs"
+                    className="h-6 w-6 p-0"
+                    variant="ghost"
                   >
-                    Save
+                    <CheckIcon className="h-3 w-3 text-green-600" />
                   </Button>
                   <Button
                     size="sm"
                     variant="ghost"
                     onClick={handleCancelEdit}
-                    className="h-6 px-2 text-xs"
+                    className="h-6 w-6 p-0"
                   >
-                    Cancel
+                    <XIcon className="h-3 w-3 text-red-600" />
                   </Button>
                 </div>
               </div>
@@ -361,52 +380,45 @@ export function MessageList({
               )}
 
             {/* Message actions */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+            {isOwn && (
+              <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-4 w-4 p-0 opacity-0 group-hover:opacity-100"
+                  onClick={() => handleStartEdit(message)}
+                  className="h-6 w-6 p-0 hover:bg-muted"
                 >
-                  <MoreHorizontalIcon className="h-3 w-3" />
+                  <EditIcon className="h-3 w-3" />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {/* <ProtectedComponent
-                  permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => onDeleteMessage?.(message._id)}
+                  className="h-6 w-6 p-0 hover:bg-destructive/10 hover:text-destructive"
                 >
-                  <DropdownMenuItem onClick={() => onReplyToMessage?.(message)}>
-                    <ReplyIcon className="h-3 w-3 mr-2" />
-                    Reply
-                  </DropdownMenuItem>
-                </ProtectedComponent> */}
-
-                {/* {isOwn && (
-                  <ProtectedComponent
-                    permissionKey={PERMISSION_KEYS.MESSAGES.SEND}
-                  >
-                    <DropdownMenuItem onClick={() => handleStartEdit(message)}>
-                      <EditIcon className="h-3 w-3 mr-2" />
-                      Edit
-                    </DropdownMenuItem>
-                  </ProtectedComponent>
-                )} */}
-
-                {/* {isOwn && (
-                  <ProtectedComponent
-                    permissionKey={PERMISSION_KEYS.MESSAGES.DELETE}
-                  >
-                    <DropdownMenuItem
-                      onClick={() => onDeleteMessage?.(message._id)}
-                      className="text-destructive"
+                  <TrashIcon className="h-3 w-3" />
+                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 w-6 p-0 hover:bg-muted"
                     >
-                      <TrashIcon className="h-3 w-3 mr-2" />
-                      Delete
+                      <MoreHorizontalIcon className="h-3 w-3" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onClick={() => onReplyToMessage?.(message)}
+                    >
+                      <ReplyIcon className="h-3 w-3 mr-2" />
+                      Reply
                     </DropdownMenuItem>
-                  </ProtectedComponent>
-                )} */}
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            )}
           </div>
         </div>
 

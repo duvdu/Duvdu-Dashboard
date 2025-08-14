@@ -94,7 +94,7 @@ export function useInfiniteQuery<T, TQueryParams = any>(
     };
 
     fetchData();
-  }, [currentPage, enabled, pageSize]);
+  }, [currentPage, enabled, pageSize, JSON.stringify(queryParams), reversed]);
 
   return {
     data: infiniteScroll.items,

@@ -7,7 +7,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuthStore } from "@/features/auth/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { PaperclipIcon, SendIcon, XIcon } from "lucide-react";
@@ -20,6 +19,7 @@ import {
   type SendMessageForm,
 } from "../schemas/chat.schema";
 import type { Message } from "../types/chat.types";
+import { useChatStore } from "../store";
 
 interface SendMessageFormProps {
   receiverId: string;
@@ -37,11 +37,10 @@ export function SendMessageForm({
   placeholder = "Type a message...",
   disabled = false,
   replyTo,
-  previousMessages,
-  setMessages,
 }: SendMessageFormProps) {
   const [attachments, setAttachments] = useState<File[]>([]);
-  const { user: currentUser } = useAuthStore();
+  const { addMessage, messages } = useChatStore();
+  console.log(messages, "messages");
 
   const form = useForm<SendMessageForm>({
     resolver: zodResolver(sendMessageSchema),
@@ -55,56 +54,12 @@ export function SendMessageForm({
 
   const sendMessageMutation = useMutation({
     mutationFn: sendMessage,
-    onMutate: async (payload) => {
-      // Create optimistic message
-      const receiver =
-        previousMessages?.[0]?.receiver || previousMessages?.[0]?.sender;
-
-      if (!receiver || !currentUser) {
-        throw new Error("Missing receiver or current user");
-      }
-
-      const optimisticMessage: Message = {
-        _id: `temp-${Date.now()}`, // Temporary ID
-        sender: {
-          _id: currentUser._id,
-          name: currentUser.name,
-          username: "",
-          isOnline: true,
-          hasVerificationBadge: false,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        receiver: receiver,
-        content: payload.content,
-        attachments: undefined, // Will be handled by server
-        messageType: payload.messageType || "text",
-        replyTo: payload.replyTo,
-        watchers: [],
-        reactions: [],
-        updated: false,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-
-      // Optimistically update the messages cache
-      if (previousMessages) {
-        setMessages?.([...previousMessages, optimisticMessage]);
-      }
-
-      // Return context for potential rollback
-      return { previousMessages };
-    },
     onSuccess: (newMessage) => {
       form.reset();
       setAttachments([]);
+      console.log(newMessage, "newMessage", messages);
+      addMessage(newMessage);
       onMessageSent?.();
-
-      // Update the cache with the real message from server
-      setMessages?.([...previousMessages, newMessage]);
-
-      // Invalidate chats to update the chat list
-      // queryClient.invalidateQueries({ queryKey: ["chats"] });
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || "Failed to send message");
@@ -132,8 +87,7 @@ export function SendMessageForm({
       const isValidType =
         file.type.startsWith("image/") ||
         file.type.startsWith("video/") ||
-        file.type.startsWith("audio/") ||
-        file.type === "application/pdf";
+        file.type.startsWith("audio/");
 
       if (!isValidSize) {
         toast.error(`File ${file.name} is too large (max 10MB)`);
@@ -215,7 +169,7 @@ export function SendMessageForm({
               <input
                 type="file"
                 multiple
-                accept="image/*,video/*,audio/*,application/pdf"
+                accept="image/*,video/*,audio/*"
                 onChange={(e) => handleFileSelect(e.target.files)}
                 className="absolute inset-0 opacity-0 cursor-pointer"
                 disabled={disabled || sendMessageMutation.isPending}

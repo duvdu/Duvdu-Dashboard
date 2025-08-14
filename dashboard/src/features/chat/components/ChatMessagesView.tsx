@@ -10,16 +10,17 @@ import { PERMISSION_KEYS } from "@/config/permissions";
 import { useSocket } from "@/hooks/useSocket";
 import { useAuthStore } from "@/features/auth/store";
 import { useInfiniteQuery } from "@/hooks/useInfiniteQuery";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { ArrowLeft, MessageCircleIcon, User, UserIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useOutletContext, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { deleteMessage, getChatMessages, updateMessage } from "../api/chat.api";
 import { type Message } from "../types/chat.types";
-import { getOtherUser } from "../utils";
 import { MessageList } from "./MessageList";
 import { SendMessageForm } from "./SendMessageForm";
+
+import { useChatStore } from "../store";
 
 interface ChatOutletContext {
   onBackToChats: () => void;
@@ -33,37 +34,51 @@ export function ChatMessagesView() {
   const currentUserId = user?._id;
   const [replyingTo, setReplyingTo] = useState<Message | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const queryClient = useQueryClient();
+  const isInitialLoad = useRef(true);
 
   const {
-    data: messages,
+    data: messagesArr,
     isLoading,
     isLoadingMore,
     error,
+    latestData,
     hasMore,
     observerRef,
     reset,
     setItems,
   } = useInfiniteQuery<Message>({
     queryFn: ({ page, limit }) => getChatMessages(userId!, { page, limit }),
-    queryParams: {},
+    queryParams: {
+      userId,
+    },
     pageSize: 20,
     resetTriggers: [userId],
     enabled: !!userId,
     reversed: true,
   });
 
-  const currentReceiver =
-    messages.length > 0
-      ? getOtherUser(user?._id, messages[messages.length - 1])
-      : null;
+  const {
+    messages,
+    setMessages,
+    addMessage,
+    updateMessage: updateStoreMessage,
+    removeMessage,
+  } = useChatStore();
+
+  useEffect(() => {
+    if (messagesArr) {
+      setMessages(messagesArr);
+    }
+  }, [messagesArr, userId, setMessages]);
+
+  const currentReceiver = latestData?.user;
 
   // Delete message
   const deleteMessageMutation = useMutation({
     mutationFn: deleteMessage,
-    onSuccess: () => {
+    onSuccess: (_, messageId) => {
       toast.success("Message deleted");
-      reset();
+      removeMessage(messageId);
     },
     onError: () => {
       toast.error("Failed to delete message");
@@ -79,30 +94,36 @@ export function ChatMessagesView() {
       messageId: string;
       content: string;
     }) => updateMessage(messageId, { content }),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Message updated");
-      reset();
+      console.log(data, "data");
+      updateStoreMessage(data?._id, data);
     },
     onError: () => {
       toast.error("Failed to update message");
     },
   });
 
-  // Scroll to bottom on initial load
+  // Scroll to bottom on initial load only
   useEffect(() => {
-    if (!isLoading && messages.length > 0 && messagesEndRef.current) {
+    if (
+      !isLoading &&
+      messages.length > 0 &&
+      messagesEndRef.current &&
+      isInitialLoad.current
+    ) {
       messagesEndRef.current.scrollIntoView({ behavior: "instant" });
+      isInitialLoad.current = false;
     }
   }, [isLoading, messages.length]);
 
-  // Listen for new_message events for this chat
   useEffect(() => {
     if (!socket || !userId || !currentUserId) return;
     const handleNewMessage = (res: { message: Message }) => {
       const message = res.message;
-      const otherUser = getOtherUser(currentUserId, message);
+      const otherUser = latestData?.user;
       if (otherUser?._id === userId) {
-        reset();
+        addMessage(message);
         if (messagesEndRef.current) {
           messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
@@ -112,7 +133,7 @@ export function ChatMessagesView() {
     return () => {
       socket.off("new_message", handleNewMessage);
     };
-  }, [socket, userId, currentUserId, reset]);
+  }, [socket, userId, currentUserId, latestData?.user]);
 
   const handleDeleteMessage = (messageId: string) => {
     deleteMessageMutation.mutate(messageId);
@@ -128,8 +149,6 @@ export function ChatMessagesView() {
 
   const handleMessageSent = () => {
     setReplyingTo(null);
-    queryClient.invalidateQueries({ queryKey: ["chats"] });
-    reset();
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
