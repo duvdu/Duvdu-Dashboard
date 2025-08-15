@@ -1,6 +1,5 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { CheckCircle, Inbox } from "lucide-react";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { getNotifications } from "../api/notification.api";
 import {
   ComplaintNotification,
@@ -8,64 +7,47 @@ import {
   TagNotification,
 } from "../notification-types";
 import { useNotificationsStore, type Notification } from "../store";
+import { useInfiniteQuery } from "@/hooks/useInfiniteQuery";
 
 function NotificationItem({ notification }: { notification: Notification }) {
-  if (notification.type === "complaint") {
-    return <ComplaintNotification notification={notification} />;
+  switch (notification.type) {
+    case "complaint":
+      return <ComplaintNotification notification={notification} />;
+    case "new tag":
+      return <TagNotification notification={notification} />;
+    default:
+      return <GenericNotification notification={notification} />;
   }
-  if (notification.type === "new tag") {
-    return <TagNotification notification={notification} />;
-  }
-  return <GenericNotification notification={notification} />;
 }
 
 export default function NotificationsList() {
   const { notifications, setNotifications, resetUnread, unreadCount } =
     useNotificationsStore();
-  const observer = useRef<IntersectionObserver | null>(null);
-  const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useInfiniteQuery({
-      queryKey: ["notifications"],
-      queryFn: ({ pageParam = 1 }) =>
-        getNotifications({ page: pageParam, pageSize: 10 }),
-      getNextPageParam: (lastPage) => {
-        if (lastPage.pagination.currentPage < lastPage.pagination.totalPages) {
-          return lastPage.pagination.currentPage + 1;
-        }
-        return undefined;
-      },
-      initialPageParam: 1,
-    });
+  const {
+    data,
+    isLoading,
+    isLoadingMore,
+    hasMore,
+    observerRef: loadMoreRef,
+  } = useInfiniteQuery<Notification>({
+    queryFn: ({ page, pageSize }) => getNotifications({ page, pageSize }),
+    pageSize: 10,
+    enabled: true,
+    queryParams: {
+      page: 1,
+    },
+  });
 
   useEffect(() => {
-    if (data && data.pages.length > 0) {
-      const allNotifications = data.pages.flatMap((page) => page.data);
-      const lastPagination = data.pages[data.pages.length - 1].pagination;
-      setNotifications(allNotifications, lastPagination);
+    if (data && data.length > 0) {
+      const allNotifications = data;
+      setNotifications(allNotifications);
     }
   }, [data, setNotifications]);
 
-  const handleObserver = useCallback(
-    (entries: IntersectionObserverEntry[]) => {
-      const target = entries[0];
-      if (target.isIntersecting && hasNextPage && !isFetchingNextPage) {
-        fetchNextPage();
-      }
-    },
-    [fetchNextPage, hasNextPage, isFetchingNextPage]
-  );
-
-  useEffect(() => {
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(handleObserver);
-    if (loadMoreRef.current) observer.current.observe(loadMoreRef.current);
-    return () => observer.current?.disconnect();
-  }, [handleObserver]);
-
-  const unread = notifications.filter((n) => !n.watched);
-  const read = notifications.filter((n) => n.watched);
+  const unread = notifications.filter((n) => !n?.watched);
+  const read = notifications.filter((n) => n?.watched);
 
   return (
     <div className="max-h-[500px] overflow-y-auto w-[400px] p-2 scrollbar-thin scrollbar-thumb-gray-200 hover:scrollbar-thumb-gray-300 transition-all">
@@ -124,12 +106,12 @@ export default function NotificationsList() {
             </div>
           )}
           <div ref={loadMoreRef} />
-          {isFetchingNextPage && (
+          {isLoadingMore && (
             <div className="p-2 text-center text-xs text-muted-foreground">
               Loading...
             </div>
           )}
-          {!hasNextPage && notifications.length > 0 && (
+          {!hasMore && notifications.length > 0 && (
             <div className="p-2 text-center text-xs text-muted-foreground">
               No more notifications
             </div>

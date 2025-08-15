@@ -30,10 +30,7 @@ export type NotificationsState = {
   notifications: Notification[];
   unreadCount: number;
   pagination: NotificationsPagination | null;
-  setNotifications: (
-    notifications: Notification[],
-    pagination: NotificationsPagination
-  ) => void;
+  setNotifications: (notifications: Notification[]) => void;
   addNotification: (notification: Notification) => void;
   markAsRead: (id: string) => void;
   incrementUnread: () => void;
@@ -44,8 +41,7 @@ export const useNotificationsStore = create<NotificationsState>((set) => ({
   notifications: [],
   unreadCount: 0,
   pagination: null,
-  setNotifications: (notifications, pagination) =>
-    set({ notifications, pagination }),
+  setNotifications: (notifications) => set({ notifications }),
   addNotification: (notification) =>
     set((state) => ({
       notifications: [notification, ...state.notifications],

@@ -294,8 +294,8 @@ export function MessageList({
 
                 {/* Media */}
                 {message.media && message.media.length > 0 && (
-                  <div className="mt-3">
-                    <div className="grid grid-cols-2 gap-2 max-w-md">
+                  <div className="mt-3 ">
+                    <div className="grid grid-cols-auto gap-2 max-w-md">
                       {message.media.map((media) => (
                         <div key={media._id} className="group">
                           {media.type.startsWith("image/") ||

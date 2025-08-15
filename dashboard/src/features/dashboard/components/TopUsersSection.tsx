@@ -234,8 +234,9 @@ function UserTable<T extends { _id: string }>(props: {
             {props.columns.map((col) => (
               <TableHead key={col}>{col}</TableHead>
             ))}
+
+            <TableHead>Actions</TableHead>
           </TableRow>
-          <TableHead>Actions</TableHead>
         </TableHeader>
         <TableBody>
           {props.users.map((user) => (

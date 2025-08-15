@@ -6,6 +6,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import { SocketContext } from "./SocketProvider.types";
 import { useVisitorsStore } from "@/features/dashboard/store/visitors.store";
+import {
+  useNotificationsStore,
+  type Notification,
+} from "@/features/notifications/store";
 
 export function SocketProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuthStore();
@@ -14,14 +18,12 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { setOnlineVisitors, setLoggedInVisitors } = useVisitorsStore();
+  const { addNotification, incrementUnread } = useNotificationsStore();
   const [newMessagePopup, setNewMessagePopup] = useState<{
     senderName: string;
     messagePreview: string;
     chatPath: string;
   } | null>(null);
-  const [addNotification, setAddNotification] = useState<
-    ((notification: any) => void) | null
-  >(null);
   const [newNotificationPopup, setNewNotificationPopup] = useState<{
     title: string;
     message: string;
@@ -31,7 +33,6 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
     if (!user?._id) return;
     if (socketRef.current) return;
     const s = io(import.meta.env.VITE_API_URL, {
-      // query: { userId: user._id },
       autoConnect: true,
       transports: ["websocket"],
       withCredentials: true,
@@ -92,20 +93,14 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
   }, [socket, user?._id, setOnlineVisitors, setLoggedInVisitors]);
 
   useEffect(() => {
-    import("@/features/notifications/store").then((mod) => {
-      setAddNotification(
-        () => mod.useNotificationsStore.getState().addNotification
-      );
-    });
-  }, []);
-
-  useEffect(() => {
     if (!socket || !user?._id || !addNotification) return;
-    const handleNewNotification = (res: { notification: any }) => {
-      addNotification(res.notification);
+    const handleNewNotification = (res: { data: Notification }) => {
+      const notification = res.data;
+      addNotification(notification);
+      incrementUnread();
       setNewNotificationPopup({
-        title: res.notification.title,
-        message: res.notification.message,
+        title: notification.title,
+        message: notification.message,
       });
       setTimeout(() => {
         setNewNotificationPopup(null);
@@ -115,7 +110,7 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
     return () => {
       socket.off("notification", handleNewNotification);
     };
-  }, [socket, user?._id, addNotification]);
+  }, [socket, user?._id, addNotification, incrementUnread]);
 
   const handleViewMessage = () => {
     if (newMessagePopup) {

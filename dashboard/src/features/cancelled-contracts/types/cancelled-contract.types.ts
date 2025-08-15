@@ -68,6 +68,7 @@ export type CancelledContract = {
   };
   cancelReason: string;
   user: {
+    username: string;
     phoneNumber: {
       key?: string | null;
       number: string;

@@ -9,10 +9,10 @@ import { type CancelledContract } from "../types/cancelled-contract.types";
 export const useCancelledContractColumns =
   (): ColumnDef<CancelledContract>[] => [
     {
-      accessorKey: "contract.customer",
-      header: "Customer",
+      accessorKey: "user",
+      header: "Reporter",
       cell: ({ row }) => {
-        const customer = row.original.contract.customer;
+        const customer = row.original.user;
         return (
           <span className="flex items-center gap-3">
             <Image src={customer.profileImage} alt={customer.name} />
@@ -26,30 +26,6 @@ export const useCancelledContractColumns =
               </Link>
               <span className="text-xs text-muted-foreground">
                 @{customer.username}
-              </span>
-            </div>
-          </span>
-        );
-      },
-    },
-    {
-      accessorKey: "contract.sp",
-      header: "Service Provider",
-      cell: ({ row }) => {
-        const sp = row.original.contract.sp;
-        return (
-          <span className="flex items-center gap-3">
-            <Image src={sp.profileImage} alt={sp.name} />
-            <div className="flex flex-col">
-              <Link
-                to={`/dashboard/users/${sp._id}`}
-                target="_blank"
-                className="font-medium text-base text-foreground truncate hover:underline hover:text-primary flex items-center gap-1"
-              >
-                {sp.name} <ExternalLink className="w-4 h-4" />
-              </Link>
-              <span className="text-xs text-muted-foreground">
-                @{sp.username}
               </span>
             </div>
           </span>

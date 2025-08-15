@@ -54,8 +54,10 @@ export default function DatePicker({
           mode="single"
           selected={date}
           onSelect={(date) => {
-            const formattedDate = date ? date.toISOString() : undefined;
-            onSelect?.(formattedDate ? formattedDate : undefined);
+            const formattedDate = date
+              ? new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+              : undefined;
+            onSelect?.(formattedDate ? formattedDate.toISOString() : undefined);
           }}
           autoFocus
           startMonth={startMonth || new Date(1970, 11)}
