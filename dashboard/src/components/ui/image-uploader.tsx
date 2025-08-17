@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { Image as ImageIcon, Upload, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { MediaPreview } from "./media-preview";
+import { toast } from "sonner";
 
 export type ImageUploaderProps = {
   value?: string | File;
@@ -11,6 +12,7 @@ export type ImageUploaderProps = {
   className?: string;
   disabled?: boolean;
   placeholder?: string;
+  maxSize?: number;
 };
 
 export function ImageUploader({
@@ -20,6 +22,7 @@ export function ImageUploader({
   accept = "image/jpeg,image/png,image/gif,image/webp,image/jpg",
   className = "",
   disabled = false,
+  maxSize = 10 * 1024 * 1024,
   placeholder = "Drop an image here or click to browse",
 }: ImageUploaderProps) {
   const [preview, setPreview] = useState<string | undefined>();
@@ -44,12 +47,27 @@ export function ImageUploader({
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0] || null;
-    if (file && !disabled) {
+    if (file && !disabled && file.size <= maxSize) {
       processFile(file);
+    } else {
+      toast.error(
+        `File size exceeds the maximum allowed size of ${
+          maxSize / 1024 / 1024
+        }MB`
+      );
     }
   }
 
   function processFile(file: File) {
+    if (file.size > maxSize) {
+      toast.error(
+        `File size exceeds the maximum allowed size of ${
+          maxSize / 1024 / 1024
+        }MB`
+      );
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = (ev) => {
       setPreview(ev.target?.result as string);

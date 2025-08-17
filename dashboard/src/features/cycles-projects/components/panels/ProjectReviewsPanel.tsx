@@ -33,14 +33,13 @@ function ProjectReviewsPanel({ id }: { id: string }) {
     data: reviewsData,
     isLoading: reviewsLoading,
     error: reviewsError,
-    refetch: refetchReviews,
   } = useQuery({
     queryKey: ["project-reviews", reviewFilters],
     queryFn: () => getProjectReviews(reviewFilters),
     enabled: !!id,
   });
 
-  const reviewColumns = useProjectReviewColumns(refetchReviews);
+  const reviewColumns = useProjectReviewColumns();
   const reviewPagesCount = reviewsData?.pagination.totalPages || 0;
   const reviewTotalCount = reviewsData?.pagination.resultCount || 0;
 
@@ -105,6 +104,7 @@ function ProjectReviewsPanel({ id }: { id: string }) {
           filters={reviewsFilterDefinitions}
           filterValues={reviewFilterValues}
           onFiltersChange={handleReviewFiltersChange}
+          disableSearch
         />
       </CardContent>
     </Card>

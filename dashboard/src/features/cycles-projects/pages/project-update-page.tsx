@@ -43,7 +43,7 @@ export default function ProjectUpdatePage() {
     return {
       name: data.name || "",
       description: data.description || "",
-      duration: data.duration || 0,
+      duration: data.duration?.toString() || "",
       address: data.address || "",
       category: data.category?._id || "",
       subCategory: data.subCategory?._id || "",
@@ -77,10 +77,10 @@ export default function ProjectUpdatePage() {
           | "minutes"
           | "hours"
           | "episodes",
-        pricerPerUnit: data.projectScale?.pricerPerUnit || 0,
-        minimum: data.projectScale?.minimum || 0,
-        current: data.projectScale?.current || 0,
-        maximum: data.projectScale?.maximum || 0,
+        pricerPerUnit: data.projectScale?.pricerPerUnit?.toString() || "",
+        minimum: data.projectScale?.minimum?.toString() || "",
+        current: data.projectScale?.current?.toString() || "",
+        maximum: data.projectScale?.maximum?.toString() || "",
       },
     };
   }, [data]);

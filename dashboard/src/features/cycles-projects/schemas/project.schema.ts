@@ -29,10 +29,10 @@ export const projectActionSchema = z.object({
 
 export const projectScaleSchema = z.object({
   unit: z.enum(["seconds", "minutes", "hours", "episodes"]),
-  pricerPerUnit: z.number().min(0),
-  minimum: z.number().min(1),
-  current: z.number().min(1),
-  maximum: z.number().min(1),
+  pricerPerUnit: z.string().min(1),
+  minimum: z.string().min(1),
+  current: z.string().min(1),
+  maximum: z.string().min(1),
 });
 
 export const toolSchema = z.object({
@@ -46,14 +46,14 @@ export const functionSchema = z.object({
 });
 
 export const locationSchema = z.object({
-  lat: z.number(),
-  lng: z.number(),
+  lat: z.number().nullable().optional(),
+  lng: z.number().nullable().optional(),
 });
 
 export const projectFormSchema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
-  duration: z.number().min(1),
+  duration: z.string().min(1),
   address: z.string().min(1),
   category: z.string().min(1),
   subCategory: z.string().optional(),
