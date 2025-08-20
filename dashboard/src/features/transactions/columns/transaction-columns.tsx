@@ -95,6 +95,14 @@ export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
       },
     },
     {
+      accessorKey: "createdAt",
+      header: "Created At",
+      cell: ({ row }) =>
+        row.original.createdAt
+          ? new Date(row.original.createdAt).toLocaleDateString()
+          : "-",
+    },
+    {
       id: "actions",
       header: "Actions",
       cell: ({ row }) => {
