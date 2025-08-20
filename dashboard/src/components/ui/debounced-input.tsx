@@ -35,13 +35,6 @@ const DebouncedInput = React.forwardRef<HTMLInputElement, DebouncedInputProps>(
     useEffect(() => {
       setInputValue(value);
     }, [value]);
-
-    useEffect(() => {
-      return () => {
-        debouncedOnChange.cancel();
-      };
-    }, [debouncedOnChange]);
-
     return (
       <Input
         type={type}

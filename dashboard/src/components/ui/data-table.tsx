@@ -201,6 +201,7 @@ export function DataTable<TData, TValue>({
                     ref={searchInputRef}
                     defaultValue={search}
                     onChange={(e) => {
+                      console.log("changed", e.target.value);
                       updateQueryParam("keyword", e.target.value);
                     }}
                     placeholder={searchPlaceholder}
