@@ -29,7 +29,6 @@ export default function ProjectReviewListPage() {
     data: reviewsData,
     isLoading: loading,
     error,
-    refetch,
   } = useQuery({
     queryKey: ["project-reviews", filters],
     queryFn: () => getProjectReviews(filters),
@@ -44,7 +43,7 @@ export default function ProjectReviewListPage() {
   const reviews = reviewsData?.data || [];
   const pagesCount = reviewsData?.pagination.totalPages || 0;
   const totalCount = reviewsData?.pagination.resultCount || 0;
-  const columns = useProjectReviewColumns(refetch);
+  const columns = useProjectReviewColumns();
 
   // Only user, project, and search filters
   const filterDefinitions: FilterDefinition[] = [
