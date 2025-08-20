@@ -43,6 +43,15 @@ export const useSubscriptionColumns = (): ColumnDef<Transaction>[] => {
     },
 
     {
+      accessorKey: "createdAt",
+      header: "Created At",
+      cell: ({ row }) =>
+        row.original.createdAt
+          ? new Date(row.original.createdAt).toLocaleDateString()
+          : "-",
+    },
+
+    {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => {

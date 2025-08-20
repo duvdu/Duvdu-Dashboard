@@ -31,7 +31,8 @@ export default function TicketListPage() {
         page,
         limit,
         search: search || undefined,
-        isClosed: isClosed === "true" ? true : undefined,
+        isClosed:
+          isClosed === "true" ? true : isClosed === "false" ? false : undefined,
         startDate: startDate || undefined,
         endDate: endDate || undefined,
         reporter: reporter || undefined,

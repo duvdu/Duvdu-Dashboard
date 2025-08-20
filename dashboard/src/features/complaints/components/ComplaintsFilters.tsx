@@ -105,7 +105,11 @@ function ComplaintsFilters({
               <DatePicker
                 date={startDate ? new Date(startDate) : undefined}
                 onSelect={(date) =>
-                  handleFiltersChange({ ...filterValues, startDate: date })
+                  handleFiltersChange({
+                    ...filterValues,
+                    isClosed,
+                    startDate: date,
+                  })
                 }
                 placeholder="Start date"
               />
@@ -117,7 +121,11 @@ function ComplaintsFilters({
               <DatePicker
                 date={endDate ? new Date(endDate) : undefined}
                 onSelect={(date) =>
-                  handleFiltersChange({ ...filterValues, endDate: date })
+                  handleFiltersChange({
+                    ...filterValues,
+                    isClosed,
+                    endDate: date,
+                  })
                 }
                 placeholder="End date"
               />
@@ -131,6 +139,7 @@ function ComplaintsFilters({
                   setSelectedReporter(user ? user._id : "");
                   handleFiltersChange({
                     ...filterValues,
+                    isClosed,
                     reporter: user ? user._id : undefined,
                   });
                 }}

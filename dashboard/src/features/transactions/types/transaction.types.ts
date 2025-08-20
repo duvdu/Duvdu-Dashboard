@@ -13,6 +13,7 @@ export interface Transaction {
   timeStamp: string;
   fundingAmount?: number;
   ticketNumber?: string;
+  createdAt: string;
 }
 
 export interface Pagination {
