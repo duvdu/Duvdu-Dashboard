@@ -35,7 +35,7 @@ export default function TicketListPage() {
           isClosed === "true" ? true : isClosed === "false" ? false : undefined,
         startDate: startDate || undefined,
         endDate: endDate || undefined,
-        reporter: reporter || undefined,
+        userId: reporter || undefined,
       }),
     queryParams: { search, isClosed, startDate, endDate, reporter },
     pageSize: 10,

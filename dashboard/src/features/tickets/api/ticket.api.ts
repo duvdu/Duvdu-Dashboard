@@ -9,7 +9,7 @@ export const getTickets = async (filters: {
   isClosed?: boolean;
   startDate?: string;
   endDate?: string;
-  reporter?: string;
+  userId?: string;
 }) => {
   const { data } = await axios.get("/api/users/tickets", { params: filters });
   return data as { data: Ticket[]; pagination: Pagination };
