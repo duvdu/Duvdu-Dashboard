@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/form";
 import { ImageUploader } from "@/components/ui/image-uploader";
 import { Input } from "@/components/ui/input";
-import { MultiSelect, type Option } from "@/components/ui/multi-select";
 import {
   Select,
   SelectContent,
@@ -20,12 +19,9 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { getCategories } from "@/features/categories/api/category.api";
-import type { Category } from "@/features/categories/types/category.types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
 import { X } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import {
@@ -63,99 +59,6 @@ export function ProjectForm({
   // Attachments state (multiple images)
   const [attachments, setAttachments] = useState<(File | string)[]>(
     form.watch("attachments") || []
-  );
-
-  // Fetch categories
-  const { data: categoriesData } = useQuery({
-    queryKey: ["categories", "all-for-project-form"],
-    queryFn: () => getCategories({ limit: 1000 }),
-  });
-  const categories: Category[] = categoriesData?.data || [];
-
-  // Map categories to options
-  const categoryOptions: Option[] = useMemo(
-    () =>
-      categories.map((cat) => ({ value: cat._id || "", label: cat.title.en })),
-    [categories]
-  );
-
-  // Get selected category object
-  const selectedCategory = useMemo(
-    () => categories.find((cat) => cat._id === form.watch("category")),
-    [categories, form.watch("category")]
-  );
-
-  // Subcategory options
-  const subCategoryOptions: Option[] = useMemo(
-    () =>
-      selectedCategory?.subCategories?.map((sub) => ({
-        value: sub._id || "",
-        label: sub.title.en,
-      })) || [],
-    [selectedCategory]
-  );
-
-  // Tag options (from selected subcategory or all tags in category)
-  const selectedSubCategory = useMemo(
-    () =>
-      selectedCategory?.subCategories?.find(
-        (sub) => sub._id === form.watch("subCategory")
-      ),
-    [selectedCategory, form.watch("subCategory")]
-  );
-  const tagOptions: Option[] = useMemo(
-    () =>
-      selectedSubCategory?.tags?.map((tag) => ({
-        value: tag._id,
-        label: tag.en,
-      })) ||
-      selectedCategory?.subCategories?.flatMap((sub) =>
-        sub.tags.map((tag) => ({ value: tag._id, label: tag.en }))
-      ) ||
-      [],
-    [selectedCategory, selectedSubCategory]
-  );
-
-  // Related category options (all except current)
-  const relatedCategoryOptions: Option[] = useMemo(
-    () =>
-      categories
-        .filter((cat) => cat._id !== form.watch("category"))
-        .map((cat) => ({ value: cat._id || "", label: cat.title.en })),
-    [categories, form.watch("category")]
-  );
-
-  // Related subcategory and tag options (from related category)
-  const selectedRelatedCategory = useMemo(
-    () => categories.find((cat) => cat._id === form.watch("relatedCategory")),
-    [categories, form.watch("relatedCategory")]
-  );
-  const relatedSubCategoryOptions: Option[] = useMemo(
-    () =>
-      selectedRelatedCategory?.subCategories?.map((sub) => ({
-        value: sub._id || "",
-        label: sub.title.en,
-      })) || [],
-    [selectedRelatedCategory]
-  );
-  const selectedRelatedSubCategory = useMemo(
-    () =>
-      selectedRelatedCategory?.subCategories?.find(
-        (sub) => sub._id === form.watch("relatedSubCategory")
-      ),
-    [selectedRelatedCategory, form.watch("relatedSubCategory")]
-  );
-  const relatedTagOptions: Option[] = useMemo(
-    () =>
-      selectedRelatedSubCategory?.tags?.map((tag) => ({
-        value: tag._id,
-        label: tag.en,
-      })) ||
-      selectedRelatedCategory?.subCategories?.flatMap((sub) =>
-        sub.tags.map((tag) => ({ value: tag._id, label: tag.en }))
-      ) ||
-      [],
-    [selectedRelatedCategory, selectedRelatedSubCategory]
   );
 
   // Add keyword
@@ -297,148 +200,6 @@ export function ProjectForm({
             </FormItem>
           )}
         />
-
-        {/* Category, Subcategory, Tags, Related Category, Related Subcategory, Related Tags */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            name="category"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Category</FormLabel>
-                <FormControl>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {categoryOptions.map((opt) => (
-                        <SelectItem key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="subCategory"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Subcategory</FormLabel>
-                <FormControl>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select subcategory" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {subCategoryOptions.map((opt) => (
-                        <SelectItem key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            name="tags"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Tags</FormLabel>
-                <FormControl>
-                  <MultiSelect
-                    options={tagOptions}
-                    value={field.value || []}
-                    onChange={field.onChange}
-                    placeholder="Select tags"
-                    className="w-full"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="relatedCategory"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Related Category</FormLabel>
-                <FormControl>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select related category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {relatedCategoryOptions.map((opt) => (
-                        <SelectItem key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            name="relatedSubCategory"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Related Subcategory</FormLabel>
-                <FormControl>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select related subcategory" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {relatedSubCategoryOptions.map((opt) => (
-                        <SelectItem key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="relatedTags"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Related Tags</FormLabel>
-                <FormControl>
-                  <MultiSelect
-                    options={relatedTagOptions}
-                    value={field.value || []}
-                    onChange={field.onChange}
-                    placeholder="Select related tags"
-                    className="w-full"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
 
         {/* Attachments, Cover, Audio Cover */}
         <div>

@@ -1,6 +1,7 @@
 import { formatDistanceToNow } from "date-fns";
 import { AlertTriangle } from "lucide-react";
 import { type Notification } from "../store";
+import { Image } from "@/components/ui/image";
 
 export default function ComplaintNotification({
   notification,
@@ -17,8 +18,8 @@ export default function ComplaintNotification({
       style={{ textDecoration: "none" }}
     >
       <div className="flex-shrink-0 w-10 h-10 rounded-full border-2 border-blue-200 overflow-hidden shadow-sm">
-        <img
-          src={notification.sourceUser.profileImage}
+        <Image
+          src={notification?.sourceUser?.profileImage || ""}
           alt="avatar"
           className="w-full h-full object-cover"
         />

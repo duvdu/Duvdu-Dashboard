@@ -45,16 +45,6 @@ export default function ProjectUpdatePage() {
       description: data.description || "",
       duration: data.duration?.toString() || "",
       address: data.address || "",
-      category: data.category?._id || "",
-      subCategory: data.subCategory?._id || "",
-      tags: data.tags?.map((t: any) => t._id) || [],
-      relatedCategory: data.relatedCategory?.[0]?.category?._id || "",
-      relatedSubCategory:
-        data.relatedCategory?.[0]?.category?.subCategories?.[0]?._id || "",
-      relatedTags:
-        data.relatedCategory?.[0]?.category?.subCategories?.[0]?.tags?.map(
-          (item: any) => item?._id
-        ) || [],
       attachments: data.attachments || [],
       cover: data.cover || undefined,
       audioCover: data.audioCover ? [data.audioCover] : [],
@@ -94,29 +84,6 @@ export default function ProjectUpdatePage() {
       if (values.duration)
         formData.append("duration", values.duration.toString());
       if (values.address) formData.append("address", values.address);
-      if (values.category) formData.append("category", values.category);
-      if (values.subCategory)
-        formData.append("subCategoryId", values.subCategory);
-      if (values.tags.length > 0) {
-        values.tags.forEach((tag, i) => {
-          formData.append(`tagsId[${i}]`, tag);
-        });
-      }
-      if (values.relatedCategory)
-        formData.append("relatedCategory[0][category]", values.relatedCategory);
-      if (values.relatedSubCategory)
-        formData.append(
-          "relatedCategory[0][subCategories][0][subCategory]",
-          values.relatedSubCategory
-        );
-      if (values.relatedTags.length > 0) {
-        values.relatedTags.forEach((tag, i) => {
-          formData.append(
-            `relatedCategory[0][subCategories][0][tags][${i}][tag]`,
-            tag
-          );
-        });
-      }
       if (values.attachments.length > 0) {
         values.attachments.forEach((attachment, i) => {
           formData.append(`attachments[${i}]`, attachment);

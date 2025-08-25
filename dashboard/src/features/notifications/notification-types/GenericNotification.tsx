@@ -1,6 +1,7 @@
 import { formatDistanceToNow } from "date-fns";
 import { Bell } from "lucide-react";
 import { type Notification } from "../store";
+import { Image } from "@/components/ui/image";
 
 export default function GenericNotification({
   notification,
@@ -16,9 +17,9 @@ export default function GenericNotification({
       style={{ textDecoration: "none" }}
     >
       <div className="flex-shrink-0 w-10 h-10 rounded-full border-2 border-blue-200 overflow-hidden shadow-sm">
-        <img
-          src={notification.sourceUser.profileImage}
-          alt="avatar"
+        <Image
+          src={notification?.sourceUser?.profileImage || ""}
+          alt={notification?.sourceUser?.name || "PP"}
           className="w-full h-full object-cover"
         />
       </div>
