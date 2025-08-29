@@ -70,8 +70,8 @@ export const PERMISSION_KEYS = {
     SEND: "send-notification-to-users",
   },
   TRANSACTIONS: {
-    VIEW: "list-fund-transactions",
-    CREATE: "create-fund-transactions",
+    VIEW: "list-transactions",
+    // CREATE: "create-fund-transactions",
     FUND: "fund-transactions",
   },
   FUND_TRANSACTIONS: {

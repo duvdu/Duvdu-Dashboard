@@ -18,7 +18,6 @@ import {
   Rss,
   Settings,
   Shield,
-  Star,
   StickyNote,
   Tags,
   Ticket,
@@ -54,13 +53,6 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
         icon: Calendar,
         label: "Projects",
         requiredPermissions: [PERMISSION_KEYS.PROJECTS.VIEW],
-        children: [
-          {
-            path: "/dashboard/projects/reviews",
-            icon: Star,
-            label: "Reviews",
-          },
-        ],
       },
     ],
   },
