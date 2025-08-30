@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { type FilterDefinition } from "@/components/ui/filters";
 import { PERMISSION_KEYS } from "@/config/permissions";
-import { getUsers } from "@/features/users/api/users.api";
+import { getAdmins } from "@/features/users/api/users.api";
 import { useModal } from "@/store/modal-store";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
@@ -29,7 +29,7 @@ export default function UserListPage() {
   } = useQuery({
     queryKey: ["admins", keyword, page, limit, status, role],
     queryFn: () =>
-      getUsers({
+      getAdmins({
         search: keyword,
         page,
         limit,

@@ -86,25 +86,53 @@ export default function UserProfilePage() {
               </ProtectedComponent>
             </TabsList>
             <TabsContent value="payout-methods">
-              <PayoutMethodsPanel userId={id} />
+              <ProtectedComponent
+                permissionKeys={[PERMISSION_KEYS.WITHDRAW_METHODS.VIEW]}
+              >
+                <PayoutMethodsPanel userId={id} />
+              </ProtectedComponent>
             </TabsContent>
             <TabsContent value="complaints">
-              <ComplaintsPanel userId={id} />
+              <ProtectedComponent
+                permissionKeys={[PERMISSION_KEYS.COMPLAINTS.VIEW]}
+              >
+                <ComplaintsPanel userId={id} />
+              </ProtectedComponent>
             </TabsContent>
             <TabsContent value="subscriptions">
-              <SubscriptionsPanel userId={id} />
+              <ProtectedComponent
+                permissionKeys={[PERMISSION_KEYS.TRANSACTIONS.VIEW]}
+              >
+                <SubscriptionsPanel userId={id} />
+              </ProtectedComponent>
             </TabsContent>
             <TabsContent value="financial-log">
-              <TransactionsPanel userId={id} />
+              <ProtectedComponent
+                permissionKeys={[PERMISSION_KEYS.TRANSACTIONS.VIEW]}
+              >
+                <TransactionsPanel userId={id} />
+              </ProtectedComponent>
             </TabsContent>
             <TabsContent value="payouts">
-              <ContractsFundTransactionsPanel userId={id} />
+              <ProtectedComponent
+                permissionKeys={[PERMISSION_KEYS.FUND_TRANSACTIONS.VIEW]}
+              >
+                <ContractsFundTransactionsPanel userId={id} />
+              </ProtectedComponent>
             </TabsContent>
             <TabsContent value="content-log">
-              <ProjectsPanel userId={id} />
+              <ProtectedComponent
+                permissionKeys={[PERMISSION_KEYS.PROJECTS.VIEW]}
+              >
+                <ProjectsPanel userId={id} />
+              </ProtectedComponent>
             </TabsContent>
             <TabsContent value="contract-log">
-              <ContractsPanel userId={id} />
+              <ProtectedComponent
+                permissionKeys={[PERMISSION_KEYS.CONTRACTS.VIEW]}
+              >
+                <ContractsPanel userId={id} />
+              </ProtectedComponent>
             </TabsContent>
           </Tabs>
         </div>

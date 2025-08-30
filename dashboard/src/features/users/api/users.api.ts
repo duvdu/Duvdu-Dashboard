@@ -98,3 +98,45 @@ export const usersApi = {
   unblockUser,
   deleteUser,
 };
+
+export async function getAdmins({
+  search = "",
+  page = 1,
+  limit = 10,
+  status,
+  isBlocked,
+  isAdmin = false,
+  isDeleted,
+  from,
+  to,
+  role,
+  isOnline,
+}: {
+  search?: string;
+  page?: number;
+  limit?: number;
+  status?: string;
+  isBlocked?: boolean;
+  isAdmin?: boolean;
+  isDeleted?: boolean;
+  from?: string;
+  to?: string;
+  role?: string;
+  isOnline?: boolean;
+}) {
+  const params = {
+    search,
+    page,
+    limit,
+    status,
+    isBlocked,
+    isAdmin,
+    isDeleted,
+    from,
+    to,
+    role,
+    isOnline,
+  };
+  const { data } = await api.get("api/users/auth/admins", { params });
+  return data as PaginatedResponse<User>;
+}

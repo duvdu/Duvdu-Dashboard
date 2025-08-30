@@ -50,6 +50,8 @@ export const useRoleColumns = (
                 <PencilIcon className="w-4 h-4" />
                 Edit
               </Button>
+            </ProtectedComponent>
+            <ProtectedComponent permissionKey={PERMISSION_KEYS.ROLES.DELETE}>
               <Button
                 variant="ghost"
                 className="w-full justify-start rounded-none px-3 py-2 text-destructive"

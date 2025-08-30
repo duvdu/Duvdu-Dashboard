@@ -6,14 +6,14 @@ export const PERMISSION_KEYS = {
   },
   USERS: {
     VIEW: "list-users",
-    CREATE: "create-user",
+    // CREATE: "create-user",
     UPDATE: "update-user",
     DELETE: "remove-user",
     BLOCK: "block-user",
     UNBLOCK: "un-block-user",
   },
   ADMINS: {
-    VIEW: "list-users",
+    VIEW: "list-admins",
     CREATE: "create-user",
     UPDATE: "update-user",
     DELETE: "remove-user",
@@ -51,7 +51,7 @@ export const PERMISSION_KEYS = {
     // CREATE: "create-contract",
     // UPDATE: "update-contract",
     // DELETE: "remove-contract",
-    LIST_CONTRACTS_ANALYSIS: "list-contracts-analysis",
+    // LIST_CONTRACTS_ANALYSIS: "list-contracts-analysis",
     VIEW_CANCELED_CONTRACTS: "list-cancel-contracts",
     ACCEPT_CANCEL_CONTRACT: "accept-cancel-contract",
     DELETE_CANCEL_CONTRACT: "delete-cancel-contract",
@@ -87,11 +87,11 @@ export const PERMISSION_KEYS = {
   },
   PROJECT_REVIEWS: {
     VIEW: "list-project-reviews",
-    DELETE: "delete-project-reviews",
+    // DELETE: "delete-project-reviews",
   },
   CONTRACTS_REVIEWS: {
     VIEW: "list-contracts-reviews",
-    DELETE: "delete-contracts-reviews",
+    // DELETE: "delete-contracts-reviews",
   },
   REPORTS: {
     VIEW: "list-reports",

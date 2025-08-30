@@ -4,6 +4,8 @@ import { useModal } from "@/store/modal-store";
 import { type ColumnDef } from "@tanstack/react-table";
 import type { ProjectReport } from "../types/project-report.types";
 import { MediaPreview } from "@/components/ui/media-preview";
+import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
+import { PERMISSION_KEYS } from "@/config/permissions";
 
 export const useProjectReportColumns = (
   refetch?: () => void
@@ -95,14 +97,16 @@ export const useProjectReportColumns = (
       header: "Actions",
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
-          <Button
-            variant="destructive"
-            onClick={() =>
-              onOpen("deleteProjectReport", { id: row.original._id }, refetch)
-            }
-          >
-            Delete
-          </Button>
+          <ProtectedComponent permissionKey={PERMISSION_KEYS.REPORTS.DELETE}>
+            <Button
+              variant="destructive"
+              onClick={() =>
+                onOpen("deleteProjectReport", { id: row.original._id }, refetch)
+              }
+            >
+              Delete
+            </Button>
+          </ProtectedComponent>
         </div>
       ),
     },

@@ -47,6 +47,7 @@ export default function UserToUserChatPage() {
     enabled: !!userId && !selectedUser,
   });
 
+  console.log(selectedUser, "selectedUser");
   // Set user from URL param
   useEffect(() => {
     if (userData && !selectedUser) {
