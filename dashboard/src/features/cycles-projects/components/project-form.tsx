@@ -30,8 +30,6 @@ import {
   projectFormSchema,
 } from "../schemas/project.schema";
 
-const projectScaleUnits = ["seconds", "minutes", "hours", "episodes"];
-
 interface ProjectFormProps {
   initialValues?: Partial<ProjectFormSchema>;
   onSubmit: (values: ProjectFormSchema) => void;
@@ -142,6 +140,21 @@ export function ProjectForm({
 
   console.log(form.formState.errors, "errors");
 
+  const categoryMedia = form.watch("categoryMedia");
+  const mediaAccept =
+    categoryMedia === "image"
+      ? "image/*"
+      : categoryMedia === "video"
+      ? "video/*"
+      : categoryMedia === "audio"
+      ? "audio/*"
+      : undefined;
+
+  const unitOptions =
+    categoryMedia === "image"
+      ? ["image"]
+      : ["seconds", "minutes", "hours", "episodes"];
+
   return (
     <Form {...form}>
       <form
@@ -204,7 +217,14 @@ export function ProjectForm({
 
         {/* Attachments, Cover, Audio Cover */}
         <div>
-          <FormLabel>Attachments</FormLabel>
+          {categoryMedia && (
+            <div className="my-2">
+              <Badge variant="default" className="px-2 py-0.5 ">
+                Media Type: {categoryMedia}
+              </Badge>
+            </div>
+          )}
+          <FormLabel className="mb-2">Attachments</FormLabel>
           <div className="flex flex-wrap w-full gap-4">
             {attachments &&
               attachments.length > 0 &&
@@ -212,8 +232,8 @@ export function ProjectForm({
                 <DocumentUploader
                   key={idx}
                   value={file}
-                  className="w-full"
                   label={""}
+                  accept={mediaAccept}
                   onChange={(val) => {
                     if (val === null) {
                       handleRemoveAttachment(idx);
@@ -231,7 +251,8 @@ export function ProjectForm({
             <DocumentUploader
               value={undefined}
               className="w-full"
-              label={undefined}
+              label={""}
+              accept={mediaAccept}
               onChange={(val) => {
                 if (val) handleAddAttachment(val);
               }}
@@ -259,6 +280,30 @@ export function ProjectForm({
             </FormItem>
           )}
         />
+        {categoryMedia === "audio" && (
+          <FormField
+            name="audioCover"
+            control={form.control}
+            render={() => (
+              <FormItem>
+                <FormControl>
+                  <ImageUploader
+                    label="Audio Cover"
+                    value={(form.watch("audioCover") || [])[0]}
+                    onChange={(val) => {
+                      if (val === null) {
+                        form.setValue("audioCover", [] as any);
+                      } else {
+                        form.setValue("audioCover", [val] as any);
+                      }
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         {/* Tools Used */}
         <div>
           <FormLabel>Tools Used</FormLabel>
@@ -404,7 +449,7 @@ export function ProjectForm({
                       <SelectValue placeholder="Select unit" />
                     </SelectTrigger>
                     <SelectContent>
-                      {projectScaleUnits.map((unit) => (
+                      {unitOptions.map((unit) => (
                         <SelectItem key={unit} value={unit}>
                           {unit}
                         </SelectItem>

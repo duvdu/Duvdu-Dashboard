@@ -28,7 +28,7 @@ export const projectActionSchema = z.object({
 });
 
 export const projectScaleSchema = z.object({
-  unit: z.enum(["seconds", "minutes", "hours", "episodes"]),
+  unit: z.enum(["image", "seconds", "minutes", "hours", "episodes"]).optional(),
   pricerPerUnit: z.string().min(1),
   minimum: z.string().min(1),
   current: z.string().min(1),
@@ -110,6 +110,63 @@ export const projectFormSchema = z
         path: ["attachments"],
         message: `At least one ${values.categoryMedia} attachment is required`,
       });
+    }
+
+    if (values.categoryMedia === "audio") {
+      const cover = values.audioCover || [];
+      const hasImageCover = cover.some((file) => {
+        if (!file) return false;
+        if (typeof File !== "undefined" && file instanceof File) {
+          return (file as File).type.startsWith("image/");
+        }
+        if (typeof file === "string") {
+          const url = file.toLowerCase();
+          return [
+            ".png",
+            ".jpg",
+            ".jpeg",
+            ".gif",
+            ".webp",
+            ".bmp",
+            ".svg",
+          ].some((ext) => url.endsWith(ext));
+        }
+        return false;
+      });
+      if (!hasImageCover) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["audioCover"],
+          message: "Audio cover image is required when media is audio",
+        });
+      }
+    }
+
+    const unit = values.projectScale?.unit;
+    if (unit) {
+      if (values.categoryMedia === "image") {
+        if (unit !== "image") {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ["projectScale", "unit"],
+            message: "Unit must be 'image' when media type is image",
+          });
+        }
+      }
+      if (
+        values.categoryMedia === "video" ||
+        values.categoryMedia === "audio"
+      ) {
+        const allowed = ["seconds", "minutes", "hours", "episodes"] as const;
+        if (!(allowed as readonly string[]).includes(unit)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ["projectScale", "unit"],
+            message:
+              "Unit must be one of seconds, minutes, hours, episodes for video/audio",
+          });
+        }
+      }
     }
   });
 

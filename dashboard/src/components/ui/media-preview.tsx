@@ -20,6 +20,19 @@ export interface MediaPreviewProps extends React.ComponentProps<typeof Avatar> {
 const getMediaType = (src: string): "image" | "video" | "audio" | "unknown" => {
   if (!src) return "unknown";
 
+  // Detect data URLs by MIME type
+  if (src.startsWith("data:")) {
+    const mime = src.slice(5, src.indexOf(";"));
+    if (mime.startsWith("video/")) return "video";
+    if (mime.startsWith("audio/")) return "audio";
+    if (mime.startsWith("image/")) return "image";
+  }
+
+  // Detect common blob/object URLs via hint in query/hash (best-effort)
+  if (src.startsWith("blob:")) {
+    // Cannot infer reliably from blob alone; leave as unknown to fall back to avatar
+  }
+
   const videoExtensions = [
     ".mp4",
     ".webm",

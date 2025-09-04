@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   Upload,
   X,
-  File,
+  File as FileIcon,
   FileImage,
   FileAudio,
   FileVideo,
@@ -183,7 +183,7 @@ export function DocumentUploader({
         : "";
     const kind = getKindFromName(name);
     const iconClass = "h-8 w-8";
-    let Icon = File;
+    let Icon = FileIcon;
     if (kind === "image") Icon = FileImage;
     else if (kind === "video") Icon = FileVideo;
     else if (kind === "audio") Icon = FileAudio;

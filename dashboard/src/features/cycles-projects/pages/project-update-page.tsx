@@ -86,12 +86,15 @@ export default function ProjectUpdatePage() {
       if (values.duration)
         formData.append("duration", values.duration.toString());
       if (values.address) formData.append("address", values.address);
-      if (values.attachments.length > 0) {
-        values.attachments.forEach((attachment, i) => {
-          formData.append(`attachments[${i}]`, attachment);
+      const newAttachments = values.attachments.filter(
+        (attachment) => !data?.attachments.includes(attachment)
+      );
+      if (newAttachments.length > 0) {
+        newAttachments.forEach((attachment) => {
+          formData.append(`attachments`, attachment);
         });
       }
-      if (values.cover) formData.append("cover", values.cover);
+      if (values.cover !== data?.cover) formData.append("cover", values.cover);
       // if (values.audioCover)
       //   formData.append("audioCover", values.audioCover.join(","));
       if (values.location.lat)
@@ -143,7 +146,7 @@ export default function ProjectUpdatePage() {
 
       updateProjectMutation(formData);
     },
-    [updateProjectMutation]
+    [updateProjectMutation, data?.cover, data?.attachments]
   );
 
   if (error) return <div className="text-red-500 p-4">{error.message}</div>;
