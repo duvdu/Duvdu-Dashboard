@@ -50,21 +50,68 @@ export const locationSchema = z.object({
   lng: z.number().nullable().optional(),
 });
 
-export const projectFormSchema = z.object({
-  name: z.string().min(1),
-  description: z.string().min(1),
-  duration: z.string().min(1),
-  address: z.string().min(1),
-  attachments: z.array(z.any()).min(1),
-  cover: z.any().optional(),
-  audioCover: z.array(z.any()).optional(),
-  location: locationSchema,
-  tools: z.array(toolSchema).optional(),
-  functions: z.array(functionSchema).optional(),
-  searchKeyWords: z.array(z.string()).optional(),
-  showOnHome: z.boolean().optional(),
-  projectScale: projectScaleSchema,
-});
+export const projectFormSchema = z
+  .object({
+    name: z.string().min(1),
+    description: z.string().min(1),
+    duration: z.string().min(1),
+    address: z.string().min(1),
+    attachments: z.array(z.any()).min(1),
+    cover: z.any().optional(),
+    audioCover: z.array(z.any()).optional(),
+    location: locationSchema,
+    tools: z.array(toolSchema).optional(),
+    functions: z.array(functionSchema).optional(),
+    searchKeyWords: z.array(z.string()).optional(),
+    showOnHome: z.boolean().optional(),
+    projectScale: projectScaleSchema,
+    categoryMedia: z.enum(["audio", "video", "image"]).optional(),
+  })
+  .superRefine((values, ctx) => {
+    if (!values.categoryMedia) return;
+
+    const hasTypeMatch = (
+      file: unknown,
+      media: "audio" | "video" | "image"
+    ) => {
+      if (!file) return false;
+      if (typeof File !== "undefined" && file instanceof File) {
+        const mime = (file as File).type || "";
+        return mime.startsWith(`${media}/`);
+      }
+      if (typeof file === "string") {
+        const url = file.toLowerCase();
+        const byExt = (exts: string[]) => exts.some((e) => url.endsWith(e));
+        if (media === "image")
+          return byExt([
+            ".png",
+            ".jpg",
+            ".jpeg",
+            ".gif",
+            ".webp",
+            ".bmp",
+            ".svg",
+          ]);
+        if (media === "audio")
+          return byExt([".mp3", ".wav", ".aac", ".m4a", ".ogg", ".flac"]);
+        if (media === "video")
+          return byExt([".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v"]);
+      }
+      return false;
+    };
+
+    const matches = (values.attachments || []).some((f) =>
+      hasTypeMatch(f, values.categoryMedia as "audio" | "video" | "image")
+    );
+
+    if (!matches) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["attachments"],
+        message: `At least one ${values.categoryMedia} attachment is required`,
+      });
+    }
+  });
 
 export type ProjectFilterSchema = z.infer<typeof projectFilterSchema>;
 export type ProjectStatusUpdateSchema = z.infer<

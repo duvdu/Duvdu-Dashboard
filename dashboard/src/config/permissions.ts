@@ -14,17 +14,16 @@ export const PERMISSION_KEYS = {
   },
   ADMINS: {
     VIEW: "list-admins",
-    CREATE: "create-user",
-    UPDATE: "update-user",
-    DELETE: "remove-user",
-    BLOCK: "block-user",
-    UNBLOCK: "un-block-user",
+    CREATE: "create-admin",
+    UPDATE: "update-admin",
+    DELETE: "remove-admin",
+    BLOCK: "block-admin",
+    UNBLOCK: "un-block-admin",
   },
   PROJECTS: {
     VIEW: "list-projects",
     UPDATE: "update-project",
     DELETE: "remove-project",
-    PROJECT_ANALYSIS: "get-project-analysis",
   },
   CATEGORIES: {
     VIEW: "list-categories",
@@ -37,10 +36,10 @@ export const PERMISSION_KEYS = {
     CREATE: "create-role",
     UPDATE: "update-role",
     DELETE: "remove-role",
-    PERMISSIONS: "get-all-permissions",
   },
   MESSAGES: {
     FROM_TO: "list-messages-from-to",
+    VIEW: "list-messages",
   },
   WITHDRAW_METHODS: {
     VIEW: "list-withdraw-methods",
@@ -48,10 +47,6 @@ export const PERMISSION_KEYS = {
   },
   CONTRACTS: {
     VIEW: "list-contracts",
-    // CREATE: "create-contract",
-    // UPDATE: "update-contract",
-    // DELETE: "remove-contract",
-    // LIST_CONTRACTS_ANALYSIS: "list-contracts-analysis",
     VIEW_CANCELED_CONTRACTS: "list-cancel-contracts",
     ACCEPT_CANCEL_CONTRACT: "accept-cancel-contract",
     DELETE_CANCEL_CONTRACT: "delete-cancel-contract",

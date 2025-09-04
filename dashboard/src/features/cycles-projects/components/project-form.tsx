@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { ImageUploader } from "@/components/ui/image-uploader";
+import { DocumentUploader } from "@/components/ui/document-uploader";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -205,24 +206,42 @@ export function ProjectForm({
         <div>
           <FormLabel>Attachments</FormLabel>
           <div className="flex flex-wrap w-full gap-4">
-            {attachments && attachments.length > 0 ? (
+            {attachments &&
+              attachments.length > 0 &&
               attachments.map((file, idx) => (
-                <ImageUploader
+                <DocumentUploader
+                  key={idx}
                   value={file}
                   className="w-full"
-                  onChange={() => handleRemoveAttachment(idx)}
                   label={""}
+                  onChange={(val) => {
+                    if (val === null) {
+                      handleRemoveAttachment(idx);
+                      return;
+                    }
+                    setAttachments((prev) => {
+                      const updated = [...prev];
+                      updated[idx] = val;
+                      form.setValue("attachments", updated);
+                      return updated;
+                    });
+                  }}
                 />
-              ))
-            ) : (
-              <ImageUploader
-                value={undefined}
-                className="w-full"
-                onChange={handleAddAttachment}
-                label={undefined}
-              />
-            )}
+              ))}
+            <DocumentUploader
+              value={undefined}
+              className="w-full"
+              label={undefined}
+              onChange={(val) => {
+                if (val) handleAddAttachment(val);
+              }}
+            />
           </div>
+          {form.formState.errors.attachments?.message && (
+            <p className="text-sm text-destructive mt-2">
+              {form.formState.errors.attachments.message as string}
+            </p>
+          )}
         </div>
         <FormField
           name="cover"

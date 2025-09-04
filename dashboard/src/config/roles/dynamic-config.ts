@@ -93,13 +93,16 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     path: "/dashboard/chat/messages",
     icon: MessageCircleMore,
     label: "Messages",
-    // requiredPermissions: [PERMISSION_KEYS.MESSAGES.VIEW],
+    requiredPermissions: [
+      PERMISSION_KEYS.MESSAGES.VIEW,
+      PERMISSION_KEYS.MESSAGES.FROM_TO,
+    ],
     children: [
       {
         path: "/dashboard/chat/messages",
         icon: MessageCircleMore,
         label: "Message Users",
-        // requiredPermissions: [PERMISSION_KEYS.MESSAGES.VIEW],
+        requiredPermissions: [PERMISSION_KEYS.MESSAGES.VIEW],
       },
       {
         path: "/dashboard/chat/user-to-user",

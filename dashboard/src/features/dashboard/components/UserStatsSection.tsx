@@ -18,6 +18,7 @@ import { StatCard } from "./ui/StatCard";
 import { Users, UserCheck, UserPlus, Eye } from "lucide-react";
 import { TopUsersSection } from "./TopUsersSection";
 import { useVisitorsStore } from "../store/visitors.store";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type UserStats = {
   totalUsers: number;
@@ -31,6 +32,7 @@ export const UserStatsSection: React.FC<{
   topUsers: any;
 }> = ({ userStats, topUsers }) => {
   const { onlineVisitors, loggedInVisitors } = useVisitorsStore();
+  const isMobile = useIsMobile();
 
   // Use the color property (now mapped to theme variables)
   const chartData = userStats.usersByRank.map((item) => ({
@@ -46,7 +48,7 @@ export const UserStatsSection: React.FC<{
   );
   return (
     <section className="mb-10">
-      <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
         <StatCard
           title="Total Users"
           value={userStats.totalUsers}
@@ -74,7 +76,7 @@ export const UserStatsSection: React.FC<{
           icon={<Eye className="w-6 h-6" />}
           description="Number of visitors currently browsing the site."
         />
-        <Card className="md:col-span-2">
+        <Card className="col-span-full lg:col-span-3 xl:col-span-2">
           <CardHeader>
             <CardTitle>Users by Rank</CardTitle>
             <CardDescription>
@@ -84,7 +86,9 @@ export const UserStatsSection: React.FC<{
           <CardContent>
             <ChartContainer
               config={chartConfig}
-              className="h-[100px] w-full flex items-center justify-center"
+              className={`${
+                isMobile ? "h-[220px]" : "h-[140px]"
+              } w-full flex items-center justify-center`}
             >
               <PieChart>
                 <Pie
@@ -93,8 +97,8 @@ export const UserStatsSection: React.FC<{
                   nameKey="name"
                   cx="50%"
                   cy="50%"
-                  outerRadius={30}
-                  label
+                  outerRadius={isMobile ? 80 : 40}
+                  label={!isMobile}
                 >
                   {chartData.map((entry, idx) => (
                     <Cell key={`cell-${idx}`} fill={entry.color} />
@@ -111,7 +115,7 @@ export const UserStatsSection: React.FC<{
           </CardContent>
         </Card>
 
-        <TopUsersSection className="md:col-span-6" topUsers={topUsers} />
+        <TopUsersSection className="col-span-full" topUsers={topUsers} />
       </div>
     </section>
   );

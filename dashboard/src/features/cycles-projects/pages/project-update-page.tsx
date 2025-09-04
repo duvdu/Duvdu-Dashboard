@@ -72,6 +72,8 @@ export default function ProjectUpdatePage() {
         current: data.projectScale?.current?.toString() || "",
         maximum: data.projectScale?.maximum?.toString() || "",
       },
+      categoryMedia:
+        (data.category?.media as "audio" | "video" | "image") || undefined,
     };
   }, [data]);
 

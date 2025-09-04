@@ -128,7 +128,7 @@ export const dashboardRoutes = [
     path: "transactions",
 
     element: (
-      <ProtectedRoute permissionKey={PERMISSION_KEYS.FUND_TRANSACTIONS.VIEW}>
+      <ProtectedRoute permissionKey={PERMISSION_KEYS.TRANSACTIONS.VIEW}>
         <Outlet />
       </ProtectedRoute>
     ),
