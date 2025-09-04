@@ -109,9 +109,9 @@ export const MediaPreview: React.FC<MediaPreviewProps> = ({
     }
     if (mediaType === "audio") {
       return (
-        <div className="flex items-center justify-center aspect-square  h-full bg-muted group transition-all rounded-lg cursor-pointer hover:bg-primary/10 relative">
+        <div className="flex items-center justify-center aspect-square  h-full bg-primary/20 group transition-all rounded-lg cursor-pointer hover:bg-primary/10 relative">
           <span className="font-medium text-base text-muted-foreground truncate max-w-[120px]">
-            {alt || src.split("/").pop()}
+            {/* {alt || src.split("/").pop()} */}
           </span>
           <span className="ml-2 bg-primary text-primary-foreground rounded-full p-1 shadow group-hover:scale-110 transition-transform">
             <PlayIcon className="w-5 h-5" />
