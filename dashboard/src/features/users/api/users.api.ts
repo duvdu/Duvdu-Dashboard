@@ -163,3 +163,8 @@ export async function unblockAdmin(userId: string, reason?: string) {
   });
   return data;
 }
+
+export async function deleteAdmin(userId: string) {
+  const { data } = await api.delete(`/api/users/auth/admins/${userId}`);
+  return data;
+}

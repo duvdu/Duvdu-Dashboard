@@ -27,7 +27,7 @@ export default function UserListPage() {
     error,
     refetch,
   } = useQuery({
-    queryKey: ["admins", keyword, page, limit, status, role],
+    queryKey: ["users", "admins", keyword, page, limit, status, role],
     queryFn: () =>
       getAdmins({
         search: keyword,

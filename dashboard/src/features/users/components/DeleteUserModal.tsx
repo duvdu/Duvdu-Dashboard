@@ -1,4 +1,4 @@
-import { deleteUser } from "@/features/users/api/users.api";
+import { deleteAdmin, deleteUser } from "@/features/users/api/users.api";
 import { useModal } from "@/store/modal-store";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -15,9 +15,10 @@ import {
 export function DeleteUserModal() {
   const { data, isOpen, type, onClose, refetch } = useModal();
   const isModalOpen = isOpen && type === "deleteUser";
+  const isAdmin = data?.isAdmin;
 
   const { mutateAsync: deleteUserMutation, isPending } = useMutation({
-    mutationFn: deleteUser,
+    mutationFn: isAdmin ? deleteAdmin : deleteUser,
     mutationKey: ["users", "admins", "delete"],
     onSuccess: () => {
       toast.success("User deleted successfully");
