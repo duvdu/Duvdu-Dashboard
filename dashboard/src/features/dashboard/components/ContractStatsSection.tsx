@@ -169,7 +169,22 @@ export const ContractStatsSection: React.FC<{
                   axisLine={false}
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <ChartLegend content={<ChartLegendContent />} />
+                <ChartLegend
+                  content={<ChartLegendContent />}
+                  wrapperStyle={{
+                    paddingTop: "10px",
+                    overflow: "auto",
+                    maxWidth: "100%",
+                  }}
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                    gap: "8px",
+                    fontSize: "12px",
+                    maxWidth: "100%",
+                  }}
+                />
                 {allStatuses.map((status, idx) => (
                   <Bar
                     key={status}

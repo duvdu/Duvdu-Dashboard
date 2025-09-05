@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Loader } from "@/components/ui/loader";
-import { getUserById, updateUser } from "@/features/users/api/users.api";
+import { getUserById, updateAdmin } from "@/features/users/api/users.api";
 import { useModal } from "@/store/modal-store";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -49,7 +49,7 @@ export function UpdateAdminModal() {
         formData.append("password", values.password);
       }
 
-      return updateUser(adminId, formData);
+      return updateAdmin(adminId, formData);
     },
     onSuccess: () => {
       toast.success("Admin updated successfully");

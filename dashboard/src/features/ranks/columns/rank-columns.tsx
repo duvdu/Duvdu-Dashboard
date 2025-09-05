@@ -69,18 +69,18 @@ export const useRankColumns = (): ColumnDef<Rank>[] => {
           </PopoverTrigger>
           <PopoverContent className="w-40 p-0" align="end">
             <ProtectedComponent permissionKey={PERMISSION_KEYS.RANKS.UPDATE}>
-              <Button
-                variant="ghost"
-                className="w-full justify-start rounded-none px-3 py-2"
+              <Link
+                to={`/dashboard/ranks/update/${row.original._id}`}
+                className="flex items-center w-full gap-2"
               >
-                <Link
-                  to={`/dashboard/ranks/update/${row.original._id}`}
-                  className="flex items-center gap-2"
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start rounded-none px-3 py-2"
                 >
                   <PencilIcon className="w-4 h-4" />
                   Edit
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </ProtectedComponent>
             <ProtectedComponent permissionKey={PERMISSION_KEYS.RANKS.DELETE}>
               <Button

@@ -122,7 +122,7 @@ export const useAdminColumns = (
         header: "Actions",
         cell: ({ row }) => (
           <div className="flex items-center gap-2">
-            <ProtectedComponent permissionKey={PERMISSION_KEYS.USERS.VIEW}>
+            <ProtectedComponent permissionKey={PERMISSION_KEYS.ADMINS.VIEW}>
               <Button variant="outline" asChild>
                 <Link
                   to={
@@ -200,8 +200,8 @@ export const useAdminColumns = (
 
                 <ProtectedComponent
                   permissionKeys={[
-                    PERMISSION_KEYS.USERS.BLOCK,
-                    PERMISSION_KEYS.USERS.UNBLOCK,
+                    PERMISSION_KEYS.ADMINS.BLOCK,
+                    PERMISSION_KEYS.ADMINS.UNBLOCK,
                   ]}
                 >
                   <Button
@@ -213,6 +213,7 @@ export const useAdminColumns = (
                         {
                           userId: row.original._id,
                           isBlocked: row.original.isBlocked.value,
+                          isAdmin: true,
                         },
                         refetch
                       );

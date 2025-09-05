@@ -1,4 +1,9 @@
-import { blockUser, unblockUser } from "@/features/users/api/users.api";
+import {
+  blockAdmin,
+  blockUser,
+  unblockAdmin,
+  unblockUser,
+} from "@/features/users/api/users.api";
 import {
   userBlockSchema,
   userUnblockSchema,
@@ -26,6 +31,7 @@ export function BlockUnblockUserModal() {
 
   const isCurrentlyBlocked = data?.isBlocked;
   const userId = data?.userId;
+  const isAdmin = data?.isAdmin;
 
   // Use different schemas based on block status
   const schema = isCurrentlyBlocked ? userUnblockSchema : userBlockSchema;
@@ -35,9 +41,11 @@ export function BlockUnblockUserModal() {
     mutationKey: ["users", "blockUnblock"],
     mutationFn: ({ userId, reason }: { userId: string; reason?: string }) => {
       if (isCurrentlyBlocked) {
-        return unblockUser(userId, reason);
+        return isAdmin
+          ? unblockAdmin(userId, reason)
+          : unblockUser(userId, reason);
       }
-      return blockUser(userId, reason!);
+      return isAdmin ? blockAdmin(userId, reason!) : blockUser(userId, reason!);
     },
     onSuccess: () => {
       toast.success(

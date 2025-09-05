@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { createUser } from "@/features/users/api/users.api";
+import { createAdmin } from "@/features/users/api/users.api";
 import { useModal } from "@/store/modal-store";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -17,7 +17,7 @@ export function CreateAdminModal() {
   const isModalOpen = isOpen && type === "createAdmin";
 
   const { mutateAsync: createUserMutation, isPending } = useMutation({
-    mutationFn: createUser,
+    mutationFn: createAdmin,
     onSuccess: () => {
       toast.success("Admin created successfully");
       if (refetch) refetch();

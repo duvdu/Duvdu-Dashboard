@@ -140,3 +140,26 @@ export async function getAdmins({
   const { data } = await api.get("api/users/auth/admins", { params });
   return data as PaginatedResponse<User>;
 }
+
+export async function createAdmin(user) {
+  const { data } = await api.post("/api/users/auth/admins", user);
+  return data;
+}
+export async function updateAdmin(id: string, user: FormData) {
+  const { data } = await api.patch(`/api/users/auth/admins/${id}`, user);
+  return data;
+}
+
+export async function blockAdmin(userId: string, reason: string) {
+  const { data } = await api.post(`/api/users/auth/admins/${userId}/block`, {
+    reason,
+  });
+  return data;
+}
+
+export async function unblockAdmin(userId: string, reason?: string) {
+  const { data } = await api.patch(`/api/users/auth/admins/${userId}/block`, {
+    ...(reason && { reason }),
+  });
+  return data;
+}
