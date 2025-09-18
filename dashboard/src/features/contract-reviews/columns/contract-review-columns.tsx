@@ -32,9 +32,6 @@ export const useContractReviewColumns = (
       header: "Actions",
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
-          <Button variant="outline" asChild>
-            <Link to={`../contract-reviews/${row.original._id}`}>View</Link>
-          </Button>
           <Button
             variant="destructive"
             onClick={() =>
