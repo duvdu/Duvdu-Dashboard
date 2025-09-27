@@ -6,13 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PERMISSION_KEYS } from "@/config/permissions";
 import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
+import { ExternalLinkIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const useFundTransactionColumns = (): ColumnDef<FundTransaction>[] => {
   const { onOpen } = useModal();
   return [
     {
       accessorKey: "ticketNumber",
-      header: "Contract Number",
+      header: "Transaction Number",
       cell: ({ row }) => row.original.ticketNumber || "-",
     },
     {
@@ -44,6 +46,22 @@ export const useFundTransactionColumns = (): ColumnDef<FundTransaction>[] => {
         row.original.createdAt
           ? new Date(row.original.createdAt).toLocaleDateString()
           : "-",
+    },
+    {
+      accessorKey: "contract",
+      header: "Contract",
+      cell: ({ row }) => (
+        <Link
+          to={`/dashboard/contracts/${row.original.contract}`}
+          className="truncate w-fit flex items-center gap-2 max-w-xs"
+          target="_blank"
+        >
+          <Button variant="link" size="sm" className="p-0">
+            View
+            <ExternalLinkIcon className="w-4 h-4" />
+          </Button>
+        </Link>
+      ),
     },
     {
       accessorKey: "user",
@@ -94,14 +112,14 @@ export const useFundTransactionColumns = (): ColumnDef<FundTransaction>[] => {
               size="sm"
               variant="default"
               onClick={() =>
-              onOpen("closeFundTransaction", {
-                id: row.original._id,
-                userId: row.original.user._id,
-                withdrawMethodId: row.original?.withdrawMethod?._id,
-                fundAmount: row.original.fundAmount,
-              })
-            }
-          >
+                onOpen("closeFundTransaction", {
+                  id: row.original._id,
+                  userId: row.original.user._id,
+                  withdrawMethodId: row.original?.withdrawMethod?._id,
+                  fundAmount: row.original.fundAmount,
+                })
+              }
+            >
               Close
             </Button>
           </ProtectedComponent>
