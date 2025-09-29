@@ -40,7 +40,7 @@ export const useFundTransactionColumns = (): ColumnDef<FundTransaction>[] => {
     },
     {
       accessorKey: "completedAt",
-      header: "Created At",
+      header: "Completed At",
       cell: ({ row }) =>
         row.original.completedAt
           ? new Date(row.original.completedAt).toLocaleDateString()
