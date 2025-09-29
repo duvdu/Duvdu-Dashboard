@@ -6,6 +6,7 @@ export type FundTransaction = {
   withdrawMethod: WithdrawMethod;
   fundAttachment?: string;
   status: "pending" | "success" | "failed";
+  completedAt?: string;
   createdAt?: string;
   user?: User;
   ticketNumber?: string;

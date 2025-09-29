@@ -38,7 +38,14 @@ export const useFundTransactionColumns = (): ColumnDef<FundTransaction>[] => {
         </Badge>
       ),
     },
-
+    {
+      accessorKey: "completedAt",
+      header: "Created At",
+      cell: ({ row }) =>
+        row.original.completedAt
+          ? new Date(row.original.completedAt).toLocaleDateString()
+          : "-",
+    },
     {
       accessorKey: "createdAt",
       header: "Created At",
