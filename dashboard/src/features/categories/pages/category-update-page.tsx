@@ -38,6 +38,19 @@ function CategoryUpdatePage() {
   async function handleSubmit(values: CategorySchema, file: File | null) {
     if (!id) return;
 
+    // If the existing category has related categories but the user cleared them all, block submit
+    const hadRelatedCategories = Array.isArray(category?.relatedCategory)
+      ? (category?.relatedCategory as unknown[]).length > 0
+      : Boolean(category?.relatedCategory);
+    console.log(hadRelatedCategories, "hadRelatedCategories");
+    const selectedRelatedCategories = (values as any).relatedCategories ?? [];
+    if (hadRelatedCategories && selectedRelatedCategories.length === 0) {
+      toast.error(
+        "Please select at least one related category before updating."
+      );
+      return;
+    }
+
     try {
       const formData = new FormData();
       formData.append("title[ar]", values.title.ar);
