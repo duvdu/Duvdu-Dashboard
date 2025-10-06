@@ -55,12 +55,6 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
         requiredPermissions: [PERMISSION_KEYS.PROJECTS.VIEW],
       },
       // project reports
-      {
-        path: "/dashboard/project-reports",
-        icon: FileText,
-        label: "Project Reports",
-        requiredPermissions: [PERMISSION_KEYS.REPORTS.VIEW],
-      },
     ],
   },
   {
@@ -127,6 +121,7 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     requiredPermissions: [
       PERMISSION_KEYS.COMPLAINTS.VIEW,
       PERMISSION_KEYS.TICKETS.VIEW,
+      PERMISSION_KEYS.REPORTS.VIEW,
     ],
     children: [
       {
@@ -140,6 +135,12 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
         icon: Ticket,
         label: "Tickets",
         requiredPermissions: [PERMISSION_KEYS.TICKETS.VIEW],
+      },
+      {
+        path: "/dashboard/project-reports",
+        icon: FileText,
+        label: "Project Reports",
+        requiredPermissions: [PERMISSION_KEYS.REPORTS.VIEW],
       },
     ],
   },
