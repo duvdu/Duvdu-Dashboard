@@ -4,6 +4,7 @@ export type PayoutMethod = {
   method: "bank" | "wallet";
   name: string;
   number: string;
+  iban?: string;
   isDeleted: boolean;
   status: "active" | "disabled";
   default: boolean;

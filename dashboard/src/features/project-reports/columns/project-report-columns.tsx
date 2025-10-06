@@ -6,6 +6,8 @@ import type { ProjectReport } from "../types/project-report.types";
 import { MediaPreview } from "@/components/ui/media-preview";
 import { ProtectedComponent } from "@/components/rbac/ProtectedComponent";
 import { PERMISSION_KEYS } from "@/config/permissions";
+import { Link } from "react-router-dom";
+import { ExternalLinkIcon } from "lucide-react";
 
 export const useProjectReportColumns = (
   refetch?: () => void
@@ -91,6 +93,23 @@ export const useProjectReportColumns = (
           </div>
         );
       },
+    },
+    {
+      id: "project",
+      accessorKey: "project",
+      header: "Project",
+      cell: ({ row }) => (
+        <Link
+          to={`/dashboard/projects/${row.original.project?._id}`}
+          className="truncate w-fit flex items-center gap-2 max-w-xs"
+          target="_blank"
+        >
+          <Button variant="link" size="sm" className="p-0">
+            View
+            <ExternalLinkIcon className="w-4 h-4" />
+          </Button>
+        </Link>
+      ),
     },
     {
       id: "actions",

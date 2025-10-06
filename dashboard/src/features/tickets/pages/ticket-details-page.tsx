@@ -7,7 +7,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PERMISSION_KEYS } from "@/config/permissions";
 import { useModal } from "@/store/modal-store";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, MessageCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  MessageCircle,
+  Phone,
+  User as UserIcon,
+} from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getTicketById } from "../api/ticket.api";
 
@@ -96,6 +101,65 @@ export default function TicketDetailsPage() {
           </div>
         </CardHeader>
         <CardContent className="w-full h-full py-6 px-4 flex flex-col gap-4">
+          {ticket?.userId ? (
+            <div className="flex flex-col gap-2">
+              <h3 className="font-semibold mb-1 flex items-center gap-2 text-base">
+                <UserIcon className="w-5 h-5" /> User
+              </h3>
+              <div className="flex items-center justify-between bg-muted rounded-xl p-4 border">
+                <div className="flex flex-col text-sm">
+                  <span className="font-medium">
+                    {ticket.userId?.name || ticket.userId?.username || "User"}
+                  </span>
+                  {ticket.userId?.email && (
+                    <span className="text-muted-foreground">
+                      {ticket.userId.email}
+                    </span>
+                  )}
+                  {ticket.userId?.phoneNumber?.number && (
+                    <span className="flex items-center gap-1 text-muted-foreground">
+                      <Phone className="w-4 h-4" />{" "}
+                      {ticket?.userId?.phoneNumber?.number}
+                    </span>
+                  )}
+                  <span className="flex items-center gap-1 text-muted-foreground">
+                    <Phone className="w-4 h-4" />
+                    {
+                      ((ticket as any)?.phoneNumber?.number ||
+                        (ticket as any)?.phone ||
+                        "--") as string
+                    }
+                  </span>
+                </div>
+                <ProtectedComponent permissionKey={PERMISSION_KEYS.USERS.VIEW}>
+                  <Button asChild>
+                    <Link to={`/dashboard/users/${ticket.userId?._id}`}>
+                      View Profile
+                    </Link>
+                  </Button>
+                </ProtectedComponent>
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <h3 className="font-semibold mb-1 flex items-center gap-2 text-base">
+                <UserIcon className="w-5 h-5" /> User
+              </h3>
+              <div className="flex items-center justify-between bg-muted rounded-xl p-4 border">
+                <div className="flex flex-col text-sm">
+                  <span className="font-medium">Visitor</span>
+                  <span className="flex items-center gap-1 text-muted-foreground">
+                    <Phone className="w-4 h-4" />
+                    {
+                      ((ticket as any)?.phoneNumber?.number ||
+                        (ticket as any)?.phone ||
+                        "--") as string
+                    }
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
           <div className="flex flex-col gap-4">
             <h3 className="font-semibold mb-3 flex items-center gap-2 text-base">
               <MessageCircle className="w-5 h-5" /> Message

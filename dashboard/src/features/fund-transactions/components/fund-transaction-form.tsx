@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { UserSearchSelect } from "@/features/chat/components/UserSearchSelect";
 import { getAllPayoutMethods } from "@/features/payout-methods/api/payout-methods.api";
+import type { PayoutMethod } from "@/features/users/types/payout-method.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -45,6 +46,7 @@ export function FundTransactionForm({
     defaultValues,
   });
   const user = form.watch("user");
+  const withdrawMethod = form.watch("withdrawMethod");
 
   const { data: payoutMethodsData } = useQuery({
     queryKey: ["payout-methods"],
@@ -52,6 +54,10 @@ export function FundTransactionForm({
     enabled: !!user,
   });
   const payoutMethods = payoutMethodsData?.data || [];
+
+  const selectedPayoutMethod = payoutMethods.find(
+    (method: PayoutMethod) => method?._id === withdrawMethod
+  ) as PayoutMethod;
 
   const handleSubmit = (values: FundTransactionSchema) => {
     console.log("values", values);
@@ -145,6 +151,15 @@ export function FundTransactionForm({
               </FormItem>
             )}
           />
+        )}
+
+        {selectedPayoutMethod && (
+          <div className="rounded-md border p-3 text-left text-sm space-y-1">
+            <div>Phone: {selectedPayoutMethod.number}</div>
+            {selectedPayoutMethod.iban && (
+              <div>IBAN: {selectedPayoutMethod.iban}</div>
+            )}
+          </div>
         )}
 
         <FormField

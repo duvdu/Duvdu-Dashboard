@@ -54,6 +54,13 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
         label: "Projects",
         requiredPermissions: [PERMISSION_KEYS.PROJECTS.VIEW],
       },
+      // project reports
+      {
+        path: "/dashboard/project-reports",
+        icon: FileText,
+        label: "Project Reports",
+        requiredPermissions: [PERMISSION_KEYS.REPORTS.VIEW],
+      },
     ],
   },
   {

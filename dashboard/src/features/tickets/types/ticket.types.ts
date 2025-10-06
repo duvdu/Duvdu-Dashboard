@@ -11,7 +11,8 @@ export type Ticket = {
     feedback?: string;
   };
   user?: User;
+  userId?: User;
   name?: string;
   ticketNumber?: string;
   message?: string;
-  };
+};
