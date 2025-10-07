@@ -155,7 +155,7 @@ export function FundTransactionForm({
 
         {selectedPayoutMethod && (
           <div className="rounded-md border p-3 text-left text-sm space-y-1">
-            <div>Phone: {selectedPayoutMethod.number}</div>
+            <div>Number: {selectedPayoutMethod.number}</div>
             {selectedPayoutMethod.iban && (
               <div>IBAN: {selectedPayoutMethod.iban}</div>
             )}
