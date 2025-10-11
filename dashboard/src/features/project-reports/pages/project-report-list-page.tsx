@@ -3,7 +3,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { DataTable } from "@/components/ui/data-table";
 import { type FilterDefinition } from "@/components/ui/filters";
 import { UserSearchSelect } from "@/features/chat";
-import { getProjects } from "@/features/cycles-projects/api/project.api";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { getProjectReports } from "../api/project-report.api";
@@ -27,9 +26,9 @@ export default function ProjectReportListPage() {
     page,
     limit,
     sourceUser: sourceUser || undefined,
-    project: project || undefined,
-    closedBy: closedBy || undefined,
-    isClosed: isClosed || undefined,
+    // project: project || undefined,
+    // closedBy: closedBy || undefined,
+    // isClosed: isClosed || undefined,
     startDate: startDate || undefined,
     endDate: endDate || undefined,
     feedback: feedback || undefined,
@@ -45,11 +44,11 @@ export default function ProjectReportListPage() {
     queryFn: () => getProjectReports(filters),
   });
 
-  const { data: projectsData } = useQuery({
-    queryKey: ["projects"],
-    queryFn: () => getProjects({ page: 1, limit: 1000 }),
-  });
-  const projects = projectsData?.data || [];
+  // const { data: projectsData } = useQuery({
+  //   queryKey: ["projects"],
+  //   queryFn: () => getProjects({ page: 1, limit: 1000 }),
+  // });
+  // const projects = projectsData?.data || [];
 
   const reports = reportsData?.data || [];
   const pagesCount = reportsData?.pagination.totalPages || 0;
@@ -67,51 +66,54 @@ export default function ProjectReportListPage() {
           onSelectUser={(user) => {
             setSearchParams({ sourceUser: user._id });
           }}
+          selectedUserId={sourceUser}
         />
       ),
     },
-    {
-      key: "project",
-      label: "Project",
-      type: "select",
-      options: projects.map((project) => ({
-        label: project.name,
-        value: project._id,
-      })),
-      placeholder: "Select Project",
-    },
-    {
-      key: "closedBy",
-      label: "Closed By",
-      type: "custom",
-      customComponent: (
-        <UserSearchSelect
-          onSelectUser={(user) => {
-            setSearchParams({ closedBy: user._id });
-          }}
-        />
-      ),
-    },
+    // {
+    //   key: "project",
+    //   label: "Project",
+    //   type: "select",
+    //   options: projects.map((project) => ({
+    //     label: project.name,
+    //     value: project._id,
+    //   })),
+    //   placeholder: "Select Project",
+    // },
+    // {
+    //   key: "closedBy",
+    //   label: "Closed By",
+    //   type: "custom",
+    //   customComponent: (
+    //     <UserSearchSelect
+    //       onSelectUser={(user) => {
+    //         setSearchParams({ closedBy: user._id });
+    //       }}
+    //     />
+    //   ),
+    // },
     {
       key: "startDate",
       label: "Start Date",
+      placeholder: "Select from date",
       type: "date",
     },
 
     {
       key: "endDate",
       label: "End Date",
+      placeholder: "Select to date",
       type: "date",
     },
-    {
-      key: "isClosed",
-      label: "Is Closed",
-      type: "select",
-      options: [
-        { label: "Yes", value: "true" },
-        { label: "No", value: "false" },
-      ],
-    },
+    // {
+    //   key: "isClosed",
+    //   label: "Is Closed",
+    //   type: "select",
+    //   options: [
+    //     { label: "Yes", value: "true" },
+    //     { label: "No", value: "false" },
+    //   ],
+    // },
   ];
 
   const filterValues = {

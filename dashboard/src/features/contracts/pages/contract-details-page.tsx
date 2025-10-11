@@ -103,6 +103,7 @@ const formatDateTime = (dateString: string) => {
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: "UTC",
   });
 };
 
@@ -317,11 +318,9 @@ export default function ContractDetailsPage() {
                     <div className="space-y-2">
                       <div className="flex items-center gap-2 text-sm text-gray-600">
                         <Calendar className="w-4 h-4" />
-                        <span className="font-medium">Appointment Date</span>
+                        <span className="font-medium">Deadline Date</span>
                       </div>
-                      <p className="text-gray-900">
-                        {formatDate(appointmentDate)}
-                      </p>
+                      <p className="text-gray-900">{formatDate(deadline)}</p>
                     </div>
                     <div className="space-y-2">
                       <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -758,7 +757,6 @@ export default function ContractDetailsPage() {
                         </p>
                       </div>
                     </div>
-
                     <div className="flex items-start gap-3">
                       <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
                       <div className="flex-1">
@@ -770,7 +768,17 @@ export default function ContractDetailsPage() {
                         </p>
                       </div>
                     </div>
-
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 bg-green-700 rounded-full mt-2"></div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-gray-900">
+                          Appointment Date
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {formatDateTime(appointmentDate)}
+                        </p>
+                      </div>
+                    </div>
                     <div className="flex items-start gap-3">
                       <div className="w-2 h-2 bg-yellow-500 rounded-full mt-2"></div>
                       <div className="flex-1">
@@ -782,7 +790,6 @@ export default function ContractDetailsPage() {
                         </p>
                       </div>
                     </div>
-
                     {status === "completed" && (
                       <div className="flex items-start gap-3">
                         <div className="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>

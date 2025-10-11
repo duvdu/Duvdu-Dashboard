@@ -225,7 +225,9 @@ export function UserSearchSelect({
         <Input
           value={searchQuery}
           onChange={handleInputChange}
-          placeholder={selectedUser ? selectedUser.name : placeholder}
+          placeholder={
+            selectedUser && selectedUserId ? selectedUser.name : placeholder
+          }
           className="pl-10 pr-10"
           disabled={disabled}
         />
