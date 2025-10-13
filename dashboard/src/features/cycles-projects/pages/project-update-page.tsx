@@ -122,8 +122,7 @@ export default function ProjectUpdatePage() {
         });
       }
 
-      if (values.showOnHome)
-        formData.append("showOnHome", values.showOnHome.toString());
+      formData.append("showOnHome", values.showOnHome ? "true" : "false");
       if (values.projectScale.unit) {
         formData.append("projectScale[unit]", values.projectScale.unit);
         formData.append(

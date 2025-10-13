@@ -22,7 +22,9 @@ export const adminSchema = z.object({
   role: z.string().min(1, "Role is required"),
 });
 
-export const updateAdminSchema = adminSchema.omit({ password: true });
+export const updateAdminSchema = adminSchema.extend({
+  password: z.string().optional(),
+});
 
 export type CreateAdminSchema = z.infer<typeof adminSchema>;
 export type UpdateAdminSchema = z.infer<typeof adminSchema>;
