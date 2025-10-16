@@ -113,8 +113,8 @@ export const projectFormSchema = z
     }
 
     if (values.categoryMedia === "audio") {
-      const cover = values.audioCover || [];
-      const hasImageCover = cover.some((file) => {
+      const audioCoverArray = values.audioCover || [];
+      const hasImageInAudioCover = audioCoverArray.some((file) => {
         if (!file) return false;
         if (typeof File !== "undefined" && file instanceof File) {
           return (file as File).type.startsWith("image/");
@@ -133,7 +133,30 @@ export const projectFormSchema = z
         }
         return false;
       });
-      if (!hasImageCover) {
+
+      // Also accept image provided in the generic `cover` field
+      const coverValue = values.cover;
+      const hasImageInCover = (() => {
+        if (!coverValue) return false;
+        if (typeof File !== "undefined" && coverValue instanceof File) {
+          return (coverValue as File).type.startsWith("image/");
+        }
+        if (typeof coverValue === "string") {
+          const url = coverValue.toLowerCase();
+          return [
+            ".png",
+            ".jpg",
+            ".jpeg",
+            ".gif",
+            ".webp",
+            ".bmp",
+            ".svg",
+          ].some((ext) => url.endsWith(ext));
+        }
+        return false;
+      })();
+
+      if (!hasImageInAudioCover && !hasImageInCover) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           path: ["audioCover"],

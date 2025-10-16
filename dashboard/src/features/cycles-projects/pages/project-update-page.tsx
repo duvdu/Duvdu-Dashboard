@@ -74,7 +74,7 @@ export default function ProjectUpdatePage() {
       },
       categoryMedia:
         (data.category?.media as "audio" | "video" | "image") || undefined,
-    };
+    } as ProjectFormSchema;
   }, [data]);
 
   const handleSubmit = useCallback(
@@ -173,7 +173,7 @@ export default function ProjectUpdatePage() {
         Edit Project
       </h1>
       <ProjectForm
-        initialValues={initialValues as any}
+        initialValues={initialValues as ProjectFormSchema}
         onSubmit={handleSubmit}
         isLoading={submitting}
       />
