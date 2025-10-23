@@ -98,18 +98,28 @@ export const useContractColumns = ({
   {
     accessorKey: "contract.firstCheckoutAt",
     header: "First Payment",
-    cell: ({ row }) =>
-      row.original.contract.firstCheckoutAt
-        ? new Date(row.original.contract.firstCheckoutAt).toLocaleDateString()
-        : "-",
+    cell: ({ row }) => (
+      <Badge
+        variant={
+          row.original.contract.firstCheckoutAt ? "success" : "secondary"
+        }
+      >
+        {row.original.contract.firstCheckoutAt ? "Yes" : "No"}
+      </Badge>
+    ),
   },
   {
     accessorKey: "contract.totalCheckoutAt",
     header: "Second Payment",
-    cell: ({ row }) =>
-      row.original.contract.totalCheckoutAt
-        ? new Date(row.original.contract.totalCheckoutAt).toLocaleDateString()
-        : "-",
+    cell: ({ row }) => (
+      <Badge
+        variant={
+          row.original.contract.totalCheckoutAt ? "success" : "secondary"
+        }
+      >
+        {row.original.contract.totalCheckoutAt ? "Yes" : "No"}
+      </Badge>
+    ),
   },
   {
     accessorKey: "contract.totalPrice",

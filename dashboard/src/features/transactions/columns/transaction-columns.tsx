@@ -22,7 +22,9 @@ export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
       header: "User",
       cell: ({ row }) => (
         <Link
-          to={`/dashboard/users/${row.original.user?._id}`}
+          to={`/dashboard/users/${
+            row.original.user?._id || row.original.user?.id
+          }`}
           className="truncate  max-w-xs flex items-center gap-2"
         >
           <Button variant="link" size="sm" className="p-0">
@@ -123,7 +125,7 @@ export const useTransactionColumns = (): ColumnDef<Transaction>[] => {
                 })
               }
             >
-              Fund
+              Refund
             </Button>
           </ProtectedComponent>
         );

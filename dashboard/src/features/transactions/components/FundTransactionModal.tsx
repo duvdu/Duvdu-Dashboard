@@ -115,7 +115,7 @@ export function FundTransactionModal() {
               loading={isPending}
               disabled={isPending}
             >
-              Fund
+              Refund
             </Button>
           </DialogFooter>
         </form>
