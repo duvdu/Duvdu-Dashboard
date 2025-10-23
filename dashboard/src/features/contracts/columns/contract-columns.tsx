@@ -96,6 +96,22 @@ export const useContractColumns = ({
     },
   },
   {
+    accessorKey: "contract.firstCheckoutAt",
+    header: "First Payment",
+    cell: ({ row }) =>
+      row.original.contract.firstCheckoutAt
+        ? new Date(row.original.contract.firstCheckoutAt).toLocaleDateString()
+        : "-",
+  },
+  {
+    accessorKey: "contract.totalCheckoutAt",
+    header: "Second Payment",
+    cell: ({ row }) =>
+      row.original.contract.totalCheckoutAt
+        ? new Date(row.original.contract.totalCheckoutAt).toLocaleDateString()
+        : "-",
+  },
+  {
     accessorKey: "contract.totalPrice",
     header: "Total Price",
     cell: ({ row }) =>
